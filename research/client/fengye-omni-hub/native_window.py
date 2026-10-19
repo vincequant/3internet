@@ -1,0 +1,1864 @@
+"""The complete native OmniWindow with an additional Fengye console."""
+import json
+from pathlib import Path
+import queue
+import shlex
+import subprocess
+import sys
+import time
+import threading
+import tkinter as tk
+from datetime import datetime
+from tkinter import ttk, messagebox
+
+from omni_window import OmniWindow, DAMASK, PANEL, WELL, INK, GOLD, GOLD_HI, MUTED, WARN, BG
+from fengye_source import FengyeSource, control_ready, status_items, validate_control
+from room_client import RoomClient
+from backend.room_protocol import nickname
+from backend import fengyun_local
+from backend.lab_remote import lab_remote
+from command_service import CommandService
+from player_text import (plain_error, room_summary, room_result, room_fresh,
+                         operation_result, local_state, control_event,
+                         force_choices, force_summary, lab_result)
+
+# 2026-10-19 用戶要求：暫時關閉「切換對應的玩家」面板（風夜/本機兩行）。
+# 等席位切換（含「無勢力觀戰」選項與玩家名單讀取）優化好再打開。
+# 底層工具不受影響：遠端 `shadow_force.sh switch N` 與本機 fengyun_local.setforce 仍可 CLI 使用。
+FORCE_SWITCH_UI = False
+
+# A separate player-facing palette; the inherited world renderer is untouched.
+LEGACY_COLORS = {DAMASK: '#f3f6fa', PANEL: '#16343d', WELL: '#ffffff',
+                 INK: '#203440', GOLD: '#286a72', GOLD_HI: '#f3fafb',
+                 MUTED: '#657985', WARN: '#a13b42', BG: '#e6eef2'}
+DAMASK, PANEL, WELL = '#f3f6fa', '#16343d', '#ffffff'
+INK, GOLD, GOLD_HI = '#203440', '#286a72', '#f3fafb'
+MUTED, WARN, BG = '#657985', '#a13b42', '#e6eef2' 
+
+
+def wall_text(value):
+    if not isinstance(value, (int, float)):
+        return '—'
+    try:
+        return datetime.fromtimestamp(value).strftime('%m-%d %H:%M:%S')
+    except (OSError, ValueError, OverflowError):
+        return '—'
+
+
+def dur_text(value):
+    """Human duration for long-run listening windows; never negative."""
+    try:
+        seconds = int(max(0, float(value)))
+    except (TypeError, ValueError):
+        return '—'
+    hours, rem = divmod(seconds, 3600)
+    minutes = rem // 60
+    if hours:
+        return '{}時{:02d}分'.format(hours, minutes)
+    if minutes:
+        return '{}分'.format(minutes)
+    return '{}秒'.format(rem)
+
+
+def force_payload(result):
+    """席位助手 JSON（{'slot_forces': ...}）：直接給的 dict 或 stdout 尾行的 JSON。"""
+    if isinstance(result, dict) and 'slot_forces' in result:
+        return result
+    raw = (result.get('stdout') or '').strip()
+    for line in reversed(raw.splitlines()):
+        try:
+            payload = json.loads(line)
+        except ValueError:
+            continue
+        if isinstance(payload, dict) and 'slot_forces' in payload:
+            return payload
+    return None
+
+
+def notify_operator(title, message, sound='Glass'):
+    """摘席流程的本地提示：聲音＋系統通知。
+
+    讓操作者在遊戲視窗在前時也能察覺「先勿按開始／可以按開始」。
+    只在本機發出（macOS osascript/afplay）；不觸碰遊戲、會話或網路。
+    """
+    try:
+        if sys.platform == 'darwin':
+            safe_title = str(title).replace('"', ' ')
+            safe_message = str(message).replace('"', ' ')
+            subprocess.Popen(
+                ['osascript', '-e',
+                 'display notification "{}" with title "{}"'.format(safe_message, safe_title)],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            subprocess.Popen(
+                ['afplay', '/System/Library/Sounds/{}.aiff'.format(sound)],
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    except Exception:
+        pass
+
+
+class FengyeWindow(OmniWindow):
+    def __init__(self, root, source=None):
+        self.source = source or FengyeSource()
+        self.messages = queue.Queue()
+        self.jobs = queue.Queue(maxsize=1)
+        self.view = self.source.view
+        self.control_busy = False
+        self.cooldown = 0
+        self.pending_id = None
+        self.pending_run = None
+        self.pending_uncertain = False
+        self.render_signature = None
+        self.render_error = None
+        self.rooms = RoomClient(host=self.source.sources.host, replay=bool(self.source.sources.source_file))
+        self.room_busy = False
+        self.room_pending = None
+        self.room_uncertain = False
+        self.room_rows = {}
+        self.room_signature = None
+        self.retry = None
+        super().__init__(root)
+        root.title('風夜情報台')
+        root.minsize(1120, 700)
+        try:
+            _release = json.loads((Path(__file__).resolve().parent / 'RELEASE.json').read_text(encoding='utf-8'))
+            _version = str(_release.get('version') or '0.0.0')
+        except Exception:
+            _version = '0.0.0'
+        self.version_label.configure(text='版本 ' + _version)
+        self.identity_label.master.pack_forget()
+        self.status.configure(text='掌握風夜狀態，再開始遊戲', fg='#d7ebea')
+        self.coverage.configure(text='只顯示已確認的情況；尚未讀到的資料會清楚標示。')
+        # 2026-10-17：玩家視角頁面（永久停用）不再顯示會誤導的等待文案。
+        try:
+            self.resources.configure(
+                text='本頁是原版「玩家視角」世界情報（已永久關閉，不會有資料）。\n'
+                     '風夜相關操作與狀態請看「風夜操控台」。',
+                font=(self.face, 12), justify='left')
+        except Exception:
+            pass
+        top = self.version_label.master
+        for w in top.winfo_children():
+            if isinstance(w, tk.Label) and w.cget('text') == '全知情报':
+                w.configure(text='風夜情報台')
+        self.original_tabs = list(self.workspace.tabs())
+        # 2026-10-18（0.2.18）：遊戲記錄顯示由全知情報來源承擔；本 Hub 收攏為單一
+        # 「風夜操控台」——原「本局局勢／房間與來源記錄／風夜指令解讀」分頁移除。
+        # 原版「玩家視角」頁面永久關閉（不會有資料），入口收起避免混淆。
+        self._build_console()
+        for tab in self.original_tabs:
+            try:
+                self.workspace.hide(tab)
+            except Exception:
+                pass
+        self.workspace.select(self.console_page)
+        self._style_player_shell()
+        self.render_view(self.view)
+        threading.Thread(target=self._fetch_fengye, daemon=True, name='fengye-evidence-reader').start()
+        self.root.after(250, self._tick_fengye)
+
+    def fetch(self):
+        """Never start the inherited player API/evidence polling path."""
+        return
+
+    def tick(self):
+        return
+
+    def confirm_player(self, clear=False):
+        return
+
+    def pick_history_archive(self):
+        return
+
+    def clear_history_review(self):
+        return
+
+    def _apply_review(self, bundle):
+        raise ValueError('玩家視角的全知檔案來源已關閉')
+
+    def _page(self, title, index=None):
+        page = tk.Frame(self.workspace, bg=DAMASK)
+        if index is None:
+            self.workspace.add(page, text=title)
+        else:
+            self.workspace.insert(index, page, text=title)
+        return page
+
+    def _text(self, parent, height=5):
+        frame = tk.Frame(parent, bg=WELL)
+        frame.pack(fill='both', expand=True, padx=8, pady=6)
+        w = tk.Text(frame, height=height, bg=WELL, fg=INK, wrap='word', relief='flat',
+                    font=(self.face, 11), state='disabled', padx=10, pady=8)
+        scroll = ttk.Scrollbar(frame, command=w.yview)
+        scroll.pack(side='right', fill='y')
+        w.configure(yscrollcommand=scroll.set)
+        w.pack(side='left', fill='both', expand=True)
+        return w
+
+    @staticmethod
+    def _set_text(widget, text):
+        if widget.get('1.0', 'end-1c') == text:
+            return
+        pos = widget.yview()[0]
+        widget.configure(state='normal')
+        widget.delete('1.0', 'end')
+        widget.insert('1.0', text)
+        widget.configure(state='disabled')
+        widget.yview_moveto(pos)
+
+    def _box(self, parent, title):
+        return tk.LabelFrame(parent, text=title, bg=DAMASK, fg=GOLD,
+                             font=(self.face, 12, 'bold'), relief='flat', bd=0,
+                             padx=8, pady=8)
+
+    def _style_player_shell(self):
+        self.root.configure(bg=DAMASK)
+        def restyle(widget):
+            options = {}
+            for key in ('background', 'foreground'):
+                try:
+                    value = str(widget.cget(key))
+                    if value in LEGACY_COLORS:
+                        options[key] = LEGACY_COLORS[value]
+                except tk.TclError:
+                    pass
+            if isinstance(widget, tk.Button):
+                options.update(relief='flat', bd=0, padx=12, pady=7,
+                               font=(self.face, 11), cursor='hand2')
+            if options:
+                widget.configure(**options)
+            for child in widget.winfo_children():
+                restyle(child)
+        restyle(self.root)
+        style = ttk.Style(self.root)
+        style.configure('TNotebook', background=DAMASK, borderwidth=0)
+        style.configure('FengyeOuter.TNotebook', background=DAMASK, borderwidth=0)
+        style.layout('FengyeOuter.TNotebook.Tab', [])
+        self.workspace.configure(style='FengyeOuter.TNotebook')
+        style.configure('TNotebook.Tab', padding=(18, 10), font=(self.face, 11),
+                        background=BG, foreground=MUTED)
+        style.map('TNotebook.Tab', background=[('selected', WELL)],
+                  foreground=[('selected', GOLD)])
+        style.configure('Treeview', background=WELL, fieldbackground=WELL,
+                        foreground=INK, rowheight=36, borderwidth=0,
+                        font=(self.face, 11))
+        style.configure('Treeview.Heading', background=BG, foreground=GOLD,
+                        font=(self.face, 11, 'bold'), relief='flat')
+        style.map('Treeview', background=[('selected', '#d9eceb')],
+                  foreground=[('selected', INK)])
+        self.reload_btn.configure(text='更新資料', command=self.request_refresh)
+        self.console_state.configure(wraplength=1040, justify='left')
+        if self.source.sources.source_file:
+            def disable(widget):
+                if isinstance(widget, tk.Button):
+                    widget.configure(state='disabled')
+                for child in widget.winfo_children():
+                    disable(child)
+            disable(self.console_page)
+
+    def _build_console(self):
+        self.console_page = self._page('風夜情報台', 1)
+        self.console_state = tk.Label(self.console_page, text='未就緒', bg=PANEL, fg=GOLD_HI,
+                                      font=(self.face, 15, 'bold'), anchor='w', padx=16, pady=12)
+        self.console_state.pack(fill='x', padx=12, pady=8)
+        self.control_book = ttk.Notebook(self.console_page)
+        self.control_book.pack(fill='both', expand=True, padx=12, pady=(0, 10))
+        self.room_control_page = tk.Frame(self.control_book, bg=DAMASK)
+        self.chat_control_page = tk.Frame(self.control_book, bg=DAMASK)
+        self.command_page = tk.Frame(self.control_book, bg=DAMASK)
+        self.control_book.add(self.room_control_page, text='進房與準備')
+        self.control_book.add(self.chat_control_page, text='聊天與操作結果')
+        self.control_book.add(self.command_page, text='外部指令')
+        self._build_room_controls()
+        self._build_command_controls()
+        tk.Label(self.chat_control_page, text='以風夜的名義發言', bg=DAMASK, fg=GOLD,
+                 font=(self.face, 14, 'bold'), anchor='w').pack(fill='x', padx=18)
+        self.chat_input = tk.Text(self.chat_control_page, height=4, wrap='word', bg=WELL, fg=INK,
+                                  font=(self.face, 13), padx=12, pady=10)
+        self.chat_input.pack(fill='x', padx=16, pady=8)
+        buttons = tk.Frame(self.chat_control_page, bg=DAMASK)
+        buttons.pack(fill='x', padx=16)
+        self.chat_button = tk.Button(buttons, text='以風夜發言', bg=BG, fg=INK, command=self.send_chat)
+        self.chat_button.pack(side='left')
+        self.char_label = tk.Label(buttons, text='0 / 120 字', bg=DAMASK, fg=MUTED)
+        self.char_label.pack(side='left', padx=12)
+        self.stop_button = tk.Button(buttons, text='風夜下線（正常退出）', bg='#ead4c6', fg=WARN, command=self.send_stop)
+        self.stop_button.pack(side='right')
+        self.chat_input.bind('<<Modified>>', self.input_changed)
+        self.control_result = tk.Label(self.chat_control_page, text='每按一次只送出一次；還沒看到結果時，請先更新狀態。',
+                                      bg=DAMASK, fg=MUTED, anchor='w', justify='left', wraplength=1050)
+        self.control_result.pack(fill='x', padx=18, pady=10)
+        panes = tk.PanedWindow(self.chat_control_page, orient='horizontal', bg=DAMASK, sashwidth=9)
+        panes.pack(fill='both', expand=True, padx=12, pady=(0, 12))
+        chats = self._box(panes, '聊天記錄')
+        receipts = self._box(panes, '最近操作結果')
+        panes.add(chats, minsize=360, stretch='always')
+        panes.add(receipts, minsize=360, stretch='always')
+        self.console_chat = self._text(chats, 10)
+        self.control_log = self._text(receipts, 10)
+        self.chat_history_page = tk.Frame(self.control_book, bg=DAMASK)
+        self.control_book.add(self.chat_history_page, text='聊天歷史')
+        tk.Label(self.chat_history_page, text='本局收到的聊天（唯讀，逐條按時間）', bg=DAMASK, fg=GOLD,
+                 font=(self.face, 13, 'bold'), anchor='w').pack(fill='x', padx=16, pady=(10, 4))
+        self.chat_history = self._text(self.chat_history_page, 14)
+        self._build_local_controls()
+        # 2026-10-19 用戶要求：只留一頁聊天歷史；其餘兩頁隱藏（元件保留，避免既有刷新路徑失效）。
+        self.control_book.hide(self.chat_control_page)
+        for tab in self.control_book.tabs():
+            if self.control_book.tab(tab, 'text') == '玩家與遊戲':
+                self.control_book.hide(tab)
+        # 0.2.18：資料讀取等系統訊息集中在這一行（原「本局局勢」頁的提示已移除）。
+        self.notice_label = tk.Label(self.console_page, text='', bg=DAMASK, fg=MUTED, anchor='w',
+                                     justify='left', wraplength=1100)
+        self.notice_label.pack(fill='x', padx=14, pady=(0, 8))
+
+    # ---------------------------------------------------------- 外部指令 panel
+    PRESET_LABELS = ('練兵（訓練度）', '施捨', '米交易', '建設', '人事（錄用）')
+    PRESET_KEYS = {'練兵（訓練度）': 'train', '施捨': 'alms', '米交易': 'rice',
+                   '建設': 'build', '人事（錄用）': 'personnel'}
+    TROOP_OPTS = ('0 步兵', '1 騎兵', '2 弓兵')
+    BUILD_OPTS = ('4 火計', '5 落石', '6 陷阱', '7 練兵所', '8 牧場', '9 弓工坊')
+    BUY_OPTS = ('1 買米', '0 賣米')
+    PERSON_OPTS = ('0 錄用', '1 接納仕官', '2 解雇', '5 加增')
+
+    def _build_command_controls(self):
+        """2026-10-19: out-of-band faction commands (P60) as native buttons."""
+        self.command_service = CommandService()
+        box = self._box(self.command_page, '外部指令（不碰遊戲界面）')
+        box.pack(fill='both', expand=True, padx=14, pady=14)
+        tk.Label(box, text='選勢力 → 選指令 → 填參數 → 送出。'
+                           '若現在不是內政階段，agent 會留在客戶端裡排隊，等下一次內政階段才送。',
+                 bg=DAMASK, fg=MUTED, anchor='w', justify='left', wraplength=1000).pack(
+            fill='x', padx=14, pady=(10, 6))
+        top = tk.Frame(box, bg=DAMASK)
+        top.pack(fill='x', padx=12, pady=4)
+        tk.Label(top, text='目標客戶端', bg=DAMASK, fg=INK).pack(side='left')
+        self.cmd_target = ttk.Combobox(top, width=16, state='readonly', values=())
+        self.cmd_target.pack(side='left', padx=(4, 14))
+        tk.Label(top, text='勢力', bg=DAMASK, fg=INK).pack(side='left')
+        self.cmd_force = ttk.Combobox(top, width=32, state='readonly', values=())
+        self.cmd_force.pack(side='left', padx=(4, 10))
+        self.cmd_refresh_btn = tk.Button(top, text='讀取目標與勢力', bg=BG, fg=INK,
+                                         command=self._cmd_refresh)
+        self.cmd_refresh_btn.pack(side='left')
+        self.cmd_phase = tk.Label(top, text='階段：—', bg=DAMASK, fg=GOLD, anchor='w')
+        self.cmd_phase.pack(side='left', padx=14)
+        mid = tk.Frame(box, bg=DAMASK)
+        mid.pack(fill='x', padx=12, pady=4)
+        tk.Label(mid, text='指令', bg=DAMASK, fg=INK).pack(side='left')
+        self.cmd_preset = ttk.Combobox(mid, width=18, state='readonly', values=self.PRESET_LABELS)
+        self.cmd_preset.set(self.PRESET_LABELS[0])
+        self.cmd_preset.pack(side='left', padx=(4, 14))
+        self.cmd_preset.bind('<<ComboboxSelected>>', lambda _e: self._cmd_rebuild_params())
+        self.cmd_params = tk.Frame(box, bg=DAMASK)
+        self.cmd_params.pack(fill='x', padx=12, pady=4)
+        self.cmd_map = tk.Canvas(box, height=160, bg='#e8ecdf', highlightthickness=1,
+                                 highlightbackground='#b9c2ad')
+        self.cmd_map.pack(fill='x', padx=12, pady=(8, 2))
+        self.cmd_map.bind('<Button-1>', self._cmd_map_click)
+        tk.Label(box, text='上圖：本局實際城池（世界座標，顏色=勢力）。點城池即選定，座標與城旁空地自動填。',
+                 bg=DAMASK, fg=MUTED, anchor='w').pack(fill='x', padx=12)
+        act = tk.Frame(box, bg=DAMASK)
+        act.pack(fill='x', padx=12, pady=6)
+        self.cmd_send_btn = tk.Button(act, text='送出（自動等內政階段）', bg='#cbe7e4', fg='#164d51',
+                                      command=self._cmd_send)
+        self.cmd_send_btn.pack(side='left')
+        self.cmd_summary = tk.Label(act, text='尚未讀取目標', bg=DAMASK, fg=MUTED, anchor='w',
+                                    justify='left', wraplength=900)
+        self.cmd_summary.pack(side='left', padx=12)
+        self.cmd_log = self._text(box, 9)
+        self.cmd_vars = {}
+        self._cmd_rebuild_params()
+        self.root.after(1500, self._cmd_refresh)
+        self.root.after(4000, self._cmd_poll)
+
+    def _cmd_field(self, label, key, value, width=8, choices=None):
+        tk.Label(self.cmd_params, text=label, bg=DAMASK, fg=INK).pack(side='left')
+        var = tk.StringVar(value=str(value))
+        if choices is not None:
+            widget = ttk.Combobox(self.cmd_params, textvariable=var, width=width,
+                                  state='readonly', values=list(choices))
+        else:
+            widget = tk.Entry(self.cmd_params, textvariable=var, width=width)
+        widget.pack(side='left', padx=(4, 12))
+        var.trace_add('write', lambda *_a: self._cmd_preview())
+        self.cmd_vars[key] = var
+        if key == 'city':
+            self.cmd_city_combo = widget
+        return var
+
+    def _cmd_preview(self):
+        """基礎值 × 乘數 的即時預覽（訓練公式已實測：+0.4×value、金=max(1000,5×value)）。"""
+        try:
+            preset = self._cmd_preset_key()
+            if preset not in ('train', 'alms', 'rice') or 'base' not in self.cmd_vars:
+                return
+            base = int(self.cmd_vars['base'].get() or 0)
+            mult = max(1, int(self.cmd_vars['mult'].get() or 1))
+            value = base * mult
+            if preset == 'train':
+                text = '實際送出 value=%d（基礎 %d × 乘數 %d）→ 預估訓練 +%.0f，花費金 %d' % (
+                    value, base, mult, value * 0.4, max(1000, value * 5))
+            elif preset == 'alms':
+                text = '實際送出 value=%d（基礎 %d × 乘數 %d）' % (value, base, mult)
+            else:
+                text = '實際送出 value=%d（%s %d × 乘數 %d）' % (
+                    value, '買米' if self.cmd_vars['buy'].get().startswith('1') else '賣米', base, mult)
+            self.cmd_summary.configure(text=text)
+        except (KeyError, ValueError):
+            pass
+
+    def _cmd_preset_key(self):
+        return self.PRESET_KEYS.get(self.cmd_preset.get(), 'train')
+
+    def _cmd_rebuild_params(self):
+        for widget in self.cmd_params.winfo_children():
+            widget.destroy()
+        self.cmd_vars = {}
+        preset = self._cmd_preset_key()
+        if preset == 'train':
+            self._cmd_field('兵種', 'troop', self.TROOP_OPTS[0], 8, self.TROOP_OPTS)
+            self._cmd_field('基礎值（界面一次的量）', 'base', 75, 8)
+            self._cmd_field('乘數', 'mult', 1, 5)
+            self._cmd_field('extra', 'extra', 0, 6)
+        elif preset == 'alms':
+            self._cmd_field('基礎值', 'base', 4, 6)
+            self._cmd_field('乘數', 'mult', 1, 5)
+            self._cmd_field('extra', 'extra', 4, 6)
+        elif preset == 'rice':
+            self._cmd_field('方向', 'buy', self.BUY_OPTS[0], 8, self.BUY_OPTS)
+            self._cmd_field('數量', 'base', 1000, 8)
+            self._cmd_field('乘數', 'mult', 1, 5)
+            self._cmd_field('extra', 'extra', 0, 6)
+        elif preset == 'build':
+            self._cmd_field('建築', 'build_type', self.BUILD_OPTS[4], 9, self.BUILD_OPTS)
+            self._cmd_field('城池', 'city', '—', 26, ())
+            self._cmd_field('X', 'x', 0, 5)
+            self._cmd_field('Y', 'y', 0, 5)
+            self._cmd_field('花費金', 'extra', 2000, 7)
+            tk.Button(self.cmd_params, text='挑城旁空地', bg=BG, fg=INK,
+                      command=self._cmd_pick_cell).pack(side='left', padx=6)
+        elif preset == 'personnel':
+            self._cmd_field('子類型', 'subtype', self.PERSON_OPTS[0], 10, self.PERSON_OPTS)
+            self._cmd_field('武將 id', 'target_id', 1, 7)
+        self._cmd_preview()
+
+    def _cmd_note(self, text):
+        self.cmd_summary.configure(text=text)
+
+    def _cmd_refresh(self):
+        self.cmd_refresh_btn.configure(state='disabled')
+        self._cmd_note('讀取目標與勢力…')
+
+        def work():
+            try:
+                data = self.command_service.targets(refresh=True)
+            except Exception as exc:  # noqa: BLE001
+                data = {'ok': False, 'error': '%s: %s' % (type(exc).__name__, exc)}
+
+            def show():
+                self.cmd_refresh_btn.configure(state='normal')
+                if not data.get('ok', True) or data.get('error'):
+                    self._cmd_note('讀取失敗：' + str(data.get('error')))
+                    return
+                self.cmd_targets_data = data
+                targets = data.get('targets') or []
+                self.cmd_target.configure(values=[t['label'] + ('' if t['alive'] else '（離線）')
+                                                  for t in targets])
+                if targets:
+                    self.cmd_target.current(0)
+                forces = data.get('forces') or []
+                slots = data.get('player_slots') or []
+                owner_of = {}
+                for row in slots:
+                    if row.get('nickname') and isinstance(row.get('force_id'), int) and 0 < row['force_id'] < 32:
+                        owner_of[row['force_id']] = row['nickname']
+                self.cmd_force.configure(values=[
+                    '%s · %s（force %s，金 %s）' % (owner_of.get(f['force_id'], '—'), f['name'],
+                                                   f['force_id'], f['gold']) for f in forces])
+                # 發送通道：預設用主機（同步名單成員）；風夜藏身、主機會丟，只留給研究。
+                labels = [t['label'] for t in targets]
+                self.cmd_target.configure(values=[lb + ('（藏身·主機會丟）' if '風夜' in lb else '')
+                                                  for lb in labels])
+                members = [i for i, t in enumerate(targets) if '風夜' not in t['label'] and t['alive']]
+                self.cmd_target.current(members[0] if members else (0 if targets else 0))
+                if forces:
+                    self.cmd_force.current(0)
+                if self._cmd_preset_key() == 'build' and getattr(self, 'cmd_city_combo', None):
+                    cities = data.get('cities') or []
+                    self.cmd_city_combo.configure(
+                        values=['%s #%s @%s,%s' % (c['name'], c['city_id'], c['xy'][0], c['xy'][1])
+                                for c in cities])
+                    if cities:
+                        self.cmd_city_combo.current(0)
+                self.cmd_phase.configure(text='階段：%s（phase=%s）' % (data.get('phase_text'), data.get('phase')))
+                self._cmd_draw_map()
+                self._cmd_note('目標已就緒。' + ('現在就在內政階段，送出即發。'
+                                                if data.get('phase') == 1 else
+                                                '現在不是內政階段，送出後會排隊等下一次內政。'))
+            self.root.after(0, show)
+        threading.Thread(target=work, daemon=True, name='cmd-targets').start()
+
+    def _cmd_selected(self):
+        data = getattr(self, 'cmd_targets_data', {}) or {}
+        targets = data.get('targets') or []
+        forces = data.get('forces') or []
+        idx_t = self.cmd_target.current()
+        idx_f = self.cmd_force.current()
+        target = targets[idx_t] if 0 <= idx_t < len(targets) else (targets[0] if targets else None)
+        force = forces[idx_f] if 0 <= idx_f < len(forces) else (forces[0] if forces else None)
+        return data, target, force
+
+    def _cmd_pick_on_map(self):
+        """2026-10-19: 從全知情情報的全景地圖直接點城池，回填建設參數。"""
+        if self._cmd_preset_key() != 'build':
+            self._cmd_note('只有「建設」需要在選城池')
+            return
+        panorama = getattr(self, 'panorama', None)
+        if panorama is None:
+            self._cmd_note('全景地圖不可用')
+            return
+        self._cmd_map_pick_pending = True
+        panorama.on_pick_origin = self._cmd_city_from_map
+        try:
+            self.workspace.select(panorama)
+        except Exception:  # noqa: BLE001
+            pass
+        self._cmd_note('請在全景地圖上單擊要建設的城池（只認城關，不會送任何遊戲輸入）')
+
+    def _cmd_draw_map(self):
+        canvas = getattr(self, 'cmd_map', None)
+        if canvas is None:
+            return
+        data = getattr(self, 'cmd_targets_data', {}) or {}
+        cities = data.get('cities') or []
+        canvas.delete('all')
+        width = max(320, canvas.winfo_width() or 640)
+        height = max(120, canvas.winfo_height() or 150)
+        if not cities:
+            canvas.create_text(width / 2, height / 2, text='尚未讀到城池（按「讀取目標與勢力」）',
+                               fill='#7a8570', font=(self.face, 11))
+            return
+        xs = [c['xy'][0] for c in cities if c.get('xy')]
+        ys = [c['xy'][1] for c in cities if c.get('xy')]
+        minx, maxx = min(xs), max(xs)
+        miny, maxy = min(ys), max(ys)
+        spanx = max(1, maxx - minx); spany = max(1, maxy - miny)
+        pad = 26
+        def project(xy):
+            px = pad + (xy[0] - minx) / spanx * (width - 2 * pad)
+            py = pad + (xy[1] - miny) / spany * (height - 2 * pad)
+            return px, py
+        palette = {1: '#b23a2e', 2: '#2b5fa8', 3: '#2f7a3f', 4: '#8a5a1f', 5: '#6b3fa0'}
+        owners = {}
+        for row in data.get('player_slots') or []:
+            if row.get('nickname') and isinstance(row.get('force_id'), int):
+                owners[row['force_id']] = row['nickname']
+        self._cmd_map_hits = []
+        for city in cities:
+            if not city.get('xy'):
+                continue
+            px, py = project(city['xy'])
+            color = palette.get(city.get('owner'), '#555555')
+            canvas.create_oval(px - 6, py - 6, px + 6, py + 6, fill=color, outline='#ffffff', width=1)
+            label = '%s %s' % (city.get('name'), owners.get(city.get('owner'), ''))
+            canvas.create_text(px, py - 12, text=label.strip(), fill='#22303a',
+                               font=(self.face, 10, 'bold'))
+            self._cmd_map_hits.append((px, py, city))
+
+    def _cmd_map_click(self, event):
+        for px, py, city in getattr(self, '_cmd_map_hits', []):
+            if (px - event.x) ** 2 + (py - event.y) ** 2 <= 14 ** 2:
+                self._cmd_map_pick_pending = True
+                self._cmd_city_from_map({'city_id': city.get('city_id'), 'name': city.get('name'),
+                                         'world_xy_raw': list(city.get('xy') or [0, 0]),
+                                         'owner_raw': city.get('owner')})
+                return
+
+    def _cmd_city_from_map(self, row):
+        if not getattr(self, '_cmd_map_pick_pending', False):
+            return
+        city_id = row.get('city_id')
+        if city_id is None:
+            return
+        self._cmd_map_pick_pending = False
+        data = getattr(self, 'cmd_targets_data', {}) or {}
+        city = next((c for c in data.get('cities') or [] if c['city_id'] == city_id), None)
+        if city is None:
+            # 地圖上的城未必在最新快照裡：用行本身的資料補上
+            xy = row.get('world_xy_raw') or [0, 0]
+            city = {'city_id': city_id, 'name': row.get('name'), 'owner': row.get('owner_raw'),
+                    'xy': [xy[0], xy[1]]}
+        text = '%s #%s @%s,%s' % (city['name'], city['city_id'], city['xy'][0], city['xy'][1])
+        if getattr(self, 'cmd_city_combo', None):
+            values = list(self.cmd_city_combo.cget('values') or ())
+            if text not in values:
+                values.append(text)
+            self.cmd_city_combo.configure(values=values)
+            self.cmd_city_combo.set(text)
+        # 城主必須是本勢力，否則提示
+        data2, target, force = self._cmd_selected()
+        if force and city.get('owner') not in (None, force['force_id']):
+            self._cmd_note('提醒：%s 的城主不是 force %s（owner=%s），主機會拒絕'
+                           % (city['name'], force['force_id'], city.get('owner')))
+        else:
+            self._cmd_note('已選城池 %s（#%s）' % (city['name'], city_id))
+        try:
+            self.control_book.select(self.command_page)
+        except Exception:  # noqa: BLE001
+            pass
+        self._cmd_pick_cell()
+
+    def _cmd_pick_cell(self):
+        data, target, force = self._cmd_selected()
+        if not target or not force:
+            self._cmd_note('先讀取目標與勢力')
+            return
+        try:
+            city_text = self.cmd_vars['city'].get()
+        except KeyError:
+            return
+        import re as _re
+        match = _re.search(r'#(\d+)', city_text)
+        cities = data.get('cities') or []
+        city = None
+        if match:
+            cid = int(match.group(1))
+            city = next((c for c in cities if c['city_id'] == cid), None)
+            if city is None:
+                xy = _re.search(r'@(\d+),(\d+)', city_text)
+                if xy:
+                    city = {'city_id': cid, 'name': city_text.split(' ')[0],
+                            'xy': [int(xy.group(1)), int(xy.group(2))]}
+        else:
+            city = next((c for c in cities if city_text.startswith(str(c.get('name')))), None)
+        if city is None:
+            self._cmd_note('請先選城池')
+            return
+        self._cmd_note('找城旁空地…')
+
+        def work():
+            cells = self.command_service.free_cells(target['prefix'], city['xy'], force['force_id'])
+
+            def show():
+                if cells:
+                    self.cmd_vars['x'].set(str(cells[0][0]))
+                    self.cmd_vars['y'].set(str(cells[0][1]))
+                    self._cmd_note('已挑空地 (%s,%s)' % tuple(cells[0]))
+                else:
+                    self._cmd_note('挑不到空地（或讀取失敗）')
+            self.root.after(0, show)
+        threading.Thread(target=work, daemon=True, name='cmd-cells').start()
+
+    def _cmd_send(self):
+        data, target, force = self._cmd_selected()
+        if not target or not force:
+            self._cmd_note('先讀取目標與勢力')
+            return
+        preset = self._cmd_preset_key()
+        payload = {'prefix': target['prefix'], 'preset': preset, 'actor': force['force_id']}
+        try:
+            mult = max(1, int(self.cmd_vars['mult'].get() or 1)) if 'mult' in self.cmd_vars else 1
+            base = int(self.cmd_vars['base'].get() or 0) if 'base' in self.cmd_vars else 0
+            value = base * mult
+            if preset == 'train':
+                payload['troop'] = int(self.cmd_vars['troop'].get().split()[0])
+                payload['value'] = value
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'alms':
+                payload['value'] = value
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'rice':
+                payload['buy'] = int(self.cmd_vars['buy'].get().split()[0])
+                payload['value'] = value
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'build':
+                payload['build_type'] = int(self.cmd_vars['build_type'].get().split()[0])
+                city_text = self.cmd_vars['city'].get()
+                city_id = None
+                for c in data.get('cities') or []:
+                    if '#%s ' % c['city_id'] in city_text:
+                        city_id = c['city_id']
+                        break
+                if city_id is None:
+                    self._cmd_note('請先選城池')
+                    return
+                payload['city'] = city_id
+                payload['x'] = int(self.cmd_vars['x'].get())
+                payload['y'] = int(self.cmd_vars['y'].get())
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'personnel':
+                payload['subtype'] = int(self.cmd_vars['subtype'].get().split()[0])
+                payload['target_id'] = int(self.cmd_vars['target_id'].get())
+        except (KeyError, ValueError) as exc:
+            self._cmd_note('參數不完整：%s' % exc)
+            return
+        self.cmd_send_btn.configure(state='disabled')
+        self._cmd_note('送出中…%s' % payload)
+
+        def work():
+            try:
+                result = self.command_service.send(payload)
+            except Exception as exc:  # noqa: BLE001
+                result = {'ok': False, 'error': '%s: %s' % (type(exc).__name__, exc)}
+
+            def show():
+                self.cmd_send_btn.configure(state='normal')
+                if not result.get('ok'):
+                    self._cmd_note('送出失敗：' + str(result.get('error')))
+                    return
+                job = result.get('job') or {}
+                if job.get('status') == 'queued':
+                    self._cmd_note('已排隊：等下一次內政階段送出（phase=%s）' % job.get('phase_at_submit'))
+                else:
+                    self._cmd_note('已送出，等回執…')
+                self._cmd_render_jobs()
+            self.root.after(0, show)
+        threading.Thread(target=work, daemon=True, name='cmd-send').start()
+
+    def _cmd_poll(self):
+        try:
+            self._cmd_render_jobs()
+        finally:
+            self.root.after(3000, self._cmd_poll)
+
+    def _cmd_render_jobs(self):
+        try:
+            view = self.command_service.jobs_view()
+        except Exception:  # noqa: BLE001
+            return
+        lines = []
+        for job in (view.get('jobs') or [])[:8]:
+            receipt = job.get('receipt') or {}
+            if receipt:
+                detail = ('rc=%s kind=%s sub=%s actor=%s 值=%s/%s/%s 送出時phase=%s 閘門=%s/%s'
+                          % (receipt.get('rc'), receipt.get('kind'), receipt.get('subtype'),
+                             receipt.get('actor'), receipt.get('f18'), receipt.get('f1c'),
+                             receipt.get('f20'), receipt.get('phase_at_send'),
+                             receipt.get('gate_before'), receipt.get('gate_after')))
+            else:
+                detail = job.get('error') or '等待內政階段…'
+            lines.append('%s  %-9s %-18s %6ss  %s'
+                         % (job.get('id'), job.get('status'), job.get('prefix'),
+                            job.get('waited'), detail))
+        text = '\n'.join(lines) if lines else '尚無指令。'
+        self.cmd_log.configure(state='normal')
+        self.cmd_log.delete('1.0', 'end')
+        self.cmd_log.insert('1.0', text)
+        self.cmd_log.configure(state='disabled')
+
+    def _build_room_controls(self):
+        box = self._box(self.room_control_page, '風夜進房與準備')
+        box.pack(fill='both', expand=True, padx=14, pady=14)
+        tk.Label(box, text='進房、確認準備狀態，然後開始遊戲。',
+                 bg=DAMASK, fg=MUTED, anchor='w').pack(fill='x', padx=14, pady=(10, 8))
+        probe_box = tk.Frame(box, bg=DAMASK)
+        self.room_line = tk.StringVar(value='多线3')
+        self.room_nickname = tk.StringVar(value='待秋至')
+        primary = tk.Frame(probe_box, bg=DAMASK)
+        primary.pack(fill='x', padx=8, pady=(8, 0))
+        self.room_once = tk.Button(primary, text='自動登入、找房並進入', bg=BG, command=self.one_click_enter)
+        self.room_once.pack(side='left')
+        bar = tk.Frame(probe_box, bg=DAMASK)
+        bar.pack(fill='x', padx=8, pady=8)
+        self.room_line_combo = ttk.Combobox(bar, textvariable=self.room_line, width=8,
+                                          values=['多线2', '多线3'], state='readonly')
+        self.room_line_combo.pack(side='left')
+        self.room_start = tk.Button(bar, text='登入風夜', bg=BG,
+                                    command=lambda: self.room_action({'op': 'start', 'line': self.room_line.get()}))
+        self.room_start.pack(side='left', padx=5)
+        self.room_search = tk.Button(bar, text='更新房間', bg=BG,
+                                     command=lambda: self.room_action({'op': 'search'}))
+        self.room_search.pack(side='left')
+        tk.Label(bar, text='進房暱稱', bg=DAMASK, fg=INK).pack(side='left', padx=(12, 5))
+        self.room_nick_combo = ttk.Combobox(bar, textvariable=self.room_nickname, width=12,
+                                          values=['待秋至', '風夜', '小白'], state='normal')
+        self.room_nick_combo.pack(side='left')
+        self.room_join = tk.Button(bar, text='進入所選房間', bg=BG, command=self.join_selected_room)
+        self.room_join.pack(side='left', padx=5)
+        self.room_leave = tk.Button(bar, text='離開房間', bg=BG,
+                                    command=lambda: self.room_action({'op': 'leave'}))
+        self.room_leave.pack(side='left')
+        self.room_stop = tk.Button(bar, text='風夜下線', bg=BG,
+                                   command=lambda: self.room_action({'op': 'stop'}))
+        self.room_stop.pack(side='left', padx=5)
+        flow = tk.Frame(probe_box, bg=DAMASK)
+        flow.pack(fill='x', padx=8, pady=(0, 8))
+        self.room_register = tk.Button(flow, text='完成報到', bg=BG, command=self.register_ghost)
+        self.room_register.pack(side='left')
+        self.room_d8 = tk.Button(flow, text='讓風夜藏好', bg=BG, command=self.withdraw_ghost)
+        self.room_d8.pack(side='left', padx=8)
+        self.room_retry = tk.Button(flow, text='↻ 重新來過', bg=BG, command=self.one_click_retry)
+        self.room_retry.pack(side='left')
+        self.room_flow_label = tk.Label(flow, bg=DAMASK, fg=MUTED)
+        self.room_flow_label.pack(side='left', padx=8)
+        lab = tk.Frame(box, bg=DAMASK)
+        lab.pack(fill='x', padx=12, pady=(2, 12))
+        tk.Button(lab, text='讓風夜進房', bg='#cbe7e4', fg='#164d51', command=self.lab_arm,
+                  font=(self.face, 12, 'bold')).pack(side='left')
+        tk.Button(lab, text='風夜下線', bg=BG, command=self.lab_stop).pack(side='left', padx=8)
+        tk.Button(lab, text='查看風夜狀態', bg=BG, command=self.lab_status).pack(side='left')
+        tk.Button(lab, text='卡住了？強制結束', bg='#f7e5e5', fg=WARN,
+                  command=self.lab_force_quit).pack(side='left', padx=8)
+        self.probe_toggle = tk.Button(lab, text='手動進房設定', bg=BG, command=self._toggle_probe_layer)
+        self.probe_toggle.pack(side='right')
+        # 2026-10-19 半自動進房：搜索房間（借探針）→ 清單選房（單房自動）→ 用指定暱稱走完整武裝進房。
+        semi = tk.Frame(box, bg=DAMASK)
+        semi.pack(fill='x', padx=12, pady=(0, 12))
+        tk.Button(semi, text='搜索房間', bg=BG, command=self.lab_search_rooms).pack(side='left')
+        tk.Label(semi, text='進房暱稱', bg=DAMASK, fg=INK).pack(side='left', padx=(12, 4))
+        self.lab_nickname = tk.StringVar(value='待秋至')
+        ttk.Combobox(semi, textvariable=self.lab_nickname, width=10,
+                     values=['待秋至', '風夜', '小白'], state='normal').pack(side='left')
+        tk.Button(semi, text='進入所選房間', bg='#cbe7e4', fg='#164d51',
+                  command=self.lab_enter_selected).pack(side='left', padx=10)
+        tk.Label(semi, text='（先搜索：下方清單選房；只有一間時自動選）', bg=DAMASK, fg=MUTED).pack(side='left')
+        self.probe_box, self._lab_row, self.probe_shown = probe_box, lab, False
+        self.lab_label = tk.Label(box, text='',
+                                 bg='#e4f1ef', fg='#245b61', anchor='w', justify='left',
+                                 wraplength=1080, padx=14, pady=12)
+        self.lab_label.pack(fill='x', padx=12, pady=(0, 12))
+        # 2026-10-19 用戶裁定：固定無勢力旁觀 → 移除「起始勢力」切換列（功能仍在 CLI）。
+        seat_row = tk.Frame(box, bg=DAMASK)
+        self.start_faction = tk.StringVar(value='空位旁觀')
+        # 2026-10-19 用戶要求：把風夜此刻可能的多種狀態用大白話列出來
+        # （上帝視角已打開、回合自動跟隨…），不顯示任何欄位名或代碼。
+        self.state_panel = tk.Frame(box, bg=WELL)
+        self.state_panel.pack(fill='x', padx=12, pady=(0, 12))
+        tk.Label(self.state_panel, text='風夜現在的狀態', bg=WELL, fg=INK,
+                 font=(self.face, 13, 'bold'), anchor='w').pack(fill='x', padx=14, pady=(10, 6))
+        self.state_rows = tk.Frame(self.state_panel, bg=WELL)
+        self.state_rows.pack(fill='x', padx=14, pady=(0, 10))
+        tk.Label(self.state_rows, text='還沒有風夜的即時狀態。', bg=WELL, fg=MUTED,
+                 anchor='w').pack(fill='x')
+        self.room_tree = self.tree(box, [('name', '房間名稱', 220), ('host', '房主', 180), ('count', '目前人數', 100)])
+        self.room_tree.configure(height=6)
+        self.room_tree.bind('<<TreeviewSelect>>', lambda _e: self.update_room_controls())
+        self.room_empty = tk.Label(self.room_tree, text='還沒有房間資料\n先請房主建好房間，再讓風夜進房。',
+                                   bg=WELL, fg=MUTED, font=(self.face, 13), justify='center')
+        self.room_empty.place(relx=.5, rely=.5, anchor='center')
+        self.room_status = tk.Label(box, bg=DAMASK, fg=MUTED, anchor='w', justify='left', wraplength=1080)
+        self.room_status.pack(fill='x', padx=14, pady=10)
+        self.room_channel = tk.Label(box, bg=WELL, fg=INK, anchor='w', justify='left', wraplength=1080,
+                                     font=(self.face, 12), padx=14, pady=12)
+        self.room_channel.pack(fill='x', padx=12, pady=(0, 10))
+        self.room_receipt = tk.Label(box, text='',
+                                     bg=DAMASK, fg=MUTED, anchor='w', justify='left', wraplength=1080)
+        self.room_receipt.pack(fill='x', padx=14, pady=(0, 12))
+
+    def _saved_start_faction(self):
+        path = Path.home() / 'sgi-fengye-lab/shadow/start-faction.json'
+        names = {0: '丁滿', 1: '風雲', 5: '空位旁觀'}
+        try:
+            slot = int(json.loads(path.read_text(encoding='utf-8')).get('slot'))
+        except (OSError, ValueError, TypeError):
+            slot = 5
+        return names.get(slot, '空位旁觀')
+
+    def apply_start_faction(self):
+        slots = {'丁滿': 0, '風雲': 1, '空位旁觀': 5}
+        name = self.start_faction.get()
+        slot = slots.get(name)
+        if slot is None:
+            self.lab_label.configure(text='請先選擇起始勢力：丁滿、風雲或空位旁觀。')
+            return
+        path = Path.home() / 'sgi-fengye-lab/shadow/start-faction.json'
+        path.write_text(json.dumps({'slot': slot, 'name': name}, ensure_ascii=False), encoding='utf-8')
+        self.lab_label.configure(text='正在把風夜切到「%s」…' % name)
+
+        def work():
+            script = Path.home() / 'sgi-fengye-lab/shadow/shadow_force.sh'
+            try:
+                result = subprocess.run(['bash', str(script), 'switch', str(slot)],
+                                        cwd=str(script.parent), capture_output=True, text=True, timeout=40)
+                ok = result.returncode == 0 and ('"requested": %d' % slot) in (result.stdout or '')
+            except (OSError, subprocess.TimeoutExpired) as error:
+                result = None
+                ok = False
+                err = str(error)
+            else:
+                err = (result.stderr or result.stdout or '')[-180:]
+
+            def show():
+                if ok:
+                    self.lab_label.configure(text='起始勢力已設為「%s」。按「開始」後第一輪就用這個席位。' % name)
+                else:
+                    self.lab_label.configure(text='起始勢力沒切成：' + err.replace('\n', ' ')[:180])
+            self.root.after(0, show)
+
+        threading.Thread(target=work, daemon=True, name='fengye-start-faction').start()
+
+    def _toggle_probe_layer(self):
+        """0.2.22：探針層默認收起（日常只用帶客戶端的流程）；要查房等再展開。"""
+        self.probe_shown = not getattr(self, 'probe_shown', False)
+        if self.probe_shown:
+            self.probe_box.pack(fill='x', before=self._lab_row)
+        else:
+            self.probe_box.pack_forget()
+        self.probe_toggle.configure(text=('收起手動設定' if self.probe_shown else '手動進房設定'))
+
+    def join_selected_room(self):
+        ids = self.room_tree.selection()
+        row = self.room_rows.get(ids[0]) if ids else None
+        if row is None and len(self.room_rows) == 1:
+            row = next(iter(self.room_rows.values()))  # 只有一個房間：未選取也可直接進入
+        if row is None:
+            self.room_receipt.configure(text='請先在房間列表點選一個房間列，再按「進入所選房間」。')
+            return
+        try:
+            name = nickname(self.room_nickname.get())
+        except ValueError as error:
+            self.room_receipt.configure(text=plain_error(error))
+            return
+        self.room_action({'op': 'join', 'room_id': row['id'], 'nickname': name, 'quick': True})
+
+    def register_ghost(self):
+        state = self.rooms.state
+        if not (state.get('fresh') and state.get('connected')):
+            return
+        if not messagebox.askokcancel('風夜報到',
+                                      '讓風夜在房間名單報到（只送一次）。\n'
+                                      '名單會短暫出現風夜的名字；失敗不重試。確認執行？', parent=self.root):
+            return
+        self.room_action({'op': 'register'})
+
+    def withdraw_ghost(self):
+        state = self.rooms.state
+        if not (state.get('fresh') and state.get('connected')):
+            return
+        if not messagebox.askokcancel('風夜藏身',
+                                      '把風夜從名單中藏起來：這樣遊戲開局時不會等風夜，\n'
+                                      '風夜可以一直暗中旁聽（名單會出現一行「風夜从游戏中退出了」）。\n'
+                                      '請在遊戲按「開始」之前完成；只送一次、失敗不重試。確認執行？', parent=self.root):
+            return
+        self.room_action({'op': 'd8'})
+
+    # ---- 風雲・本機控制（0.2.15）與實驗室一鍵（新流程） ----
+
+    def _local_async(self, widget, label, func):
+        def work():
+            try:
+                result = func()
+            except Exception as error:
+                result = {'status': 'error', 'error': '{}: {}'.format(type(error).__name__, error)}
+            text = operation_result(label, result)
+
+            def show():
+                widget.configure(text=text[:2200])
+            self.root.after(0, show)
+
+        widget.configure(text=label + '…執行中（請稍候）')
+        threading.Thread(target=work, daemon=True, name='fengyun-local').start()
+
+    def local_login(self):
+        self.local_state_label.configure(text='⏳ 登入中……（幾秒後自動顯示結果）', fg=INK)
+
+        def work():
+            try:
+                result = fengyun_local.login(line=self.local_line.get())
+            except Exception as error:
+                result = {'status': 'error', 'error': '{}: {}'.format(type(error).__name__, error)}
+
+            def show():
+                if result.get('status') == 'already_online':
+                    self.local_state_label.configure(text=f'{fengyun_local.DISPLAY_NAME}已在線，不用重複登入。', fg='#2f6a4f')
+                    detail = '請切回現有遊戲視窗。'
+                    rooms = result.get('rooms') or []
+                    if rooms:
+                        detail = (detail + '\n' if detail else '') + '房間列表：' + '、'.join(rooms)
+                    self.local_status_label.configure(text=detail[:2200])
+                else:
+                    self.local_status_label.configure(
+                        text=operation_result('進入遊戲', result))
+                    self.root.after(6000, self.local_state_refresh)
+                    self.root.after(15000, self.local_state_refresh)
+            self.root.after(0, show)
+        threading.Thread(target=work, daemon=True, name='fengyun-login').start()
+
+    def local_exit(self):
+        self._local_async(self.local_status_label, f'結束{fengyun_local.DISPLAY_NAME}遊戲', fengyun_local.exit_soft)
+
+    def local_kill(self):
+        if not messagebox.askokcancel('強制關閉遊戲',
+                                      '只會關閉這台電腦上的玩家遊戲，大廳保持開啟。未儲存的進度會遺失。確定繼續？',
+                                      parent=self.root):
+            return
+        self._local_async(self.local_status_label, '強制關閉遊戲', fengyun_local.force_kill)
+
+    def local_status(self):
+        self._local_async(self.local_status_label, '本機狀態', fengyun_local.status)
+
+    def local_state_refresh(self):
+        if getattr(self, '_local_state_busy', False):
+            return
+        self._local_state_busy = True
+
+        def work():
+            try:
+                result = fengyun_local.live_status()
+            except Exception as error:
+                result = {'state': 'error', 'headline': '狀態讀取失敗', 'detail': str(error)}
+
+            def show():
+                self._local_state_busy = False
+                self._render_local_state(result)
+            self.root.after(0, show)
+        threading.Thread(target=work, daemon=True, name='fengyun-state').start()
+
+    def _render_local_state(self, result):
+        title, detail = local_state(result)
+        state = result.get('state')
+        self.local_state_label.configure(text=title, fg=GOLD if state == 'holding' else INK)
+        self.local_status_label.configure(text=detail)
+
+    def local_slots_read(self):
+        self._local_slot_async(f'正在查看{fengyun_local.DISPLAY_NAME}對應的玩家',
+                               lambda: fengyun_local.setforce('read'))
+
+    def local_slot_set(self, slot):
+        self._local_slot_async(f'切換{fengyun_local.DISPLAY_NAME}對應的玩家',
+                               lambda: fengyun_local.setforce('switch', slot))
+
+    def local_slot_restore(self):
+        self._local_slot_async(f'切回{fengyun_local.DISPLAY_NAME}上一位玩家',
+                               lambda: fengyun_local.setforce('restore'))
+
+    def _local_slot_async(self, label, func):
+        """本機席位操作：結果用與風夜相同的「名稱＋勢力」格式化顯示。"""
+        def work():
+            try:
+                result = func()
+            except Exception as error:
+                result = {'status': 'error', 'error': '{}: {}'.format(type(error).__name__, error)}
+            text = self._format_force(label, result)
+
+            def show():
+                self.local_slot_label.configure(text=text[:2200])
+                self._update_slot_buttons(result)
+            self.root.after(0, show)
+
+        self.local_slot_label.configure(text=label + '，請稍候。')
+        threading.Thread(target=work, daemon=True, name='fengyun-force').start()
+
+    def _fengye_slot_async(self, label, script):
+        def work():
+            try:
+                result = lab_remote(self.source.sources.host, script, timeout=180)
+            except Exception as error:
+                result = {'rc': -1, 'stderr': str(error)}
+            text = self._format_force(label, result)
+
+            def show():
+                self.fengye_slot_label.configure(text=text[:2200])
+                self._update_slot_buttons(result)
+            self.root.after(0, show)
+
+        self.fengye_slot_label.configure(text=label + '，請稍候。')
+        threading.Thread(target=work, daemon=True, name='fengye-force').start()
+
+    def _seat_table(self):
+        """seat index -> (player name, faction name) from the current session snapshot."""
+        view = getattr(self, 'view', None) or {}
+        p = (view.get('p34') or {}) if isinstance(view, dict) else {}
+        snapshots = p.get('snapshots') or {}
+        block = snapshots.get('start') or snapshots.get('initial') or {}
+        table = {}
+        for row in block.get('rows') or []:
+            try:
+                seat = int(row.get('i'))
+            except (TypeError, ValueError):
+                continue
+            name = row.get('name') or ('電腦' if row.get('state42') == 2 else '空席' if not row.get('id') else '未命名')
+            table[seat] = (name, row.get('faction') or '—')
+        return table
+
+    def _update_slot_buttons(self, result):
+        payload = force_payload(result)
+        choices = force_choices(payload, self._seat_table()) if payload is not None else {}
+        for table in (getattr(self, 'local_slot_buttons', None), getattr(self, 'fengye_slot_buttons', None)):
+            for seat, button in (table or {}).items():
+                button.configure(text=choices.get(seat, '等待玩家名單'),
+                                 state='normal' if seat in choices else 'disabled')
+                if seat in choices:
+                    button.grid()
+                else:
+                    button.grid_remove()
+
+    def _format_force(self, label, result):
+        payload = force_payload(result)
+        if payload is not None:
+            return force_summary(payload, self._seat_table())
+        return plain_error(result.get('stderr') or result.get('error'),
+                           '還沒讀到本局玩家。請先進入對局，再按「更新可選玩家」。')
+
+    def fengye_slot_read(self):
+        self._fengye_slot_async('正在查看風夜對應的玩家',
+                                'cd ~/sgi-protocol-lab-20260915/shadow && bash shadow_force.sh read')
+
+    def fengye_slot_set(self, slot):
+        self._fengye_slot_async('切換風夜對應的玩家',
+                                'cd ~/sgi-protocol-lab-20260915/shadow && bash shadow_force.sh switch {}'.format(slot))
+
+    def fengye_slot_restore(self):
+        self._fengye_slot_async('切回風夜上一位玩家',
+                                'cd ~/sgi-protocol-lab-20260915/shadow && bash shadow_force.sh restore')
+
+    def _lab_async(self, label, script, timeout=360):
+        def work():
+            try:
+                result = lab_remote(self.source.sources.host, script, timeout=timeout)
+            except Exception as error:
+                result = {'rc': -1, 'stderr': str(error)}
+            text = lab_result(label, result)
+
+            def show():
+                display = text
+                if label == '查看風夜狀態' and result.get('rc') == 0:
+                    display = '\n'.join(room_summary(self.rooms.state))
+                self.lab_label.configure(text=display[:2600])
+            self.root.after(0, show)
+
+        self.lab_label.configure(text=label + '…執行中（可能需數分鐘）')
+        threading.Thread(target=work, daemon=True, name='fengye-lab').start()
+
+    def lab_search_rooms(self):
+        """半自動①：借探針登入並搜房；搜完自動收線，把風夜帳號讓給武裝客戶端。"""
+        state = self.rooms.state
+        if state.get('alive') and state.get('phase') == 'lobby' and not state.get('connected'):
+            self.room_action({'op': 'search'})
+            self.root.after(1500, self._lab_release_probe)
+        else:
+            self.room_action({'op': 'start', 'line': self.room_line.get()})
+            self.root.after(400, self._lab_search_when_lobby)
+
+    def _lab_search_when_lobby(self, tries=0):
+        state = self.rooms.state
+        if state.get('phase') == 'lobby' and not state.get('connected') and not self.room_busy:
+            self.room_action({'op': 'search'})
+            self.root.after(1500, self._lab_release_probe)
+        elif tries < 24 and not state.get('connected'):
+            self.root.after(500, lambda: self._lab_search_when_lobby(tries + 1))
+        else:
+            self.lab_label.configure(text='還沒有房間資料：請確認房主已建房，再按「搜索房間」。')
+
+    def _lab_release_probe(self, tries=0):
+        """搜完就讓探針下線：風夜帳號讓給帶客戶端的武裝鏈。"""
+        state = self.rooms.state
+        if state.get('alive') and not state.get('connected'):
+            self.room_action({'op': 'stop'})
+            self.lab_label.configure(text='房間清單已更新；探針已下線，接下來可選房進入。')
+        elif tries < 10:
+            self.root.after(600, lambda: self._lab_release_probe(tries + 1))
+        else:
+            self.lab_label.configure(text='房間清單已更新；若探針仍佔用帳號，按「進入所選房間」時會先自動收線。')
+
+    def lab_enter_selected(self):
+        rows = list(self.room_rows.values())
+        selected = self.room_tree.selection()
+        room = self.room_rows.get(selected[0]) if selected else None
+        if room is None and len(rows) == 1:
+            room = rows[0]
+        if not room:
+            self.lab_label.configure(text='請先按「搜索房間」，再在清單點選要進入的房間（只有一間時自動選）。')
+            return
+        raw = str(room.get('name') or '').strip()
+        subset = raw.split('[')[0].strip() or raw
+        nick = (self.lab_nickname.get() or '待秋至').strip() or '待秋至'
+        alive = bool(self.rooms.state.get('alive'))
+        if not messagebox.askokcancel(
+                '進入所選房間？',
+                '房間：{}\n暱稱：{}\n\n{}這會結束風夜先前連線，重新進房、藏身並開啟上帝視角；'
+                '準備期間先別按「開始」。確定繼續？'.format(
+                    raw or '（未命名）', nick,
+                    '（會先讓探針下線釋放帳號）\n' if alive else ''),
+                parent=self.root):
+            return
+        if alive:
+            self.room_action({'op': 'stop'})
+            self.root.after(1600, lambda: self._lab_arm(subset, nick))
+        else:
+            self._lab_arm(subset, nick)
+
+    def _lab_arm(self, room_name=None, nickname=None):
+        env = ''
+        if room_name:
+            env += 'JOIN_NAME={} '.format(shlex.quote(room_name))
+        if nickname:
+            env += 'JOIN_NICKNAME={} '.format(shlex.quote(nickname))
+        self._lab_async('風夜進房準備',
+                        'cd ~/sgi-protocol-lab-20260915/shadow && {}bash arm_now.sh'.format(env))
+
+    def lab_arm(self):
+        if not messagebox.askokcancel('讓風夜進房？',
+                                      '請先讓房主建好房間。\n'
+                                      '這會結束風夜先前的連線，再重新進房並做好開局準備。\n'
+                                      '準備期間先別按「開始」，等情報台通知可以開始。確定繼續？',
+                                      parent=self.root):
+            return
+        self._lab_arm()
+
+    def lab_stop(self):
+        self._lab_async('讓風夜下線',
+                        'cd ~/sgi-protocol-lab-20260915/shadow && bash stop_shadow.sh',
+                        timeout=90)
+
+    def lab_force_quit(self):
+        if not messagebox.askokcancel('風夜卡住了？',
+                                      '這會強制關閉風夜的遊戲與相關連線。\n'
+                                      '正常離開請用「風夜下線」；只有卡住、無法正常離開時才使用這個按鈕。確定繼續？',
+                                      parent=self.root):
+            return
+        self._lab_async('強制結束風夜',
+                        'cd ~/sgi-protocol-lab-20260915/shadow && bash shadow_force_quit.sh',
+                        timeout=120)
+
+    def lab_status(self):
+        script = (
+            "cd ~/sgi-protocol-lab-20260915/shadow\n"
+            "echo '[進程]'\n"
+            "(pgrep -fl prefix-fengye-shadow | head -3 || echo 無進程)\n"
+            "echo '[D8 藏身回執]'\n"
+            "(xxd -l 16 shadow_d8_receipt.bin 2>/dev/null || echo 無回執)\n"
+            "echo '[崩潰台帳]'\n"
+            "ls -la \"$HOME/Library/Application Support/SGI-Wine/prefix-fengye-shadow/drive_c/sgi/run-3.5/3I/sgi-crash-context.bin\" 2>/dev/null | awk '{print $5, $6, $7, $8}'\n"
+            "echo '[app.log 尾]'\n"
+            "tail -2 logs/app.log 2>/dev/null\n"
+        )
+        self._lab_async('查看風夜狀態', script, timeout=60)
+
+    def _build_local_controls(self):
+        page = tk.Frame(self.control_book, bg=DAMASK)
+        self.control_book.add(page, text='玩家與遊戲')
+        box = self._box(page, f'{fengyun_local.DISPLAY_NAME}遊戲 · 這台電腦')
+        box.pack(fill='x', padx=10, pady=10)
+        bar = tk.Frame(box, bg=DAMASK)
+        bar.pack(fill='x', padx=8, pady=6)
+        self.local_line = tk.StringVar(value='多线3（备用）')
+        ttk.Combobox(bar, textvariable=self.local_line, width=14,
+                     values=['多线3（备用）', '多线2（主线）'], state='readonly').pack(side='left')
+        tk.Button(bar, text='進入遊戲', bg=BG, command=self.local_login).pack(side='left', padx=6)
+        tk.Button(bar, text='結束遊戲', bg=BG, command=self.local_exit).pack(side='left')
+        tk.Button(bar, text='強制結束', bg='#ead4c6', fg=WARN, command=self.local_kill).pack(side='left', padx=6)
+        tk.Button(bar, text='更新狀態', bg=BG, command=self.local_state_refresh).pack(side='right')
+        self.local_state_label = tk.Label(box, bg=WELL, fg=MUTED, anchor='w', justify='left',
+                                          wraplength=1080, font=(self.face, 12, 'bold'))
+        self.local_state_label.pack(fill='x', padx=8, pady=(6, 0))
+        self.local_status_label = tk.Label(box, bg=WELL, fg=INK, anchor='w', justify='left', wraplength=1080)
+        self.local_status_label.pack(fill='x', padx=8, pady=(0, 6))
+        box2 = self._box(page, f'{fengyun_local.DISPLAY_NAME} · 切換對應的玩家')
+        box2.pack(fill='x', padx=10, pady=(0, 10))
+        bar2 = tk.Frame(box2, bg=DAMASK)
+        bar2.pack(fill='x', padx=8, pady=6)
+        tk.Button(bar2, text='更新可選玩家', bg=BG, command=self.local_slots_read).pack(side='left')
+        tk.Label(bar2, text='切換到：', bg=DAMASK, fg=INK).pack(side='left', padx=(12, 4))
+        self.local_slot_buttons = {}
+        local_choices = tk.Frame(box2, bg=DAMASK)
+        local_choices.pack(fill='x', padx=8, pady=6)
+        for slot in range(8):
+            local_choices.columnconfigure(slot % 4, weight=1)
+            btn = tk.Button(local_choices, text='等待玩家名單', bg=BG, state='disabled',
+                            command=lambda value=slot: self.local_slot_set(value))
+            btn.grid(row=slot // 4, column=slot % 4, sticky='ew', padx=3, pady=3)
+            btn.grid_remove()
+            self.local_slot_buttons[slot] = btn
+        tk.Button(bar2, text='切回上一位', bg=BG, command=self.local_slot_restore).pack(side='left', padx=10)
+        self.local_slot_label = tk.Label(box2, text='開局後，按「更新可選玩家」即可看到玩家與勢力名稱。', bg=WELL, fg=INK, anchor='w', justify='left', wraplength=1080)
+        self.local_slot_label.pack(fill='x', padx=8, pady=(0, 6))
+        box3 = self._box(page, '風夜 · 切換對應的玩家')
+        box3.pack(fill='x', padx=10, pady=(0, 10))
+        bar3 = tk.Frame(box3, bg=DAMASK)
+        bar3.pack(fill='x', padx=8, pady=6)
+        tk.Button(bar3, text='更新可選玩家', bg=BG, command=self.fengye_slot_read).pack(side='left')
+        tk.Label(bar3, text='切換到：', bg=DAMASK, fg=INK).pack(side='left', padx=(12, 4))
+        self.fengye_slot_buttons = {}
+        fengye_choices = tk.Frame(box3, bg=DAMASK)
+        fengye_choices.pack(fill='x', padx=8, pady=6)
+        for slot in range(8):
+            fengye_choices.columnconfigure(slot % 4, weight=1)
+            btn = tk.Button(fengye_choices, text='等待玩家名單', bg=BG, state='disabled',
+                            command=lambda value=slot: self.fengye_slot_set(value))
+            btn.grid(row=slot // 4, column=slot % 4, sticky='ew', padx=3, pady=3)
+            btn.grid_remove()
+            self.fengye_slot_buttons[slot] = btn
+        tk.Button(bar3, text='切回上一位', bg=BG, command=self.fengye_slot_restore).pack(side='left', padx=10)
+        self.fengye_slot_label = tk.Label(box3, text='開局後，按「更新可選玩家」即可看到玩家與勢力名稱。', bg=WELL, fg=INK, anchor='w', justify='left', wraplength=1080)
+        self.fengye_slot_label.pack(fill='x', padx=8, pady=(0, 6))
+        tk.Label(page, text='先進入對局，再選擇要對應的玩家。切換結果請同時查看遊戲畫面；尚未取得名字時，不提供數字按鈕猜選。',
+                 bg=DAMASK, fg=MUTED, anchor='w', justify='left', wraplength=1080).pack(fill='x', padx=14, pady=(0, 10))
+        if not FORCE_SWITCH_UI:
+            # 暫時關閉席位切換面板（兩行一起收起）；底層工具仍可用 CLI 操作。
+            for widget in (box2, box3):
+                try:
+                    widget.pack_forget()
+                except Exception:
+                    pass
+            for widget in page.winfo_children():
+                try:
+                    if isinstance(widget, tk.Label) and widget.cget('text').startswith('先進入對局'):
+                        widget.pack_forget()
+                except Exception:
+                    pass
+        if not self.source.sources.source_file and FORCE_SWITCH_UI:
+            self.local_state_refresh()
+            self.fengye_slot_read()
+
+    def room_action(self, payload):
+        if self.room_busy or self.room_pending or self.room_uncertain or self.source.sources.source_file:
+            self.room_receipt.configure(text='上一個操作還沒確認結果。請先更新狀態，不用重複點擊。')
+            return
+        try:
+            self.jobs.put_nowait(('room', payload))
+        except queue.Full:
+            self.room_receipt.configure(text='正在讀取狀態，請稍候。')
+            return
+        self.room_busy = True
+        self.room_receipt.configure(text='正在處理，請稍候；不用重複點擊。')
+        self.update_room_controls()
+
+    def update_room_controls(self):
+        if not hasattr(self, 'room_start'):
+            return
+        state = self.rooms.state
+        writable = not self.source.sources.source_file and not (self.room_busy or self.room_pending or self.room_uncertain)
+        fresh = state.get('fresh') and (state.get('external') or
+            isinstance(state.get('observed_at'), (int, float)) and 0 <= time.time()-state['observed_at'] <= 20)
+        lobby = fresh and state.get('phase') == 'lobby' and not state.get('connected')
+        q = state.get('room_query') or {}
+        observed = q.get('observed_at')
+        listed = isinstance(observed, (int, float)) and 0 <= time.time()-observed <= 60
+        registered = bool(state.get('ghost_registered'))
+        withdrawn = bool(state.get('ghost_withdrawn'))
+        native_state = state.get('native_sync_state')
+        modes = ((self.room_once, not (fresh and state.get('connected'))),
+                 (self.room_start, not state.get('alive')),
+                 (self.room_search, lobby or fresh and state.get('external')), (self.room_join, lobby and listed and (bool(self.room_tree.selection()) or len(self.room_rows) == 1)),
+                 (self.room_leave, fresh and state.get('connected')), (self.room_stop, fresh and not state.get('external') and state.get('phase') != 'stopped'),
+                 (self.room_register, fresh and state.get('connected') and not registered),
+                 (self.room_d8, fresh and state.get('connected') and registered and not withdrawn
+                  and native_state == 1))
+        retrying = self.retry is not None
+        for button, allowed in modes:
+            button.configure(state='normal' if writable and allowed and not retrying else 'disabled')
+        if hasattr(self, 'room_retry'):
+            self.room_retry.configure(
+                state='disabled' if self.source.sources.source_file else 'normal',
+                text=('✕ 取消重做' if retrying else '↻ 重新來過'))
+        self.room_stop.configure(text='風夜下線',
+                                 bg='#ead4c6' if withdrawn else BG)
+        if fresh and state.get('connected') and registered and not withdrawn:
+            self.room_flow_label.configure(text='⚠️ 正在藏身（幾秒）——先別按「開始」', fg=WARN)
+        elif fresh and state.get('connected') and withdrawn:
+            d8r = state.get('d8') or {}
+            if d8r.get('fast') or state.get('exit_seen_wall'):
+                self.room_flow_label.configure(text='✅ 已藏好——現在可以按「開始」', fg='#2f6a4f')
+            else:
+                self.room_flow_label.configure(text='⚠️ 藏身訊號已送出（主機處理約 2 分鐘）——等名單上風夜消失再按「開始」', fg=WARN)
+        else:
+            self.room_flow_label.configure(text='等待本次進房準備。', fg=MUTED)
+        self.room_line_combo.configure(state='readonly' if writable and not state.get('alive') else 'disabled')
+        self.room_nick_combo.configure(state='normal' if writable and not state.get('connected') else 'disabled')
+
+    def render_rooms(self):
+        state = self.rooms.state
+        q = state.get('room_query') or {}
+        signature = json.dumps(q, ensure_ascii=False, sort_keys=True)
+        if signature != self.room_signature:
+            selected = self.room_tree.selection()
+            selected_id = self.room_rows.get(selected[0], {}).get('id') if selected else None
+            self.room_tree.delete(*self.room_tree.get_children())
+            self.room_rows = {}
+            for row in q.get('rooms') or []:
+                iid = self.room_tree.insert('', 'end', values=(row.get('name') or '未命名房間',
+                    row.get('host') or '尚未確認',
+                    '{} / {}'.format(row.get('current', '未確認'), row.get('maximum', '未確認'))))
+                self.room_rows[iid] = row
+                if row.get('id') == selected_id:
+                    self.room_tree.selection_set(iid)
+            self.room_signature = signature
+        if self.room_rows:
+            self.room_empty.place_forget()
+        else:
+            self.room_empty.place(relx=.5, rely=.5, anchor='center')
+            session_now = self.view.get('session') or {}
+            if session_now.get('alive') and session_now.get('room_name'):
+                self.room_empty.configure(text='已在房間：%s\n（按「搜索房間」可更新房間列表）'
+                                          % session_now.get('room_name'))
+            else:
+                self.room_empty.configure(text=('還沒收到房間回覆，不能確定有沒有房間。'
+                    if q.get('status') == 'unconfirmed_empty' else
+                    '還沒有房間資料\n需要手動選房時，請展開「手動進房設定」。'))
+        labels = {'idle': '還沒登入', 'starting': '正在登入', 'lobby': '正在查看房間',
+                  'joining': '正在進房', 'room': '已進入房間', 'stopped': '風夜已停止連線',
+                  'stale': '狀態暫未更新', 'disconnected': '連線已中斷',
+                  'external_lobby': '正在查看現有大廳的房間'}
+        line = str(state.get('line') or self.room_line.get()).replace('多线', '多線')
+        text = '{} · {}'.format(labels.get(state.get('phase'), '正在確認'), line)
+        if q.get('observed_at'):
+            text += ' · 房間資料更新於 ' + wall_text(q['observed_at'])
+        if state.get('error') or q.get('error'):
+            text += '\n' + plain_error(state.get('error') or q.get('error'))
+        if state.get('phase') in ('idle', 'stopped', 'disconnected') and not (self.view or {}).get('session'):
+            self.lab_label.configure(text='還沒執行進房準備。準備期間請先別按遊戲的「開始」。')
+        else:
+            self.lab_label.configure(text='')
+        self.room_status.configure(text=text)
+        headline, hint = room_summary(state)
+        self.room_channel.configure(text=headline + '\n' + hint)
+        result = state.get('last_result') or {}
+        if self.room_pending and result.get('id') == self.room_pending:
+            self.room_receipt.configure(text=room_result(result))
+            self.room_pending = None
+            self.room_uncertain = result.get('status') == 'unknown'
+            self._maybe_chain(result)
+            self._notify_room_result(result)
+            self._maybe_retry(result)
+        self.update_room_controls()
+
+    def _notify_room_result(self, result):
+        """0.2.5：摘席流程關鍵節點的本機提示（遊戲視窗在前也看得到）。"""
+        op, status = result.get('op'), result.get('status')
+        room_state = self.rooms.state or {}
+        d8r = room_state.get('d8') or {}
+        ready = bool(d8r.get('fast') or room_state.get('exit_seen_wall'))
+        if op == 'join' and status == 'completed':
+            if room_state.get('ghost_withdrawn'):
+                if ready:
+                    notify_operator('風夜已藏好啦', '現在可以在遊戲按「開始」', sound='Glass')
+                else:
+                    notify_operator('藏身訊號已送出', '等風夜從遊戲名單消失（約 2 分鐘）再按「開始」', sound='Ping')
+            else:
+                notify_operator('風夜正在藏身', '幾秒就好——先別按「開始」', sound='Ping')
+        elif op == 'join' and status == 'error':
+            reason = plain_error(result.get('error') or result.get('detail'))
+            notify_operator('風夜藏身沒成功', reason[:90], sound='Basso')
+        elif op == 'd8' and status == 'completed':
+            if ready:
+                notify_operator('風夜已藏好啦', '現在可以在遊戲按「開始」', sound='Glass')
+            else:
+                notify_operator('藏身訊號已送出', '等風夜從遊戲名單消失（約 2 分鐘）再按「開始」', sound='Ping')
+        elif op == 'd8' and status == 'error':
+            reason = plain_error(result.get('error') or result.get('detail'))
+            if '提前開始' not in reason and '開局等待' not in reason:
+                notify_operator('風夜藏身沒成功', reason[:90], sound='Basso')
+
+    def _maybe_chain(self, result):
+        if result.get('status') != 'completed':
+            return
+        state = self.rooms.state
+        op = result.get('op')
+        if op == 'join' and state.get('connected') and not state.get('ghost_registered') and not state.get('ghost_withdrawn'):
+            self.room_receipt.configure(text='自動準備：已進房，接著報到…')
+            self.root.after(800, lambda: self._chain_fire('register'))
+        elif op == 'register' and state.get('ghost_registered') and not state.get('ghost_withdrawn'):
+            self.room_receipt.configure(text='自動準備：已報到，接著藏身…')
+            self.root.after(800, lambda: self._chain_fire('d8'))
+
+    def _chain_fire(self, op):
+        self.room_action({'op': op})
+
+    def _retry_label(self):
+        return (self.retry or {}).get('label', '重新來過')
+
+    def one_click_enter(self):
+        """0.2.21 一鍵上場：登入(如需)→更新房間→進入(自動報到→藏身)；完成後流程自動收束。"""
+        if self.source.sources.source_file:
+            return
+        if self.retry is not None or self.room_busy or self.room_pending or self.room_uncertain:
+            self.room_receipt.configure(text='上一個操作還在進行（或結果未知）——請稍候，或按「↻ 重新來過」。')
+            return
+        state = self.rooms.state or {}
+        if state.get('fresh') and state.get('connected'):
+            self.room_receipt.configure(text='風夜已經在房間裡了（報到／藏身狀態見下方）；要重來請按「↻ 重新來過」。')
+            return
+        steps = []
+        if not (state.get('fresh') and state.get('alive')):
+            steps += ['start', 'wait_lobby']
+        q = state.get('room_query') or {}
+        observed = q.get('observed_at')
+        fresh_rooms = (isinstance(observed, (int, float)) and 0 <= time.time() - observed <= 30
+                       and (q.get('rooms') or []))
+        if not fresh_rooms:
+            steps.append('search')
+        steps.append('wait_rooms')
+        self.retry = {'steps': steps, 'deadline': time.monotonic() + 180, 'start_retries': 0,
+                      'label': '一鍵上場'}
+        self.retry_next()
+
+    def one_click_retry(self):
+        """失敗後一鍵收尾重來：退房→收線→重登→查房→進入（接手自動註冊→摘席）。"""
+        if self.source.sources.source_file:
+            return
+        if self.retry is not None:
+            self.retry = None
+            self.room_receipt.configure(text='已取消「重新來過」；按鈕恢復正常。')
+            return
+        state = self.rooms.state
+        steps = []
+        if state.get('connected'):
+            steps.append('leave')
+        if state.get('alive') or state.get('fresh'):
+            steps.append('stop')
+        steps += ['wait_teardown', 'start', 'wait_lobby', 'search', 'wait_rooms']
+        self.retry = {'steps': steps, 'deadline': time.monotonic() + 150, 'start_retries': 0,
+                      'label': '重新來過'}
+        self.room_receipt.configure(text='重新來過：開始收尾（若遊戲裡有等待畫面，請按掉取消）…')
+        self.retry_next()
+
+    def retry_next(self):
+        """推進「一鍵重來」流程；每步只發一次操作，結果經 _maybe_retry 續行。"""
+        tag = (self.retry or {}).get('label', '重新來過')
+        if self.retry is None:
+            return
+        if time.monotonic() > self.retry.get('deadline', 0):
+            self.retry = None
+            self.room_receipt.configure(text=tag + '：超時中止；請確認狀態後再試。')
+            return
+        if self.room_uncertain:
+            self.retry = None
+            self.room_receipt.configure(text=tag + '：上次操作結果未知（不重複送），已中止。')
+            return
+        if self.room_busy or self.room_pending:
+            return
+        steps = self.retry['steps']
+        if not steps:
+            self.retry = None
+            self.room_receipt.configure(text=tag + '：已進房並自動藏身——聽到「可以開始」提示音後再按「開始」。')
+            return
+        step = steps[0]
+        state = self.rooms.state
+        if step == 'leave':
+            self.retry['steps'] = steps[1:]
+            self.room_action({'op': 'leave'})
+            self.room_receipt.configure(text=tag + '：退出房間…（若有等待畫面請按掉）')
+        elif step == 'stop':
+            self.retry['steps'] = steps[1:]
+            self.room_action({'op': 'stop'})
+            self.room_receipt.configure(text=tag + '：讓風夜下線…')
+        elif step == 'wait_teardown':
+            if not state.get('alive') and not state.get('fresh'):
+                self.retry['steps'] = steps[1:]
+                self.room_receipt.configure(text=tag + '：已下線，重新登入…')
+                self.retry_next()
+        elif step == 'start':
+            self.retry['steps'] = steps[1:]
+            self.room_action({'op': 'start', 'line': self.room_line.get()})
+            self.room_receipt.configure(text=tag + '：登入風夜大廳…')
+        elif step == 'wait_lobby':
+            if state.get('fresh') and state.get('alive') and state.get('phase') == 'lobby':
+                self.retry['steps'] = steps[1:]
+                self.retry_next()
+        elif step == 'search':
+            self.retry['steps'] = steps[1:]
+            self.room_action({'op': 'search'})
+            self.room_receipt.configure(text=tag + '：查房中…')
+        elif step == 'wait_rooms':
+            if not (state.get('fresh') and state.get('phase') == 'lobby'):
+                return
+            q = state.get('room_query') or {}
+            observed = q.get('observed_at')
+            if not isinstance(observed, (int, float)) or time.time() - observed > 60:
+                return
+            rooms = q.get('rooms') or []
+            self.retry['steps'] = []
+            if len(rooms) == 1:
+                row = rooms[0]
+                try:
+                    name = nickname(self.room_nickname.get())
+                except ValueError as error:
+                    self.retry = None
+                    self.room_receipt.configure(text=plain_error(error))
+                    return
+                self.room_action({'op': 'join', 'room_id': row['id'], 'nickname': name, 'quick': True})
+                self.room_receipt.configure(text=tag + '：進入「{}」——等一下會通知「可以開始」…'.format(row.get('name') or '所選房間'))
+            elif not rooms:
+                self.retry = None
+                self.room_receipt.configure(text=tag + '：查不到房間——請先在遊戲重開房間，再按「↻ 重新來過」。')
+            else:
+                self.retry = None
+                self.room_receipt.configure(text=tag + '：有多個房間，請自行選房後按「進入所選房間」。')
+
+    def _maybe_retry(self, result):
+        if self.retry is None:
+            return
+        op, status = result.get('op'), result.get('status')
+        if op == 'start':
+            if status == 'started':
+                self.retry_next()
+            elif self.retry.get('start_retries', 0) < 2:
+                self.retry['start_retries'] = self.retry.get('start_retries', 0) + 1
+                self.retry['steps'].insert(0, 'start')
+                self.room_receipt.configure(text='重新來過：登入暫未成功，4 秒後再試一次…')
+                self.root.after(4000, self.retry_next)
+            else:
+                self.retry = None
+                self.room_receipt.configure(text='重新來過：' + plain_error(result.get('error') or status))
+            return
+        if op in ('leave', 'stop', 'search') and status in ('completed', 'error'):
+            # 收尾步驟失敗不致命（可能已斷線／已停止）：繼續下一步。
+            self.retry_next()
+        elif op == 'join':
+            if status == 'completed':
+                self.retry_next()
+            else:
+                self.retry = None
+                self.room_receipt.configure(text='重新來過：' + plain_error(result.get('error') or result.get('detail') or status))
+
+    # Keep the complete original polling/rendering path. Fengye has a separate
+    # worker and queue, so an offline probe never replaces a valid world state.
+    def _fetch_fengye(self):
+        job = ('refresh', False)
+        while not self.stop.is_set():
+            op, payload = job
+            try:
+                if op == 'room':
+                    result = self.rooms.call(payload)
+                    self.messages.put(('room_result', result))
+                if op == 'control':
+                    try:
+                        result = self.source.send(payload)
+                    except Exception:
+                        result = {'status': 'error', 'error': '控制結果未知；未重試'}
+                    self.messages.put(('control', result))
+            except Exception:
+                self.messages.put(('error', '操作失敗；保留最後記錄'))
+            # 2026-10-17：資料讀取與大廳心跳分開執行——資料通道失敗或超時時，
+            # 房間監控（維持探針心跳）仍必須繼續，避免探針因心跳到期誤收尾。
+            try:
+                self.messages.put(('view', self.source.refresh(search=(op == 'refresh' and payload))))
+            except Exception:
+                self.messages.put(('error', '讀取失敗；保留最後記錄'))
+            try:
+                self.rooms.call({'op': 'status'})
+                self.messages.put(('rooms', None))
+            except Exception:
+                pass
+            self.messages.put(('idle', None))
+            while not self.stop.is_set():
+                try:
+                    job = self.jobs.get(timeout=.25)
+                    break
+                except queue.Empty:
+                    if self.stop.wait(.25):
+                        return
+                    # Poll only while this native window exists. 房間操作待回執時
+                    # 加快輪詢（5s→1s），縮短一鍵流程的暴露窗口。
+                    interval = 0.5 if (self.room_busy or self.room_pending) else 5
+                    if time.monotonic() - getattr(self, '_last_poll', 0) >= interval:
+                        job = ('refresh', False)
+                        break
+            self._last_poll = time.monotonic()
+
+    def request_refresh(self, search=False):
+        if self.stop.is_set():
+            return
+        try:
+            self.jobs.put_nowait(('refresh', search))
+        except queue.Full:
+            pass
+
+    def _tick_fengye(self):
+        try:
+            while True:
+                kind, value = self.messages.get_nowait()
+                if kind == 'view':
+                    self.view = value
+                    self.render_view(value)
+                elif kind == 'control':
+                    self.control_busy = False
+                    if value.get('status') == 'sent':
+                        self.pending_id = value.get('id')
+                        self.control_result.configure(text='操作已送出，正在等風夜回覆；還沒確認完成。')
+                        if value.get('op') == 'chat':
+                            self.chat_input.delete('1.0', 'end')
+                    else:
+                        self.pending_uncertain = True
+                        self.control_result.configure(text=plain_error(value.get('error') or value.get('status')))
+                elif kind == 'room_result':
+                    self.room_busy = False
+                    if value.get('status') == 'sent':
+                        self.room_pending = value.get('id')
+                        self.room_receipt.configure(text='操作已送出，正在等風夜回覆；不用重複點擊。')
+                    else:
+                        self.room_uncertain = value.get('status') == 'unknown'
+                        self.room_receipt.configure(text=room_result(value))
+                        self._maybe_retry(value)
+                    self.render_rooms()
+                elif kind == 'rooms':
+                    self.render_rooms()
+                elif kind == 'error':
+                    self.notice_label.configure(text=plain_error(value, '資料暫時更新不到，舊紀錄不代表風夜仍在線。請稍後更新狀態。'))
+                elif kind == 'idle':
+                    self.reload_btn.configure(state='normal')
+        except queue.Empty:
+            pass
+        except Exception as error:
+            self.render_error = str(error)
+            print('fengye-render', error, flush=True)
+        self.update_control_state()
+        self.update_room_controls()
+        if self.retry is not None:
+            try:
+                self.retry_next()
+            except Exception:
+                self.retry = None
+        self._local_state_n = getattr(self, '_local_state_n', 0) + 1
+        if self._local_state_n % 40 == 0 and not self.source.sources.source_file:
+            try:
+                self.local_state_refresh()
+            except Exception:
+                pass
+        if not self.stop.is_set():
+            self.root.after(250, self._tick_fengye)
+
+    def render_status_panel(self, view):
+        items = status_items(view)
+        signature = json.dumps(items, ensure_ascii=False, sort_keys=True)
+        if signature == getattr(self, 'status_signature', None):
+            return
+        self.status_signature = signature
+        for child in self.state_rows.winfo_children():
+            child.destroy()
+        if not items:
+            tk.Label(self.state_rows, text='還沒有風夜的即時狀態。', bg=WELL, fg=MUTED,
+                     anchor='w').pack(fill='x')
+            return
+        from fengye_source import STATUS_ICONS
+        for item in items:
+            row = tk.Frame(self.state_rows, bg=WELL)
+            row.pack(fill='x', pady=1)
+            tk.Label(row, text=STATUS_ICONS.get(item.get('level'), '🔹'), bg=WELL, fg=INK,
+                     width=3, anchor='w').pack(side='left')
+            tk.Label(row, text=item.get('label') or '', bg=WELL, fg=INK, anchor='w',
+                     font=(self.face, 12)).pack(side='left')
+            if item.get('detail'):
+                tk.Label(row, text='　' + str(item['detail']), bg=WELL, fg=MUTED,
+                         anchor='w').pack(side='left')
+
+    def render_view(self, view):
+        p = view.get('p34') or {}
+        session = view.get('session') or {}
+        transport = (view.get('transport') or {}).get('status')
+        self.status.configure(text={'online': '正在更新本局資料', 'file': '正在查看保存的記錄',
+                                   'offline': '目前連不到風夜'}.get(transport, '正在確認風夜狀態'))
+        self.render_status_panel(view)
+        signature = json.dumps({k: view.get(k) for k in ('p34', 'host', 'members', 'events', 'directory', 'room_query', 'chain', 'source', 'ghost', 'collector')}, ensure_ascii=False, sort_keys=True)
+        if signature != self.render_signature:
+            chats = (p.get('chat') or {}).get('messages') or []
+            chat_text = '\n\n'.join('{}　{}\n{}'.format(wall_text(m.get('wall')),
+                m.get('sender_name') or '—', str(m.get('text') or '—')) for m in chats) or (
+                '本局尚無聊天記錄。' if session else '目前沒有可核實的聊天記錄。')
+            self._set_text(self.console_chat, chat_text)
+            if getattr(self, 'chat_history', None) is not None:
+                self._set_text(self.chat_history, chat_text)
+            events = (p.get('control') or {}).get('events') or []
+            self._set_text(self.control_log, '\n\n'.join(
+                '{}\n{}'.format(wall_text(e.get('wall')), control_event(e))
+                for e in reversed(events)) or '目前還沒有操作結果。')
+            self.render_signature = signature
+        control = p.get('control') or {}
+        last = control.get('last_result') or {}
+        if self.pending_id and last.get('id') == self.pending_id:
+            self.control_result.configure(text=control_event(dict(last, ev='control_done')))
+            self.pending_id = None
+        if self.pending_run and p.get('run_name') != self.pending_run:
+            self.pending_id = None
+            self.pending_uncertain = False
+            self.control_result.configure(text='目前顯示的是另一場對局；先前操作不會再次送出。')
+            self.pending_run = None
+        self.update_control_state()
+
+    def input_changed(self, _=None):
+        if not self.chat_input.edit_modified():
+            return
+        self.chat_input.edit_modified(False)
+        text = self.chat_input.get('1.0', 'end-1c')
+        try:
+            text.encode('gbk')
+            valid = len(text) <= 120
+            suffix = '可以送出' if valid else '超過 120 字，請縮短訊息'
+        except UnicodeEncodeError:
+            valid = False
+            suffix = '有遊戲無法顯示的字，請改用常見文字'
+        self.char_label.configure(text='{} / 120 字 · {}'.format(len(text), suffix), fg=MUTED if valid else WARN)
+        self.update_control_state()
+
+    def update_control_state(self):
+        if not hasattr(self, 'console_state'):
+            return
+        ready = control_ready(self.view)
+        p = self.view.get('p34') or {}
+        pending = self.pending_id or (p.get('control') or {}).get('pending')
+        enabled = ready and not self.control_busy and not pending and not self.pending_uncertain and time.monotonic() >= self.cooldown
+        lobby = self.rooms.state
+        session = self.view.get('session') or {}
+        status = self.view.get('status') or {}
+        if self.source.sources.source_file:
+            headline = '正在查看保存的記錄，這裡不能操作遊戲。'
+        elif session.get('alive'):
+            # 2026-10-19：有本局會話時以會話為準（用戶反饋：明明在房裡，
+            # 橫幅還寫「風夜尚未進房」）。
+            hide = status.get('hide') or {}
+            in_match = bool((status.get('scene') or {}).get('in_map'))
+            if isinstance(hide, dict) and hide.get('verified'):
+                headline = ('✅ 風夜已在局中旁聽（已藏身、沒有勢力）' if in_match
+                            else '✅ 風夜已在房間旁聽中（已藏身）——可以按「開始」')
+            elif session.get('ghost_withdrawn'):
+                headline = '⚠ 藏身訊號已送出——等遊戲名單上風夜消失再按「開始」'
+            elif session.get('room_name'):
+                headline = '⚠ 風夜已進房，但還沒藏身——開局前請先按「讓風夜藏好」'
+            else:
+                headline = '風夜還在大廳，尚未進入房間。'
+        elif room_fresh(lobby):
+            if lobby.get('connected') and not lobby.get('ghost_withdrawn'):
+                if lobby.get('ghost_registered'):
+                    headline = '⚠ 風夜正在藏身（幾秒）——先別按「開始」'
+                else:
+                    headline = '⚠ 風夜已進房，正在報到→藏身——先別按「開始」'
+            elif lobby.get('connected') and lobby.get('ghost_withdrawn'):
+                d8r = lobby.get('d8') or {}
+                if d8r.get('fast') or lobby.get('exit_seen_wall'):
+                    headline = '✅ 風夜已藏好·旁聽中——可以按「開始」'
+                else:
+                    headline = '⚠ 藏身訊號已送出——等風夜從遊戲名單消失再按「開始」（約 2 分鐘）'
+            else:
+                headline = '風夜還在大廳，尚未進入房間。'
+        else:
+            headline = '風夜尚未進房 · 先請房主建房，再讓風夜進房。'
+        self.console_state.configure(text=headline)
+        try:
+            validate_control({'op': 'chat', 'text': self.chat_input.get('1.0', 'end-1c')})
+            text_valid = True
+        except ValueError:
+            text_valid = False
+        self.chat_button.configure(state='normal' if enabled and text_valid else 'disabled')
+        self.stop_button.configure(state='normal' if enabled else 'disabled')
+
+    def send_control(self, payload):
+        if not control_ready(self.view) or self.control_busy or self.pending_id or self.pending_uncertain or (self.view.get('p34') or {}).get('control', {}).get('pending') or time.monotonic() < self.cooldown:
+            return
+        try:
+            payload = validate_control(payload)
+        except ValueError as error:
+            messagebox.showerror('無法送出', plain_error(error), parent=self.root)
+            return
+        try:
+            self.jobs.put_nowait(('control', payload))
+        except queue.Full:
+            self.control_result.configure(text='正在讀取狀態；本次未送出，請稍候。')
+            return
+        self.control_busy = True
+        self.pending_run = (self.view.get('p34') or {}).get('run_name')
+        self.cooldown = time.monotonic() + 2
+        self.control_result.configure(text='送出單次請求中；不會自動重試。')
+        self.update_control_state()
+
+    def send_chat(self):
+        self.send_control({'op': 'chat', 'text': self.chat_input.get('1.0', 'end-1c')})
+
+    def send_stop(self):
+        if not control_ready(self.view) or self.control_busy:
+            return
+        if messagebox.askokcancel('風夜下線（正常退出）',
+                                  '讓風夜下線並結束旁聽？\n'
+                                  '下線後要再旁聽需重新登入。', parent=self.root):
+            self.send_control({'op': 'stop'})
+
