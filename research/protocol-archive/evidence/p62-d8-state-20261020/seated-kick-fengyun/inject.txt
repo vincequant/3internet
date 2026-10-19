@@ -1,0 +1,21 @@
+Wine cannot find the FreeType font library.  To enable Wine to
+use TrueType fonts please install a version of FreeType greater than
+or equal to 2.0.5.
+http://www.freetype.org
+{
+  "mode": "d8_kick",
+  "pid": 1332,
+  "sanpk": "0x400000",
+  "koeinm": "0x5a0000",
+  "netobj": "0x5b2170",
+  "send": "0x5a4b60",
+  "gethost": "0x5a4c80",
+  "departing": 168299312,
+  "frame_hex": "000000080a080b30",
+  "flag": "Z:\\Users\\vk\\sgi-fengye-lab\\shadow\\p62\\seated-kick-fengyun.flag",
+  "receipt": "Z:\\Users\\vk\\sgi-fengye-lab\\shadow\\p62\\seated-kick-fengyun.bin",
+  "code_addr": "0x200000",
+  "blob_addr": "0x200120",
+  "thread_id": 1268,
+  "creation": 134369268866831050
+}

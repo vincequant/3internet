@@ -77,10 +77,12 @@ research/protocol-lab/{p60_generic_cmd_build,p60_generic_cmd_inject,test_p60_gen
 1. 新工具：`agent_d8.bin`（283 B）+ `p61_d8_inject.py`，能把 `BE32(8)+BE32(departing)` 送上線
    （幽靈 session tx 80→82 實證），位址 koeinm 0x5a0000／netobj 0x5b2170／send 0x5a4b60／gethost 0x5a4c80。
 2. 三發實測（不存在 id／風雲真實 id／幽靈自己）**全部無效果**——連自退都不生效。
-3. **根因找到了**：讀 Koeinm 真正的呼叫點（`0x100024b2`、`0x10002502`）後發現
-   `4c80` 實際吃 **3 個參數**（netobj, &buf, len）、`4b60` 吃 **2 個**（netobj, target），
-   而我們的 agent 給的是 1 個與 4 個 ⇒ ABI 錯，幀內容不合法（所以才會「有 tx、無效果」）。
-4. 明天的修法（二選一）：
-   - 照 `0x10002502` 的形狀重寫 agent（3 參/2 參＋正確清理）；
-   - 或直接找**高層離場函式**（玩家按離開時呼叫的那個）傳目標 id，ABI 交給遊戲。
-5. 詳細記錄：`research/protocol-archive/evidence/p61-d8-kick-20261020/NOTES.md`。
+3. ~~根因找到了：4c80 三參、4b60 兩參~~ **← 2026-10-20 07:50 撤回，這是誤判。**
+   現行 DLL 位元組核對：`0x4c80` = 1 參 cdecl、`0x4b60` = 4 參 cdecl（詳細反彙編見
+   `research/ai/p62-d8-abi-verdict-20261020.md`）。看到的「3 參／2 參」是 `0x10002502`
+   把 buf/len 棧槽預留給後續 `4b60` 的編譯器重用，不是新 ABI；照它重寫會把 body/len 讀成垃圾。
+4. 真正的解釋：三發都在「幽靈已藏身、局已開」之後（00:03 一鍵內測結束時名冊已是 2），
+   自退沒有行可摘、踢人沒有主機側觀測。**不要重寫 ABI**；下一輪改用狀態對照
+   （在席踢人 → 藏身 → 藏身踢人）＋在席時記下 `4c80` 回傳的 target。
+5. 詳細記錄：`research/protocol-archive/evidence/p61-d8-kick-20261020/NOTES.md`（頂部已加更正）
+   與 `research/ai/p62-d8-abi-verdict-20261020.md`。

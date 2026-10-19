@@ -1,0 +1,13 @@
+Wine cannot find the FreeType font library.  To enable Wine to
+use TrueType fonts please install a version of FreeType greater than
+or equal to 2.0.5.
+http://www.freetype.org
+--- control 0x100f0 [RICHEDIT] len=1143 ---
+Traceback (most recent call last):
+  File "Z:\Users\vk\sgi-fengye-lab\shadow\tools\read_text.py", line 74, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "Z:\Users\vk\sgi-fengye-lab\shadow\tools\read_text.py", line 67, in main
+    print(s[-tail_n:])
+  File "encodings\cp1252.py", line 19, in encode
+UnicodeEncodeError: 'charmap' codec can't encode characters in position 3-16: character maps to <undefined>

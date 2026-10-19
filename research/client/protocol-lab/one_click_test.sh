@@ -6,6 +6,7 @@
 #   one_click_test.sh --skip-launch  # 沿用现有三台客户端，只做建房/进房/补丁/摘席
 #   one_click_test.sh --room NAME    # 自定义房名（默认 SGZWLB）
 #   one_click_test.sh --dry-run      # 只打印计划，不动任何东西
+#   one_click_test.sh --no-hide      # 停在「风夜已进房、尚未摘席」的坐席状态（P62 D8 对照用）
 #
 # 产物: shadow/logs/one_click-<ts>.log、shadow/one_click_state.json
 # 注意: bash 3.2 下 "$VAR" 紧跟中文会解析错 → 本脚本统一用 ${VAR} 紧贴写法。
@@ -16,11 +17,13 @@ SGI="$HOME/Library/Application Support/SGI-Wine"
 ROOM="SGZWLB"
 SKIP_LAUNCH=0
 DRY=0
+NOHIDE=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --skip-launch) SKIP_LAUNCH=1 ;;
     --room) ROOM="${2:?--room needs a name}"; shift ;;
     --dry-run) DRY=1 ;;
+    --no-hide) NOHIDE=1 ;;
     *) echo "unknown arg: $1"; exit 2 ;;
   esac
   shift
@@ -77,7 +80,7 @@ if [ "$DRY" = 1 ]; then
   echo "3) 丁满建房「${ROOM}」；风云进房；风夜进房"
   echo "4) 风夜补丁 nullguard(22 站) + suppress(2 站)"
   echo "4b) 三台开局守卫（6 站，按开始之前；缺了会计时停住或直接退出）"
-  echo "5) 风夜摘席 D8（幽灵从主机应用名册消失）"
+  if [ "${NOHIDE}" = 1 ]; then echo "5) --no-hide：停在坐席状态，不摘席"; else echo "5) 风夜摘席 D8（幽灵从主机应用名册消失）"; fi
   exit 0
 fi
 
@@ -334,6 +337,13 @@ case "$pr_line" in
   *'"ok": true'*|*'"ok":true'*) ;;
   *) say "!! 面板行跳過補丁沒裝上"; state stealth failed "panel-row-skip"; exit 1 ;;
 esac
+
+if [ "${NOHIDE}" = 1 ]; then
+  say "6e) --no-hide：停在坐席状态（风夜仍在主机名册，未摘席/未占席）"
+  state stealth seated "no-hide"
+  say "日志: $LOG"
+  exit 0
+fi
 
 # ---- 7) 摘席 ----
 say "7) 风夜摘席（D8）"
