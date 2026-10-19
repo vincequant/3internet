@@ -119,7 +119,7 @@ def run_payload(bin_path, *, cls, fields, trigger=True, core=CORE, slot=5, own=O
                 'get_ip': ADDR['getip'], 'core_global': CORE_GLOBAL}
     blob = bytearray(b.build_blob(pointers, cls=cls, fields=fields, sanpk_base=0,
                                   flag_path='Z:\\t\\flag', receipt_path='Z:\\t\\receipt',
-                                  phase_req=phase_req))
+                                  phase_req=phase_req, phase_settle=0))
     if sent:
         struct.pack_into('<I', blob, 4, sent)
     # route the blob's ctor/send at our stubs

