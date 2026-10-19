@@ -70,3 +70,17 @@ research/protocol-lab/{p60_generic_cmd_build,p60_generic_cmd_inject,test_p60_gen
 1. 用「建築」在真實局驗一次風夜借席（最可靠的驗收）。
 2. D8 踢人：先寫 agent（呼叫 4c80/4b60、body=BE32(8)+BE32(目標 id)），踢自己的 風雲 驗證。
 3. 同盟私聊：自測局結盟 → 幽靈看有沒有收到同盟頻道幀。
+
+
+## 七、深夜追加（round 2–5）：D8 踢人逼近根因
+
+1. 新工具：`agent_d8.bin`（283 B）+ `p61_d8_inject.py`，能把 `BE32(8)+BE32(departing)` 送上線
+   （幽靈 session tx 80→82 實證），位址 koeinm 0x5a0000／netobj 0x5b2170／send 0x5a4b60／gethost 0x5a4c80。
+2. 三發實測（不存在 id／風雲真實 id／幽靈自己）**全部無效果**——連自退都不生效。
+3. **根因找到了**：讀 Koeinm 真正的呼叫點（`0x100024b2`、`0x10002502`）後發現
+   `4c80` 實際吃 **3 個參數**（netobj, &buf, len）、`4b60` 吃 **2 個**（netobj, target），
+   而我們的 agent 給的是 1 個與 4 個 ⇒ ABI 錯，幀內容不合法（所以才會「有 tx、無效果」）。
+4. 明天的修法（二選一）：
+   - 照 `0x10002502` 的形狀重寫 agent（3 參/2 參＋正確清理）；
+   - 或直接找**高層離場函式**（玩家按離開時呼叫的那個）傳目標 id，ABI 交給遊戲。
+5. 詳細記錄：`research/protocol-archive/evidence/p61-d8-kick-20261020/NOTES.md`。
