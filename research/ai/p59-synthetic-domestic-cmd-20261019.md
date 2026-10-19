@@ -204,6 +204,31 @@ ffff000113004353616e496e6574446f6d6573746963436d6412
 **判定**：P31/P35/P57 的「隱身與改戰局互斥」用**合成命令**再證一次。可行路線＝
 **由任一個在局玩家客戶端代發**（actor 可任意指定），完全不需要切視角、不需要點界面。
 
+
+### 6.7 P60：通用化（一支 agent 送一類命令）＋ 四個類別的實測（21:19–21:40）
+
+把物件佈局改成 blob 內的欄位表（offset+value）＋blob 內的 ctor 位址，同一支 agent 即可送任何
+命令類別（`p60_generic_cmd_build.py` / `p60_generic_cmd_inject.py`，六個 preset，18 項測試全過）。
+
+| 類別 | vtable | ctor | size | kind | 額外欄位 |
+|---|---|---|---|---|---|
+| Domestic | 0x5039F8 | 0x4369F6 | 0x24 | 18 | +0x14 actor／+0x18 param／+0x1C value／+0x20 extra |
+| Personnel | 0x503A28 | 0x436CD3 | 0x1C | 20 | +0x14 actor／+0x18 target |
+| PhaseEnd | 0x503A40 | 0x436DDA | 0x14 | 21 | 無（Serialize = 基底 0x435A44，整筆 38B） |
+| Diplomacy | 0x503A10 | 0x436B2E | 0x33 | 19 | +0x14..18 flags／+0x19,1D,21,25 ints／+0x29 五個 u16 卡 |
+
+> 修正上一輪：`0x436D45` 是 **Personnel** 的 Serialize（寫 +0x14/+0x18），不是 PhaseEnd。
+
+實測（同一局，風雲送、actor=劉備）：
+
+* **米交易**（kind18 sub3，buy=1、value=1000）：米 73866→**122441**、金 19430→**9715**，孫堅不變 ⇒ 生效。
+* **施捨**（kind18 sub2，value=0、extra=4）：米 122441→**117141**、金 18371→**15721**，孫堅不變 ⇒ 生效。
+* **PhaseEnd**（kind21，風雲＋丁滿各一發，rc 都 1）：階段**照樣跑滿自然倒數**（64–98 秒）
+  ⇒ 合成命令不被「結束階段」採用〔未定案：可能走同步控制幀而非命令通道〕。
+* Personnel／Build：已實作，尚未實機發射。
+
+證據：`research/protocol-archive/evidence/p59-domestic-cmd-20261019/run-2120-generic-cmds/`。
+
 ## 7. 待實機（需使用者開新局；本輪**未**點火）
 
 前置：三台在跑、風夜藏身（slot=5 無勢力）、處於**內政（指令）階段**。

@@ -1,0 +1,91 @@
+{
+  "schema": "p60-generic-cmd-1",
+  "target": "i386-pc-windows-msvc",
+  "blob_layout": {
+    "magic": 0,
+    "sent": 4,
+    "GetFileAttributesA": 8,
+    "CreateFileA": 12,
+    "WriteFileA": 16,
+    "CloseHandle": 20,
+    "Sleep": 24,
+    "GetTickCount": 28,
+    "is_connected": 32,
+    "get_ip": 36,
+    "core_global": 40,
+    "ctor": 44,
+    "send": 48,
+    "send_this": 52,
+    "obj_size": 56,
+    "nfields": 60,
+    "table_off": 64,
+    "class_tag": 68
+  },
+  "blob_size": 512,
+  "receipt_size": 64,
+  "table_off": 328,
+  "classes": {
+    "domestic": {
+      "ctor": "0x4369f6",
+      "size": 36,
+      "kind": 18,
+      "vtable": "0x5039f8"
+    },
+    "personnel": {
+      "ctor": "0x436cd3",
+      "size": 28,
+      "kind": 20,
+      "vtable": "0x503a28"
+    },
+    "phaseend": {
+      "ctor": "0x436dda",
+      "size": 20,
+      "kind": 21,
+      "vtable": "0x503a40"
+    },
+    "diplomacy": {
+      "ctor": "0x436b2e",
+      "size": 51,
+      "kind": 19,
+      "vtable": "0x503a10"
+    }
+  },
+  "presets": {
+    "train": [
+      "actor",
+      "troop",
+      "value",
+      "extra"
+    ],
+    "alms": [
+      "actor",
+      "value",
+      "extra"
+    ],
+    "rice": [
+      "actor",
+      "buy",
+      "value",
+      "extra"
+    ],
+    "build": [
+      "actor",
+      "build_type",
+      "x",
+      "y",
+      "value",
+      "extra"
+    ],
+    "personnel": [
+      "actor",
+      "subtype",
+      "target"
+    ],
+    "phaseend": []
+  },
+  "agent_generic": {
+    "size": 565,
+    "sha256": "b02a1a3bd7cdfc3f2a22d3bdd7e3440e29b75dd9eae3cd9e7dd2b464a0d319a4",
+    "instructions": 128
+  }
+}
