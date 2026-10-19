@@ -1,0 +1,52 @@
+{
+  "mode": "generic_cmd",
+  "preset": "train",
+  "class": "domestic",
+  "pid": 1204,
+  "sanpk": "0x400000",
+  "koeinm": "0x5a0000",
+  "class_check": {
+    "ctor_prologue": "565733ff6840ac53",
+    "getter_rva": "0x369db"
+  },
+  "send_prologue": "b8f3f44e",
+  "fields": [
+    {
+      "off": "0x4",
+      "val": 18
+    },
+    {
+      "off": "0x8",
+      "val": 0
+    },
+    {
+      "off": "0xc",
+      "val": 0
+    },
+    {
+      "off": "0x14",
+      "val": 1
+    },
+    {
+      "off": "0x18",
+      "val": 0
+    },
+    {
+      "off": "0x1c",
+      "val": 10
+    },
+    {
+      "off": "0x20",
+      "val": 0
+    }
+  ],
+  "require_phase": 1,
+  "expected_wire_len": 54,
+  "expected_wire_hex": "ffff010013004353616e496e6574446f6d6573746963436d641200000000000000000000000001000000000000000a00000000000000",
+  "flag": "Z:\\Users\\vk\\sgi-fengye-lab\\shadow\\p60_gate.flag",
+  "receipt": "Z:\\Users\\vk\\sgi-fengye-lab\\shadow\\p60_gate.bin",
+  "code_addr": "0x5dd0000",
+  "blob_addr": "0x5dd0250",
+  "thread_id": 356,
+  "creation": 134368887360068940
+}

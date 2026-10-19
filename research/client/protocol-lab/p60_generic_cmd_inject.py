@@ -106,6 +106,8 @@ def main():
     ap.add_argument('--target', type=int, default=-1)
     ap.add_argument('--flag', required=True)
     ap.add_argument('--receipt', required=True)
+    ap.add_argument('--require-phase', type=int, default=0,
+                    help='0 = fire in any phase; 1 = only in the command phase (stage gate)')
     ap.add_argument('--state')
     ap.add_argument('--plan', action='store_true')
     ap.add_argument('--check', action='store_true')
@@ -154,7 +156,8 @@ def main():
         pointers['get_ip'] = koeinm_base + exports['_NetMsg_GetIPAddress@4']
         pointers['core_global'] = sanpk_base + build.RVA_CORE_GLOBAL
         blob = build.build_blob(pointers, cls=cls, fields=fields, sanpk_base=sanpk_base,
-                               flag_path=args.flag, receipt_path=args.receipt)
+                               flag_path=args.flag, receipt_path=args.receipt,
+                               phase_req=args.require_phase)
         wire = expected_wire(cls, fields)
         plan = {'mode': 'generic_cmd', 'preset': args.preset, 'class': cls, 'pid': pid,
                 'sanpk': hex(sanpk_base), 'koeinm': hex(koeinm_base),
@@ -162,6 +165,7 @@ def main():
                                 for kk, v in anchors.items()},
                 'send_prologue': send_prologue.hex() if send_prologue else None,
                 'fields': [{'off': hex(o), 'val': v} for o, v in fields],
+                'require_phase': args.require_phase,
                 'expected_wire_len': len(wire), 'expected_wire_hex': wire.hex(),
                 'flag': args.flag, 'receipt': args.receipt}
         if args.check:

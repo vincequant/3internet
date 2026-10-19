@@ -19,11 +19,12 @@
     "obj_size": 56,
     "nfields": 60,
     "table_off": 64,
-    "class_tag": 68
+    "class_tag": 68,
+    "phase_req": 328
   },
   "blob_size": 512,
   "receipt_size": 64,
-  "table_off": 328,
+  "table_off": 336,
   "classes": {
     "domestic": {
       "ctor": "0x4369f6",
@@ -84,8 +85,8 @@
     "phaseend": []
   },
   "agent_generic": {
-    "size": 565,
-    "sha256": "b02a1a3bd7cdfc3f2a22d3bdd7e3440e29b75dd9eae3cd9e7dd2b464a0d319a4",
-    "instructions": 128
+    "size": 590,
+    "sha256": "99dbfd069dab8e2956861b515fa092129b640dd515f31e70cbfd1e14f09c9eb8",
+    "instructions": 134
   }
 }

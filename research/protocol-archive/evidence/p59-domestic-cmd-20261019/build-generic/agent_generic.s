@@ -27,6 +27,13 @@ g_loop:
     mov ebx, [eax]                  // core
     test ebx, ebx
     jz g_sleep_short
+    mov eax, [esi+0x148]            // phase gate (0 = any)
+    test eax, eax
+    jz g_phase_ok
+    movzx ecx, word ptr [ebx+0x4d8]
+    cmp ecx, eax
+    jne g_sleep_short
+g_phase_ok:
     mov ecx, [ebx+0x6c0]            // my_slot
     cmp ecx, 7
     ja g_sleep_short

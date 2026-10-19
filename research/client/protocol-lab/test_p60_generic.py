@@ -79,7 +79,7 @@ CTOR_DEFAULTS = {
 
 
 def run_payload(bin_path, *, cls, fields, trigger=True, core=CORE, slot=5, own=OWN,
-                sent=0, max_insns=80000):
+                sent=0, phase_req=0, phase=PHASE, max_insns=80000):
     from unicorn import Uc, UC_ARCH_X86, UC_MODE_32, UC_HOOK_CODE, UcError
     from unicorn.x86_const import UC_X86_REG_ESP
     code = Path(bin_path).read_bytes()
@@ -111,14 +111,15 @@ def run_payload(bin_path, *, cls, fields, trigger=True, core=CORE, slot=5, own=O
     uc.mem_write(0x211000, struct.pack('<I', own))
     if core:
         uc.mem_write(core + 0x6C0, struct.pack('<I', slot))
-        uc.mem_write(core + 0x4D8, struct.pack('<H', PHASE))
+        uc.mem_write(core + 0x4D8, struct.pack('<H', phase))
         uc.mem_write(G + 0x80, struct.pack('<I', GATE))
     pointers = {'GetFileAttributesA': ADDR['gfa'], 'CreateFileA': ADDR['cfa'],
                 'WriteFileA': ADDR['wfa'], 'CloseHandle': ADDR['close'], 'Sleep': ADDR['sleep'],
                 'GetTickCount': ADDR['tick'], 'is_connected': ADDR['conn'],
                 'get_ip': ADDR['getip'], 'core_global': CORE_GLOBAL}
     blob = bytearray(b.build_blob(pointers, cls=cls, fields=fields, sanpk_base=0,
-                                  flag_path='Z:\\t\\flag', receipt_path='Z:\\t\\receipt'))
+                                  flag_path='Z:\\t\\flag', receipt_path='Z:\\t\\receipt',
+                                  phase_req=phase_req))
     if sent:
         struct.pack_into('<I', blob, 4, sent)
     # route the blob's ctor/send at our stubs
@@ -299,6 +300,18 @@ class TestAgentEmulation(unittest.TestCase):
         self.assertEqual(obj[1], 21)
         rec = b.parse_receipt(log['wfa'][0]['data'])
         self.assertEqual(rec['kind'], 21)
+
+    def test_phase_gate_holds(self):
+        log = run_payload(self.bin, cls='domestic', fields=b.fields_train(1, 0, 10, 0),
+                          phase_req=2, phase=1)
+        self.assertIsNone(log['error'])
+        self.assertEqual(log['sent_count'], 0, 'must not fire outside the required phase')
+
+    def test_phase_gate_passes(self):
+        log = run_payload(self.bin, cls='domestic', fields=b.fields_train(1, 0, 10, 0),
+                          phase_req=1, phase=1)
+        self.assertIsNone(log['error'])
+        self.assertEqual(log['sent_count'], 1)
 
     def test_gate_no_trigger(self):
         log = run_payload(self.bin, cls='domestic', fields=b.fields_train(1, 0, 10, 0), trigger=False)
