@@ -52,7 +52,7 @@ build/manifest.json             blob 佈局 / 錨點 / 黃金線路
 | `p59_domestic_inject.py` | `c8b649781fdbbfba9b83d55290df6a11debdc14c49497e000a213e8976ac48bc` |
 | `p59_domestic_selftest.py` | `a2658523bff4aface84d71854dcea46c8e210679837091ef96c664750ea2e9de` |
 | `test_p59_domestic.py` | `170da9cc0759644c9872d2140dd3ccc0b1789e08865d321fcc6e606e2d2dd0b0` |
-| `p59_domestic_fire.sh` | `5bb6a022e4c3582c91addb2199882b506054f07cb63a3c249938521b3709db6c` |
+| `p59_domestic_fire.sh` | `6660f2c0c36265d289f131fb42f52312d4e7b7abb1936a084a33faef76347055` |
 | `agent_domestic.bin` | `079cd2ca10025f74ae1a09079852b34cd81e5fbd14425e631c49bd5c4ab6623e` |
 
 ## 驗證

@@ -55,9 +55,12 @@ if [ "${CHECK:-0}" = "1" ]; then
   exit $?
 fi
 
-PID="${PID:-$(pgrep -f 'prefix-fengye-shadow.*SANPK.exe' | head -1)}"
+# wine win32 pid (NOT the macOS pid) — the bridge collector and the injector both
+# need the in-prefix pid; find_sanpk_pid.py runs inside the shadow prefix.
+PID="${PID:-$(runpy "$S/tools/find_sanpk_pid.py" 2>/dev/null | tr -d '\r' | grep -E '^[0-9]+$' | tail -1)}"
 if [ -z "$PID" ]; then
-  echo "!! cannot find the shadow SANPK on the macOS side (pgrep); set PID=<wine pid>"
+  echo "!! cannot find a single SANPK.exe inside prefix-fengye-shadow"
+  echo "   (is the shadow client running? it must be, for the injector to target it)"
   exit 2
 fi
 if [ "${BEFORE:-0}" = "1" ]; then
