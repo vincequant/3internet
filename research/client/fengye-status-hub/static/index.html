@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>風夜 · 全知情情報</title>
+  <link rel="stylesheet" href="/style.css"><script defer src="/app.js"></script>
+</head>
+<body>
+<main>
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="風夜全知情報首頁"><span class="brand-mark">夜</span><span>風夜 · 全知情情報 <span class="brand-divider">/</span> 三國志 Internet</span></a>
+    <span class="source-pill" id="connection"><i></i><span>等待連接</span></span>
+  </header>
+
+  <section class="hero" aria-label="風夜當前狀態">
+    <div class="hero-strip">
+      <span class="tag" id="intel-run">—</span>
+      <span class="hero-item" id="hero-state">等待 p34 run</span>
+      <span class="hero-item" id="intel-window">—</span>
+      <span class="hero-item" id="hero-counters">—</span>
+      <button id="refresh" class="secondary small-btn">↻ 同步</button>
+    </div>
+  </section>
+
+  <div class="notice" id="notice" role="status"><span class="notice-dot"></span><div><strong id="notice-title">正在取得觀測</strong><p id="notice-description">首次連接可能需要數秒。</p></div><span class="notice-time" id="checked-at"></span></div>
+
+  <section class="console-grid">
+    <article class="card feed-card">
+      <div class="section-header compact"><h2>情報流 <span class="tag">風夜視角 · 全部接收</span><span class="tag" id="feed-count">0</span></h2>
+        <div class="chip-row" id="feed-filters">
+          <button class="chip active" data-kind="all" type="button">全部</button>
+          <button class="chip" data-kind="frame" type="button">幀</button>
+          <button class="chip" data-kind="data" type="button">遊戲數據</button>
+          <button class="chip" data-kind="chat" type="button">聊天</button>
+          <button class="chip" data-kind="control" type="button">控制</button>
+        </div>
+      </div>
+      <ol class="intel-feed" id="intel-feed"><li class="dim">尚無情報。</li></ol>
+      <p class="small dim">合併視圖：接收幀／解碼指令（同步批次）／聊天／控制事件，逐條按時間倒序；完整原始資料見 run 的 p34_live.jsonl 或 p42_live.jsonl。</p>
+    </article>
+
+    <aside class="side-col">
+      <article class="card control-card">
+        <div class="section-header compact"><h2>操控台 <span class="tag" id="control-state">未就緒</span></h2></div>
+        <div class="control-row"><input id="control-text" type="text" maxlength="120" placeholder="以風夜名義發言（GBK，≤120 字）"><button id="control-chat" class="primary" disabled>發言</button></div>
+        <div class="control-row"><button id="control-stop" class="secondary" disabled>收窗退出</button><span class="small dim" id="control-status">僅在風夜在線時可用；一次性、失敗不重試。</span></div>
+        <ol class="events" id="control-events"><li class="dim">尚無控制事件。</li></ol>
+      </article>
+
+      <article class="card chat-card">
+        <div class="section-header compact"><h2>聊天 <span class="tag">風夜收到的對話</span><span class="tag" id="chat-count">0</span></h2></div>
+        <ol class="events" id="intel-chat"><li class="dim">尚無聊天。</li></ol>
+      </article>
+
+      <article class="card snapshot-card">
+        <div class="section-header compact"><h2>戰場快照（八行）</h2></div>
+        <div class="table-scroll"><table><thead><tr><th>#</th><th>名字</th><th>會話 ID</th><th>w4</th><th>state</th><th>勢力</th></tr></thead><tbody id="intel-snapshot"><tr><td colspan="6" class="dim">尚無快照。</td></tr></tbody></table></div>
+        <p class="small dim" id="intel-snapshot-note">cmd7 快照時點的資料；不是即時勢力。</p>
+      </article>
+    </aside>
+  </section>
+
+
+  <section class="card command-card" aria-label="外部指令">
+    <div class="section-header">
+      <div><p class="eyebrow">OUT-OF-BAND COMMAND</p><h2>外部指令 · 選勢力 → 選指令 → 送出 <span class="tag" id="cmd-phase">—</span></h2>
+      <p class="card-note">不碰遊戲界面：以遊戲自己的建構子造命令物件，交給遊戲自己的送出函式。送出時若不在內政階段，agent 會在客戶端內排隊，等下一次內政階段才發。</p></div>
+      <button id="cmd-refresh" class="secondary small-btn">↻ 讀取目標</button>
+    </div>
+    <div class="cmd-grid">
+      <div class="cmd-col">
+        <label class="filter"><span>目標客戶端</span><select id="cmd-target"></select></label>
+        <label class="filter"><span>勢力</span><select id="cmd-force"></select></label>
+        <label class="filter"><span>指令</span><select id="cmd-preset">
+          <option value="train">練兵（訓練度）</option>
+          <option value="alms">施捨</option>
+          <option value="rice">米交易</option>
+          <option value="build">建設</option>
+          <option value="personnel">人事（錄用）</option>
+          <option value="phaseend">回合結束（未證實有效）</option>
+        </select></label>
+      </div>
+      <div class="cmd-col" id="cmd-params"></div>
+      <div class="cmd-col">
+        <div class="cmd-summary" id="cmd-summary">尚未選擇。</div>
+        <button id="cmd-send" class="primary">送出（自動等內政階段）</button>
+        <p class="small dim" id="cmd-status">一次性；失敗不重試。</p>
+      </div>
+    </div>
+    <ol class="events" id="cmd-jobs"><li class="dim">尚無指令。</li></ol>
+  </section>
+
+  <section class="card sync-card">
+    <div class="section-header compact"><h2>指令流（解碼）· 同步批次</h2><span class="tag" id="cmd-count">0</span></div>
+    <p class="small dim" id="intel-commands-note">解碼器就緒後顯示統計。</p>
+    <div id="intel-sync"><p class="dim small">尚無非空批次。</p></div>
+  </section>
+
+  <details class="evidence legacy">
+    <summary>舊版狀態視圖（幽靈會話／接收摘要／房間／成員／事件） <span>＋</span></summary>
+    <div class="legacy-body">
+      <section class="overview" aria-label="風夜狀態總覽">
+        <article class="card ghost-card"><div class="card-label">幽靈會話 <span class="tag" id="source-tag">未讀取</span></div><div class="ghost-title"><div class="avatar">風</div><div><h2>風夜</h2><p id="member-id" class="mono">會話 ID —</p></div></div><div class="state" id="ghost-state">等待觀測</div><p class="card-note" id="ghost-note">尚無即時狀態。</p><div class="key-values"><div><span id="faction-label">開局快照中的勢力</span><strong id="faction-name">尚未取得</strong></div></div><p class="small dim" id="faction-time">僅記錄 cmd7 快照，不是即時勢力監控。</p><div class="card-bottom"><span>最後觀測</span><strong id="observed-time">—</strong></div></article>
+        <article class="card"><div class="card-label" id="response-title">回應與觸發</div><div class="metric" id="activity-age">—<small>最近活動</small></div><div class="key-values"><div><span>重連標誌</span><strong id="reconnect">—</strong></div><div><span id="probe-label">看門狗</span><strong id="watchdog">—</strong></div><div id="cmd23-row"><span>cmd23 呼叫／返回</span><strong id="cmd23" class="mono">—</strong></div><div id="capture-row" hidden><span>完整包／釋放呼叫</span><strong id="capture-counts" class="mono">—</strong></div><div id="capture-cmd-row" hidden><span>最後收到的命令</span><strong id="capture-cmd" class="mono">—</strong></div><div id="ready-row" hidden><span>準備回覆 cmd9／返回</span><strong id="cmd9" class="mono">—</strong></div></div><p class="card-note" id="response-note">呼叫返回與開局成功分別核對。</p></article>
+        <article class="card"><div class="card-label">房間／連接目標 <span class="tag" id="host-tag">主機</span></div><h2 class="session-name" id="session-name">—</h2><p class="endpoint-label">房間主機虛擬 IP</p><div class="endpoint mono" id="host-ip">—</div><div class="key-values"><div><span>目前線路</span><strong id="current-line">多線3</strong></div><div><span>開局結果</span><strong class="dim">尚未核實</strong></div></div><p class="card-note" id="host-note">讀取現有鏈的目標資料。</p></article>
+      </section>
+
+      <section class="card rooms-card">
+        <div class="section-header"><div><p class="eyebrow">LINE DIRECTORY</p><h2>多線3 · 房間與 IP <span class="count" id="room-count">—</span></h2><p class="card-note" id="room-status">尚未取得房間回覆。</p></div><button id="search-rooms" class="primary" disabled>讀取房間列表 <span>↗</span></button></div>
+        <div class="room-toolbar"><label class="filter"><span>⌕</span><input id="room-filter" type="search" placeholder="搜尋房名、房主或 IP" aria-label="搜尋房間"></label><span id="room-time" class="small dim">觀測時間 —</span></div>
+        <div class="table-scroll"><table><thead><tr><th>房間</th><th>房主</th><th>虛擬 IP</th><th>人數</th><th>觀測</th></tr></thead><tbody id="rooms"><tr><td colspan="5" class="empty"><span class="empty-icon">⌁</span><strong>目前沒有可判定的房間資料</strong><p>連上 vkquant Mac 後，可讀取現有中繼回覆。</p></td></tr></tbody></table></div>
+        <div class="table-footer"><span id="room-help">未收到回覆，會保留未知狀態。</span><span class="tag">SearchSession</span></div>
+      </section>
+
+      <section class="lower-grid">
+        <article class="card"><div class="section-header compact"><h2>成員觀測</h2><span class="tag" id="members-source">主機 DLL 表</span></div><p class="card-note">連接失敗時，顯示最後已知成員。</p><div class="table-scroll"><table><thead><tr><th>成員</th><th>會話 ID</th><th>連接標誌</th></tr></thead><tbody id="members"><tr><td colspan="3" class="dim">—</td></tr></tbody></table></div></article>
+        <article class="card events-card"><div class="section-header compact"><h2>最近事件</h2><span class="tag">原始日誌摘要</span></div><ol id="events" class="events"><li class="dim">尚無事件。</li></ol></article>
+      </section>
+
+      <section class="card directory-card"><div class="section-header compact"><h2>線路中繼地址</h2><span class="small dim" id="directory-time">歷史目錄</span></div><div class="directory-grid" id="directory"></div><p class="card-note">中繼地址與房間虛擬 IP 分開顯示；目錄保留來源時間。</p></section>
+    </div>
+  </details>
+
+  <details class="evidence"><summary>來源與判讀範圍 <span>＋</span></summary><div><p id="run-name">—</p><p>情報流來自主機廣播與本機接收探針的原始日誌；聊天為 type-3 本地投遞的 best-effort 解碼，未到達顯示空。操控台請求經 SSH 單次寫入、探針按 id 一次性執行，失敗不重試。</p><p>成員來自主機 DLL 表；應用 L/P 行、君主選擇與開局成功需另行確認。活動時間依同一會話 ID 的計時欄變化取得。房間 IP 由搜尋回覆的 room ID 按大端格式轉換；沒有搜尋回覆不等於線路沒有房間。</p><p>同步狀態只讀現有資料；房間查詢使用現有中繼。頁面關閉後不持續採集。</p><pre id="chain"></pre></div></details>
+  <footer><span><i></i> 只讀情報 + 單發控制 · 本機 Hub</span><span id="footer-clock">SGI PROTOCOL RESEARCH</span></footer>
+</main>
+</body>
+</html>
