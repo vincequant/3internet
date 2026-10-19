@@ -1,0 +1,57 @@
+[19:28:43] == 一键内测 20261019-192843（房名 SGZWLB）==
+[19:28:43] 0) 清场（结束残留客户端；另清对战大厅）
+  == end game clients (hall preserved) ==
+    fengyun: 游戏已强制退出；大厅未运行。
+    dingman: killing SANPK pid=68165
+    fengye: no game running
+  遊戲已結束，大廳保持運行。
+[19:28:50] 1) 启动三条链
+[19:28:50]   已拉起；等待三个『游戏选择』画面（各最多 4 分钟）
+[19:29:00]   三台都到『游戏选择』✓
+[19:29:00] 1.5) 视窗标题
+[19:29:02] 2) 丁满建房（SGZWLB）
+  or equal to 2.0.5.
+{"ok": true, "name": "SGZWLB", "set_mode": "wm_settext", "readback": "SGZWLB", "browser_gone": true, "dialog_gone": true, "tops": ["三国志Internet联机版3.5【丁满】"]}
+[19:29:08] 3) 风云进房
+  try1: or equal to 2.0.5.
+{"ok": true, "picked": "SGZWLB[丁满]", "items": ["SGZWLB[丁满]"], "browser_gone": true, "tops": ["三国志Internet联机版3.5【风云】"]}
+[19:29:14] 4) 风夜进房
+  try1: or equal to 2.0.5.
+{"ok": true, "picked": "SGZWLB[丁满]", "items": ["SGZWLB[丁满]"], "browser_gone": true, "tops": ["三国志Internet联机版3.5【待秋至】"]}
+[19:29:21] 5) 主机名册检查
+[19:29:22]   名册行数=3（期待 3=丁满+风云+幽灵）
+[19:29:22] 6) 风夜补丁 nullguard（21 站）
+{"mode": "nullguard", "base": "0x400000", "via": "psapi", "patches": [{"site": "lord-deref", "addr": "0x484f7a", "action": "applied"}, {"site": "entry-stub-FUN484F35", "addr": "0x484f35", "action": "applied"}, {"site": "pred1-condstub", "addr": "0x468662", "action": "applied"}, {"site": "pred2-condstub", "addr": "0x4686c7", "action": "applied"}, {"site": "pred3-condstub", "addr": "0x468724", "action": "applied"}, {"site": "entry-stub-499EB3", "addr": "0x499eb3", "action": "applied"}, {"site": "e
+
+[19:29:23] 6b) 风夜抑制 suppress（2 站）
+{"mode": "suppress", "revert": false, "base": "0x5a0000", "via": "psapi", "patches": [{"site": "suppress-control1-upload", "addr": "0x5a32c5", "action": "applied"}, {"site": "suppress-control2-upload", "addr": "0x5a358d", "action": "applied"}]}
+
+[19:29:23] 6c) 三台开局守卫（6 站）
+[19:29:24]   丁满 pid=948 {"pid": 948, "cave": "0x1d0000", "patched": [{"site": "myforce-a", "va": "0x445e98", "ok": true, "wrote": "e963a1d8ff90", "back": "e963a1d8ff90"}, {"site": "myforce-b", "va": "0x445fe3", "ok": true, "wrote": "e938a0d8ff90", "back": "e938a0d8ff90"}, {"site": "round-city", "va": "0x45c4e1", "ok": true, "wrote": "e95a3bd7ff90", "back": "e95a3bd7ff90"}, {"site": "round-owner", "va": "0x44d694", "ok": true, "wrote": "e9c729d8ff90", "back": "e9c729d8ff90"}, {"site": "lord-byte", "va": "0x49b819", "ok": true, "wrote": "e96248d3ff90", "back": "e96248d3ff90"}, {"site": "wild-city", "va": "0x46924b", "ok": true, "wrote": "e9506ed6ff", "back": "e9506ed6ff"}, {"site": "train-result", "va": "0x4858df", "ok": true, "wrote": "e9dca7d4ff90", "back": "e9dca7d4ff90"}, {"site": "train-word", "va": "0x4ae36f", "ok": true, "wrote": "e96c1dd2ff", "back": "e96c1dd2ff"}, {"site": "train-byte", "va": "0x4ae374", "ok": true, "wrote": "e9871dd2ff", "back": "e9871dd2ff"}, {"site": "train-div-a", "va": "0x42dba2", "ok": true, "wrote": "e99925daff9090909090", "back": "e99925daff9090909090"}, {"site": "train-div-b", "va": "0x42dbb6", "ok": true, "wrote": "e9a525daff90", "back": "e9a525daff90"}, {"site": "train-div-c", "va": "0x484321", "ok": true, "wrote": "e95abed4ff909090909090", "back": "e95abed4ff909090909090"}, {"site": "train-call-a", "va": "0x48433c", "ok": true, "wrote": "e95fbed4ff90", "back": "e95fbed4ff90"}, {"site": "train-call-b", "va": "0x48434d", "ok": true, "wrote": "e98ebed4ff90", "back": "e98ebed4ff90"}, {"site": "train-call-c", "va": "0x484379", "ok": true, "wrote": "e902bfd4ff90", "back": "e902bfd4ff90"}, {"site": "train-object", "va": "0x4183c0", "ok": true, "wrote": "e9fb7edbff90", "back": "e9fb7edbff90"}, {"site": "train-predicate", "va": "0x49b0e3", "ok": true, "wrote": "e9f851d3ff9090909090", "back": "e9f851d3ff9090909090"}, {"site": "train-list", "va": "0x4b081d", "ok": true, "wrote": "e9defad1ff", "back": "e9defad1ff"}], "recorder": {"ok": true, "back": "e90ceec6ff90909090909090"}, "ok": true, "lock_before": 0, "lock_write_ok": true, "lock_back": "00000000"}
+[19:29:25]   风云 pid=816 {"pid": 816, "cave": "0x1d0000", "patched": [{"site": "myforce-a", "va": "0x445e98", "ok": true, "wrote": "e963a1d8ff90", "back": "e963a1d8ff90"}, {"site": "myforce-b", "va": "0x445fe3", "ok": true, "wrote": "e938a0d8ff90", "back": "e938a0d8ff90"}, {"site": "round-city", "va": "0x45c4e1", "ok": true, "wrote": "e95a3bd7ff90", "back": "e95a3bd7ff90"}, {"site": "round-owner", "va": "0x44d694", "ok": true, "wrote": "e9c729d8ff90", "back": "e9c729d8ff90"}, {"site": "lord-byte", "va": "0x49b819", "ok": true, "wrote": "e96248d3ff90", "back": "e96248d3ff90"}, {"site": "wild-city", "va": "0x46924b", "ok": true, "wrote": "e9506ed6ff", "back": "e9506ed6ff"}, {"site": "train-result", "va": "0x4858df", "ok": true, "wrote": "e9dca7d4ff90", "back": "e9dca7d4ff90"}, {"site": "train-word", "va": "0x4ae36f", "ok": true, "wrote": "e96c1dd2ff", "back": "e96c1dd2ff"}, {"site": "train-byte", "va": "0x4ae374", "ok": true, "wrote": "e9871dd2ff", "back": "e9871dd2ff"}, {"site": "train-div-a", "va": "0x42dba2", "ok": true, "wrote": "e99925daff9090909090", "back": "e99925daff9090909090"}, {"site": "train-div-b", "va": "0x42dbb6", "ok": true, "wrote": "e9a525daff90", "back": "e9a525daff90"}, {"site": "train-div-c", "va": "0x484321", "ok": true, "wrote": "e95abed4ff909090909090", "back": "e95abed4ff909090909090"}, {"site": "train-call-a", "va": "0x48433c", "ok": true, "wrote": "e95fbed4ff90", "back": "e95fbed4ff90"}, {"site": "train-call-b", "va": "0x48434d", "ok": true, "wrote": "e98ebed4ff90", "back": "e98ebed4ff90"}, {"site": "train-call-c", "va": "0x484379", "ok": true, "wrote": "e902bfd4ff90", "back": "e902bfd4ff90"}, {"site": "train-object", "va": "0x4183c0", "ok": true, "wrote": "e9fb7edbff90", "back": "e9fb7edbff90"}, {"site": "train-predicate", "va": "0x49b0e3", "ok": true, "wrote": "e9f851d3ff9090909090", "back": "e9f851d3ff9090909090"}, {"site": "train-list", "va": "0x4b081d", "ok": true, "wrote": "e9defad1ff", "back": "e9defad1ff"}], "recorder": {"ok": true, "back": "e90ceec6ff90909090909090"}, "ok": true, "lock_before": 0, "lock_write_ok": true, "lock_back": "00000000"}
+[19:29:25]   风夜 pid=1524 {"pid": 1524, "cave": "0x1f0000", "patched": [{"site": "myforce-a", "va": "0x445e98", "ok": true, "wrote": "e963a1daff90", "back": "e963a1daff90"}, {"site": "myforce-b", "va": "0x445fe3", "ok": true, "wrote": "e938a0daff90", "back": "e938a0daff90"}, {"site": "round-city", "va": "0x45c4e1", "ok": true, "wrote": "e95a3bd9ff90", "back": "e95a3bd9ff90"}, {"site": "round-owner", "va": "0x44d694", "ok": true, "wrote": "e9c729daff90", "back": "e9c729daff90"}, {"site": "lord-byte", "va": "0x49b819", "ok": true, "wrote": "e96248d5ff90", "back": "e96248d5ff90"}, {"site": "wild-city", "va": "0x46924b", "ok": true, "wrote": "e9506ed8ff", "back": "e9506ed8ff"}, {"site": "train-result", "va": "0x4858df", "ok": true, "wrote": "e9dca7d6ff90", "back": "e9dca7d6ff90"}, {"site": "train-word", "va": "0x4ae36f", "ok": true, "wrote": "e96c1dd4ff", "back": "e96c1dd4ff"}, {"site": "train-byte", "va": "0x4ae374", "ok": true, "wrote": "e9871dd4ff", "back": "e9871dd4ff"}, {"site": "train-div-a", "va": "0x42dba2", "ok": true, "wrote": "e99925dcff9090909090", "back": "e99925dcff9090909090"}, {"site": "train-div-b", "va": "0x42dbb6", "ok": true, "wrote": "e9a525dcff90", "back": "e9a525dcff90"}, {"site": "train-div-c", "va": "0x484321", "ok": true, "wrote": "e95abed6ff909090909090", "back": "e95abed6ff909090909090"}, {"site": "train-call-a", "va": "0x48433c", "ok": true, "wrote": "e95fbed6ff90", "back": "e95fbed6ff90"}, {"site": "train-call-b", "va": "0x48434d", "ok": true, "wrote": "e98ebed6ff90", "back": "e98ebed6ff90"}, {"site": "train-call-c", "va": "0x484379", "ok": true, "wrote": "e902bfd6ff90", "back": "e902bfd6ff90"}, {"site": "train-object", "va": "0x4183c0", "ok": true, "wrote": "e9fb7eddff90", "back": "e9fb7eddff90"}, {"site": "train-predicate", "va": "0x49b0e3", "ok": true, "wrote": "e9f851d5ff9090909090", "back": "e9f851d5ff9090909090"}, {"site": "train-list", "va": "0x4b081d", "ok": true, "wrote": "e9defad3ff", "back": "e9defad3ff"}], "recorder": {"ok": true, "back": "e90ceec8ff90909090909090"}, "ok": true, "lock_before": 0, "lock_write_ok": true, "lock_back": "00000000"}
+[19:29:25] 6d) 风夜元素查表回退（类型安全）
+[19:29:26]   element pid=1524 {"pid": 1524, "seed_before": "33ff", "call_before": "e84b9c0b00", "cave": "0x200000", "seed_after": "33ff", "call_after": "e9376adeff", "ok": true, "mode": "fallback"}
+[19:29:27]   panel-row pid=1524 {"pid": 1524, "cave": "0x210000", "patched": [{"site": "panel-row-12e", "va": "0x4a3e15", "ok": true, "back": "e9e6c1d6ff"}, {"site": "panel-row-12c-a", "va": "0x48f06c", "ok": true, "back": "e9cf0fd8ff"}, {"site": "panel-row-12c-b", "va": "0x48f215", "ok": true, "back": "e9660ed8ff"}], "mode": "panel-row-fallback", "ok": true}
+[19:29:27] 7) 风夜摘席（D8）
+== hide now ==
+}
+00000000: 5348 4732 0100 0000                      SHG2....
+  attempt 1: row GONE from host L-table -> hidden
+hidden marker written
+[19:29:33] 7.5) 风夜先占空席位 slot=1（开局前，保持隐身）
+slotkeep(1) restarted（單一 keeper）
+86155 /Users/vk/sgi-fengye-lab/python32/python.exe /Users/vk/sgi-fengye-lab/shadow/tools/shadow_slotkeep.py --bridge Z:\
+[19:29:41]   占席后复核：主机应用名册仍无风夜（隐身保持）✓
+[19:29:43]   名册行数=2（期待 2）
+[19:29:43] 8) 幽灵客户端存活检查
+[19:29:43]   SANPK 进程数=3（期待 3）
+[19:29:43]   幽灵 wine server 同源 ✓（wine-pid=1524）
+[19:29:43] 9) 把这一局接到情报台
+meta written own_id 0
+recorder pid=86460 session=/Users/vk/sgi-fengye-lab/fengye-hub-session/run-20261019-192943-shadow
+active.json -> run-20261019-192943-shadow pid 86460
+status writer started pid=86472
+[19:29:43]   情报台会话已接上
+[19:29:43] == 完成：风夜已藏身，开局守卫已装，可以按游戏里的『开始』 ==
+[19:29:43] 日志: /Users/vk/sgi-fengye-lab/shadow/logs/one_click-20261019-192843.log

@@ -1,0 +1,17 @@
+{"ev": "start", "prefix": "/Users/vk/Library/Application Support/SGI-Wine/prefix-fengye-shadow", "join_name": null, "wall": 1792409538.502}
+{"ev": "login", "ok": true, "submitted": true, "stage": "protocol_enter", "state": null, "message": "协议已进入多线3（备用）", "login_verified": true, "entered": true, "game_name": "★★★三国对战房★★★", "room_name": "多线3（备用）", "game_id": 1001, "room_id": 1002, "wall": 1792409538.779}
+{"ev": "grant", "virtual_ip": "10.176.108.149", "server": "36.151.147.251", "port": 29100, "game_id": 1001, "user_id": 100600, "wall": 1792409538.78}
+{"ev": "helper_staged", "patch": "sanpk_hash_extended", "stderr_patch": "sanpk_stderr_seh", "sanpk_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea", "sanpk_allowed": true, "wall": 1792409538.783}
+{"ev": "win81_helper", "ok": true, "compat": "wine-appdefaults-win81-existing", "wall": 1792409538.784}
+{"ev": "helper_spawned", "pid": 90916, "wall": 1792409538.827}
+{"helper": {"event": "spawned"}, "wall": 1792409540.608}
+{"helper": {"event": "cwd"}, "wall": 1792409540.861}
+{"helper": {"event": "init"}, "wall": 1792409540.889}
+{"helper": {"event": "startserver"}, "wall": 1792409540.889}
+{"helper": {"event": "mutex_ready"}, "wall": 1792409540.89}
+{"helper": {"event": "sanpk_launched", "pid": 592, "core_inject": true}, "wall": 1792409541.905}
+{"helper": {"event": "relay", "relay_registered": true}, "wall": 1792409541.905}
+{"helper": {"event": "game_search", "ok": true, "list_count": 0, "list_names": []}, "wall": 1792409548.0}
+{"helper": {"ok": true, "event": "ready"}, "wall": 1792409548.001}
+{"ev": "result", "ok": true, "helper_pid": 90916, "join": null, "wall": 1792409548.001}
+{"ev": "hold_started", "helper_pid": 90916, "wall": 1792409548.001}
