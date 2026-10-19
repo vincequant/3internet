@@ -1,0 +1,45 @@
+{
+  "mode": "domestic_cmd",
+  "pid": 1596,
+  "target": "SANPK.exe",
+  "sanpk": {
+    "base": "0x400000",
+    "via": "psapi"
+  },
+  "koeinm": {
+    "base": "0x5a0000",
+    "via": "psapi"
+  },
+  "anchors": {
+    "vtable_serialize": "0x36a6f",
+    "vtable_getruntimeclass": "0x369db",
+    "class_name_ptr": "0x133554",
+    "class_size": "0x24",
+    "class_schema": "0x1",
+    "class_factory": "0x369a9",
+    "send_prologue": "b8f3f44e",
+    "core_global": "0x53bb30",
+    "send_this": "0x53b672",
+    "is_connected": "0x5a20b0",
+    "get_ip": "0x5a22b0"
+  },
+  "command": {
+    "class": "CSanInetDomesticCmd",
+    "kind": 18,
+    "subtype": 0,
+    "actor": 1,
+    "parameter": 0,
+    "value": 100,
+    "extra": 0
+  },
+  "expected_wire_hex": "ffff010013004353616e496e6574446f6d6573746963436d641200000000000000000000000001000000000000006400000000000000",
+  "code_size": 445,
+  "code_sha256": "079cd2ca10025f74ae1a09079852b34cd81e5fbd14425e631c49bd5c4ab6623e",
+  "blob_size": 352,
+  "flag": "Z:\\Users\\vk\\sgi-fengye-lab\\shadow\\p59_go.flag",
+  "receipt": "Z:\\Users\\vk\\sgi-fengye-lab\\shadow\\p59_receipt.bin",
+  "code_addr": "0x230000",
+  "blob_addr": "0x2301c0",
+  "thread_id": 72,
+  "creation": 134368887355555210
+}
