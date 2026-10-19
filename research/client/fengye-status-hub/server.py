@@ -14,9 +14,7 @@ import threading
 import time
 import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, urlsplit
-
-from command_service import CommandService
+from urllib.parse import urlsplit
 
 ROOT = Path(__file__).resolve().parent
 if str(ROOT) not in sys.path:
@@ -331,8 +329,6 @@ class Sources:
             self.rooms = {}
         self.directory = load_json(self.data_dir / 'line-directory.json', {})
         self.transport = {'status': 'not_checked', 'checked_at': None, 'error': None}
-        self.commands = CommandService(
-            lab=load_json(self.data_dir / 'config.json', {}).get('local_lab') or None)
         self.lock = threading.Lock()
         self.next_check = 0
         self.last_search = 0
@@ -487,23 +483,6 @@ def make_server(sources, port=8765):
             path = urlsplit(self.path).path
             if path == '/api/status':
                 self.respond(json.dumps(sources.refresh(), ensure_ascii=False, allow_nan=False).encode(), 'application/json; charset=utf-8')
-            elif path == '/api/command/targets':
-                self.respond(json.dumps(sources.commands.targets(), ensure_ascii=False).encode(), 'application/json; charset=utf-8')
-            elif path == '/api/command/free-cells':
-                q = parse_qs(urlsplit(self.path).query)
-                try:
-                    prefix = (q.get('prefix') or [''])[0]
-                    x = int((q.get('x') or ['0'])[0]); y = int((q.get('y') or ['0'])[0])
-                    force = int((q.get('force') or ['1'])[0])
-                except ValueError:
-                    self.respond(b'Invalid query', 'text/plain', 400)
-                    return
-                cells = sources.commands.free_cells(prefix, (x, y), force)
-                self.respond(json.dumps({'ok': bool(cells), 'cells': cells,
-                                         'error': None if cells else '沒有可用空地（或讀取失敗）'},
-                                        ensure_ascii=False).encode(), 'application/json; charset=utf-8')
-            elif path == '/api/command/jobs':
-                self.respond(json.dumps(sources.commands.jobs_view(), ensure_ascii=False).encode(), 'application/json; charset=utf-8')
             elif path in ('/', '/app.js', '/style.css'):
                 name = {'/': 'index.html', '/app.js': 'app.js', '/style.css': 'style.css'}[path]
                 mime = {'/': 'text/html', '/app.js': 'text/javascript', '/style.css': 'text/css'}[path]
@@ -513,7 +492,7 @@ def make_server(sources, port=8765):
 
         def do_POST(self):
             path = urlsplit(self.path).path
-            if path not in ('/api/rooms/refresh', '/api/control', '/api/command/send'):
+            if path not in ('/api/rooms/refresh', '/api/control'):
                 self.respond(b'Not found', 'text/plain', 404)
                 return
             # Browser-originated writes must be same-origin. Room search is
@@ -527,23 +506,6 @@ def make_server(sources, port=8765):
                 return
             if path == '/api/rooms/refresh':
                 self.respond(json.dumps(sources.refresh(search=True), ensure_ascii=False, allow_nan=False).encode(), 'application/json; charset=utf-8')
-                return
-            if path == '/api/command/send':
-                try:
-                    length = int(self.headers.get('Content-Length') or 0)
-                except ValueError:
-                    length = 0
-                if not 0 < length <= 4096:
-                    self.respond(b'Invalid body', 'text/plain', 400)
-                    return
-                try:
-                    payload = json.loads(self.rfile.read(length).decode('utf-8'))
-                except (ValueError, UnicodeDecodeError):
-                    self.respond(b'Invalid JSON', 'text/plain', 400)
-                    return
-                self.respond(json.dumps(sources.commands.send(payload if isinstance(payload, dict) else {}),
-                                        ensure_ascii=False).encode(),
-                             'application/json; charset=utf-8')
                 return
             try:
                 length = int(self.headers.get('Content-Length') or 0)
