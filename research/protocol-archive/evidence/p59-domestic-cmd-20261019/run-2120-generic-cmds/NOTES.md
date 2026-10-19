@@ -35,13 +35,16 @@
 | rice（买米） | sub3, buy=1, value=1000 | rc=1 ✔ | 米 73866 → **122441**、金 19430 → **9715** | 不變 |
 | alms（施捨） | sub2, value=0, extra=4 | rc=1 ✔ | 米 122441 → **117141**、金 18371 → **15721** | 不變 |
 | phaseend | kind21（風雲＋丁滿各一發） | 兩發都 rc=1 ✔ | **階段沒有提前結束**（自然倒數 64–98 秒照跑） | — |
+| personnel（錄用） | sub0, actor=1, target=1（在野武將 id 1） | rc=1 ✔ | 目標武將 **仍在野**（wild 186→185 但 id1 仍 status=1）⇒ 沒被錄用 | — |
 
 * rice / alms 的**方向與目標勢力都對**（只有 actor 那一家的米／金動），但幅度可能混到
   「玩家閒置時遊戲自己補內政」的成分（同一觀察窗內孫堅完全沒動，可作對照）。
 * **phaseend 送了但沒被採用**：風雲與丁滿各送一次，主機仍等自然倒數。判定〔未定案〕——
   一種可能是「結束階段」不是走命令通道，而是走同步控制幀（控制1/2/3）＋UI 狀態機；
   合成命令只會被收進批次、在回合結算時套用。
-* `personnel`（人事）與 `build`（建設）已實作、**尚未實機發射**（人事需要一個合法的在野武將 id）。
+* `personnel` 已發射（rc=1、kind20/sub0/actor=1/target=1），但**目標武將沒有加入**（仍在野）。
+  〔未定案〕可能是 target 不是「武將 id」、或錄用要先滿足城池/在野所在地條件、或主機對人事另有前置檢查。
+* `build`（建設）尚未發射。
 
 ## 3. 檔案
 
@@ -50,6 +53,7 @@ shots/rice-buy1000.bin        kind18 sub3 actor1 buy1 value1000 rc1 phase1
 shots/alms-extra4.bin         kind18 sub2 actor1 value0 extra4 rc1 phase1
 shots/phaseend-both-fy.bin    kind21 風雲（own 169174461）
 shots/phaseend-both-dm.bin    kind21 丁滿（own 181830756）
+shots/personnel-hire-target1.bin  kind20 sub0 actor1 target1 rc1 phase1
 shots/receipts.json           四發回執解碼
 tools: p60_generic_cmd_build.py / p60_generic_cmd_inject.py / test_p60_generic.py（18/18）
 ```
