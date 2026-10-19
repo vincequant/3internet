@@ -62,6 +62,8 @@ class CommandService:
         self.dyld = str(Path.home() / 'Library/Application Support/SGI-Wine/dependency-lib')
         self.z = 'Z:\\Users\\vk\\sgi-fengye-lab\\shadow'
         self.jobs = []
+        self.queue = []
+        self.flush_state = {'running': False, 'phase': 'idle', 'note': ''}
         self.lock = threading.Lock()
         self._cache = {}
         self._cache_at = 0.0
@@ -161,6 +163,18 @@ class CommandService:
                 break
         self._cache, self._cache_at = out, now
         return out
+
+    def battlefield(self):
+        """2026-10-19：把「各勢力基礎情報／城池／部隊」給情報台用（單次採集）。"""
+        for prefix, _label in TARGETS:
+            pid = self.pid(prefix)
+            if not pid:
+                continue
+            data = self._py(prefix, self.z + '\\tools\\_p60_battle.py', [str(pid)])
+            if data.get('ok'):
+                data['source_prefix'] = prefix
+                return data
+        return {'ok': False, 'error': '沒有可讀的客戶端'}
 
     def free_cells(self, prefix, city_xy, force):
         pid = self.pid(prefix)
@@ -273,6 +287,116 @@ class CommandService:
             if int(payload.get('target_id') or -1) < 0:
                 return '人事命令需要武將 id'
         return None
+
+    def queue_add(self, payload):
+        info = self.targets()
+        reason = self.validate(payload, info)
+        if reason:
+            return {'ok': False, 'error': reason}
+        item = dict(payload)
+        item['queued_at'] = time.time()
+        item['id'] = uuid.uuid4().hex[:8]
+        with self.lock:
+            self.queue.append(item)
+        return {'ok': True, 'queue': self.queue_view()['queue']}
+
+    def queue_clear(self):
+        with self.lock:
+            self.queue = []
+        return {'ok': True, 'queue': []}
+
+    def queue_view(self):
+        with self.lock:
+            items = list(self.queue)
+        return {'ok': True, 'queue': [{k: v for k, v in it.items()} for it in items],
+                'flush': dict(self.flush_state)}
+
+    def flush_queue(self):
+        """把佇列裡同一勢力的命令，在『下一個內政階段』一次全部送出。
+
+        流程（2026-10-19 實測條件）：
+          1. 等到非內政階段（結算期）；
+          2. 風夜的話先把席位借到該勢力（切換必須早於指令階段）；
+          3. 逐條 arm（agent 會自己等到內政階段）；
+          4. 全部收到回執後把席位切回。
+        佇列裡若有多個勢力，只處理第一個勢力，其餘留到下一回合。
+        """
+        with self.lock:
+            if self.flush_state.get('running'):
+                return {'ok': False, 'error': '上一批還在跑'}
+            if not self.queue:
+                return {'ok': False, 'error': '佇列是空的'}
+            batch = []
+            force = self.queue[0].get('actor')
+            for item in self.queue:
+                if item.get('actor') == force:
+                    batch.append(item)
+            self.queue = [it for it in self.queue if it.get('actor') != force]
+            self.flush_state = {'running': True, 'phase': 'waiting',
+                                'note': '等結算期（%d 條，force %s）' % (len(batch), force)}
+        thread = threading.Thread(target=self._flush_worker, args=(batch, force), daemon=True,
+                                  name='cmd-flush')
+        thread.start()
+        return {'ok': True, 'batch': len(batch), 'force': force}
+
+    def _flush_worker(self, batch, force):
+        info = self.targets(refresh=True)
+        prefix = batch[0].get('prefix')
+        home = None
+        try:
+            # 1) 等到非內政階段
+            deadline = time.time() + 200
+            while time.time() < deadline:
+                phase, _ = self.phase()
+                if phase != 1:
+                    break
+                time.sleep(2)
+            # 2) 借席（風夜專用）
+            if prefix == 'prefix-fengye-shadow':
+                row = next((r for r in info.get('player_slots') or []
+                            if r.get('force_id') == force and isinstance(r.get('slot'), int)), None)
+                if row is None:
+                    self.flush_state = {'running': False, 'phase': 'error',
+                                        'note': '找不到 force %s 的席位' % force}
+                    return
+                home = self._ghost_home_slot()
+                ok_switch, note = self._switch_slot(row['slot'])
+                if not ok_switch:
+                    self.flush_state = {'running': False, 'phase': 'error',
+                                        'note': '切席位失敗：' + note}
+                    return
+            # 3) 逐條送出（agent 自己等內政階段）
+            jobs = []
+            for item in batch:
+                payload = dict(item)
+                payload['auto_slot'] = False
+                res = self.send(payload)
+                jobs.append((res.get('ok'), res.get('job') or {}, res.get('error')))
+                self.flush_state = {'running': True, 'phase': 'armed',
+                                    'note': '已 arm %d/%d' % (len(jobs), len(batch))}
+            # 4) 等回執
+            self.flush_state = {'running': True, 'phase': 'firing',
+                                'note': '等 %d 條回執（內政階段觸發）' % len(batch)}
+            deadline = time.time() + 240
+            while time.time() < deadline:
+                done = 0
+                for _ok, job, _err in jobs:
+                    view = next((j for j in self.jobs_view()['jobs'] if j.get('id') == job.get('id')), None)
+                    if view and view.get('receipt'):
+                        done += 1
+                if done >= len(batch):
+                    break
+                time.sleep(2)
+            # 5) 還席
+            if home is not None:
+                self._switch_slot(home)
+            fired = sum(1 for ok, job, err in jobs if ok)
+            self.flush_state = {'running': False, 'phase': 'done',
+                                'note': '完成：%d/%d 條已送出%s' % (
+                                    fired, len(batch), '，席位已切回 %s' % home if home is not None else '')}
+        except Exception as exc:  # noqa: BLE001
+            self.flush_state = {'running': False, 'phase': 'error',
+                                'note': '%s: %s' % (type(exc).__name__, exc)}
 
     def send(self, payload):
         if not isinstance(payload, dict):

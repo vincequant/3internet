@@ -295,6 +295,9 @@ class FengyeWindow(OmniWindow):
         panes.add(receipts, minsize=360, stretch='always')
         self.console_chat = self._text(chats, 10)
         self.control_log = self._text(receipts, 10)
+        self.battle_page = tk.Frame(self.control_book, bg=DAMASK)
+        self.control_book.add(self.battle_page, text='戰場')
+        self._build_battle_page()
         self.chat_history_page = tk.Frame(self.control_book, bg=DAMASK)
         self.control_book.add(self.chat_history_page, text='聊天歷史')
         tk.Label(self.chat_history_page, text='本局收到的聊天（唯讀，逐條按時間）', bg=DAMASK, fg=GOLD,
@@ -362,13 +365,23 @@ class FengyeWindow(OmniWindow):
         self.cmd_send_btn = tk.Button(act, text='送出（自動等內政階段）', bg='#cbe7e4', fg='#164d51',
                                       command=self._cmd_send)
         self.cmd_send_btn.pack(side='left')
+        self.cmd_queue_btn = tk.Button(act, text='加入佇列', bg=BG, fg=INK, command=self._cmd_queue_add)
+        self.cmd_queue_btn.pack(side='left', padx=(12, 4))
+        self.cmd_flush_btn = tk.Button(act, text='執行佇列（下個內政階段全部送）', bg='#cbe7e4', fg='#164d51',
+                                       command=self._cmd_flush)
+        self.cmd_flush_btn.pack(side='left', padx=4)
+        self.cmd_queue_clear_btn = tk.Button(act, text='清空佇列', bg=BG, fg=INK, command=self._cmd_queue_clear)
+        self.cmd_queue_clear_btn.pack(side='left', padx=4)
         self.cmd_auto_slot = tk.BooleanVar(value=True)
         tk.Checkbutton(act, text='風夜：臨時切到該勢力席位再送（送完切回）', variable=self.cmd_auto_slot,
                        bg=DAMASK, fg=INK, selectcolor=DAMASK).pack(side='left', padx=10)
         self.cmd_summary = tk.Label(act, text='尚未讀取目標', bg=DAMASK, fg=MUTED, anchor='w',
                                     justify='left', wraplength=900)
         self.cmd_summary.pack(side='left', padx=12)
-        self.cmd_log = self._text(box, 9)
+        tk.Label(box, text='佇列（軍事階段先排好，內政階段一次全部送出）', bg=DAMASK, fg=GOLD,
+                 font=(self.face, 12, 'bold'), anchor='w').pack(fill='x', padx=12, pady=(6, 0))
+        self.cmd_queue = self._text(box, 5)
+        self.cmd_log = self._text(box, 8)
         self.cmd_vars = {}
         self._cmd_rebuild_params()
         self.root.after(1500, self._cmd_refresh)
@@ -719,9 +732,95 @@ class FengyeWindow(OmniWindow):
             self.root.after(0, show)
         threading.Thread(target=work, daemon=True, name='cmd-send').start()
 
+    def _cmd_payload(self):
+        """把目前表單內容轉成 payload（不送出）。"""
+        data, target, force = self._cmd_selected()
+        if not target or not force:
+            return None, '先讀取目標與勢力'
+        preset = self._cmd_preset_key()
+        payload = {'prefix': target['prefix'], 'preset': preset, 'actor': force['force_id'],
+                   'auto_slot': bool(self.cmd_auto_slot.get())}
+        try:
+            if preset == 'train':
+                mult = max(1, int(self.cmd_vars['mult'].get() or 1))
+                payload['troop'] = int(self.cmd_vars['troop'].get().split()[0])
+                payload['value'] = int(self.cmd_vars['base'].get() or 0) * mult
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'alms':
+                mult = max(1, int(self.cmd_vars['mult'].get() or 1))
+                payload['value'] = int(self.cmd_vars['base'].get() or 0) * mult
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'rice':
+                mult = max(1, int(self.cmd_vars['mult'].get() or 1))
+                payload['buy'] = int(self.cmd_vars['buy'].get().split()[0])
+                payload['value'] = int(self.cmd_vars['base'].get() or 0) * mult
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'build':
+                payload['build_type'] = int(self.cmd_vars['build_type'].get().split()[0])
+                text = self.cmd_vars['city'].get()
+                import re as _re
+                match = _re.search(r'#(\d+)', text)
+                if not match:
+                    return None, '請先選城池'
+                payload['city'] = int(match.group(1))
+                payload['x'] = int(self.cmd_vars['x'].get())
+                payload['y'] = int(self.cmd_vars['y'].get())
+                payload['extra'] = int(self.cmd_vars['extra'].get())
+            elif preset == 'personnel':
+                payload['subtype'] = int(self.cmd_vars['subtype'].get().split()[0])
+                payload['target_id'] = int(self.cmd_vars['target_id'].get())
+        except (KeyError, ValueError) as exc:
+            return None, '參數不完整：%s' % exc
+        return payload, None
+
+    def _cmd_queue_add(self):
+        payload, err = self._cmd_payload()
+        if err:
+            self._cmd_note(err)
+            return
+        result = self.command_service.queue_add(payload)
+        if not result.get('ok'):
+            self._cmd_note('加入失敗：' + str(result.get('error')))
+            return
+        self._cmd_note('已加入佇列（共 %d 條）' % len(result.get('queue') or []))
+        self._cmd_render_queue()
+
+    def _cmd_flush(self):
+        result = self.command_service.flush_queue()
+        if not result.get('ok'):
+            self._cmd_note('無法執行：' + str(result.get('error')))
+            return
+        self._cmd_note('已開始執行佇列：force %s、%d 條（會等到下一個內政階段全部送出）'
+                       % (result.get('force'), result.get('batch')))
+        self._cmd_render_queue()
+
+    def _cmd_queue_clear(self):
+        self.command_service.queue_clear()
+        self._cmd_render_queue()
+        self._cmd_note('佇列已清空')
+
+    def _cmd_render_queue(self):
+        try:
+            view = self.command_service.queue_view()
+        except Exception:  # noqa: BLE001
+            return
+        items = view.get('queue') or []
+        flush = view.get('flush') or {}
+        lines = ['%s  force %s  %-10s  %s' % (it.get('id'), it.get('actor'), it.get('preset'),
+                                             {k: it.get(k) for k in ('troop', 'value', 'extra',
+                                                                     'build_type', 'city', 'x', 'y',
+                                                                     'subtype', 'target_id')
+                                              if it.get(k) is not None})
+                 for it in items]
+        if flush:
+            lines.append('— 執行狀態：%s %s' % (flush.get('phase'), flush.get('note')))
+        text = '\n'.join(lines) if lines else '（佇列是空的）'
+        self._set_text(self.cmd_queue, text)
+
     def _cmd_poll(self):
         try:
             self._cmd_render_jobs()
+            self._cmd_render_queue()
         finally:
             self.root.after(3000, self._cmd_poll)
 
@@ -749,6 +848,112 @@ class FengyeWindow(OmniWindow):
         self.cmd_log.delete('1.0', 'end')
         self.cmd_log.insert('1.0', text)
         self.cmd_log.configure(state='disabled')
+
+    # ------------------------------------------------------------ 戰場（唯讀）
+    def _build_battle_page(self):
+        """2026-10-19：把全知情情報最常用的三塊（勢力基礎情報／部隊／地圖）搬進情報台。"""
+        box = self._box(self.battle_page, '本局戰場（唯讀，直讀遊戲）')
+        box.pack(fill='both', expand=True, padx=14, pady=14)
+        bar = tk.Frame(box, bg=DAMASK)
+        bar.pack(fill='x', padx=10, pady=(10, 4))
+        tk.Button(bar, text='更新戰場資料', bg='#cbe7e4', fg='#164d51',
+                  command=self._battle_refresh).pack(side='left')
+        self.battle_note = tk.Label(bar, text='尚未讀取', bg=DAMASK, fg=MUTED, anchor='w')
+        self.battle_note.pack(side='left', padx=12)
+        self.battle_map = tk.Canvas(box, height=230, bg='#dfe6d3', highlightthickness=1,
+                                    highlightbackground='#b9c2ad')
+        self.battle_map.pack(fill='x', padx=10, pady=(4, 8))
+        panes = tk.PanedWindow(box, orient='horizontal', bg=DAMASK, sashwidth=8)
+        panes.pack(fill='both', expand=True, padx=10, pady=(0, 8))
+        left = self._box(panes, '勢力基礎情報')
+        right = self._box(panes, '部隊')
+        panes.add(left, minsize=380, stretch='always')
+        panes.add(right, minsize=380, stretch='always')
+        self.battle_forces = ttk.Treeview(left, columns=('force', 'gold', 'rice', 'cities', 'units'),
+                                          show='headings', height=8)
+        for col, text, width in (('force', '勢力', 120), ('gold', '金', 80), ('rice', '米', 90),
+                                 ('cities', '城', 50), ('units', '部隊', 55)):
+            self.battle_forces.heading(col, text=text)
+            self.battle_forces.column(col, width=width, anchor='w')
+        self.battle_forces.pack(fill='both', expand=True, padx=6, pady=6)
+        self.battle_units = ttk.Treeview(right, columns=('owner', 'kind', 'xy', 'attack', 'morale'),
+                                         show='headings', height=8)
+        for col, text, width in (('owner', '勢力', 80), ('kind', '兵種', 70), ('xy', '座標', 90),
+                                 ('attack', '攻擊', 60), ('morale', '士氣', 60)):
+            self.battle_units.heading(col, text=text)
+            self.battle_units.column(col, width=width, anchor='w')
+        self.battle_units.pack(fill='both', expand=True, padx=6, pady=6)
+        self.root.after(2500, self._battle_refresh)
+
+    def _battle_refresh(self):
+        self.battle_note.configure(text='讀取中…')
+
+        def work():
+            try:
+                data = self.command_service.battlefield()
+            except Exception as exc:  # noqa: BLE001
+                data = {'ok': False, 'error': '%s: %s' % (type(exc).__name__, exc)}
+
+            def show():
+                if not data.get('ok'):
+                    self.battle_note.configure(text='讀取失敗：' + str(data.get('error')))
+                    return
+                lords = data.get('lords') or []
+                cities = data.get('cities') or []
+                units = data.get('units') or []
+                name_of = {l['force_id']: l['name'] for l in lords if isinstance(l.get('force_id'), int)}
+                self.battle_forces.delete(*self.battle_forces.get_children())
+                for lord in lords:
+                    fid = lord.get('force_id')
+                    own_cities = sum(1 for c in cities if c.get('owner') == fid)
+                    own_units = sum(1 for u in units if u.get('owner') == fid)
+                    train = lord.get('armament') or {}
+                    troops = lord.get('troop_stock') or {}
+                    self.battle_forces.insert('', 'end', values=(
+                        lord.get('name'), lord.get('gold'), lord.get('rice'), own_cities, own_units))
+                self.battle_units.delete(*self.battle_units.get_children())
+                for u in units:
+                    xy = u.get('xy') or ['?', '?']
+                    self.battle_units.insert('', 'end', values=(
+                        name_of.get(u.get('owner'), u.get('owner')), u.get('kind'),
+                        '%s,%s' % (xy[0], xy[1]), u.get('attack'), u.get('morale')))
+                self._battle_draw_map(cities, units, name_of)
+                self.battle_note.configure(text='更新於 %s　勢力 %d　城 %d　部隊 %d' % (
+                    datetime.now().strftime('%H:%M:%S'), len(lords), len(cities), len(units)))
+            self.root.after(0, show)
+        threading.Thread(target=work, daemon=True, name='battle-refresh').start()
+
+    def _battle_draw_map(self, cities, units, name_of):
+        canvas = self.battle_map
+        canvas.delete('all')
+        width = max(360, canvas.winfo_width() or 720)
+        height = max(160, canvas.winfo_height() or 230)
+        pts = [c['xy'] for c in cities if c.get('xy')] + [u['xy'] for u in units if u.get('xy')]
+        if not pts:
+            canvas.create_text(width / 2, height / 2, text='沒有座標資料', fill='#7a8570')
+            return
+        xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
+        minx, maxx, miny, maxy = min(xs), max(xs), min(ys), max(ys)
+        spanx = max(1, maxx - minx); spany = max(1, maxy - miny)
+        pad = 18
+        def project(p):
+            return (pad + (p[0] - minx) / spanx * (width - 2 * pad),
+                    pad + (p[1] - miny) / spany * (height - 2 * pad))
+        palette = {1: '#b23a2e', 2: '#2b5fa8', 3: '#2f7a3f', 4: '#8a5a1f', 5: '#6b3fa0'}
+        for city in cities:
+            if not city.get('xy'):
+                continue
+            px, py = project(city['xy'])
+            canvas.create_rectangle(px - 5, py - 5, px + 5, py + 5,
+                                    fill=palette.get(city.get('owner'), '#777777'), outline='#ffffff')
+            canvas.create_text(px, py - 10, text=str(city.get('name')), fill='#22303a',
+                               font=(self.face, 9))
+        for unit in units:
+            if not unit.get('xy'):
+                continue
+            px, py = project(unit['xy'])
+            canvas.create_oval(px - 4, py - 4, px + 4, py + 4,
+                               fill=palette.get(unit.get('owner'), '#444444'), outline='#ffffff')
 
     def _build_room_controls(self):
         box = self._box(self.room_control_page, '風夜進房與準備')
