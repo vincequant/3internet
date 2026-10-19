@@ -325,15 +325,14 @@ case "$ef_line" in
   *'"ok": true'*|*'"ok":true'*) ;;
   *) say "!! 元素查表回退没装上"; state stealth failed "element-fallback"; exit 1 ;;
 esac
-# 19:26 实测：面板元素容器是空的（旁听实例从不建信息栏）→ 查表只会回 NULL，
-# 0x4a3e1e `mov esi,[ebx+0x3c]` 直接炸。这里给三个活着的查表点补「真实元素」：
-# 用游戏自己的 operator new(0x44) + ctor 0x485256 造一个同类型对象（vtable 0x50A4F8，
-# +0x30/+0x38/+0x3C/+0x40 由基类 ctor 归零）并缓存复用。
-pr_line=$(run_in "$FENGYE_PREFIX" "$Z\\tools\\patch_panel_row_fallback.py" "$fe_pid" 2>/dev/null | tr -d '\r' | grep '^{' | tail -1)
+# 19:26 实测：面板元素容器是空的（旁听实例从不建信息栏）→ 查表只会回 NULL。
+# 20:2x 改版：不再造合成元素（会被带进通知链，每点一次练兵炸 5 笔 0x7BFA4376），
+# 改成「查不到就跳到原函数 epilogue」——不造任何东西、不进通知链。
+pr_line=$(run_in "$FENGYE_PREFIX" "$Z\\tools\\patch_panel_row_skip.py" "$fe_pid" 2>/dev/null | tr -d '\r' | grep '^{' | tail -1)
 say "  panel-row pid=${fe_pid} ${pr_line}"
 case "$pr_line" in
   *'"ok": true'*|*'"ok":true'*) ;;
-  *) say "!! 面板行回退没装上"; state stealth failed "panel-row-fallback"; exit 1 ;;
+  *) say "!! 面板行跳過補丁沒裝上"; state stealth failed "panel-row-skip"; exit 1 ;;
 esac
 
 # ---- 7) 摘席 ----
