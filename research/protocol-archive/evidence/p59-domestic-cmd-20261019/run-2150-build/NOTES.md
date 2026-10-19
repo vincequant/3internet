@@ -23,6 +23,8 @@ kind 18 / subtype 4
 |---|---|---|---|
 | 1 | 牧場（8）@ (35,39)，city 5，extra 2000 | 劉備建築：練兵所 (33,37)；金 15721 | **新增 `horse_farm` @ (35,39) linked=5、amount 15000、def 100/450**；建築總數 50→51；**金 15721→13721（−2000）** |
 | 2 | 弓工坊（9）@ (35,41)，city 5，extra 2000 | 金 23047 | **新增 `bow_studio` @ (35,41) linked=5、amount 15000、def 100/450**；建築總數 51→52；**金 23047→21047（−2000）** |
+| 3 | 練兵所（7）@ (34,41)，city 5，extra 2000 | 金 21047 | **新增 `parade_ground` @ (34,41) linked=5、def 100/450**；建築總數 52→53；**金 21047→19047（−2000）** |
+| 4（對照） | 練兵所（7）@ (36,41)，city 5，extra 2000，**phase=0 時送出** | — | **沒有新增、金沒扣** ⇒ 非指令階段送出的命令會被丟棄 |
 
 * 兩發回執都 `rc=1`、`gate 1/1`、`phase=1`、`kind=18 sub=4`，`vt=0x5039F8`（DomesticCmd）。
 * 目標城池是劉備的**平原（city_id 5，世界座標 35,40）**；選址 (35,39)/(35,41) 是城旁 1 格的空地
@@ -55,7 +57,10 @@ ffff010013004353616e496e6574446f6d6573746963436d64  ← 類別標頭（54 bytes 
 shots/build-horsefarm-35-39.bin   回執（rc=1、kind18/sub4、op=0x270023、actor1/type8/city5/extra2000）
 shots/build-bowstudio-35-41.bin   回執（rc=1、kind18/sub4、op=0x290023、actor1/type9/city5/extra2000）
 shots/receipts.json               兩發解碼
-buildings-after.json              結算後 force1 的三座建築（練兵所＋牧場＋弓工坊）
+buildings-after.json              第二發後 force1 的三座建築
+buildings-final.json              第三發後 force1 的四座建築（練兵所×2＋牧場＋弓工坊）
+shots/build-parade-34-41.bin      第三發（type 7）回執
+shots/build-parade-36-41-phase0-dropped.bin  對照：phase=0 送出、rc=1 但沒有生效
 lords-after.json                  結算後金錢
 ```
 
@@ -77,5 +82,7 @@ terrain=2、未被佔用的候選格；`tools/_p60_build_view.py <pid> <force>` 
 
 1. `parameter` 4/5/6（火計/落石/陷阱）尚未實測；陷阱那筆真實樣本 value=25、extra=2000 的語義
    應該與本次相同（value=city_id、extra=金），但未實地驗證。
+4. **送出時機很重要**：第 4 發在 phase=0（非指令階段）送出，rc=1 但主機不套用；三發成功的都在 phase=1。
+   這與練兵/米交易/施捨的觀察一致。
 2. `amount`（新牧場 15000、舊練兵所 2600）是遊戲自己算的，與 extra 無關；用途未查。
 3. 同格重複建設、敵城上建設等邊界未測。
