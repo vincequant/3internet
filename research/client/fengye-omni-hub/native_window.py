@@ -362,6 +362,9 @@ class FengyeWindow(OmniWindow):
         self.cmd_send_btn = tk.Button(act, text='送出（自動等內政階段）', bg='#cbe7e4', fg='#164d51',
                                       command=self._cmd_send)
         self.cmd_send_btn.pack(side='left')
+        self.cmd_auto_slot = tk.BooleanVar(value=True)
+        tk.Checkbutton(act, text='風夜：臨時切到該勢力席位再送（送完切回）', variable=self.cmd_auto_slot,
+                       bg=DAMASK, fg=INK, selectcolor=DAMASK).pack(side='left', padx=10)
         self.cmd_summary = tk.Label(act, text='尚未讀取目標', bg=DAMASK, fg=MUTED, anchor='w',
                                     justify='left', wraplength=900)
         self.cmd_summary.pack(side='left', padx=12)
@@ -655,7 +658,8 @@ class FengyeWindow(OmniWindow):
             self._cmd_note('先讀取目標與勢力')
             return
         preset = self._cmd_preset_key()
-        payload = {'prefix': target['prefix'], 'preset': preset, 'actor': force['force_id']}
+        payload = {'prefix': target['prefix'], 'preset': preset, 'actor': force['force_id'],
+                   'auto_slot': bool(self.cmd_auto_slot.get())}
         try:
             mult = max(1, int(self.cmd_vars['mult'].get() or 1)) if 'mult' in self.cmd_vars else 1
             base = int(self.cmd_vars['base'].get() or 0) if 'base' in self.cmd_vars else 0

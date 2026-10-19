@@ -171,6 +171,35 @@ class CommandService:
         return [c['xy'] for c in data.get('candidates') or []]
 
     # ----------------------------------------------------------------- sending
+    def _ghost_home_slot(self, default=5):
+        """風夜的家=無勢力席位；以現行 slotkeep 的 --slot 為準，讀不到就回 5。"""
+        try:
+            res = self.runner(['pgrep', '-fl', 'shadow_slotkeep'], capture_output=True, text=True, timeout=5)
+            text = res.stdout or ''
+            for token in text.split():
+                if token.startswith('--slot'):
+                    pass
+            import re as _re
+            match = _re.search(r'--slot\s+(\d+)', text)
+            if match:
+                return int(match.group(1))
+        except Exception:  # noqa: BLE001
+            pass
+        return default
+
+    def _switch_slot(self, slot, timeout=60):
+        """2026-10-19：風夜下指令前要臨時把席位切到目標勢力，送完再切回。"""
+        script = self.lab / 'shadow_force.sh'
+        if not script.exists():
+            return False, 'shadow_force.sh 不在 lab'
+        try:
+            res = self.runner(['bash', str(script), 'switch', str(slot)], capture_output=True,
+                              text=True, timeout=timeout, cwd=str(self.lab))
+        except Exception as exc:  # noqa: BLE001
+            return False, '%s: %s' % (type(exc).__name__, exc)
+        text = ((res.stdout or '') + (res.stderr or '')).strip().splitlines()
+        return res.returncode == 0, (text[-1] if text else '')
+
     def build_args(self, job):
         preset = job.get('preset')
         job = dict(job, **(job.get('params') or {}))   # params live one level down
@@ -267,10 +296,38 @@ class CommandService:
                'created': time.time(), 'receipt': None, 'error': None,
                'params': {k: payload.get(k) for k in
                           ('actor', 'troop', 'value', 'extra', 'buy', 'build_type', 'x', 'y',
-                           'city', 'subtype', 'target_id')}}
+                           'city', 'subtype', 'target_id')},
+               'auto_slot': bool(payload.get('auto_slot'))}
         args, flag, receipt = self.build_args(job)
         job['flag'] = flag
         job['receipt_path'] = receipt
+        auto_slot = bool(payload.get('auto_slot')) and prefix == 'prefix-fengye-shadow'
+        target_slot = None
+        original_slot = None
+        if auto_slot:
+            slots = info.get('player_slots') or []
+            row = next((r for r in slots if r.get('force_id') == job['params'].get('actor')
+                        and isinstance(r.get('slot'), int)), None)
+            if row is None:
+                return {'ok': False, 'error': '找不到該勢力的席位，無法臨時切換'}
+            target_slot = row['slot']
+            original_slot = self._ghost_home_slot()
+            if original_slot == target_slot:
+                original_slot = 5
+            # 2026-10-19 實測：席位必須在「指令階段開始之前」切好；
+            # 若現在正是內政階段，先等它結束（最多 150s），在結算期切換。
+            if phase == 1:
+                deadline = time.time() + 150
+                while time.time() < deadline:
+                    p2, _ = self.phase()
+                    if p2 != 1:
+                        break
+                    time.sleep(2)
+                phase, _ = self.phase()
+            ok_switch, note = self._switch_slot(target_slot)
+            job['slot_switch'] = {'to': target_slot, 'ok': ok_switch, 'note': note}
+            if not ok_switch:
+                return {'ok': False, 'error': '切席位失敗：' + note}
         try:
             res = self._run(prefix, args, timeout=40)
         except Exception as exc:  # noqa: BLE001
@@ -294,6 +351,8 @@ class CommandService:
             self._push(job)
             return {'ok': False, 'error': job['error']}
         self._push(job)
+        if auto_slot:
+            job['slot_home'] = original_slot
         threading.Thread(target=self._wait_receipt, args=(job,), daemon=True).start()
         return {'ok': True, 'job': self._public(job)}
 
@@ -322,10 +381,15 @@ class CommandService:
                     job['status'] = 'error'
                     job['error'] = 'receipt parse: %s' % exc
                 job['finished'] = time.time()
+                home = job.get('slot_home')
+                if home is not None:
+                    ok_restore, note = self._switch_slot(home)
+                    job['slot_restore'] = {'to': home, 'ok': ok_restore, 'note': note}
                 return
             time.sleep(0.5)
         job['status'] = 'armed_waiting'
-        job['error'] = '300s 內沒有等到內政階段（agent 仍在客戶端裡等待，觸發檔已就位）'
+        job['error'] = ('300s 內沒有等到內政階段（agent 仍在客戶端裡等待，席位維持在 %s，'
+                        '需要時用 shadow_force.sh switch 5 還原）' % job.get('slot_switch'))
 
     def _public(self, job):
         out = {k: v for k, v in job.items() if k not in ('flag', 'receipt_path')}
