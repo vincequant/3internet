@@ -65,3 +65,27 @@ tools: p60_multi_build.sh（批次）、_p60_traps.py（唯讀驗收）
    單發時（run-2150）扣款是精確的 −2000。
 2. 同格重複建設、敵方城池上建設、超過城池附屬格範圍的座標，都還沒測。
 3 . 一次最多能塞幾條命令進同一批次（伺服器/批次上限）未測。
+
+## 5. 批次工具驗證（22:18–22:22）
+
+用**可重用的** `p60_multi_build.sh`（不是臨時腳本）再跑一批兩發：
+
+```
+bash p60_multi_build.sh 1 <prefix-sikarugir10> 8:36:42:2000 9:38:41:2000
+→ armed #1 type=8 @(36,42) / armed #2 type=9 @(38,41)
+→ phase 1 -> firing 2 commands at once
+→ #1 rc=1 type=8 xy=(36,42) phase=1 ; #2 rc=1 type=9 xy=(38,41) phase=1 ; receipts 2/2
+```
+
+回合結算後 force1 的建築清單：
+
+```
+parade_ground (33,37)   ← 原本就有
+horse_farm    (35,39)   ← run-2150 第1發
+bow_studio    (35,41)   ← run-2150 第2發
+parade_ground (34,41)   ← run-2150 第3發
+horse_farm    (36,42)   ← 本批 #1
+bow_studio    (38,41)   ← 本批 #2
+```
+
+⇒ 批次工具端到端可用：一批命令在同一個 phase=1 內全部落地、每發一份回執。
