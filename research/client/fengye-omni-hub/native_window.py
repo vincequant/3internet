@@ -1387,14 +1387,24 @@ class FengyeWindow(OmniWindow):
         else:
             self._lab_arm(subset, nick)
 
+    def _lab_root(self):
+        """實驗室根目錄：真實局在本機 lab；舊遠端 lab 由 data/config.json 覆寫。"""
+        try:
+            cfg = json.loads((Path(__file__).resolve().parent / 'data' / 'config.json')
+                             .read_text(encoding='utf-8'))
+        except (OSError, ValueError):
+            cfg = {}
+        return Path(cfg.get('lab_root') or (Path.home() / 'sgi-fengye-lab' / 'shadow')).expanduser()
+
     def _lab_arm(self, room_name=None, nickname=None):
         env = ''
         if room_name:
             env += 'JOIN_NAME={} '.format(shlex.quote(room_name))
         if nickname:
             env += 'JOIN_NICKNAME={} '.format(shlex.quote(nickname))
+        lab = self._lab_root()
         self._lab_async('風夜進房準備',
-                        'cd ~/sgi-protocol-lab-20260915/shadow && {}bash arm_now.sh'.format(env))
+                        'cd {} && {}bash arm_now.sh'.format(shlex.quote(str(lab)), env))
 
     def lab_arm(self):
         if not messagebox.askokcancel('讓風夜進房？',
