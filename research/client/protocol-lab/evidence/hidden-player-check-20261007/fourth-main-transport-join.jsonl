@@ -1,0 +1,3 @@
+{"stage": "start", "rc": 0, "windows_version": [6, 3, 9600, 2, ""]}
+{"stage": "resolved_addresses", "addresses": ["10.228.84.151", "100.65.161.42", "127.12.34.56"]}
+{"stage": "cleanup", "exit_rc": 0, "end_rc": 1}

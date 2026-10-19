@@ -1,0 +1,4 @@
+{"login_verified": true, "query_status": "replies_received", "rooms": [{"id": "171274991", "name": "SGZWLB", "host": "VK(筑基期)", "maximum": 8, "current": 1, "version": 0}], "credentials_only_verified": true, "elapsed_ms": 12267, "observed_at": 1789483155.271513}
+
+exit 0
+sha256 465227efaed7dbcd6cd9018d06266f69f89498bacf29f8283189849c522a577d

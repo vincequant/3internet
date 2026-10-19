@@ -1,0 +1,43 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe:	file format coff-i386
+
+Disassembly of section .text:
+
+00401000 <.text>:
+  46396d: 00 00                        	addb	%al, (%eax)
+  46396f: 8b cf                        	movl	%edi, %ecx
+  463971: 89 45 f0                     	movl	%eax, -0x10(%ebp)
+  463974: e8 c7 c0 04 00               	calll	0x4afa40 <.text+0xaea40>
+  463979: 85 c0                        	testl	%eax, %eax
+  46397b: 0f 84 74 03 00 00            	je	0x463cf5 <.text+0x62cf5>
+  463981: e8 4c d5 fc ff               	calll	0x430ed2 <.text+0x2fed2>
+  463986: 8b 80 cc 00 00 00            	movl	0xcc(%eax), %eax
+  46398c: 83 f8 01                     	cmpl	$0x1, %eax
+  46398f: 74 09                        	je	0x46399a <.text+0x6299a>
+  463991: 83 f8 02                     	cmpl	$0x2, %eax
+  463994: 0f 85 bf 00 00 00            	jne	0x463a59 <.text+0x62a59>
+  46399a: 8d 4d d0                     	leal	-0x30(%ebp), %ecx
+  46399d: e8 d4 ad 04 00               	calll	0x4ae776 <.text+0xad776>
+  4639a2: 8d 4d d0                     	leal	-0x30(%ebp), %ecx
+  4639a5: e8 d9 ad 04 00               	calll	0x4ae783 <.text+0xad783>
+  4639aa: 8b 45 f0                     	movl	-0x10(%ebp), %eax
+  4639ad: 8b cf                        	movl	%edi, %ecx
+  4639af: ff b0 d0 00 00 00            	pushl	0xd0(%eax)
+  4639b5: 68 a8 2f 50 00               	pushl	$0x502fa8               # imm = 0x502FA8
+  4639ba: ff b3 0d 06 00 00            	pushl	0x60d(%ebx)
+  4639c0: ff b3 fa 04 00 00            	pushl	0x4fa(%ebx)
+  4639c6: ff b3 f2 04 00 00            	pushl	0x4f2(%ebx)
+  4639cc: e8 bf 6c fc ff               	calll	0x42a690 <.text+0x29690>
+  4639d1: 85 c0                        	testl	%eax, %eax
+  4639d3: 75 77                        	jne	0x463a4c <.text+0x62a4c>
+  4639d5: 83 7f 10 04                  	cmpl	$0x4, 0x10(%edi)
+  4639d9: 75 1d                        	jne	0x4639f8 <.text+0x629f8>
+  4639db: e8 f2 d4 fc ff               	calll	0x430ed2 <.text+0x2fed2>
+  4639e0: 8b 80 d0 00 00 00            	movl	0xd0(%eax), %eax
+  4639e6: 8d 4d d0                     	leal	-0x30(%ebp), %ecx
+  4639e9: 89 45 ec                     	movl	%eax, -0x14(%ebp)
+  4639ec: e8 aa ad 04 00               	calll	0x4ae79b <.text+0xad79b>
+  4639f1: 3b 45 ec                     	cmpl	-0x14(%ebp), %eax
+  4639f4: 77 18                        	ja	0x463a0e <.text+0x62a0e>
+  4639f6: eb b2                        	jmp	0x4639aa <.text+0x629aa>
+  4639f8: 68 16 27 00 00               	pushl	$0x2716                 # imm = 0x2716

@@ -1,0 +1,68 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe:	file format coff-i386
+
+Disassembly of section .text:
+
+00401000 <.text>:
+  42a68d: c2 1c 00                     	retl	$0x1c
+  42a690: 55                           	pushl	%ebp
+  42a691: 8b ec                        	movl	%esp, %ebp
+  42a693: 56                           	pushl	%esi
+  42a694: 57                           	pushl	%edi
+  42a695: ff 75 18                     	pushl	0x18(%ebp)
+  42a698: 8b 7d 08                     	movl	0x8(%ebp), %edi
+  42a69b: 8b f1                        	movl	%ecx, %esi
+  42a69d: 57                           	pushl	%edi
+  42a69e: ff 75 0c                     	pushl	0xc(%ebp)
+  42a6a1: ff 75 14                     	pushl	0x14(%ebp)
+  42a6a4: ff 75 10                     	pushl	0x10(%ebp)
+  42a6a7: ff 15 8c b4 4f 00            	calll	*0x4fb48c
+  42a6ad: 85 c0                        	testl	%eax, %eax
+  42a6af: 74 07                        	je	0x42a6b8 <.text+0x296b8>
+  42a6b1: 89 46 10                     	movl	%eax, 0x10(%esi)
+  42a6b4: 33 c0                        	xorl	%eax, %eax
+  42a6b6: eb 11                        	jmp	0x42a6c9 <.text+0x296c9>
+  42a6b8: ff 75 0c                     	pushl	0xc(%ebp)
+  42a6bb: 8d 4e 0c                     	leal	0xc(%esi), %ecx
+  42a6be: 89 7e 08                     	movl	%edi, 0x8(%esi)
+  42a6c1: e8 3c 79 0a 00               	calll	0x4d2002 <.text+0xd1002>
+  42a6c6: 6a 01                        	pushl	$0x1
+  42a6c8: 58                           	popl	%eax
+  42a6c9: 5f                           	popl	%edi
+  42a6ca: 5e                           	popl	%esi
+  42a6cb: 5d                           	popl	%ebp
+  42a6cc: c2 14 00                     	retl	$0x14
+  42a6cf: 56                           	pushl	%esi
+  42a6d0: 8b f1                        	movl	%ecx, %esi
+  42a6d2: ff 74 24 10                  	pushl	0x10(%esp)
+  42a6d6: ff 74 24 10                  	pushl	0x10(%esp)
+  42a6da: ff 74 24 10                  	pushl	0x10(%esp)
+  42a6de: ff 15 88 b4 4f 00            	calll	*0x4fb488
+  42a6e4: 85 c0                        	testl	%eax, %eax
+  42a6e6: 74 07                        	je	0x42a6ef <.text+0x296ef>
+  42a6e8: 89 46 10                     	movl	%eax, 0x10(%esi)
+  42a6eb: 33 c0                        	xorl	%eax, %eax
+  42a6ed: eb 03                        	jmp	0x42a6f2 <.text+0x296f2>
+  42a6ef: 6a 01                        	pushl	$0x1
+  42a6f1: 58                           	popl	%eax
+  42a6f2: 5e                           	popl	%esi
+  42a6f3: c2 0c 00                     	retl	$0xc
+  42a6f6: 56                           	pushl	%esi
+  42a6f7: 8b f1                        	movl	%ecx, %esi
+  42a6f9: ff 74 24 08                  	pushl	0x8(%esp)
+  42a6fd: ff 15 84 b4 4f 00            	calll	*0x4fb484
+  42a703: 85 c0                        	testl	%eax, %eax
+  42a705: 74 07                        	je	0x42a70e <.text+0x2970e>
+  42a707: 89 46 10                     	movl	%eax, 0x10(%esi)
+  42a70a: 33 c0                        	xorl	%eax, %eax
+  42a70c: eb 03                        	jmp	0x42a711 <.text+0x29711>
+  42a70e: 6a 01                        	pushl	$0x1
+  42a710: 58                           	popl	%eax
+  42a711: 5e                           	popl	%esi
+  42a712: c2 04 00                     	retl	$0x4
+  42a715: 56                           	pushl	%esi
+  42a716: 8b f1                        	movl	%ecx, %esi
+  42a718: 83 7e 04 00                  	cmpl	$0x0, 0x4(%esi)
+  42a71c: 74 18                        	je	0x42a736 <.text+0x29736>
+  42a71e: 83 7e 08 00                  	cmpl	$0x0, 0x8(%esi)
+  42a722: 74 12                        	je	0x42a736 <.text+0x29736>

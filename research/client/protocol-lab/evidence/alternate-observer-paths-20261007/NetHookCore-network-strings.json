@@ -1,0 +1,94 @@
+[
+  {
+    "va": "0x10017420",
+    "text": "kernel32.dll"
+  },
+  {
+    "va": "0x10017430",
+    "text": "kernelBase.dll"
+  },
+  {
+    "va": "0x10017570",
+    "text": "WSARecvFrom"
+  },
+  {
+    "va": "0x1001757c",
+    "text": "WSARecv"
+  },
+  {
+    "va": "0x10017584",
+    "text": "WSASendTo"
+  },
+  {
+    "va": "0x10017590",
+    "text": "WSASend"
+  },
+  {
+    "va": "0x10017598",
+    "text": "WSASocketW"
+  },
+  {
+    "va": "0x1001762c",
+    "text": "socket"
+  },
+  {
+    "va": "0x1001764c",
+    "text": "sendto"
+  },
+  {
+    "va": "0x1001765c",
+    "text": "select"
+  },
+  {
+    "va": "0x10017664",
+    "text": "recvfrom"
+  },
+  {
+    "va": "0x10017678",
+    "text": "listen"
+  },
+  {
+    "va": "0x100176a4",
+    "text": "ioctlsocket"
+  },
+  {
+    "va": "0x100176b0",
+    "text": "connect"
+  },
+  {
+    "va": "0x100176b8",
+    "text": "closesocket"
+  },
+  {
+    "va": "0x100176d4",
+    "text": "ws2_32.dll"
+  },
+  {
+    "va": "0x10017758",
+    "text": "KERNEL32.DLL"
+  },
+  {
+    "va": "0x100177b4",
+    "text": "mscoree.dll"
+  },
+  {
+    "va": "0x10018a1c",
+    "text": "USER32.DLL"
+  },
+  {
+    "va": "0x1001aaa0",
+    "text": "KERNEL32.dll"
+  },
+  {
+    "va": "0x1001ab9c",
+    "text": "USER32.dll"
+  },
+  {
+    "va": "0x1001aba8",
+    "text": "WS2_32.dll"
+  },
+  {
+    "va": "0x1001af52",
+    "text": "NetHookCore.dll"
+  }
+]

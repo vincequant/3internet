@@ -1,0 +1,19 @@
+{
+  "schema": "p51-shadow-resident-1",
+  "blob_offset": 4096,
+  "blob_size": 512,
+  "sha256": "a339036cc404c1bc65b2b3eb687713643c956867982d98adb9a375812e1717a1",
+  "entries": {
+    "resident_boot": 0,
+    "resident_worker": 20,
+    "resident_d_guard": 351,
+    "resident_ui_wait": 419,
+    "resident_ui_return": 445,
+    "resident_sync_begin": 580,
+    "resident_sync_end": 620,
+    "resident_emit": 260,
+    "resident_legacy_park": 658
+  },
+  "variant": "v2.1-dwell",
+  "dwell_field": "blob+0x1b0 (ms); patch site 0x00d1 -> gadget 0x0400"
+}

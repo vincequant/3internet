@@ -1,0 +1,27 @@
+﻿element,run,pid_creation,before_path,on_receipt,on_screenshot,off_receipt,field_raw_sha,zoom_layer,observed_rounds,lag_max,lag_growth,rx_count_before_after,rx_max_gap,crash_delta_bytes,result,notes
+panel-create,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+stat-12c,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+stat-12d,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+stat-12e,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+stat-12f,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+stat-130,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+stat-131,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+stat-132,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+cards-init,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+cards-update,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-tiles,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-unit-sight,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-unit-detail,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-city-detail,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-city-skin,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-site-detail,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-marker-detail,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-trap-fire,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-trap-rock,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-trap-pit,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-unit-sprites,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+map-site-sprites,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+A-date-icons-native,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+B-public-received,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+B-private-targeted-received,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending
+D-unit-panel-readonly,,,,,,,,,,,,,,,NOT_RUN,new-room acceptance pending

@@ -1,0 +1,183 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10007f60: 56                           	pushl	%esi
+10007f61: 8b 74 24 08                  	movl	0x8(%esp), %esi
+10007f65: 57                           	pushl	%edi
+10007f66: 83 be bc 43 00 00 01         	cmpl	$0x1, 0x43bc(%esi)
+10007f6d: 0f 8e ac 00 00 00            	jle	0x1000801f <_NetMsg_AcceptEXIT@4+0x5c9f>
+10007f73: 8b 3d 28 e0 00 10            	movl	0x1000e028, %edi
+10007f79: ff d7                        	calll	*%edi
+10007f7b: 2b 86 5c 84 00 00            	subl	0x845c(%esi), %eax
+10007f81: 3d a0 8c 00 00               	cmpl	$0x8ca0, %eax           # imm = 0x8CA0
+10007f86: 76 28                        	jbe	0x10007fb0 <_NetMsg_AcceptEXIT@4+0x5c30>
+10007f88: 56                           	pushl	%esi
+10007f89: e8 c2 b1 ff ff               	calll	0x10003150 <_NetMsg_AcceptEXIT@4+0xdd0>
+10007f8e: 83 c4 04                     	addl	$0x4, %esp
+10007f91: ff d7                        	calll	*%edi
+10007f93: 89 86 5c 84 00 00            	movl	%eax, 0x845c(%esi)
+10007f99: c7 86 60 84 00 00 00 00 00 00	movl	$0x0, 0x8460(%esi)
+10007fa3: c7 86 64 84 00 00 00 00 00 00	movl	$0x0, 0x8464(%esi)
+10007fad: 5f                           	popl	%edi
+10007fae: 5e                           	popl	%esi
+10007faf: c3                           	retl
+10007fb0: 3d 60 6d 00 00               	cmpl	$0x6d60, %eax           # imm = 0x6D60
+10007fb5: 76 2d                        	jbe	0x10007fe4 <_NetMsg_AcceptEXIT@4+0x5c64>
+10007fb7: 8b 86 64 84 00 00            	movl	0x8464(%esi), %eax
+10007fbd: 85 c0                        	testl	%eax, %eax
+10007fbf: 75 5e                        	jne	0x1000801f <_NetMsg_AcceptEXIT@4+0x5c9f>
+10007fc1: 6a 00                        	pushl	$0x0
+10007fc3: 6a 0d                        	pushl	$0xd
+10007fc5: 56                           	pushl	%esi
+10007fc6: c7 86 64 84 00 00 01 00 00 00	movl	$0x1, 0x8464(%esi)
+10007fd0: e8 ab e1 ff ff               	calll	0x10006180 <_NetMsg_AcceptEXIT@4+0x3e00>
+10007fd5: 83 c4 0c                     	addl	$0xc, %esp
+10007fd8: 56                           	pushl	%esi
+10007fd9: e8 12 e0 ff ff               	calll	0x10005ff0 <_NetMsg_AcceptEXIT@4+0x3c70>
+10007fde: 83 c4 04                     	addl	$0x4, %esp
+10007fe1: 5f                           	popl	%edi
+10007fe2: 5e                           	popl	%esi
+10007fe3: c3                           	retl
+10007fe4: 3d 50 46 00 00               	cmpl	$0x4650, %eax           # imm = 0x4650
+10007fe9: 76 2a                        	jbe	0x10008015 <_NetMsg_AcceptEXIT@4+0x5c95>
+10007feb: 8b 86 60 84 00 00            	movl	0x8460(%esi), %eax
+10007ff1: 85 c0                        	testl	%eax, %eax
+10007ff3: 75 13                        	jne	0x10008008 <_NetMsg_AcceptEXIT@4+0x5c88>
+10007ff5: 56                           	pushl	%esi
+10007ff6: c7 86 60 84 00 00 01 00 00 00	movl	$0x1, 0x8460(%esi)
+10008000: e8 eb df ff ff               	calll	0x10005ff0 <_NetMsg_AcceptEXIT@4+0x3c70>
+10008005: 83 c4 04                     	addl	$0x4, %esp
+10008008: c7 86 64 84 00 00 00 00 00 00	movl	$0x0, 0x8464(%esi)
+10008012: 5f                           	popl	%edi
+10008013: 5e                           	popl	%esi
+10008014: c3                           	retl
+10008015: c7 86 60 84 00 00 00 00 00 00	movl	$0x0, 0x8460(%esi)
+1000801f: 5f                           	popl	%edi
+10008020: 5e                           	popl	%esi
+10008021: c3                           	retl
+10008022: 90                           	nop
+10008023: 90                           	nop
+10008024: 90                           	nop
+10008025: 90                           	nop
+10008026: 90                           	nop
+10008027: 90                           	nop
+10008028: 90                           	nop
+10008029: 90                           	nop
+1000802a: 90                           	nop
+1000802b: 90                           	nop
+1000802c: 90                           	nop
+1000802d: 90                           	nop
+1000802e: 90                           	nop
+1000802f: 90                           	nop
+10008030: 56                           	pushl	%esi
+10008031: 8b 74 24 08                  	movl	0x8(%esp), %esi
+10008035: 8b 86 d4 43 00 00            	movl	0x43d4(%esi), %eax
+1000803b: 85 c0                        	testl	%eax, %eax
+1000803d: 74 43                        	je	0x10008082 <_NetMsg_AcceptEXIT@4+0x5d02>
+1000803f: 8b 86 cc 43 00 00            	movl	0x43cc(%esi), %eax
+10008045: 57                           	pushl	%edi
+10008046: 8b 3d 2c e0 00 10            	movl	0x1000e02c, %edi
+1000804c: 50                           	pushl	%eax
+1000804d: ff d7                        	calll	*%edi
+1000804f: 8b 8e fc 43 00 00            	movl	0x43fc(%esi), %ecx
+10008055: 51                           	pushl	%ecx
+10008056: ff d7                        	calll	*%edi
+10008058: 8b 96 d4 43 00 00            	movl	0x43d4(%esi), %edx
+1000805e: 68 20 4e 00 00               	pushl	$0x4e20                 # imm = 0x4E20
+10008063: 52                           	pushl	%edx
+10008064: ff 15 38 e0 00 10            	calll	*0x1000e038
+1000806a: 8b 86 d4 43 00 00            	movl	0x43d4(%esi), %eax
+10008070: 50                           	pushl	%eax
+10008071: ff 15 0c e0 00 10            	calll	*0x1000e00c
+10008077: c7 86 d4 43 00 00 00 00 00 00	movl	$0x0, 0x43d4(%esi)
+10008081: 5f                           	popl	%edi
+10008082: 5e                           	popl	%esi
+10008083: c3                           	retl
+10008084: 90                           	nop
+10008085: 90                           	nop
+10008086: 90                           	nop
+10008087: 90                           	nop
+10008088: 90                           	nop
+10008089: 90                           	nop
+1000808a: 90                           	nop
+1000808b: 90                           	nop
+1000808c: 90                           	nop
+1000808d: 90                           	nop
+1000808e: 90                           	nop
+1000808f: 90                           	nop
+10008090: 33 c0                        	xorl	%eax, %eax
+10008092: c2 08 00                     	retl	$0x8
+10008095: 90                           	nop
+10008096: 90                           	nop
+10008097: 90                           	nop
+10008098: 90                           	nop
+10008099: 90                           	nop
+1000809a: 90                           	nop
+1000809b: 90                           	nop
+1000809c: 90                           	nop
+1000809d: 90                           	nop
+1000809e: 90                           	nop
+1000809f: 90                           	nop
+100080a0: 66 8b 44 24 04               	movw	0x4(%esp), %ax
+100080a5: c2 04 00                     	retl	$0x4
+100080a8: 90                           	nop
+100080a9: 90                           	nop
+100080aa: 90                           	nop
+100080ab: 90                           	nop
+100080ac: 90                           	nop
+100080ad: 90                           	nop
+100080ae: 90                           	nop
+100080af: 90                           	nop
+100080b0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+100080b4: c2 04 00                     	retl	$0x4
+100080b7: 90                           	nop
+100080b8: 90                           	nop
+100080b9: 90                           	nop
+100080ba: 90                           	nop
+100080bb: 90                           	nop
+100080bc: 90                           	nop
+100080bd: 90                           	nop
+100080be: 90                           	nop
+100080bf: 90                           	nop
+100080c0: 33 c0                        	xorl	%eax, %eax
+100080c2: c2 04 00                     	retl	$0x4
+100080c5: 90                           	nop
+100080c6: 90                           	nop
+100080c7: 90                           	nop
+100080c8: 90                           	nop
+100080c9: 90                           	nop
+100080ca: 90                           	nop
+100080cb: 90                           	nop
+100080cc: 90                           	nop
+100080cd: 90                           	nop
+100080ce: 90                           	nop
+100080cf: 90                           	nop
+100080d0: 33 c0                        	xorl	%eax, %eax
+100080d2: c2 0c 00                     	retl	$0xc
+100080d5: 90                           	nop
+100080d6: 90                           	nop
+100080d7: 90                           	nop
+100080d8: 90                           	nop
+100080d9: 90                           	nop
+100080da: 90                           	nop
+100080db: 90                           	nop
+100080dc: 90                           	nop
+100080dd: 90                           	nop
+100080de: 90                           	nop
+100080df: 90                           	nop
+100080e0: 33 c0                        	xorl	%eax, %eax
+100080e2: c2 14 00                     	retl	$0x14
+100080e5: 90                           	nop
+100080e6: 90                           	nop
+100080e7: 90                           	nop
+100080e8: 90                           	nop
+100080e9: 90                           	nop
+100080ea: 90                           	nop
+100080eb: 90                           	nop
+100080ec: 90                           	nop
+100080ed: 90                           	nop
+100080ee: 90                           	nop
+100080ef: 90                           	nop

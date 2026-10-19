@@ -1,0 +1,14 @@
+{
+  "command": [
+    "/Users/vkquant/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+    "/Users/vkquant/Applications/SGI-Hub/bridge/python/python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "/Users/vkquant/sgi-protocol-lab-20260915/monitor_inspect.py",
+    "--start"
+  ],
+  "stdout": "{\"windows\": [{\"hwnd\": 196826, \"pid\": 32, \"exe\": \"C:\\\\sgi\\\\run-3.5\\\\SANGUO.exe\", \"title\": \"\", \"controls\": []}, {\"hwnd\": 196968, \"pid\": 32, \"exe\": \"C:\\\\sgi\\\\run-3.5\\\\SANGUO.exe\", \"title\": \"三国志Internet对战平台 6.2 [当前用户: vinceost]\", \"controls\": [{\"hwnd\": 131418, \"class\": \"TTabSheet\", \"title\": \"房间用户(8)\"}, {\"hwnd\": 131382, \"class\": \"TTabSheet\", \"title\": \"游戏房间\"}, {\"hwnd\": 131378, \"class\": \"TGroupBox\", \"title\": \" 聊天信息 \"}, {\"hwnd\": 131458, \"class\": \"TCheckBox\", \"title\": \"自动滚屏\"}, {\"hwnd\": 131466, \"class\": \"TCheckBox\", \"title\": \"悄悄话\"}, {\"hwnd\": 196854, \"class\": \"TButton\", \"title\": \"发送\"}, {\"hwnd\": 590224, \"class\": \"TButton\", \"title\": \"游戏设置\"}, {\"hwnd\": 393626, \"class\": \"TButton\", \"title\": \"启动游戏\"}]}]}\n{\"clicked_start\": 393626}\n",
+  "stderr": "",
+  "returncode": 0
+}

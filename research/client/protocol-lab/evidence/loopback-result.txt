@@ -1,0 +1,8 @@
+
+stderr:Traceback (most recent call last):
+  File "Z:\Users\vkquant\sgi-protocol-lab-20260915\koeinm_probe.py", line 131, in <module>
+    main()
+  File "Z:\Users\vkquant\sgi-protocol-lab-20260915\koeinm_probe.py", line 101, in main
+    assert hwnd, c.get_last_error()
+           ^^^^
+AssertionError: 1400

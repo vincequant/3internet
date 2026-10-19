@@ -1,0 +1,70 @@
+"""Cross-platform stdlib client for the already configured second-Mac collector."""
+import argparse
+import json
+import os
+import re
+import shutil
+import subprocess
+import sys
+from datetime import datetime
+
+VERSION = '0.1.0'
+DEFAULT_HOST = 'vkquant@fd7a:115c:a1e0::f930:8943'
+REMOTE = '/Users/vkquant/sgi-protocol-lab-20260915/bot_api_cli.py'
+
+
+def fetch(host, fresh=False):
+    if not re.fullmatch(r'[A-Za-z0-9_][A-Za-z0-9_.:@%\-]*', host):
+        raise ValueError('Invalid SSH host or alias')
+    if not shutil.which('ssh'):
+        return {'ok': False, 'status': 'ssh_unavailable', 'rooms': [],
+                'message': '需要安装 OpenSSH 客户端'}
+    cmd = ['ssh', '-o', 'BatchMode=yes', '-o', 'ConnectTimeout=8',
+           '-o', 'ServerAliveInterval=15', '-o', 'ServerAliveCountMax=3',
+           host, 'python3 '+REMOTE+(' --fresh' if fresh else '')]
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, encoding='utf-8', timeout=75)
+    except subprocess.TimeoutExpired:
+        return {'ok': False, 'status': 'ssh_timeout', 'rooms': [], 'message': '连接采集 Mac 超时'}
+    try:
+        result = json.loads(proc.stdout)
+        if not isinstance(result, dict) or not isinstance(result.get('ok'), bool):
+            raise ValueError()
+        if proc.returncode != 0 and result['ok']:
+            raise ValueError()
+        return result
+    except (ValueError, TypeError):
+        return {'ok': False, 'status': 'ssh_or_remote_error', 'rooms': [],
+                'message': '请检查 SSH 授权、主机连接和远端列表服务；未获得有效数据'}
+
+
+def brief(result):
+    if not result['ok']:
+        return result.get('message', '查询失败')
+    when = datetime.fromtimestamp(result['updated_at']).astimezone().isoformat(timespec='seconds')
+    lines = [f"多线2 · {when} · 数据距今 {result['age_seconds']} 秒"]
+    if result['status'] == 'unconfirmed_empty':
+        lines.append('本轮未收到房间回应，不能据此确认无房或已经开局。')
+    else:
+        lines.extend(f"{x['name']} | 房主 {x['host']} | {x['current']}/{x['maximum']} | ID {x['id']}"
+                     for x in result['rooms'])
+    return '\n'.join(lines)
+
+
+def main():
+    p = argparse.ArgumentParser(description=__doc__)
+    p.add_argument('command', choices=['query', 'brief'])
+    p.add_argument('--host', default=os.environ.get('SGI_MONITOR_SSH_HOST', DEFAULT_HOST))
+    p.add_argument('--fresh', action='store_true', help='Wait for a new completed query, up to 60 seconds')
+    p.add_argument('--version', action='version', version=VERSION)
+    args = p.parse_args()
+    try:
+        result = fetch(args.host, args.fresh)
+    except ValueError:
+        result = {'ok': False, 'status': 'invalid_host', 'rooms': [], 'message': 'SSH 主机参数无效'}
+    print(brief(result) if args.command == 'brief' else json.dumps(result, ensure_ascii=False))
+    return 0 if result['ok'] else 2
+
+
+if __name__ == '__main__':
+    sys.exit(main())

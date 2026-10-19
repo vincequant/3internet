@@ -1,0 +1,7 @@
+{"stage": "alt_lobby_started", "launcher_pid": 55148, "account": "vinceost", "prefix": "/Users/vkquant/Library/Application Support/SGI-Wine/prefix-monitor"}
+{"stage": "helper_result", "args": [], "returncode": 0, "stderr": ""}
+{"stage": "inspect", "status": "inspect", "has_login": false, "has_start": false, "titles": [], "tree": [], "lists": []}
+{"stage": "helper_result", "args": ["--login"], "returncode": 0, "stderr": ""}
+{"status": "needs_user", "message": "未唯一找到登录窗"}
+{"stage": "helper_result", "args": [], "returncode": 0, "stderr": ""}
+{"stage": "inspect", "status": "inspect", "has_login": false, "has_start": false, "titles": [], "tree": [], "lists": []}

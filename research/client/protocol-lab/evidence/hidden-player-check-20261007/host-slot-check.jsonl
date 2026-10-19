@@ -1,0 +1,2 @@
+
+{"helper_exit": 1, "stderr": "Traceback (most recent call last):\n  File \"Z:\\Users\\vkquant\\sgi-protocol-lab-20260915\\read_host_slots_20261007.py\", line 3, in <module>\n    bridge=Path.home()/'Applications/SGI-Game/hub/bridge';assert (bridge/'probe.py').exists();sys.path.insert(0,str(bridge))\n                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError\n"}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/Users/vkquant/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+    "/Users/vkquant/Applications/SGI-Hub/bridge/python/python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "/Users/vkquant/sgi-protocol-lab-20260915/monitor_net_read.py"
+  ],
+  "stdout": "{\"windows\": [{\"hwnd\": 262604, \"pid\": 1008, \"exe\": \"C:\\\\sgi\\\\run-3.5\\\\3I\\\\SANPK.exe\", \"title\": \"游戏选择\", \"controls\": [{\"hwnd\": 655800, \"class\": \"Button\", \"title\": \"加入游戏(&I)\"}, {\"hwnd\": 262618, \"class\": \"Button\", \"title\": \"创建游戏(&L)\"}, {\"hwnd\": 131604, \"class\": \"Button\", \"title\": \"取消(&Q)\"}, {\"hwnd\": 131600, \"class\": \"Button\", \"title\": \"刷新列表(&S)\"}, {\"hwnd\": 131598, \"class\": \"Static\", \"title\": \"★看不到主机，刷新一下。游戏内【鼠标右键】可以看到快捷菜单\"}]}, {\"hwnd\": 131526, \"pid\": 1008, \"exe\": \"C:\\\\sgi\\\\run-3.5\\\\3I\\\\SANPK.exe\", \"title\": \"三国志Internet联机版3.5\", \"controls\": []}, {\"hwnd\": 196826, \"pid\": 32, \"exe\": \"C:\\\\sgi\\\\run-3.5\\\\SANGUO.exe\", \"title\": \"\", \"controls\": []}, {\"hwnd\": 196968, \"pid\": 32, \"exe\": \"C:\\\\sgi\\\\run-3.5\\\\SANGUO.exe\", \"title\": \"三国志Internet对战平台 6.2 [当前用户: vinceost]\", \"controls\": [{\"hwnd\": 131418, \"class\": \"TTabSheet\", \"title\": \"房间用户(8)\"}, {\"hwnd\": 131382, \"class\": \"TTabSheet\", \"title\": \"游戏房间\"}, {\"hwnd\": 131378, \"class\": \"TGroupBox\", \"title\": \" 聊天信息 \"}, {\"hwnd\": 131458, \"class\": \"TCheckBox\", \"title\": \"自动滚屏\"}, {\"hwnd\": 131466, \"class\": \"TCheckBox\", \"title\": \"悄悄话\"}, {\"hwnd\": 196854, \"class\": \"TButton\", \"title\": \"发送\"}, {\"hwnd\": 590224, \"class\": \"TButton\", \"title\": \"游戏设置\"}, {\"hwnd\": 393626, \"class\": \"TButton\", \"title\": \"启动游戏\"}]}]}\n{\"pid\": 1008, \"exe_sha256\": \"1cc8bb686f63d32eb1f2a4107374a0a60927d1ea7f9a7b0652245ef7e7bd35a2\", \"network\": {\"port\": 7777, \"app_id\": 78731, \"max_slots\": 8, \"field_841c\": 0, \"field_43c8\": 1, \"field_8470\": 131526, \"field_8474\": 9216}, \"modules\": [{\"path\": \"C:\\\\sgi\\\\run-3.5\\\\3I\\\\KOEINM.dll\", \"base\": \"0x5a0000\"}, {\"path\": \"C:\\\\windows\\\\system32\\\\WS2_32.dll\", \"base\": \"0x7a730000\"}, {\"path\": \"C:\\\\sgi\\\\run-3.5\\\\NetHookCore.dll\", \"base\": \"0x31a0000\"}]}\n",
+  "stderr": "",
+  "returncode": 0
+}

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "/Users/vkquant/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+    "/Users/vkquant/Applications/SGI-Hub/bridge/python/python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "/Users/vkquant/sgi-protocol-lab-20260915/monitor_net_read.py"
+  ],
+  "stdout": "",
+  "stderr": "Traceback (most recent call last):\n  File \"Z:\\Users\\vkquant\\sgi-protocol-lab-20260915\\monitor_net_read.py\", line 9, in <module>\n    import monitor_inspect as m\nModuleNotFoundError: No module named 'monitor_inspect'\n",
+  "returncode": 1
+}

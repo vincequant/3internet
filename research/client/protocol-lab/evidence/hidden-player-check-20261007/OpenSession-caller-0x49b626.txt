@@ -1,0 +1,46 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe:	file format coff-i386
+
+Disassembly of section .text:
+
+00401000 <.text>:
+  49b5c7: 03 89 58 3d 05 87            	addl	-0x78fac2a8(%ecx), %ecx
+  49b5cd: 00 00                        	addb	%al, (%eax)
+  49b5cf: 00 4a 75                     	addb	%cl, 0x75(%edx)
+  49b5d2: ea 51 53 51 6a 08 ff         	ljmpl	$-0xf8, $0x6a515351     # imm = 0x6A515351
+  49b5d9: 76 64                        	jbe	0x49b63f <.text+0x9a63f>
+  49b5db: 89 5e 70                     	movl	%ebx, 0x70(%esi)
+  49b5de: 8b cf                        	movl	%edi, %ecx
+  49b5e0: ff 75 f0                     	pushl	-0x10(%ebp)
+  49b5e3: ff 75 ec                     	pushl	-0x14(%ebp)
+  49b5e6: e8 60 f0 f8 ff               	calll	0x42a64b <.text+0x2964b>
+  49b5eb: 85 c0                        	testl	%eax, %eax
+  49b5ed: 0f 85 de 00 00 00            	jne	0x49b6d1 <.text+0x9a6d1>
+  49b5f3: 68 98 3a 00 00               	pushl	$0x3a98                 # imm = 0x3A98
+  49b5f8: ff 77 10                     	pushl	0x10(%edi)
+  49b5fb: eb 5d                        	jmp	0x49b65a <.text+0x9a65a>
+  49b5fd: 8d 4d dc                     	leal	-0x24(%ebp), %ecx
+  49b600: e8 71 31 01 00               	calll	0x4ae776 <.text+0xad776>
+  49b605: 8d 4d dc                     	leal	-0x24(%ebp), %ecx
+  49b608: e8 76 31 01 00               	calll	0x4ae783 <.text+0xad783>
+  49b60d: e8 c0 58 f9 ff               	calll	0x430ed2 <.text+0x2fed2>
+  49b612: ff b0 d0 00 00 00            	pushl	0xd0(%eax)
+  49b618: 8b cf                        	movl	%edi, %ecx
+  49b61a: ff 76 64                     	pushl	0x64(%esi)
+  49b61d: ff 75 0c                     	pushl	0xc(%ebp)
+  49b620: ff 75 f0                     	pushl	-0x10(%ebp)
+  49b623: ff 75 ec                     	pushl	-0x14(%ebp)
+  49b626: e8 65 f0 f8 ff               	calll	0x42a690 <.text+0x29690>
+  49b62b: 85 c0                        	testl	%eax, %eax
+  49b62d: 75 55                        	jne	0x49b684 <.text+0x9a684>
+  49b62f: 83 7f 10 04                  	cmpl	$0x4, 0x10(%edi)
+  49b633: 75 1d                        	jne	0x49b652 <.text+0x9a652>
+  49b635: e8 98 58 f9 ff               	calll	0x430ed2 <.text+0x2fed2>
+  49b63a: 8b 80 d0 00 00 00            	movl	0xd0(%eax), %eax
+  49b640: 8d 4d dc                     	leal	-0x24(%ebp), %ecx
+  49b643: 89 45 10                     	movl	%eax, 0x10(%ebp)
+  49b646: e8 50 31 01 00               	calll	0x4ae79b <.text+0xad79b>
+  49b64b: 3b 45 10                     	cmpl	0x10(%ebp), %eax
+  49b64e: 77 18                        	ja	0x49b668 <.text+0x9a668>
+  49b650: eb bb                        	jmp	0x49b60d <.text+0x9a60d>
+  49b652: 68 98 3a 00 00               	pushl	$0x3a98                 # imm = 0x3A98

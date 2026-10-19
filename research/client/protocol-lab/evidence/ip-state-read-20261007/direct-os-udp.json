@@ -1,0 +1,11 @@
+{
+  "kind": "direct_os_udp_search",
+  "target": "10.128.163.42",
+  "port": 7777,
+  "app_id": 78731,
+  "observed_at": 1791302804.896229,
+  "reads_game_memory": false,
+  "origin": "VKQUANT",
+  "status": "no_response",
+  "error_type": "TimeoutError"
+}

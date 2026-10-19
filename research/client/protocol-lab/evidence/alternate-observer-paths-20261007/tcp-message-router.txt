@@ -1,0 +1,72 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10005bd0: b8 00 40 00 00               	movl	$0x4000, %eax           # imm = 0x4000
+10005bd5: e8 b6 41 00 00               	calll	0x10009d90 <_NetMsg_AcceptEXIT@4+0x7a10>
+10005bda: 53                           	pushl	%ebx
+10005bdb: 8b 9c 24 14 40 00 00         	movl	0x4014(%esp), %ebx
+10005be2: 55                           	pushl	%ebp
+10005be3: 56                           	pushl	%esi
+10005be4: 57                           	pushl	%edi
+10005be5: 53                           	pushl	%ebx
+10005be6: c6 44 24 14 46               	movb	$0x46, 0x14(%esp)
+10005beb: c7 44 24 15 00 00 00 00      	movl	$0x0, 0x15(%esp)
+10005bf3: ff 15 50 f0 00 10            	calll	*0x1000f050
+10005bf9: 8b ac 24 14 40 00 00         	movl	0x4014(%esp), %ebp
+10005c00: 89 44 24 19                  	movl	%eax, 0x19(%esp)
+10005c04: 8b 85 b8 43 00 00            	movl	0x43b8(%ebp), %eax
+10005c0a: 8b 08                        	movl	(%eax), %ecx
+10005c0c: 51                           	pushl	%ecx
+10005c0d: ff 15 50 f0 00 10            	calll	*0x1000f050
+10005c13: 8b 94 24 18 40 00 00         	movl	0x4018(%esp), %edx
+10005c1a: 89 44 24 1d                  	movl	%eax, 0x1d(%esp)
+10005c1e: 52                           	pushl	%edx
+10005c1f: ff 15 50 f0 00 10            	calll	*0x1000f050
+10005c25: 8b b4 24 1c 40 00 00         	movl	0x401c(%esp), %esi
+10005c2c: 8b cb                        	movl	%ebx, %ecx
+10005c2e: 89 44 24 21                  	movl	%eax, 0x21(%esp)
+10005c32: 8b c1                        	movl	%ecx, %eax
+10005c34: 8d 7c 24 25                  	leal	0x25(%esp), %edi
+10005c38: c1 e9 02                     	shrl	$0x2, %ecx
+10005c3b: f3 a5                        	rep		movsl	(%esi), %es:(%edi)
+10005c3d: 8b c8                        	movl	%eax, %ecx
+10005c3f: 8b 85 8c 41 00 00            	movl	0x418c(%ebp), %eax
+10005c45: 83 e1 03                     	andl	$0x3, %ecx
+10005c48: 85 c0                        	testl	%eax, %eax
+10005c4a: f3 a4                        	rep		movsb	(%esi), %es:(%edi)
+10005c4c: 74 0e                        	je	0x10005c5c <_NetMsg_AcceptEXIT@4+0x38dc>
+10005c4e: 83 c8 ff                     	orl	$-0x1, %eax
+10005c51: 5f                           	popl	%edi
+10005c52: 5e                           	popl	%esi
+10005c53: 5d                           	popl	%ebp
+10005c54: 5b                           	popl	%ebx
+10005c55: 81 c4 00 40 00 00            	addl	$0x4000, %esp           # imm = 0x4000
+10005c5b: c3                           	retl
+10005c5c: 83 c3 15                     	addl	$0x15, %ebx
+10005c5f: 8d 4c 24 10                  	leal	0x10(%esp), %ecx
+10005c63: 53                           	pushl	%ebx
+10005c64: 51                           	pushl	%ecx
+10005c65: 55                           	pushl	%ebp
+10005c66: e8 b5 d0 ff ff               	calll	0x10002d20 <_NetMsg_AcceptEXIT@4+0x9a0>
+10005c6b: 83 c4 0c                     	addl	$0xc, %esp
+10005c6e: 5f                           	popl	%edi
+10005c6f: 5e                           	popl	%esi
+10005c70: 5d                           	popl	%ebp
+10005c71: 5b                           	popl	%ebx
+10005c72: 81 c4 00 40 00 00            	addl	$0x4000, %esp           # imm = 0x4000
+10005c78: c3                           	retl
+10005c79: 90                           	nop
+10005c7a: 90                           	nop
+10005c7b: 90                           	nop
+10005c7c: 90                           	nop
+10005c7d: 90                           	nop
+10005c7e: 90                           	nop
+10005c7f: 90                           	nop
+10005c80: b8 04 40 00 00               	movl	$0x4004, %eax           # imm = 0x4004
+10005c85: e8 06 41 00 00               	calll	0x10009d90 <_NetMsg_AcceptEXIT@4+0x7a10>
+10005c8a: 53                           	pushl	%ebx
+10005c8b: 55                           	pushl	%ebp
+10005c8c: 8b ac 24 20 40 00 00         	movl	0x4020(%esp), %ebp

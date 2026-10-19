@@ -1,0 +1,718 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10001000 <.text>:
+10001e60: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10001e64: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10001e68: 50                           	pushl	%eax
+10001e69: 51                           	pushl	%ecx
+10001e6a: e8 c1 30 00 00               	calll	0x10004f30 <_NetMsg_AcceptEXIT@4+0x2bb0>
+10001e6f: 83 c4 08                     	addl	$0x8, %esp
+10001e72: c3                           	retl
+10001e73: 90                           	nop
+10001e74: 90                           	nop
+10001e75: 90                           	nop
+10001e76: 90                           	nop
+10001e77: 90                           	nop
+10001e78: 90                           	nop
+10001e79: 90                           	nop
+10001e7a: 90                           	nop
+10001e7b: 90                           	nop
+10001e7c: 90                           	nop
+10001e7d: 90                           	nop
+10001e7e: 90                           	nop
+10001e7f: 90                           	nop
+10001e80: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10001e84: 66 3d 05 00                  	cmpw	$0x5, %ax
+10001e88: 75 06                        	jne	0x10001e90 <.text+0xe90>
+10001e8a: b8 05 00 00 00               	movl	$0x5, %eax
+10001e8f: c3                           	retl
+10001e90: 8b 54 24 04                  	movl	0x4(%esp), %edx
+10001e94: 8b c8                        	movl	%eax, %ecx
+10001e96: c1 e9 10                     	shrl	$0x10, %ecx
+10001e99: 66 3b 8a 20 84 00 00         	cmpw	0x8420(%edx), %cx
+10001ea0: 75 06                        	jne	0x10001ea8 <.text+0xea8>
+10001ea2: 25 ff ff 00 00               	andl	$0xffff, %eax           # imm = 0xFFFF
+10001ea7: c3                           	retl
+10001ea8: 83 c8 ff                     	orl	$-0x1, %eax
+10001eab: c3                           	retl
+10001eac: 90                           	nop
+10001ead: 90                           	nop
+10001eae: 90                           	nop
+10001eaf: 90                           	nop
+10001eb0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10001eb4: 8b 88 d8 84 00 00            	movl	0x84d8(%eax), %ecx
+10001eba: 51                           	pushl	%ecx
+10001ebb: ff 15 2c e0 00 10            	calll	*0x1000e02c
+10001ec1: c3                           	retl
+10001ec2: 90                           	nop
+10001ec3: 90                           	nop
+10001ec4: 90                           	nop
+10001ec5: 90                           	nop
+10001ec6: 90                           	nop
+10001ec7: 90                           	nop
+10001ec8: 90                           	nop
+10001ec9: 90                           	nop
+10001eca: 90                           	nop
+10001ecb: 90                           	nop
+10001ecc: 90                           	nop
+10001ecd: 90                           	nop
+10001ece: 90                           	nop
+10001ecf: 90                           	nop
+10001ed0: 56                           	pushl	%esi
+10001ed1: 57                           	pushl	%edi
+10001ed2: 8b 7c 24 0c                  	movl	0xc(%esp), %edi
+10001ed6: 8d b7 34 85 00 00            	leal	0x8534(%edi), %esi
+10001edc: 56                           	pushl	%esi
+10001edd: ff 15 04 e0 00 10            	calll	*0x1000e004
+10001ee3: 8b 44 24 10                  	movl	0x10(%esp), %eax
+10001ee7: 56                           	pushl	%esi
+10001ee8: 89 87 a8 84 00 00            	movl	%eax, 0x84a8(%edi)
+10001eee: ff 15 98 e0 00 10            	calll	*0x1000e098
+10001ef4: 5f                           	popl	%edi
+10001ef5: 5e                           	popl	%esi
+10001ef6: c3                           	retl
+10001ef7: 90                           	nop
+10001ef8: 90                           	nop
+10001ef9: 90                           	nop
+10001efa: 90                           	nop
+10001efb: 90                           	nop
+10001efc: 90                           	nop
+10001efd: 90                           	nop
+10001efe: 90                           	nop
+10001eff: 90                           	nop
+10001f00: 56                           	pushl	%esi
+10001f01: 57                           	pushl	%edi
+10001f02: 8b 7c 24 0c                  	movl	0xc(%esp), %edi
+10001f06: 8d b7 34 85 00 00            	leal	0x8534(%edi), %esi
+10001f0c: 56                           	pushl	%esi
+10001f0d: ff 15 04 e0 00 10            	calll	*0x1000e004
+10001f13: 8b 8f a8 84 00 00            	movl	0x84a8(%edi), %ecx
+10001f19: 8b 54 24 10                  	movl	0x10(%esp), %edx
+10001f1d: 33 c0                        	xorl	%eax, %eax
+10001f1f: 3b ca                        	cmpl	%edx, %ecx
+10001f21: 0f 94 c0                     	sete	%al
+10001f24: 56                           	pushl	%esi
+10001f25: 8b f8                        	movl	%eax, %edi
+10001f27: ff 15 98 e0 00 10            	calll	*0x1000e098
+10001f2d: 8b c7                        	movl	%edi, %eax
+10001f2f: 5f                           	popl	%edi
+10001f30: 5e                           	popl	%esi
+10001f31: c3                           	retl
+10001f32: 90                           	nop
+10001f33: 90                           	nop
+10001f34: 90                           	nop
+10001f35: 90                           	nop
+10001f36: 90                           	nop
+10001f37: 90                           	nop
+10001f38: 90                           	nop
+10001f39: 90                           	nop
+10001f3a: 90                           	nop
+10001f3b: 90                           	nop
+10001f3c: 90                           	nop
+10001f3d: 90                           	nop
+10001f3e: 90                           	nop
+10001f3f: 90                           	nop
+
+10001f40 <_NetMsg_Start@36>:
+10001f40: 8b 44 24 24                  	movl	0x24(%esp), %eax
+10001f44: 8b 4c 24 20                  	movl	0x20(%esp), %ecx
+10001f48: 8b 54 24 1c                  	movl	0x1c(%esp), %edx
+10001f4c: 50                           	pushl	%eax
+10001f4d: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+10001f51: 51                           	pushl	%ecx
+10001f52: 8b 4c 24 1c                  	movl	0x1c(%esp), %ecx
+10001f56: 52                           	pushl	%edx
+10001f57: 8b 54 24 1c                  	movl	0x1c(%esp), %edx
+10001f5b: 50                           	pushl	%eax
+10001f5c: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+10001f60: 51                           	pushl	%ecx
+10001f61: 8b 4c 24 1c                  	movl	0x1c(%esp), %ecx
+10001f65: 52                           	pushl	%edx
+10001f66: 8b 54 24 1c                  	movl	0x1c(%esp), %edx
+10001f6a: 50                           	pushl	%eax
+10001f6b: 51                           	pushl	%ecx
+10001f6c: 52                           	pushl	%edx
+10001f6d: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10001f72: e8 59 f3 ff ff               	calll	0x100012d0 <.text+0x2d0>
+10001f77: 83 c4 28                     	addl	$0x28, %esp
+10001f7a: c2 24 00                     	retl	$0x24
+10001f7d: 90                           	nop
+10001f7e: 90                           	nop
+10001f7f: 90                           	nop
+
+10001f80 <_NetMsg_End@0>:
+10001f80: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10001f85: e8 06 f6 ff ff               	calll	0x10001590 <.text+0x590>
+10001f8a: 83 c4 04                     	addl	$0x4, %esp
+10001f8d: c3                           	retl
+10001f8e: 90                           	nop
+10001f8f: 90                           	nop
+
+10001f90 <_NetMsg_SetChatWindow@8>:
+10001f90: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10001f94: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10001f98: 50                           	pushl	%eax
+10001f99: 51                           	pushl	%ecx
+10001f9a: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10001f9f: e8 5c f6 ff ff               	calll	0x10001600 <.text+0x600>
+10001fa4: 83 c4 0c                     	addl	$0xc, %esp
+10001fa7: c2 08 00                     	retl	$0x8
+10001faa: 90                           	nop
+10001fab: 90                           	nop
+10001fac: 90                           	nop
+10001fad: 90                           	nop
+10001fae: 90                           	nop
+10001faf: 90                           	nop
+
+10001fb0 <_NetMsg_SetDataWindow@8>:
+10001fb0: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10001fb4: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10001fb8: 50                           	pushl	%eax
+10001fb9: 51                           	pushl	%ecx
+10001fba: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10001fbf: e8 5c f6 ff ff               	calll	0x10001620 <.text+0x620>
+10001fc4: 83 c4 0c                     	addl	$0xc, %esp
+10001fc7: c2 08 00                     	retl	$0x8
+10001fca: 90                           	nop
+10001fcb: 90                           	nop
+10001fcc: 90                           	nop
+10001fcd: 90                           	nop
+10001fce: 90                           	nop
+10001fcf: 90                           	nop
+
+10001fd0 <_NetMsg_CreateSession@28>:
+10001fd0: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+10001fd4: 8b 4c 24 18                  	movl	0x18(%esp), %ecx
+10001fd8: 8b 54 24 14                  	movl	0x14(%esp), %edx
+10001fdc: 50                           	pushl	%eax
+10001fdd: 8b 44 24 14                  	movl	0x14(%esp), %eax
+10001fe1: 51                           	pushl	%ecx
+10001fe2: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+10001fe6: 52                           	pushl	%edx
+10001fe7: 8b 54 24 14                  	movl	0x14(%esp), %edx
+10001feb: 50                           	pushl	%eax
+10001fec: 8b 44 24 14                  	movl	0x14(%esp), %eax
+10001ff0: 51                           	pushl	%ecx
+10001ff1: 52                           	pushl	%edx
+10001ff2: 50                           	pushl	%eax
+10001ff3: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10001ff8: e8 63 f6 ff ff               	calll	0x10001660 <.text+0x660>
+10001ffd: 83 c4 20                     	addl	$0x20, %esp
+10002000: c2 1c 00                     	retl	$0x1c
+10002003: 90                           	nop
+10002004: 90                           	nop
+10002005: 90                           	nop
+10002006: 90                           	nop
+10002007: 90                           	nop
+10002008: 90                           	nop
+10002009: 90                           	nop
+1000200a: 90                           	nop
+1000200b: 90                           	nop
+1000200c: 90                           	nop
+1000200d: 90                           	nop
+1000200e: 90                           	nop
+1000200f: 90                           	nop
+
+10002010 <_NetMsg_OpenSession@20>:
+10002010: 8b 44 24 14                  	movl	0x14(%esp), %eax
+10002014: 8b 4c 24 10                  	movl	0x10(%esp), %ecx
+10002018: 8b 54 24 0c                  	movl	0xc(%esp), %edx
+1000201c: 50                           	pushl	%eax
+1000201d: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+10002021: 51                           	pushl	%ecx
+10002022: 8b 4c 24 0c                  	movl	0xc(%esp), %ecx
+10002026: 52                           	pushl	%edx
+10002027: 50                           	pushl	%eax
+10002028: 51                           	pushl	%ecx
+10002029: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000202e: e8 cd f7 ff ff               	calll	0x10001800 <.text+0x800>
+10002033: 83 c4 18                     	addl	$0x18, %esp
+10002036: c2 14 00                     	retl	$0x14
+10002039: 90                           	nop
+1000203a: 90                           	nop
+1000203b: 90                           	nop
+1000203c: 90                           	nop
+1000203d: 90                           	nop
+1000203e: 90                           	nop
+1000203f: 90                           	nop
+
+10002040 <_NetMsg_SearchSession@12>:
+10002040: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+10002044: 8b 4c 24 08                  	movl	0x8(%esp), %ecx
+10002048: 8b 54 24 04                  	movl	0x4(%esp), %edx
+1000204c: 50                           	pushl	%eax
+1000204d: 51                           	pushl	%ecx
+1000204e: 52                           	pushl	%edx
+1000204f: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002054: e8 17 f8 ff ff               	calll	0x10001870 <.text+0x870>
+10002059: 83 c4 10                     	addl	$0x10, %esp
+1000205c: c2 0c 00                     	retl	$0xc
+1000205f: 90                           	nop
+
+10002060 <_NetMsg_ExitSession@0>:
+10002060: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002065: e8 66 f9 ff ff               	calll	0x100019d0 <.text+0x9d0>
+1000206a: 83 c4 04                     	addl	$0x4, %esp
+1000206d: c3                           	retl
+1000206e: 90                           	nop
+1000206f: 90                           	nop
+
+10002070 <_NetMsg_EnableJoinSession@4>:
+10002070: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10002074: 50                           	pushl	%eax
+10002075: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000207a: e8 81 f9 ff ff               	calll	0x10001a00 <.text+0xa00>
+1000207f: 83 c4 08                     	addl	$0x8, %esp
+10002082: c2 04 00                     	retl	$0x4
+10002085: 90                           	nop
+10002086: 90                           	nop
+10002087: 90                           	nop
+10002088: 90                           	nop
+10002089: 90                           	nop
+1000208a: 90                           	nop
+1000208b: 90                           	nop
+1000208c: 90                           	nop
+1000208d: 90                           	nop
+1000208e: 90                           	nop
+1000208f: 90                           	nop
+
+10002090 <_NetMsg_RefuseUser@4>:
+10002090: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10002094: 50                           	pushl	%eax
+10002095: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000209a: e8 91 f9 ff ff               	calll	0x10001a30 <.text+0xa30>
+1000209f: 83 c4 08                     	addl	$0x8, %esp
+100020a2: c2 04 00                     	retl	$0x4
+100020a5: 90                           	nop
+100020a6: 90                           	nop
+100020a7: 90                           	nop
+100020a8: 90                           	nop
+100020a9: 90                           	nop
+100020aa: 90                           	nop
+100020ab: 90                           	nop
+100020ac: 90                           	nop
+100020ad: 90                           	nop
+100020ae: 90                           	nop
+100020af: 90                           	nop
+
+100020b0 <_NetMsg_IsConnected@0>:
+100020b0: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100020b5: e8 a6 f9 ff ff               	calll	0x10001a60 <.text+0xa60>
+100020ba: 83 c4 04                     	addl	$0x4, %esp
+100020bd: c3                           	retl
+100020be: 90                           	nop
+100020bf: 90                           	nop
+
+100020c0 <_NetMsg_SendCmd@8>:
+100020c0: 8b 44 24 08                  	movl	0x8(%esp), %eax
+100020c4: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+100020c8: 50                           	pushl	%eax
+100020c9: 51                           	pushl	%ecx
+100020ca: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100020cf: e8 ac f9 ff ff               	calll	0x10001a80 <.text+0xa80>
+100020d4: 83 c4 0c                     	addl	$0xc, %esp
+100020d7: c2 08 00                     	retl	$0x8
+100020da: 90                           	nop
+100020db: 90                           	nop
+100020dc: 90                           	nop
+100020dd: 90                           	nop
+100020de: 90                           	nop
+100020df: 90                           	nop
+
+100020e0 <_NetMsg_StartSync@0>:
+100020e0: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100020e5: e8 f6 f9 ff ff               	calll	0x10001ae0 <.text+0xae0>
+100020ea: 83 c4 04                     	addl	$0x4, %esp
+100020ed: c3                           	retl
+100020ee: 90                           	nop
+100020ef: 90                           	nop
+
+100020f0 <_NetMsg_EndSync@4>:
+100020f0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+100020f4: 50                           	pushl	%eax
+100020f5: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100020fa: e8 f1 f9 ff ff               	calll	0x10001af0 <.text+0xaf0>
+100020ff: 83 c4 08                     	addl	$0x8, %esp
+10002102: c2 04 00                     	retl	$0x4
+10002105: 90                           	nop
+10002106: 90                           	nop
+10002107: 90                           	nop
+10002108: 90                           	nop
+10002109: 90                           	nop
+1000210a: 90                           	nop
+1000210b: 90                           	nop
+1000210c: 90                           	nop
+1000210d: 90                           	nop
+1000210e: 90                           	nop
+1000210f: 90                           	nop
+
+10002110 <_NetMsg_EndSyncVerify@12>:
+10002110: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+10002114: 8b 4c 24 08                  	movl	0x8(%esp), %ecx
+10002118: 8b 54 24 04                  	movl	0x4(%esp), %edx
+1000211c: 50                           	pushl	%eax
+1000211d: 51                           	pushl	%ecx
+1000211e: 52                           	pushl	%edx
+1000211f: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002124: e8 c7 f9 ff ff               	calll	0x10001af0 <.text+0xaf0>
+10002129: 83 c4 10                     	addl	$0x10, %esp
+1000212c: c2 0c 00                     	retl	$0xc
+1000212f: 90                           	nop
+
+10002130 <_NetMsg_GetCmd@12>:
+10002130: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+10002134: 8b 4c 24 08                  	movl	0x8(%esp), %ecx
+10002138: 8b 54 24 04                  	movl	0x4(%esp), %edx
+1000213c: 50                           	pushl	%eax
+1000213d: 51                           	pushl	%ecx
+1000213e: 52                           	pushl	%edx
+1000213f: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002144: e8 c7 f9 ff ff               	calll	0x10001b10 <.text+0xb10>
+10002149: 83 c4 10                     	addl	$0x10, %esp
+1000214c: c2 0c 00                     	retl	$0xc
+1000214f: 90                           	nop
+
+10002150 <_NetMsg_GetCmdCount@0>:
+10002150: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002155: e8 66 fa ff ff               	calll	0x10001bc0 <.text+0xbc0>
+1000215a: 83 c4 04                     	addl	$0x4, %esp
+1000215d: c3                           	retl
+1000215e: 90                           	nop
+1000215f: 90                           	nop
+
+10002160 <_NetMsg_SendData@8>:
+10002160: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10002164: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10002168: 50                           	pushl	%eax
+10002169: 51                           	pushl	%ecx
+1000216a: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000216f: e8 6c fa ff ff               	calll	0x10001be0 <.text+0xbe0>
+10002174: 83 c4 0c                     	addl	$0xc, %esp
+10002177: c2 08 00                     	retl	$0x8
+1000217a: 90                           	nop
+1000217b: 90                           	nop
+1000217c: 90                           	nop
+1000217d: 90                           	nop
+1000217e: 90                           	nop
+1000217f: 90                           	nop
+
+10002180 <_NetMsg_SendDataTo@12>:
+10002180: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+10002184: 8b 4c 24 08                  	movl	0x8(%esp), %ecx
+10002188: 8b 54 24 04                  	movl	0x4(%esp), %edx
+1000218c: 50                           	pushl	%eax
+1000218d: 51                           	pushl	%ecx
+1000218e: 52                           	pushl	%edx
+1000218f: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002194: e8 67 fa ff ff               	calll	0x10001c00 <.text+0xc00>
+10002199: 83 c4 10                     	addl	$0x10, %esp
+1000219c: c2 0c 00                     	retl	$0xc
+1000219f: 90                           	nop
+
+100021a0 <_NetMsg_DeletePacket@4>:
+100021a0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+100021a4: 50                           	pushl	%eax
+100021a5: 6a 00                        	pushl	$0x0
+100021a7: ff 15 20 e0 00 10            	calll	*0x1000e020
+100021ad: 50                           	pushl	%eax
+100021ae: ff 15 30 e0 00 10            	calll	*0x1000e030
+100021b4: c2 04 00                     	retl	$0x4
+100021b7: 90                           	nop
+100021b8: 90                           	nop
+100021b9: 90                           	nop
+100021ba: 90                           	nop
+100021bb: 90                           	nop
+100021bc: 90                           	nop
+100021bd: 90                           	nop
+100021be: 90                           	nop
+100021bf: 90                           	nop
+
+100021c0 <_NetMsg_Chat@4>:
+100021c0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+100021c4: 50                           	pushl	%eax
+100021c5: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100021ca: e8 51 fa ff ff               	calll	0x10001c20 <.text+0xc20>
+100021cf: 83 c4 08                     	addl	$0x8, %esp
+100021d2: c2 04 00                     	retl	$0x4
+100021d5: 90                           	nop
+100021d6: 90                           	nop
+100021d7: 90                           	nop
+100021d8: 90                           	nop
+100021d9: 90                           	nop
+100021da: 90                           	nop
+100021db: 90                           	nop
+100021dc: 90                           	nop
+100021dd: 90                           	nop
+100021de: 90                           	nop
+100021df: 90                           	nop
+
+100021e0 <_NetMsg_ChatTo@8>:
+100021e0: 8b 44 24 08                  	movl	0x8(%esp), %eax
+100021e4: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+100021e8: 50                           	pushl	%eax
+100021e9: 51                           	pushl	%ecx
+100021ea: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100021ef: e8 6c fa ff ff               	calll	0x10001c60 <.text+0xc60>
+100021f4: 83 c4 0c                     	addl	$0xc, %esp
+100021f7: c2 08 00                     	retl	$0x8
+100021fa: 90                           	nop
+100021fb: 90                           	nop
+100021fc: 90                           	nop
+100021fd: 90                           	nop
+100021fe: 90                           	nop
+100021ff: 90                           	nop
+
+10002200 <_NetMsg_IsHost@0>:
+10002200: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002205: e8 96 fa ff ff               	calll	0x10001ca0 <.text+0xca0>
+1000220a: 83 c4 04                     	addl	$0x4, %esp
+1000220d: c3                           	retl
+1000220e: 90                           	nop
+1000220f: 90                           	nop
+
+10002210 <_NetMsg_GetHostID@0>:
+10002210: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002215: e8 96 fa ff ff               	calll	0x10001cb0 <.text+0xcb0>
+1000221a: 83 c4 04                     	addl	$0x4, %esp
+1000221d: c3                           	retl
+1000221e: 90                           	nop
+1000221f: 90                           	nop
+
+10002220 <_NetMsg_GetNextHostCandidate@8>:
+10002220: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10002224: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10002228: 50                           	pushl	%eax
+10002229: 51                           	pushl	%ecx
+1000222a: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000222f: e8 8c fa ff ff               	calll	0x10001cc0 <.text+0xcc0>
+10002234: 83 c4 0c                     	addl	$0xc, %esp
+10002237: c2 08 00                     	retl	$0x8
+1000223a: 90                           	nop
+1000223b: 90                           	nop
+1000223c: 90                           	nop
+1000223d: 90                           	nop
+1000223e: 90                           	nop
+1000223f: 90                           	nop
+
+10002240 <_NetMsg_GetSessionName@0>:
+10002240: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002245: e8 b6 fa ff ff               	calll	0x10001d00 <.text+0xd00>
+1000224a: 83 c4 04                     	addl	$0x4, %esp
+1000224d: c3                           	retl
+1000224e: 90                           	nop
+1000224f: 90                           	nop
+
+10002250 <_NetMsg_GetUserName@8>:
+10002250: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10002254: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10002258: 50                           	pushl	%eax
+10002259: 51                           	pushl	%ecx
+1000225a: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000225f: e8 ac fa ff ff               	calll	0x10001d10 <.text+0xd10>
+10002264: 83 c4 0c                     	addl	$0xc, %esp
+10002267: c2 08 00                     	retl	$0x8
+1000226a: 90                           	nop
+1000226b: 90                           	nop
+1000226c: 90                           	nop
+1000226d: 90                           	nop
+1000226e: 90                           	nop
+1000226f: 90                           	nop
+
+10002270 <_NetMsg_IsHostOK@4>:
+10002270: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10002274: 50                           	pushl	%eax
+10002275: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000227a: e8 61 fa ff ff               	calll	0x10001ce0 <.text+0xce0>
+1000227f: 83 c4 08                     	addl	$0x8, %esp
+10002282: c2 04 00                     	retl	$0x4
+10002285: 90                           	nop
+10002286: 90                           	nop
+10002287: 90                           	nop
+10002288: 90                           	nop
+10002289: 90                           	nop
+1000228a: 90                           	nop
+1000228b: 90                           	nop
+1000228c: 90                           	nop
+1000228d: 90                           	nop
+1000228e: 90                           	nop
+1000228f: 90                           	nop
+
+10002290 <_NetMsg_GetMachineName@0>:
+10002290: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002295: e8 96 fa ff ff               	calll	0x10001d30 <.text+0xd30>
+1000229a: 83 c4 04                     	addl	$0x4, %esp
+1000229d: c3                           	retl
+1000229e: 90                           	nop
+1000229f: 90                           	nop
+
+100022a0 <_NetMsg_GetFQDN@0>:
+100022a0: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100022a5: e8 a6 fa ff ff               	calll	0x10001d50 <.text+0xd50>
+100022aa: 83 c4 04                     	addl	$0x4, %esp
+100022ad: c3                           	retl
+100022ae: 90                           	nop
+100022af: 90                           	nop
+
+100022b0 <_NetMsg_GetIPAddress@4>:
+100022b0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+100022b4: 50                           	pushl	%eax
+100022b5: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+100022ba: e8 d1 fa ff ff               	calll	0x10001d90 <.text+0xd90>
+100022bf: 83 c4 08                     	addl	$0x8, %esp
+100022c2: c2 04 00                     	retl	$0x4
+100022c5: 90                           	nop
+100022c6: 90                           	nop
+100022c7: 90                           	nop
+100022c8: 90                           	nop
+100022c9: 90                           	nop
+100022ca: 90                           	nop
+100022cb: 90                           	nop
+100022cc: 90                           	nop
+100022cd: 90                           	nop
+100022ce: 90                           	nop
+100022cf: 90                           	nop
+
+100022d0 <_NetMsg_GetIPString@8>:
+100022d0: 8b 44 24 08                  	movl	0x8(%esp), %eax
+100022d4: 33 d2                        	xorl	%edx, %edx
+100022d6: 8b c8                        	movl	%eax, %ecx
+100022d8: 8a d4                        	movb	%ah, %dl
+100022da: 81 e1 ff 00 00 00            	andl	$0xff, %ecx
+100022e0: 51                           	pushl	%ecx
+100022e1: 33 c9                        	xorl	%ecx, %ecx
+100022e3: 8a 4c 24 0e                  	movb	0xe(%esp), %cl
+100022e7: 52                           	pushl	%edx
+100022e8: 8b 54 24 0c                  	movl	0xc(%esp), %edx
+100022ec: 51                           	pushl	%ecx
+100022ed: c1 e8 18                     	shrl	$0x18, %eax
+100022f0: 50                           	pushl	%eax
+100022f1: 68 30 f0 00 10               	pushl	$0x1000f030             # imm = 0x1000F030
+100022f6: 52                           	pushl	%edx
+100022f7: ff 15 24 e1 00 10            	calll	*0x1000e124
+100022fd: 83 c4 18                     	addl	$0x18, %esp
+10002300: c2 08 00                     	retl	$0x8
+10002303: 90                           	nop
+10002304: 90                           	nop
+10002305: 90                           	nop
+10002306: 90                           	nop
+10002307: 90                           	nop
+10002308: 90                           	nop
+10002309: 90                           	nop
+1000230a: 90                           	nop
+1000230b: 90                           	nop
+1000230c: 90                           	nop
+1000230d: 90                           	nop
+1000230e: 90                           	nop
+1000230f: 90                           	nop
+
+10002310 <_NetMsg_GetReconnTime@0>:
+10002310: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+10002315: e8 16 fb ff ff               	calll	0x10001e30 <.text+0xe30>
+1000231a: 83 c4 04                     	addl	$0x4, %esp
+1000231d: c3                           	retl
+1000231e: 90                           	nop
+1000231f: 90                           	nop
+
+10002320 <_NetMsg_GetAppSyncTime@4>:
+10002320: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10002324: 50                           	pushl	%eax
+10002325: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000232a: e8 11 fb ff ff               	calll	0x10001e40 <.text+0xe40>
+1000232f: 83 c4 08                     	addl	$0x8, %esp
+10002332: c2 04 00                     	retl	$0x4
+10002335: 90                           	nop
+10002336: 90                           	nop
+10002337: 90                           	nop
+10002338: 90                           	nop
+10002339: 90                           	nop
+1000233a: 90                           	nop
+1000233b: 90                           	nop
+1000233c: 90                           	nop
+1000233d: 90                           	nop
+1000233e: 90                           	nop
+1000233f: 90                           	nop
+
+10002340 <_NetMsg_GetSyncTime@4>:
+10002340: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10002344: 50                           	pushl	%eax
+10002345: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000234a: e8 11 fb ff ff               	calll	0x10001e60 <.text+0xe60>
+1000234f: 83 c4 08                     	addl	$0x8, %esp
+10002352: c2 04 00                     	retl	$0x4
+10002355: 90                           	nop
+10002356: 90                           	nop
+10002357: 90                           	nop
+10002358: 90                           	nop
+10002359: 90                           	nop
+1000235a: 90                           	nop
+1000235b: 90                           	nop
+1000235c: 90                           	nop
+1000235d: 90                           	nop
+1000235e: 90                           	nop
+1000235f: 90                           	nop
+
+10002360 <_NetMsg_DecodeWParam@4>:
+10002360: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10002364: 50                           	pushl	%eax
+10002365: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000236a: e8 11 fb ff ff               	calll	0x10001e80 <.text+0xe80>
+1000236f: 83 c4 08                     	addl	$0x8, %esp
+10002372: c2 04 00                     	retl	$0x4
+10002375: 90                           	nop
+10002376: 90                           	nop
+10002377: 90                           	nop
+10002378: 90                           	nop
+10002379: 90                           	nop
+1000237a: 90                           	nop
+1000237b: 90                           	nop
+1000237c: 90                           	nop
+1000237d: 90                           	nop
+1000237e: 90                           	nop
+1000237f: 90                           	nop
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10002380: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10002384: 50                           	pushl	%eax
+10002385: 68 70 21 01 10               	pushl	$0x10012170             # imm = 0x10012170
+1000238a: e8 21 fb ff ff               	calll	0x10001eb0 <.text+0xeb0>
+1000238f: 83 c4 08                     	addl	$0x8, %esp
+10002392: c2 04 00                     	retl	$0x4
+10002395: 90                           	nop
+10002396: 90                           	nop
+10002397: 90                           	nop
+10002398: 90                           	nop
+10002399: 90                           	nop
+1000239a: 90                           	nop
+1000239b: 90                           	nop
+1000239c: 90                           	nop
+1000239d: 90                           	nop
+1000239e: 90                           	nop
+1000239f: 90                           	nop
+100023a0: b8 0c 18 00 00               	movl	$0x180c, %eax           # imm = 0x180C
+100023a5: e8 e6 79 00 00               	calll	0x10009d90 <_NetMsg_AcceptEXIT@4+0x7a10>
+100023aa: 53                           	pushl	%ebx
+100023ab: 8b 9c 24 20 18 00 00         	movl	0x1820(%esp), %ebx
+100023b2: 81 fb 00 18 00 00            	cmpl	$0x1800, %ebx           # imm = 0x1800
+100023b8: 76 0d                        	jbe	0x100023c7 <_NetMsg_AcceptEXIT@4+0x47>
+100023ba: b8 09 00 00 00               	movl	$0x9, %eax
+100023bf: 5b                           	popl	%ebx
+100023c0: 81 c4 0c 18 00 00            	addl	$0x180c, %esp           # imm = 0x180C
+100023c6: c3                           	retl
+100023c7: 57                           	pushl	%edi
+100023c8: 56                           	pushl	%esi
+100023c9: 55                           	pushl	%ebp
+100023ca: 6a 07                        	pushl	$0x7
+100023cc: ff 15 50 f0 00 10            	calll	*0x1000f050
+100023d2: 8b ac 24 24 18 00 00         	movl	0x1824(%esp), %ebp
+100023d9: 89 44 24 10                  	movl	%eax, 0x10(%esp)
+100023dd: 83 fd ff                     	cmpl	$-0x1, %ebp
+100023e0: 75 04                        	jne	0x100023e6 <_NetMsg_AcceptEXIT@4+0x66>
+100023e2: 33 c0                        	xorl	%eax, %eax
+100023e4: eb 07                        	jmp	0x100023ed <_NetMsg_AcceptEXIT@4+0x6d>
+100023e6: 55                           	pushl	%ebp
+100023e7: ff 15 50 f0 00 10            	calll	*0x1000f050
+100023ed: 53                           	pushl	%ebx
+100023ee: 89 44 24 18                  	movl	%eax, 0x18(%esp)

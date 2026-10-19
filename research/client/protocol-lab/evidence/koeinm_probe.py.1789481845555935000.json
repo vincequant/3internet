@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/Users/vkquant/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+    "/Users/vkquant/sgi-protocol-lab-20260915/python32/python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "/Users/vkquant/sgi-protocol-lab-20260915/koeinm_probe.py",
+    "--dll",
+    "/Users/vkquant/Library/Application Support/SGI-Wine/prefix-monitor/drive_c/sgi/run-3.5/3I/Koeinm.dll",
+    "--target",
+    "255.255.255.255",
+    "--port",
+    "7777",
+    "--app-id",
+    "78731"
+  ],
+  "stdout": "{\"stage\": \"initialized\", \"return_code\": 0}\n{\"synthetic\": false, \"dll_sha256\": \"629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841\", \"rooms\": [], \"request_hex\": null, \"process\": \"standalone_python32\", \"start_rc\": 0, \"search_rc\": 0, \"end_rc\": 1, \"elapsed_ms\": 1210}\n",
+  "stderr": "",
+  "returncode": 0
+}

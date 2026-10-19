@@ -1,0 +1,175 @@
+0000 push     edx
+0001 mov      edx, 0
+0006 jmp      0x130
+000b push     edx
+000c mov      edx, 1
+0011 jmp      0x130
+0016 push     edx
+0017 mov      edx, 2
+001c jmp      0x130
+0021 push     edx
+0022 mov      edx, 3
+0027 jmp      0x130
+002c push     edx
+002d mov      edx, 4
+0032 jmp      0x130
+0037 push     edx
+0038 mov      edx, 5
+003d jmp      0x130
+0042 push     edx
+0043 mov      edx, 6
+0048 jmp      0x130
+004d push     edx
+004e mov      edx, 7
+0053 jmp      0x130
+0058 push     edx
+0059 mov      edx, 8
+005e jmp      0x130
+0063 push     edx
+0064 mov      edx, 9
+0069 jmp      0x130
+006e push     edx
+006f mov      edx, 0xa
+0074 jmp      0x130
+0079 push     edx
+007a mov      edx, 0xb
+007f jmp      0x130
+0084 push     edx
+0085 mov      edx, 0xc
+008a jmp      0x130
+008f push     edx
+0090 mov      edx, 0xd
+0095 jmp      0x130
+009a push     edx
+009b mov      edx, 0xe
+00a0 jmp      0x130
+00a5 push     edx
+00a6 mov      edx, 0xf
+00ab jmp      0x130
+00b0 push     edx
+00b1 mov      edx, 0x10
+00b6 jmp      0x130
+00b8 push     edx
+00b9 mov      edx, 0x11
+00be jmp      0x130
+00c0 push     edx
+00c1 mov      edx, 0x12
+00c6 jmp      0x130
+00c8 push     edx
+00c9 mov      edx, 0x13
+00ce jmp      0x130
+00d0 push     edx
+00d1 mov      edx, 0x14
+00d6 jmp      0x130
+00d8 push     edx
+00d9 mov      edx, 0x15
+00de jmp      0x130
+00e0 push     edx
+00e1 mov      edx, 0x16
+00e6 jmp      0x130
+00e8 push     edx
+00e9 mov      edx, 0x17
+00ee jmp      0x130
+00f0 push     edx
+00f1 mov      edx, 0x18
+00f6 jmp      0x130
+00f8 push     edx
+00f9 mov      edx, 0x19
+00fe jmp      0x130
+0100 push     edx
+0101 mov      edx, 0x1a
+0106 jmp      0x130
+0108 push     edx
+0109 mov      edx, 0x1b
+010e jmp      0x130
+0110 push     edx
+0111 mov      edx, 0x1c
+0116 jmp      0x130
+0118 push     edx
+0119 mov      edx, 0x1d
+011e jmp      0x130
+0120 push     edx
+0121 mov      edx, 0x1e
+0126 jmp      0x130
+0128 push     edx
+0129 mov      edx, 0x1f
+012e jmp      0x130
+0130 push     ebx
+0131 push     esi
+0132 mov      ebx, edx
+0134 mov      esi, ecx
+0136 test     esi, esi
+0138 je       0x252
+013e cmp      dword ptr [eax + 0x60], 0x4490d2
+0145 je       0x154
+0147 cmp      dword ptr [eax + 0x60], 0x4491e5
+014e jne      0x24b
+0154 mov      edx, dword ptr [esi + 0x1c]
+0157 test     edx, edx
+0159 je       0x252
+015f mov      edx, dword ptr [edx]
+0161 cmp      edx, 0x50a0f0
+0167 je       0x20b
+016d cmp      edx, 0x50a1a8
+0173 je       0x215
+0179 cmp      edx, 0x50a260
+017f je       0x21f
+0185 cmp      edx, 0x508678
+018b je       0x229
+0191 cmp      edx, 0x508878
+0197 je       0x229
+019d cmp      edx, 0x508a60
+01a3 je       0x229
+01a9 cmp      edx, 0x508c48
+01af je       0x229
+01b1 cmp      edx, 0x508e30
+01b7 je       0x229
+01b9 cmp      edx, 0x509018
+01bf je       0x229
+01c1 cmp      edx, 0x509200
+01c7 je       0x229
+01c9 cmp      edx, 0x5093e8
+01cf je       0x229
+01d1 cmp      edx, 0x5095d0
+01d7 je       0x229
+01d9 cmp      edx, 0x5097b8
+01df je       0x229
+01e1 cmp      edx, 0x5099d0
+01e7 je       0x229
+01e9 cmp      edx, 0x50bdb8
+01ef je       0x229
+01f1 cmp      edx, 0x507e10
+01f7 je       0x233
+01f9 cmp      edx, 0x507ee8
+01ff je       0x233
+0201 cmp      edx, 0x507fc0
+0207 je       0x233
+0209 jmp      0x24b
+020b test     ebx, 1
+0211 je       0x24b
+0213 jmp      0x23d
+0215 test     ebx, 2
+021b je       0x24b
+021d jmp      0x23d
+021f test     ebx, 4
+0225 je       0x24b
+0227 jmp      0x23d
+0229 test     ebx, 8
+022f je       0x24b
+0231 jmp      0x23d
+0233 test     ebx, 0x10
+0239 je       0x24b
+023b jmp      0x23d
+023d xor      eax, eax
+023f test     dword ptr [esi + 0x20], 0xa0000000
+0246 sete     al
+0249 jmp      0x254
+024b mov      ecx, esi
+024d call     dword ptr [eax + 0x60]
+0250 jmp      0x254
+0252 xor      eax, eax
+0254 pop      esi
+0255 pop      ebx
+0256 pop      edx
+0257 test     eax, eax
+0259 ret      

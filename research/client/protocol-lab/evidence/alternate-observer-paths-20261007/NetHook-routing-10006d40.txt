@@ -1,0 +1,100 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/NetHookCore.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10006270 <LoadHook>:
+10006d40: 83 ec 30                     	subl	$0x30, %esp
+10006d43: a1 30 b3 01 10               	movl	0x1001b330, %eax
+10006d48: 33 c4                        	xorl	%esp, %eax
+10006d4a: 89 44 24 2c                  	movl	%eax, 0x2c(%esp)
+10006d4e: 53                           	pushl	%ebx
+10006d4f: 8b 5c 24 3c                  	movl	0x3c(%esp), %ebx
+10006d53: 55                           	pushl	%ebp
+10006d54: 56                           	pushl	%esi
+10006d55: 8b 74 24 50                  	movl	0x50(%esp), %esi
+10006d59: 57                           	pushl	%edi
+10006d5a: 8b 7e 04                     	movl	0x4(%esi), %edi
+10006d5d: 57                           	pushl	%edi
+10006d5e: 89 5c 24 28                  	movl	%ebx, 0x28(%esp)
+10006d62: 89 7c 24 1c                  	movl	%edi, 0x1c(%esp)
+10006d66: e8 d5 ec ff ff               	calll	0x10005a40 <.text+0x4a40>
+10006d6b: 83 c4 04                     	addl	$0x4, %esp
+10006d6e: 84 c0                        	testb	%al, %al
+10006d70: 75 4c                        	jne	0x10006dbe <LoadHook+0xb4e>
+10006d72: 57                           	pushl	%edi
+10006d73: e8 08 ed ff ff               	calll	0x10005a80 <.text+0x4a80>
+10006d78: 83 c4 04                     	addl	$0x4, %esp
+10006d7b: 84 c0                        	testb	%al, %al
+10006d7d: 75 3f                        	jne	0x10006dbe <LoadHook+0xb4e>
+10006d7f: 68 18 75 01 10               	pushl	$0x10017518             # imm = 0x10017518
+10006d84: ff 15 b4 61 01 10            	calll	*0x100161b4
+10006d8a: 8b 4c 24 50                  	movl	0x50(%esp), %ecx
+10006d8e: 8b 54 24 4c                  	movl	0x4c(%esp), %edx
+10006d92: 89 46 04                     	movl	%eax, 0x4(%esi)
+10006d95: 8b 44 24 58                  	movl	0x58(%esp), %eax
+10006d99: 50                           	pushl	%eax
+10006d9a: 8b 44 24 48                  	movl	0x48(%esp), %eax
+10006d9e: 56                           	pushl	%esi
+10006d9f: 51                           	pushl	%ecx
+10006da0: 52                           	pushl	%edx
+10006da1: 53                           	pushl	%ebx
+10006da2: 50                           	pushl	%eax
+10006da3: ff 15 54 db 01 10            	calll	*0x1001db54
+10006da9: 5f                           	popl	%edi
+10006daa: 5e                           	popl	%esi
+10006dab: 5d                           	popl	%ebp
+10006dac: 5b                           	popl	%ebx
+10006dad: 8b 4c 24 2c                  	movl	0x2c(%esp), %ecx
+10006db1: 33 cc                        	xorl	%esp, %ecx
+10006db3: e8 77 04 00 00               	calll	0x1000722f <LoadHook+0xfbf>
+10006db8: 83 c4 30                     	addl	$0x30, %esp
+10006dbb: c2 18 00                     	retl	$0x18
+10006dbe: 8b 7c 24 44                  	movl	0x44(%esp), %edi
+10006dc2: 8d 4c 24 28                  	leal	0x28(%esp), %ecx
+10006dc6: 33 c0                        	xorl	%eax, %eax
+10006dc8: 51                           	pushl	%ecx
+10006dc9: 8d 54 24 30                  	leal	0x30(%esp), %edx
+10006dcd: 52                           	pushl	%edx
+10006dce: 57                           	pushl	%edi
+10006dcf: 66 89 44 24 38               	movw	%ax, 0x38(%esp)
+10006dd4: 89 44 24 3a                  	movl	%eax, 0x3a(%esp)
+10006dd8: 89 44 24 3e                  	movl	%eax, 0x3e(%esp)
+10006ddc: 89 44 24 42                  	movl	%eax, 0x42(%esp)
+10006de0: 66 89 44 24 46               	movw	%ax, 0x46(%esp)
+10006de5: c7 44 24 34 10 00 00 00      	movl	$0x10, 0x34(%esp)
+10006ded: e8 be f2 ff ff               	calll	0x100060b0 <.text+0x50b0>
+10006df2: 8b 46 04                     	movl	0x4(%esi), %eax
+10006df5: 8b 4c 24 58                  	movl	0x58(%esp), %ecx
+10006df9: 8b 54 24 30                  	movl	0x30(%esp), %edx
+10006dfd: 8b 1d 28 c8 01 10            	movl	0x1001c828, %ebx
+10006e03: 66 8b 6c 24 3a               	movw	0x3a(%esp), %bp
+10006e08: 66 8b 76 02                  	movw	0x2(%esi), %si
+10006e0c: 89 44 24 28                  	movl	%eax, 0x28(%esp)
+10006e10: 8b 44 24 24                  	movl	0x24(%esp), %eax
+10006e14: c7 44 24 20 00 00 00 00      	movl	$0x0, 0x20(%esp)
+10006e1c: 50                           	pushl	%eax
+10006e1d: 89 4c 24 20                  	movl	%ecx, 0x20(%esp)
+10006e21: 89 54 24 24                  	movl	%edx, 0x24(%esp)
+10006e25: e8 56 ec ff ff               	calll	0x10005a80 <.text+0x4a80>
+10006e2a: 83 c4 10                     	addl	$0x10, %esp
+10006e2d: 84 c0                        	testb	%al, %al
+10006e2f: 6a 01                        	pushl	$0x1
+10006e31: 74 2c                        	je	0x10006e5f <LoadHook+0xbef>
+10006e33: 8b 54 24 20                  	movl	0x20(%esp), %edx
+10006e37: 6a 01                        	pushl	$0x1
+10006e39: 8d 4c 24 18                  	leal	0x18(%esp), %ecx
+10006e3d: 51                           	pushl	%ecx
+10006e3e: 83 ec 08                     	subl	$0x8, %esp
+10006e41: 8b c4                        	movl	%esp, %eax
+10006e43: 89 10                        	movl	%edx, (%eax)
+10006e45: 66 89 70 04                  	movw	%si, 0x4(%eax)
+10006e49: 83 ec 08                     	subl	$0x8, %esp
+10006e4c: 8b c4                        	movl	%esp, %eax
+10006e4e: 89 18                        	movl	%ebx, (%eax)
+10006e50: 57                           	pushl	%edi
+10006e51: 66 89 68 04                  	movw	%bp, 0x4(%eax)
+10006e55: e8 96 ed ff ff               	calll	0x10005bf0 <.text+0x4bf0>
+10006e5a: 83 c4 20                     	addl	$0x20, %esp
+10006e5d: eb 28                        	jmp	0x10006e87 <LoadHook+0xc17>
+10006e5f: 8b 4c 24 20                  	movl	0x20(%esp), %ecx

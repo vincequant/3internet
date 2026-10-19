@@ -1,0 +1,58 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10007cc0: 53                           	pushl	%ebx
+10007cc1: 55                           	pushl	%ebp
+10007cc2: 8b 6c 24 14                  	movl	0x14(%esp), %ebp
+10007cc6: 56                           	pushl	%esi
+10007cc7: 85 ed                        	testl	%ebp, %ebp
+10007cc9: 57                           	pushl	%edi
+10007cca: 75 0a                        	jne	0x10007cd6 <_NetMsg_AcceptEXIT@4+0x5956>
+10007ccc: b8 01 00 00 00               	movl	$0x1, %eax
+10007cd1: 5f                           	popl	%edi
+10007cd2: 5e                           	popl	%esi
+10007cd3: 5d                           	popl	%ebp
+10007cd4: 5b                           	popl	%ebx
+10007cd5: c3                           	retl
+10007cd6: 8b 5c 24 18                  	movl	0x18(%esp), %ebx
+10007cda: 8b 74 24 14                  	movl	0x14(%esp), %esi
+10007cde: 55                           	pushl	%ebp
+10007cdf: 53                           	pushl	%ebx
+10007ce0: 56                           	pushl	%esi
+10007ce1: e8 ea e1 ff ff               	calll	0x10005ed0 <_NetMsg_AcceptEXIT@4+0x3b50>
+10007ce6: 83 c4 0c                     	addl	$0xc, %esp
+10007ce9: 8d be 24 84 00 00            	leal	0x8424(%esi), %edi
+10007cef: 57                           	pushl	%edi
+10007cf0: ff 15 04 e0 00 10            	calll	*0x1000e004
+10007cf6: 53                           	pushl	%ebx
+10007cf7: 56                           	pushl	%esi
+10007cf8: e8 33 c6 ff ff               	calll	0x10004330 <_NetMsg_AcceptEXIT@4+0x1fb0>
+10007cfd: 83 c4 08                     	addl	$0x8, %esp
+10007d00: 85 c0                        	testl	%eax, %eax
+10007d02: 74 1d                        	je	0x10007d21 <_NetMsg_AcceptEXIT@4+0x59a1>
+10007d04: 8b 48 28                     	movl	0x28(%eax), %ecx
+10007d07: 4d                           	decl	%ebp
+10007d08: 3b cd                        	cmpl	%ebp, %ecx
+10007d0a: 75 15                        	jne	0x10007d21 <_NetMsg_AcceptEXIT@4+0x59a1>
+10007d0c: 41                           	incl	%ecx
+10007d0d: 57                           	pushl	%edi
+10007d0e: 89 48 28                     	movl	%ecx, 0x28(%eax)
+10007d11: ff 15 98 e0 00 10            	calll	*0x1000e098
+10007d17: b8 01 00 00 00               	movl	$0x1, %eax
+10007d1c: 5f                           	popl	%edi
+10007d1d: 5e                           	popl	%esi
+10007d1e: 5d                           	popl	%ebp
+10007d1f: 5b                           	popl	%ebx
+10007d20: c3                           	retl
+10007d21: 57                           	pushl	%edi
+10007d22: ff 15 98 e0 00 10            	calll	*0x1000e098
+10007d28: 5f                           	popl	%edi
+10007d29: 5e                           	popl	%esi
+10007d2a: 5d                           	popl	%ebp
+10007d2b: 33 c0                        	xorl	%eax, %eax
+10007d2d: 5b                           	popl	%ebx
+10007d2e: c3                           	retl
+10007d2f: 90                           	nop

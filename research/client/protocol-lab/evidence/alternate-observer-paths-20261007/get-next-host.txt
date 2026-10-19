@@ -1,0 +1,82 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10001000 <.text>:
+10001ca0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10001ca4: 8b 80 48 01 00 00            	movl	0x148(%eax), %eax
+10001caa: c3                           	retl
+10001cab: 90                           	nop
+10001cac: 90                           	nop
+10001cad: 90                           	nop
+10001cae: 90                           	nop
+10001caf: 90                           	nop
+10001cb0: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10001cb4: 50                           	pushl	%eax
+10001cb5: e8 c6 2f 00 00               	calll	0x10004c80 <_NetMsg_AcceptEXIT@4+0x2900>
+10001cba: 83 c4 04                     	addl	$0x4, %esp
+10001cbd: c3                           	retl
+10001cbe: 90                           	nop
+10001cbf: 90                           	nop
+10001cc0: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+10001cc4: 8b 4c 24 08                  	movl	0x8(%esp), %ecx
+10001cc8: 8b 54 24 04                  	movl	0x4(%esp), %edx
+10001ccc: 50                           	pushl	%eax
+10001ccd: 51                           	pushl	%ecx
+10001cce: 52                           	pushl	%edx
+10001ccf: e8 dc 2f 00 00               	calll	0x10004cb0 <_NetMsg_AcceptEXIT@4+0x2930>
+10001cd4: 83 c4 0c                     	addl	$0xc, %esp
+10001cd7: c3                           	retl
+10001cd8: 90                           	nop
+10001cd9: 90                           	nop
+10001cda: 90                           	nop
+10001cdb: 90                           	nop
+10001cdc: 90                           	nop
+10001cdd: 90                           	nop
+10001cde: 90                           	nop
+10001cdf: 90                           	nop
+10001ce0: 8b 44 24 08                  	movl	0x8(%esp), %eax
+10001ce4: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10001ce8: 50                           	pushl	%eax
+10001ce9: 51                           	pushl	%ecx
+10001cea: e8 e1 30 00 00               	calll	0x10004dd0 <_NetMsg_AcceptEXIT@4+0x2a50>
+10001cef: 83 c4 08                     	addl	$0x8, %esp
+10001cf2: c3                           	retl
+10001cf3: 90                           	nop
+10001cf4: 90                           	nop
+10001cf5: 90                           	nop
+10001cf6: 90                           	nop
+10001cf7: 90                           	nop
+10001cf8: 90                           	nop
+10001cf9: 90                           	nop
+10001cfa: 90                           	nop
+10001cfb: 90                           	nop
+10001cfc: 90                           	nop
+10001cfd: 90                           	nop
+10001cfe: 90                           	nop
+10001cff: 90                           	nop
+10001d00: 8b 44 24 04                  	movl	0x4(%esp), %eax
+10001d04: 50                           	pushl	%eax
+10001d05: e8 06 31 00 00               	calll	0x10004e10 <_NetMsg_AcceptEXIT@4+0x2a90>
+10001d0a: 83 c4 04                     	addl	$0x4, %esp
+10001d0d: c3                           	retl
+10001d0e: 90                           	nop
+10001d0f: 90                           	nop
+10001d10: 8b 44 24 0c                  	movl	0xc(%esp), %eax
+10001d14: 8b 4c 24 08                  	movl	0x8(%esp), %ecx
+10001d18: 8b 54 24 04                  	movl	0x4(%esp), %edx
+10001d1c: 50                           	pushl	%eax
+10001d1d: 51                           	pushl	%ecx
+10001d1e: 52                           	pushl	%edx
+10001d1f: e8 fc 30 00 00               	calll	0x10004e20 <_NetMsg_AcceptEXIT@4+0x2aa0>
+10001d24: 83 c4 0c                     	addl	$0xc, %esp
+10001d27: c3                           	retl
+10001d28: 90                           	nop
+10001d29: 90                           	nop
+10001d2a: 90                           	nop
+10001d2b: 90                           	nop
+10001d2c: 90                           	nop
+10001d2d: 90                           	nop
+10001d2e: 90                           	nop
+10001d2f: 90                           	nop

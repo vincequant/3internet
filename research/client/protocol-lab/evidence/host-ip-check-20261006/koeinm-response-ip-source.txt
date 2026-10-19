@@ -1,0 +1,28 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10008a80: 81 ec 00 04 00 00            	subl	$0x400, %esp            # imm = 0x400
+10008a86: 8d 44 24 00                  	leal	(%esp), %eax
+10008a8a: 68 00 04 00 00               	pushl	$0x400                  # imm = 0x400
+10008a8f: 50                           	pushl	%eax
+10008a90: ff 15 78 f0 00 10            	calll	*0x1000f078
+10008a96: 85 c0                        	testl	%eax, %eax
+10008a98: 74 09                        	je	0x10008aa3 <_NetMsg_AcceptEXIT@4+0x6723>
+10008a9a: 33 c0                        	xorl	%eax, %eax
+10008a9c: 81 c4 00 04 00 00            	addl	$0x400, %esp            # imm = 0x400
+10008aa2: c3                           	retl
+10008aa3: 8d 4c 24 00                  	leal	(%esp), %ecx
+10008aa7: 51                           	pushl	%ecx
+10008aa8: ff 15 74 f0 00 10            	calll	*0x1000f074
+10008aae: 85 c0                        	testl	%eax, %eax
+10008ab0: 75 07                        	jne	0x10008ab9 <_NetMsg_AcceptEXIT@4+0x6739>
+10008ab2: 81 c4 00 04 00 00            	addl	$0x400, %esp            # imm = 0x400
+10008ab8: c3                           	retl
+10008ab9: 8b 50 0c                     	movl	0xc(%eax), %edx
+10008abc: 8b 02                        	movl	(%edx), %eax
+10008abe: 8b 00                        	movl	(%eax), %eax
+10008ac0: 81 c4 00 04 00 00            	addl	$0x400, %esp            # imm = 0x400
+10008ac6: c3                           	retl

@@ -1,0 +1,50 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe:	file format coff-i386
+
+Disassembly of section .text:
+
+00401000 <.text>:
+  465830: 86 8e 00 00 6a 01            	xchgb	%cl, 0x16a0000(%esi)
+  465836: e8 9e 8f 04 00               	calll	0x4ae7d9 <.text+0xad7d9>
+  46583b: 83 4d fc ff                  	orl	$-0x1, -0x4(%ebp)
+  46583f: 59                           	popl	%ecx
+  465840: 8d 4d 0c                     	leal	0xc(%ebp), %ecx
+  465843: e8 72 c6 06 00               	calll	0x4d1eba <.text+0xd0eba>
+  465848: 33 c9                        	xorl	%ecx, %ecx
+  46584a: 39 8b a8 08 00 00            	cmpl	%ecx, 0x8a8(%ebx)
+  465850: 8d 83 a8 08 00 00            	leal	0x8a8(%ebx), %eax
+  465856: 0f 85 a7 00 00 00            	jne	0x465903 <.text+0x64903>
+  46585c: c7 00 01 00 00 00            	movl	$0x1, (%eax)
+  465862: e8 6b b6 fc ff               	calll	0x430ed2 <.text+0x2fed2>
+  465867: 03 c7                        	addl	%edi, %eax
+  465869: 8b c8                        	movl	%eax, %ecx
+  46586b: e8 1f 1d fd ff               	calll	0x43758f <.text+0x3658f>
+  465870: 33 ff                        	xorl	%edi, %edi
+  465872: be 24 04 00 00               	movl	$0x424, %esi            # imm = 0x424
+  465877: 57                           	pushl	%edi
+  465878: 56                           	pushl	%esi
+  465879: 8b cb                        	movl	%ebx, %ecx
+  46587b: e8 95 ba 06 00               	calll	0x4d1315 <.text+0xd0315>
+  465880: 8b c8                        	movl	%eax, %ecx
+  465882: e8 f9 bd 06 00               	calll	0x4d1680 <.text+0xd0680>
+  465887: 57                           	pushl	%edi
+  465888: 8d 4d 80                     	leal	-0x80(%ebp), %ecx
+  46588b: ff 73 3c                     	pushl	0x3c(%ebx)
+  46588e: e8 9d b7 04 00               	calll	0x4b1030 <.text+0xb0030>
+  465893: 8d 4d 80                     	leal	-0x80(%ebp), %ecx
+  465896: c7 45 fc 03 00 00 00         	movl	$0x3, -0x4(%ebp)
+  46589d: e8 12 b6 06 00               	calll	0x4d0eb4 <.text+0xcfeb4>
+  4658a2: 57                           	pushl	%edi
+  4658a3: 56                           	pushl	%esi
+  4658a4: 68 11 01 00 00               	pushl	$0x111                  # imm = 0x111
+  4658a9: ff 73 1c                     	pushl	0x1c(%ebx)
+  4658ac: ff 15 78 b7 4f 00            	calll	*0x4fb778
+  4658b2: 83 4d fc ff                  	orl	$-0x1, -0x4(%ebp)
+  4658b6: 8d 4d 80                     	leal	-0x80(%ebp), %ecx
+  4658b9: e8 fd b1 06 00               	calll	0x4d0abb <.text+0xcfabb>
+  4658be: eb 43                        	jmp	0x465903 <.text+0x64903>
+  4658c0: 33 d2                        	xorl	%edx, %edx
+  4658c2: 39 93 e8 08 00 00            	cmpl	%edx, 0x8e8(%ebx)
+  4658c8: 75 3e                        	jne	0x465908 <.text+0x64908>
+  4658ca: 33 c9                        	xorl	%ecx, %ecx
+  4658cc: 8d 86 b8 00 00 00            	leal	0xb8(%esi), %eax

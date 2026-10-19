@@ -1,0 +1,47 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10005a20: 83 ec 30                     	subl	$0x30, %esp
+10005a23: 8b 4c 24 40                  	movl	0x40(%esp), %ecx
+10005a27: 8a 44 24 3c                  	movb	0x3c(%esp), %al
+10005a2b: 51                           	pushl	%ecx
+10005a2c: 88 44 24 04                  	movb	%al, 0x4(%esp)
+10005a30: ff 15 50 f0 00 10            	calll	*0x1000f050
+10005a36: 8b 54 24 44                  	movl	0x44(%esp), %edx
+10005a3a: 89 44 24 01                  	movl	%eax, 0x1(%esp)
+10005a3e: 8d 44 24 09                  	leal	0x9(%esp), %eax
+10005a42: 52                           	pushl	%edx
+10005a43: 50                           	pushl	%eax
+10005a44: ff 15 24 e0 00 10            	calll	*0x1000e024
+10005a4a: 8b 4c 24 48                  	movl	0x48(%esp), %ecx
+10005a4e: 51                           	pushl	%ecx
+10005a4f: ff 15 50 f0 00 10            	calll	*0x1000f050
+10005a55: 8b 54 24 4c                  	movl	0x4c(%esp), %edx
+10005a59: 89 44 24 28                  	movl	%eax, 0x28(%esp)
+10005a5d: 52                           	pushl	%edx
+10005a5e: ff 15 4c f0 00 10            	calll	*0x1000f04c
+10005a64: 8b 4c 24 38                  	movl	0x38(%esp), %ecx
+10005a68: 8b 54 24 34                  	movl	0x34(%esp), %edx
+10005a6c: 66 89 44 24 2c               	movw	%ax, 0x2c(%esp)
+10005a71: 8d 44 24 00                  	leal	(%esp), %eax
+10005a75: 6a 2f                        	pushl	$0x2f
+10005a77: 50                           	pushl	%eax
+10005a78: 51                           	pushl	%ecx
+10005a79: 52                           	pushl	%edx
+10005a7a: e8 01 fe ff ff               	calll	0x10005880 <_NetMsg_AcceptEXIT@4+0x3500>
+10005a7f: 83 c4 10                     	addl	$0x10, %esp
+10005a82: 83 c4 30                     	addl	$0x30, %esp
+10005a85: c3                           	retl
+10005a86: 90                           	nop
+10005a87: 90                           	nop
+10005a88: 90                           	nop
+10005a89: 90                           	nop
+10005a8a: 90                           	nop
+10005a8b: 90                           	nop
+10005a8c: 90                           	nop
+10005a8d: 90                           	nop
+10005a8e: 90                           	nop
+10005a8f: 90                           	nop

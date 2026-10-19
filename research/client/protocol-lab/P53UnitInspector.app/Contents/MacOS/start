@@ -1,0 +1,10 @@
+#!/bin/bash
+set -euo pipefail
+# Launched with macOS open so Wine receives the user's Aqua session.
+shadow_root="$(cd "$(dirname "$0")/../../../.." && pwd)"
+source "$shadow_root/_env.sh"
+mkdir -p "$shadow_root/logs"
+p53_stamp="$(date +%Y%m%d-%H%M%S)-$$"
+exec "$WINE" "$P32" "$Z\\tools\\p53_unit_inspector.py" \
+  --bridge "$Z\\bridge" --out "$Z\\logs\\p53-inspector-$p53_stamp.jsonl" \
+  > "$shadow_root/logs/p53-inspector-$p53_stamp.stdout.log" 2>&1

@@ -1,0 +1,52 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10004330: 8b 4c 24 04                  	movl	0x4(%esp), %ecx
+10004334: 33 c0                        	xorl	%eax, %eax
+10004336: 56                           	pushl	%esi
+10004337: 8b 91 bc 43 00 00            	movl	0x43bc(%ecx), %edx
+1000433d: 57                           	pushl	%edi
+1000433e: 85 d2                        	testl	%edx, %edx
+10004340: 7e 30                        	jle	0x10004372 <_NetMsg_AcceptEXIT@4+0x1ff2>
+10004342: 8b b9 b8 43 00 00            	movl	0x43b8(%ecx), %edi
+10004348: 8b 74 24 10                  	movl	0x10(%esp), %esi
+1000434c: 8b cf                        	movl	%edi, %ecx
+1000434e: 39 31                        	cmpl	%esi, (%ecx)
+10004350: 74 10                        	je	0x10004362 <_NetMsg_AcceptEXIT@4+0x1fe2>
+10004352: 40                           	incl	%eax
+10004353: 81 c1 64 01 00 00            	addl	$0x164, %ecx            # imm = 0x164
+10004359: 3b c2                        	cmpl	%edx, %eax
+1000435b: 7c f1                        	jl	0x1000434e <_NetMsg_AcceptEXIT@4+0x1fce>
+1000435d: 33 c0                        	xorl	%eax, %eax
+1000435f: 5f                           	popl	%edi
+10004360: 5e                           	popl	%esi
+10004361: c3                           	retl
+10004362: 8d 0c 80                     	leal	(%eax,%eax,4), %ecx
+10004365: 8d 0c c9                     	leal	(%ecx,%ecx,8), %ecx
+10004368: d1 e1                        	shll	%ecx
+1000436a: 2b c8                        	subl	%eax, %ecx
+1000436c: 8d 04 8f                     	leal	(%edi,%ecx,4), %eax
+1000436f: 5f                           	popl	%edi
+10004370: 5e                           	popl	%esi
+10004371: c3                           	retl
+10004372: 5f                           	popl	%edi
+10004373: 5e                           	popl	%esi
+10004374: 33 c0                        	xorl	%eax, %eax
+10004376: c3                           	retl
+10004377: 90                           	nop
+10004378: 90                           	nop
+10004379: 90                           	nop
+1000437a: 90                           	nop
+1000437b: 90                           	nop
+1000437c: 90                           	nop
+1000437d: 90                           	nop
+1000437e: 90                           	nop
+1000437f: 90                           	nop
+10004380: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+10004384: 8b 4c 24 18                  	movl	0x18(%esp), %ecx
+10004388: 8b 54 24 14                  	movl	0x14(%esp), %edx
+1000438c: 53                           	pushl	%ebx
+1000438d: 8b 5c 24 28                  	movl	0x28(%esp), %ebx

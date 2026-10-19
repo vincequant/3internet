@@ -1,0 +1,69 @@
+0000 pushfd   
+0001 pushal   
+0002 call     7
+0007 pop      ebp
+0008 sub      ebp, 7
+000b add      ebp, 0x1000
+0011 cmp      dword ptr [ebp], 0x33505553
+0018 jne      0x10e
+001e cmp      dword ptr [ebp + 4], 1
+0022 jne      0x10e
+0028 call     dword ptr [0x4fb2f8]
+002e sub      eax, dword ptr [ebp + 8]
+0031 jns      0x10e
+0037 cmp      esi, dword ptr [0x53b930]
+003d jne      0x10e
+0043 cmp      dword ptr [esi], 0x50b730
+0049 jne      0x10e
+004f cmp      dword ptr [esi + 0x210], 0
+0056 jne      0x10e
+005c cmp      dword ptr [esi + 0x7e2], 0
+0063 jne      0x10e
+0069 cmp      dword ptr [esi + 0x8da], 0
+0070 jne      0x10e
+0076 mov      edx, dword ptr [esi + 0x3c]
+0079 test     edx, edx
+007b je       0x10e
+0081 lea      eax, [edx + 0x912]
+0087 cmp      eax, dword ptr [0x53bb30]
+008d jne      0x10e
+008f cmp      dword ptr [eax], 0x5053c0
+0095 jne      0x10e
+0097 inc      dword ptr [ebp + 0xc]
+009a mov      dword ptr [ebp + 0x10], esi
+009d mov      dword ptr [ebp + 0x14], edx
+00a0 mov      dword ptr [ebp + 0x18], eax
+00a3 mov      ecx, dword ptr [esi + 0x1c]
+00a6 mov      dword ptr [ebp + 0x1c], ecx
+00a9 mov      dword ptr [ebp + 0x20], edi
+00ac mov      dword ptr [ebp + 0x24], ebx
+00af mov      ecx, dword ptr [esi + 0x54]
+00b2 mov      dword ptr [ebp + 0x28], ecx
+00b5 mov      ecx, dword ptr [esi + 0x58]
+00b8 mov      dword ptr [ebp + 0x2c], ecx
+00bb mov      ecx, dword ptr [edx + 0xf22]
+00c1 mov      dword ptr [ebp + 0x30], ecx
+00c4 mov      ecx, dword ptr [edx + 0xf26]
+00ca mov      dword ptr [ebp + 0x34], ecx
+00cd mov      ecx, dword ptr [edx + 0xf2a]
+00d3 mov      dword ptr [ebp + 0x38], ecx
+00d6 mov      ecx, dword ptr [edx + 0xf2e]
+00dc mov      dword ptr [ebp + 0x3c], ecx
+00df mov      ecx, dword ptr [eax + 0x4d0]
+00e5 mov      dword ptr [ebp + 0x40], ecx
+00e8 mov      ecx, dword ptr [eax + 0x4d4]
+00ee mov      dword ptr [ebp + 0x44], ecx
+00f1 mov      ecx, dword ptr [eax + 0x4d8]
+00f7 mov      dword ptr [ebp + 0x48], ecx
+00fa call     dword ptr [0x4fb2f8]
+0100 mov      dword ptr [ebp + 0x4c], eax
+0103 inc      dword ptr [ebp + 0xc]
+0106 popal    
+0107 popfd    
+0108 push     0x498a56
+010d ret      
+010e popal    
+010f popfd    
+0110 cmp      dword ptr [esi + 0x8da], ecx
+0116 push     0x4988e9
+011b ret      

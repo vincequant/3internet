@@ -1,0 +1,385 @@
+{
+  "ok": true,
+  "kind": "main_search_probe_4577_vs_4578",
+  "tk_before": {
+    "ok": false
+  },
+  "trials": [
+    {
+      "udp_port": 4577,
+      "login": {
+        "ok": true,
+        "game_name": "★★★三国对战房★★★",
+        "room_name": "多线2（主线）",
+        "game_id": 1001,
+        "room_id": 1001
+      },
+      "grant": {
+        "virtual_ip": "10.93.115.152",
+        "server": "121.41.166.208",
+        "port": 9151,
+        "game_id": 1001,
+        "room_id": 1001,
+        "user_id": 100592,
+        "username": "VK(筑基期)"
+      },
+      "probe": {
+        "ok": true,
+        "udp_port": 4577,
+        "init_rc": 0,
+        "uses_original_relay_dll": true,
+        "launched_sanpk": false,
+        "start_rc": 0,
+        "relay_registered": true,
+        "queries": [
+          {
+            "exit": 0,
+            "results": [
+              {
+                "stage": "loading_transport",
+                "sha256": "5b3790982f7c54f891e5b3c8559e7a61c7589d8a4a9d68bc9f8f8992b5b678b4"
+              },
+              {
+                "stage": "initialized",
+                "return_code": 0
+              },
+              {
+                "synthetic": false,
+                "dll_sha256": "629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841",
+                "rooms": [
+                  {
+                    "id": "181771587",
+                    "name": "SGZWLB",
+                    "host": "kwankwan",
+                    "maximum": 8,
+                    "current": 1,
+                    "version": 0
+                  }
+                ],
+                "request_hex": null,
+                "process": "standalone_python32",
+                "windows_version": [
+                  6,
+                  3,
+                  9600,
+                  2,
+                  ""
+                ],
+                "transport_loaded": true,
+                "start_rc": 0,
+                "search_rc": 0,
+                "end_rc": 1,
+                "elapsed_ms": 1430,
+                "reply_count": 3,
+                "observed_at": 1789641207.198462,
+                "query_status": "replies_received",
+                "credentials_only_verified": false
+              }
+            ]
+          },
+          {
+            "exit": 0,
+            "results": [
+              {
+                "stage": "loading_transport",
+                "sha256": "5b3790982f7c54f891e5b3c8559e7a61c7589d8a4a9d68bc9f8f8992b5b678b4"
+              },
+              {
+                "stage": "initialized",
+                "return_code": 0
+              },
+              {
+                "synthetic": false,
+                "dll_sha256": "629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841",
+                "rooms": [
+                  {
+                    "id": "181771587",
+                    "name": "SGZWLB",
+                    "host": "kwankwan",
+                    "maximum": 8,
+                    "current": 1,
+                    "version": 0
+                  }
+                ],
+                "request_hex": null,
+                "process": "standalone_python32",
+                "windows_version": [
+                  6,
+                  3,
+                  9600,
+                  2,
+                  ""
+                ],
+                "transport_loaded": true,
+                "start_rc": 0,
+                "search_rc": 0,
+                "end_rc": 1,
+                "elapsed_ms": 1419,
+                "reply_count": 3,
+                "observed_at": 1789641210.031389,
+                "query_status": "replies_received",
+                "credentials_only_verified": false
+              }
+            ]
+          },
+          {
+            "exit": 0,
+            "results": [
+              {
+                "stage": "loading_transport",
+                "sha256": "5b3790982f7c54f891e5b3c8559e7a61c7589d8a4a9d68bc9f8f8992b5b678b4"
+              },
+              {
+                "stage": "initialized",
+                "return_code": 0
+              },
+              {
+                "synthetic": false,
+                "dll_sha256": "629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841",
+                "rooms": [
+                  {
+                    "id": "181771587",
+                    "name": "SGZWLB",
+                    "host": "kwankwan",
+                    "maximum": 8,
+                    "current": 1,
+                    "version": 0
+                  }
+                ],
+                "request_hex": null,
+                "process": "standalone_python32",
+                "windows_version": [
+                  6,
+                  3,
+                  9600,
+                  2,
+                  ""
+                ],
+                "transport_loaded": true,
+                "start_rc": 0,
+                "search_rc": 0,
+                "end_rc": 1,
+                "elapsed_ms": 1511,
+                "reply_count": 3,
+                "observed_at": 1789641212.4876869,
+                "query_status": "replies_received",
+                "credentials_only_verified": false
+              }
+            ]
+          }
+        ],
+        "callback_count": 12,
+        "room_names": [
+          [
+            "SGZWLB",
+            "kwankwan"
+          ]
+        ]
+      },
+      "sockets_before": {
+        "wineserver_pid": 98111,
+        "watched": []
+      },
+      "sockets_mid": {
+        "wineserver_pid": 98111,
+        "watched": [
+          "wineserve 98111 vk 226u IPv4 0xfc376e64d02831df 0t0 UDP *:4577"
+        ]
+      },
+      "sockets_after": {
+        "wineserver_pid": 98111,
+        "watched": []
+      }
+    },
+    {
+      "udp_port": 4578,
+      "login": {
+        "ok": true,
+        "game_name": "★★★三国对战房★★★",
+        "room_name": "多线2（主线）",
+        "game_id": 1001,
+        "room_id": 1001
+      },
+      "grant": {
+        "virtual_ip": "10.61.133.134",
+        "server": "121.41.166.208",
+        "port": 9151,
+        "game_id": 1001,
+        "room_id": 1001,
+        "user_id": 100592,
+        "username": "VK(筑基期)"
+      },
+      "probe": {
+        "ok": true,
+        "udp_port": 4578,
+        "init_rc": 0,
+        "uses_original_relay_dll": true,
+        "launched_sanpk": false,
+        "start_rc": 0,
+        "relay_registered": true,
+        "queries": [
+          {
+            "exit": 0,
+            "results": [
+              {
+                "stage": "loading_transport",
+                "sha256": "5b3790982f7c54f891e5b3c8559e7a61c7589d8a4a9d68bc9f8f8992b5b678b4"
+              },
+              {
+                "stage": "initialized",
+                "return_code": 0
+              },
+              {
+                "synthetic": false,
+                "dll_sha256": "629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841",
+                "rooms": [
+                  {
+                    "id": "181771587",
+                    "name": "SGZWLB",
+                    "host": "kwankwan",
+                    "maximum": 8,
+                    "current": 1,
+                    "version": 0
+                  }
+                ],
+                "request_hex": null,
+                "process": "standalone_python32",
+                "windows_version": [
+                  6,
+                  3,
+                  9600,
+                  2,
+                  ""
+                ],
+                "transport_loaded": true,
+                "start_rc": 0,
+                "search_rc": 0,
+                "end_rc": 1,
+                "elapsed_ms": 1354,
+                "reply_count": 3,
+                "observed_at": 1789641224.7096589,
+                "query_status": "replies_received",
+                "credentials_only_verified": false
+              }
+            ]
+          },
+          {
+            "exit": 0,
+            "results": [
+              {
+                "stage": "loading_transport",
+                "sha256": "5b3790982f7c54f891e5b3c8559e7a61c7589d8a4a9d68bc9f8f8992b5b678b4"
+              },
+              {
+                "stage": "initialized",
+                "return_code": 0
+              },
+              {
+                "synthetic": false,
+                "dll_sha256": "629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841",
+                "rooms": [
+                  {
+                    "id": "181771587",
+                    "name": "SGZWLB",
+                    "host": "kwankwan",
+                    "maximum": 8,
+                    "current": 1,
+                    "version": 0
+                  }
+                ],
+                "request_hex": null,
+                "process": "standalone_python32",
+                "windows_version": [
+                  6,
+                  3,
+                  9600,
+                  2,
+                  ""
+                ],
+                "transport_loaded": true,
+                "start_rc": 0,
+                "search_rc": 0,
+                "end_rc": 1,
+                "elapsed_ms": 1401,
+                "reply_count": 3,
+                "observed_at": 1789641226.959548,
+                "query_status": "replies_received",
+                "credentials_only_verified": false
+              }
+            ]
+          },
+          {
+            "exit": 0,
+            "results": [
+              {
+                "stage": "loading_transport",
+                "sha256": "5b3790982f7c54f891e5b3c8559e7a61c7589d8a4a9d68bc9f8f8992b5b678b4"
+              },
+              {
+                "stage": "initialized",
+                "return_code": 0
+              },
+              {
+                "synthetic": false,
+                "dll_sha256": "629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841",
+                "rooms": [
+                  {
+                    "id": "181771587",
+                    "name": "SGZWLB",
+                    "host": "kwankwan",
+                    "maximum": 8,
+                    "current": 1,
+                    "version": 0
+                  }
+                ],
+                "request_hex": null,
+                "process": "standalone_python32",
+                "windows_version": [
+                  6,
+                  3,
+                  9600,
+                  2,
+                  ""
+                ],
+                "transport_loaded": true,
+                "start_rc": 0,
+                "search_rc": 0,
+                "end_rc": 1,
+                "elapsed_ms": 1326,
+                "reply_count": 3,
+                "observed_at": 1789641229.052329,
+                "query_status": "replies_received",
+                "credentials_only_verified": false
+              }
+            ]
+          }
+        ],
+        "callback_count": 13,
+        "room_names": [
+          [
+            "SGZWLB",
+            "kwankwan"
+          ]
+        ]
+      },
+      "sockets_before": {
+        "wineserver_pid": 98111,
+        "watched": []
+      },
+      "sockets_mid": {
+        "wineserver_pid": 98111,
+        "watched": [
+          "wineserve 98111 vk 227u IPv4 0x68cd0aade4133275 0t0 UDP *:4578"
+        ]
+      },
+      "sockets_after": {
+        "wineserver_pid": 98111,
+        "watched": []
+      }
+    }
+  ],
+  "launched_sanpk": false,
+  "tk_after": {
+    "ok": false
+  }
+}

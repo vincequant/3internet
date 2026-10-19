@@ -1,0 +1,20 @@
+{
+  "schema": "p53-unit-click-build-1",
+  "size": 284,
+  "sha256": "aac999ac6bf78b6d065d4d0f5e4a9a95ed3b796e1804b406e968d0c02e630bd8",
+  "entries": {
+    ".text": 0,
+    "unit_click": 0,
+    "unit_click_blob": 284,
+    "click_pc": 7,
+    "click_passthrough": 270
+  },
+  "mailbox_offset": 4096,
+  "mailbox_size": 128,
+  "site": 4819171,
+  "before": "398eda080000",
+  "default_enabled": false,
+  "target_calls": [
+    "KERNEL32.GetTickCount via original IAT 0x4fb2f8"
+  ]
+}

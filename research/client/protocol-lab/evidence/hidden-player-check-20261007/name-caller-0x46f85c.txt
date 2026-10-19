@@ -1,0 +1,59 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe:	file format coff-i386
+
+Disassembly of section .text:
+
+00401000 <.text>:
+  46f820: 46                           	incl	%esi
+  46f821: 00 33                        	addb	%dh, (%ebx)
+  46f823: db 33                        	<unknown>
+  46f825: c0 81 c6 ba 00 00 00         	rolb	$0x0, 0xbac6(%ecx)
+  46f82c: 39 5e 3c                     	cmpl	%ebx, 0x3c(%esi)
+  46f82f: 75 07                        	jne	0x46f838 <.text+0x6e838>
+  46f831: 8b 0e                        	movl	(%esi), %ecx
+  46f833: 3b 4d 0c                     	cmpl	0xc(%ebp), %ecx
+  46f836: 74 11                        	je	0x46f849 <.text+0x6e849>
+  46f838: 40                           	incl	%eax
+  46f839: 81 c6 87 00 00 00            	addl	$0x87, %esi
+  46f83f: 83 f8 08                     	cmpl	$0x8, %eax
+  46f842: 7c e8                        	jl	0x46f82c <.text+0x6e82c>
+  46f844: e9 ec 03 00 00               	jmp	0x46fc35 <.text+0x6ec35>
+  46f849: 8d 4d 0c                     	leal	0xc(%ebp), %ecx
+  46f84c: e8 1e 25 06 00               	calll	0x4d1d6f <.text+0xd0d6f>
+  46f851: 8d 45 0c                     	leal	0xc(%ebp), %eax
+  46f854: 8b cf                        	movl	%edi, %ecx
+  46f856: 50                           	pushl	%eax
+  46f857: 89 5d fc                     	movl	%ebx, -0x4(%ebp)
+  46f85a: ff 36                        	pushl	(%esi)
+  46f85c: e8 08 af fb ff               	calll	0x42a769 <.text+0x29769>
+  46f861: 85 c0                        	testl	%eax, %eax
+  46f863: 74 08                        	je	0x46f86d <.text+0x6e86d>
+  46f865: 8b 45 0c                     	movl	0xc(%ebp), %eax
+  46f868: 39 58 f8                     	cmpl	%ebx, -0x8(%eax)
+  46f86b: 75 0b                        	jne	0x46f878 <.text+0x6e878>
+  46f86d: ff 76 08                     	pushl	0x8(%esi)
+  46f870: 8d 4d 0c                     	leal	0xc(%ebp), %ecx
+  46f873: e8 8a 27 06 00               	calll	0x4d2002 <.text+0xd1002>
+  46f878: 8b 45 0c                     	movl	0xc(%ebp), %eax
+  46f87b: 39 58 f8                     	cmpl	%ebx, -0x8(%eax)
+  46f87e: 74 5e                        	je	0x46f8de <.text+0x6e8de>
+  46f880: 8d 4d ec                     	leal	-0x14(%ebp), %ecx
+  46f883: e8 e7 24 06 00               	calll	0x4d1d6f <.text+0xd0d6f>
+  46f888: 8d 4d 08                     	leal	0x8(%ebp), %ecx
+  46f88b: c6 45 fc 01                  	movb	$0x1, -0x4(%ebp)
+  46f88f: e8 db 24 06 00               	calll	0x4d1d6f <.text+0xd0d6f>
+  46f894: 68 65 1b 00 00               	pushl	$0x1b65                 # imm = 0x1B65
+  46f899: 8d 4d ec                     	leal	-0x14(%ebp), %ecx
+  46f89c: c6 45 fc 02                  	movb	$0x2, -0x4(%ebp)
+  46f8a0: e8 1a 3a 06 00               	calll	0x4d32bf <.text+0xd22bf>
+  46f8a5: ff 75 0c                     	pushl	0xc(%ebp)
+  46f8a8: 8d 45 08                     	leal	0x8(%ebp), %eax
+  46f8ab: ff 75 ec                     	pushl	-0x14(%ebp)
+  46f8ae: 50                           	pushl	%eax
+  46f8af: e8 a1 bb 05 00               	calll	0x4cb455 <.text+0xca455>
+  46f8b4: 8b 4d f0                     	movl	-0x10(%ebp), %ecx
+  46f8b7: 83 c4 0c                     	addl	$0xc, %esp
+  46f8ba: ff 75 08                     	pushl	0x8(%ebp)
+  46f8bd: 68 40 ac 53 00               	pushl	$0x53ac40               # imm = 0x53AC40
+  46f8c2: e8 f3 ed ff ff               	calll	0x46e6ba <.text+0x6d6ba>
+  46f8c7: 8d 4d 08                     	leal	0x8(%ebp), %ecx

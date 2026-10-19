@@ -1,0 +1,88 @@
+{
+  "schema": "p53-hidden-draw-1",
+  "size": 602,
+  "sha256": "1895ebbada18552429fdbd50a5b3bb4718ce227db75123923808712186800e9c",
+  "entries": {
+    "hidden_0": 0,
+    "hidden_1": 11,
+    "hidden_2": 22,
+    "hidden_3": 33,
+    "hidden_4": 44,
+    "hidden_5": 55,
+    "hidden_6": 66,
+    "hidden_7": 77,
+    "hidden_8": 88,
+    "hidden_9": 99,
+    "hidden_10": 110,
+    "hidden_11": 121,
+    "hidden_12": 132,
+    "hidden_13": 143,
+    "hidden_14": 154,
+    "hidden_15": 165,
+    "hidden_16": 176,
+    "hidden_17": 184,
+    "hidden_18": 192,
+    "hidden_19": 200,
+    "hidden_20": 208,
+    "hidden_21": 216,
+    "hidden_22": 224,
+    "hidden_23": 232,
+    "hidden_24": 240,
+    "hidden_25": 248,
+    "hidden_26": 256,
+    "hidden_27": 264,
+    "hidden_28": 272,
+    "hidden_29": 280,
+    "hidden_30": 288,
+    "hidden_31": 296
+  },
+  "groups": {
+    "map-trap-fire": [
+      1,
+      [
+        5284080
+      ]
+    ],
+    "map-trap-rock": [
+      2,
+      [
+        5284264
+      ]
+    ],
+    "map-trap-pit": [
+      4,
+      [
+        5284448
+      ]
+    ],
+    "map-unit-sprites": [
+      8,
+      [
+        5277304,
+        5277816,
+        5278304,
+        5278792,
+        5279280,
+        5279768,
+        5280256,
+        5280744,
+        5281232,
+        5281720,
+        5282256,
+        5291448
+      ]
+    ],
+    "map-site-sprites": [
+      16,
+      [
+        5275152,
+        5275368,
+        5275584
+      ]
+    ]
+  },
+  "site": "0x4afc5c",
+  "before": "ff506085c0",
+  "activation": false,
+  "writes": "code cave and one bitmap paint CALL only"
+}

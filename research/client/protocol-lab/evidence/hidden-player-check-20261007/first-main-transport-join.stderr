@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "Z:\Users\vk\Documents\Coding\三国志internet\research\client\protocol-lab\evidence\hidden-player-check-20261007\transport_join_probe.py", line 36, in <module>
+    own=getip(0);ownip='.'.join(str(x) for x in struct.pack('!I',own));print(json.dumps({'stage':'original_resolved_identity','virtual_ip':ownip,'id':str(own)}),flush=True)
+        ^^^^^^^^
+OSError: exception: access violation writing 0x00000000

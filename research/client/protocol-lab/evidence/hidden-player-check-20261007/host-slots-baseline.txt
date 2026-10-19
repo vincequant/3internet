@@ -1,0 +1,4 @@
+{"pid": 2052, "doc": "0x34121f8", "slots": [{"slot": 0, "network_id": "176202538", "type_u16": 2, "slot_marker": 0}, {"slot": 1, "network_id": "0", "type_u16": 0, "slot_marker": 0}, {"slot": 2, "network_id": "0", "type_u16": 0, "slot_marker": 0}, {"slot": 3, "network_id": "0", "type_u16": 0, "slot_marker": 0}, {"slot": 4, "network_id": "0", "type_u16": 0, "slot_marker": 0}, {"slot": 5, "network_id": "0", "type_u16": 0, "slot_marker": 0}, {"slot": 6, "network_id": "0", "type_u16": 0, "slot_marker": 0}, {"slot": 7, "network_id": "0", "type_u16": 0, "slot_marker": 0}], "readonly": true, "scan_seconds": 0.0359999998472631}
+
+
+exit 0

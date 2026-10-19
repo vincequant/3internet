@@ -1,0 +1,14 @@
+{
+  "Koeinm": {
+    "sha256": "629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841",
+    "path": "/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll"
+  },
+  "NetHookCore": {
+    "sha256": "5b3790982f7c54f891e5b3c8559e7a61c7589d8a4a9d68bc9f8f8992b5b678b4",
+    "path": "/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/NetHookCore.dll"
+  },
+  "SANPK": {
+    "sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+    "path": "/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe"
+  }
+}

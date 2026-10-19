@@ -1,0 +1,82 @@
+[
+  {
+    "wire_type": 2,
+    "handler": "0x10007320",
+    "switch_index": 0
+  },
+  {
+    "wire_type": 3,
+    "handler": "0x10007347",
+    "switch_index": 1
+  },
+  {
+    "wire_type": 4,
+    "handler": "0x1000736d",
+    "switch_index": 2
+  },
+  {
+    "wire_type": 5,
+    "handler": "0x10007394",
+    "switch_index": 3
+  },
+  {
+    "wire_type": 7,
+    "handler": "0x100073bb",
+    "switch_index": 4
+  },
+  {
+    "wire_type": 8,
+    "handler": "0x100073e2",
+    "switch_index": 5
+  },
+  {
+    "wire_type": 9,
+    "handler": "0x10007552",
+    "switch_index": 6
+  },
+  {
+    "wire_type": 10,
+    "handler": "0x1000755f",
+    "switch_index": 7
+  },
+  {
+    "wire_type": 11,
+    "handler": "0x10007409",
+    "switch_index": 8
+  },
+  {
+    "wire_type": 70,
+    "handler": "0x1000745c",
+    "switch_index": 9
+  },
+  {
+    "wire_type": 84,
+    "handler": "0x10007519",
+    "switch_index": 10
+  },
+  {
+    "wire_type": 85,
+    "handler": "0x10007471",
+    "switch_index": 11
+  },
+  {
+    "wire_type": 86,
+    "handler": "0x100074a3",
+    "switch_index": 12
+  },
+  {
+    "wire_type": 87,
+    "handler": "0x100074d0",
+    "switch_index": 13
+  },
+  {
+    "wire_type": 88,
+    "handler": "0x100072f3",
+    "switch_index": 14
+  },
+  {
+    "wire_type": 99,
+    "handler": "0x10007430",
+    "switch_index": 15
+  }
+]

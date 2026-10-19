@@ -1,0 +1,193 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe:	file format coff-i386
+
+Disassembly of section .text:
+
+00401000 <.text>:
+  46ea53: 55                           	pushl	%ebp
+  46ea54: 8b ec                        	movl	%esp, %ebp
+  46ea56: 83 ec 10                     	subl	$0x10, %esp
+  46ea59: 53                           	pushl	%ebx
+  46ea5a: 56                           	pushl	%esi
+  46ea5b: 57                           	pushl	%edi
+  46ea5c: 8b f1                        	movl	%ecx, %esi
+  46ea5e: e8 6f 24 fc ff               	calll	0x430ed2 <.text+0x2fed2>
+  46ea63: 8b 80 cc 00 00 00            	movl	0xcc(%eax), %eax
+  46ea69: 6a 01                        	pushl	$0x1
+  46ea6b: 59                           	popl	%ecx
+  46ea6c: 3b c1                        	cmpl	%ecx, %eax
+  46ea6e: 74 0f                        	je	0x46ea7f <.text+0x6da7f>
+  46ea70: 83 f8 03                     	cmpl	$0x3, %eax
+  46ea73: 74 0a                        	je	0x46ea7f <.text+0x6da7f>
+  46ea75: 85 c0                        	testl	%eax, %eax
+  46ea77: 74 06                        	je	0x46ea7f <.text+0x6da7f>
+  46ea79: 83 65 f4 00                  	andl	$0x0, -0xc(%ebp)
+  46ea7d: eb 03                        	jmp	0x46ea82 <.text+0x6da82>
+  46ea7f: 89 4d f4                     	movl	%ecx, -0xc(%ebp)
+  46ea82: 8b 5d 08                     	movl	0x8(%ebp), %ebx
+  46ea85: 8b 46 3c                     	movl	0x3c(%esi), %eax
+  46ea88: 8b cb                        	movl	%ebx, %ecx
+  46ea8a: 89 45 f8                     	movl	%eax, -0x8(%ebp)
+  46ea8d: 69 c9 87 00 00 00            	imull	$0x87, %ecx, %ecx
+  46ea93: 8d bc 01 b4 00 00 00         	leal	0xb4(%ecx,%eax), %edi
+  46ea9a: e8 33 24 fc ff               	calll	0x430ed2 <.text+0x2fed2>
+  46ea9f: 05 32 01 00 00               	addl	$0x132, %eax            # imm = 0x132
+  46eaa4: 89 45 f0                     	movl	%eax, -0x10(%ebp)
+  46eaa7: 33 c0                        	xorl	%eax, %eax
+  46eaa9: 39 47 16                     	cmpl	%eax, 0x16(%edi)
+  46eaac: 74 0e                        	je	0x46eabc <.text+0x6dabc>
+  46eaae: 8b 4d f8                     	movl	-0x8(%ebp), %ecx
+  46eab1: 39 81 8d 08 00 00            	cmpl	%eax, 0x88d(%ecx)
+  46eab7: 74 03                        	je	0x46eabc <.text+0x6dabc>
+  46eab9: 6a 01                        	pushl	$0x1
+  46eabb: 58                           	popl	%eax
+  46eabc: 8b cb                        	movl	%ebx, %ecx
+  46eabe: 50                           	pushl	%eax
+  46eabf: 6b c9 44                     	imull	$0x44, %ecx, %ecx
+  46eac2: 8d 8c 31 50 04 00 00         	leal	0x450(%ecx,%esi), %ecx
+  46eac9: 89 4d fc                     	movl	%ecx, -0x4(%ebp)
+  46eacc: e8 af 2b 06 00               	calll	0x4d1680 <.text+0xd0680>
+  46ead1: 8b 47 46                     	movl	0x46(%edi), %eax
+  46ead4: 83 f8 ff                     	cmpl	$-0x1, %eax
+  46ead7: 74 1f                        	je	0x46eaf8 <.text+0x6daf8>
+  46ead9: 50                           	pushl	%eax
+  46eada: 8b 45 f8                     	movl	-0x8(%ebp), %eax
+  46eadd: 8d 88 12 09 00 00            	leal	0x912(%eax), %ecx
+  46eae3: e8 60 14 fe ff               	calll	0x44ff48 <.text+0x4ef48>
+  46eae8: 85 c0                        	testl	%eax, %eax
+  46eaea: 74 05                        	je	0x46eaf1 <.text+0x6daf1>
+  46eaec: 8b 40 0a                     	movl	0xa(%eax), %eax
+  46eaef: eb 02                        	jmp	0x46eaf3 <.text+0x6daf3>
+  46eaf1: 33 c0                        	xorl	%eax, %eax
+  46eaf3: 50                           	pushl	%eax
+  46eaf4: 6a 01                        	pushl	$0x1
+  46eaf6: eb 04                        	jmp	0x46eafc <.text+0x6dafc>
+  46eaf8: 6a 00                        	pushl	$0x0
+  46eafa: 6a 00                        	pushl	$0x0
+  46eafc: 8b 4d fc                     	movl	-0x4(%ebp), %ecx
+  46eaff: e8 a3 fa fb ff               	calll	0x42e5a7 <.text+0x2d5a7>
+  46eb04: 8b 47 42                     	movl	0x42(%edi), %eax
+  46eb07: 83 e8 00                     	subl	$0x0, %eax
+  46eb0a: 74 3d                        	je	0x46eb49 <.text+0x6db49>
+  46eb0c: 48                           	decl	%eax
+  46eb0d: 74 16                        	je	0x46eb25 <.text+0x6db25>
+  46eb0f: 48                           	decl	%eax
+  46eb10: 75 74                        	jne	0x46eb86 <.text+0x6db86>
+  46eb12: 8b c3                        	movl	%ebx, %eax
+  46eb14: 6a 02                        	pushl	$0x2
+  46eb16: 6b c0 64                     	imull	$0x64, %eax, %eax
+  46eb19: 8d 8c 30 30 01 00 00         	leal	0x130(%eax,%esi), %ecx
+  46eb20: 89 4d 08                     	movl	%ecx, 0x8(%ebp)
+  46eb23: eb 11                        	jmp	0x46eb36 <.text+0x6db36>
+  46eb25: 8b c3                        	movl	%ebx, %eax
+  46eb27: 6a 01                        	pushl	$0x1
+  46eb29: 6b c0 64                     	imull	$0x64, %eax, %eax
+  46eb2c: 8d 8c 30 30 01 00 00         	leal	0x130(%eax,%esi), %ecx
+  46eb33: 89 4d 08                     	movl	%ecx, 0x8(%ebp)
+  46eb36: e8 90 f3 fb ff               	calll	0x42decb <.text+0x2cecb>
+  46eb3b: 8b 4d 08                     	movl	0x8(%ebp), %ecx
+  46eb3e: 6a 00                        	pushl	$0x0
+  46eb40: e8 f4 f4 fb ff               	calll	0x42e039 <.text+0x2d039>
+  46eb45: 6a 00                        	pushl	$0x0
+  46eb47: eb 35                        	jmp	0x46eb7e <.text+0x6db7e>
+  46eb49: 8b c3                        	movl	%ebx, %eax
+  46eb4b: 6a 00                        	pushl	$0x0
+  46eb4d: 6b c0 64                     	imull	$0x64, %eax, %eax
+  46eb50: 8d 8c 30 30 01 00 00         	leal	0x130(%eax,%esi), %ecx
+  46eb57: 89 4d 08                     	movl	%ecx, 0x8(%ebp)
+  46eb5a: e8 6c f3 fb ff               	calll	0x42decb <.text+0x2cecb>
+  46eb5f: 8b 47 06                     	movl	0x6(%edi), %eax
+  46eb62: 85 c0                        	testl	%eax, %eax
+  46eb64: 74 0c                        	je	0x46eb72 <.text+0x6db72>
+  46eb66: 8b 4d f0                     	movl	-0x10(%ebp), %ecx
+  46eb69: 50                           	pushl	%eax
+  46eb6a: e8 da c1 fb ff               	calll	0x42ad49 <.text+0x29d49>
+  46eb6f: 50                           	pushl	%eax
+  46eb70: eb 02                        	jmp	0x46eb74 <.text+0x6db74>
+  46eb72: 6a 00                        	pushl	$0x0
+  46eb74: 8b 4d 08                     	movl	0x8(%ebp), %ecx
+  46eb77: e8 bd f4 fb ff               	calll	0x42e039 <.text+0x2d039>
+  46eb7c: 6a 05                        	pushl	$0x5
+  46eb7e: 8b 4d fc                     	movl	-0x4(%ebp), %ecx
+  46eb81: e8 b8 2a 06 00               	calll	0x4d163e <.text+0xd063e>
+  46eb86: 6b db 64                     	imull	$0x64, %ebx, %ebx
+  46eb89: ff 77 0e                     	pushl	0xe(%edi)
+  46eb8c: 8d b4 33 30 01 00 00         	leal	0x130(%ebx,%esi), %esi
+  46eb93: 8b ce                        	movl	%esi, %ecx
+  46eb95: e8 b1 f2 fb ff               	calll	0x42de4b <.text+0x2ce4b>
+  46eb9a: 33 c0                        	xorl	%eax, %eax
+  46eb9c: 39 45 f4                     	cmpl	%eax, -0xc(%ebp)
+  46eb9f: 74 05                        	je	0x46eba6 <.text+0x6dba6>
+  46eba1: 39 47 06                     	cmpl	%eax, 0x6(%edi)
+  46eba4: 74 03                        	je	0x46eba9 <.text+0x6dba9>
+  46eba6: 6a 01                        	pushl	$0x1
+  46eba8: 58                           	popl	%eax
+  46eba9: 50                           	pushl	%eax
+  46ebaa: 8b ce                        	movl	%esi, %ecx
+  46ebac: e8 94 f3 fb ff               	calll	0x42df45 <.text+0x2cf45>
+  46ebb1: 5f                           	popl	%edi
+  46ebb2: 5e                           	popl	%esi
+  46ebb3: 5b                           	popl	%ebx
+  46ebb4: c9                           	leave
+  46ebb5: c2 04 00                     	retl	$0x4
+  46ebb8: b8 6e 42 4f 00               	movl	$0x4f426e, %eax         # imm = 0x4F426E
+  46ebbd: e8 2e 97 04 00               	calll	0x4b82f0 <.text+0xb72f0>
+  46ebc2: 51                           	pushl	%ecx
+  46ebc3: 81 ec 98 04 00 00            	subl	$0x498, %esp            # imm = 0x498
+  46ebc9: 53                           	pushl	%ebx
+  46ebca: 56                           	pushl	%esi
+  46ebcb: 57                           	pushl	%edi
+  46ebcc: 8b f1                        	movl	%ecx, %esi
+  46ebce: 89 65 f0                     	movl	%esp, -0x10(%ebp)
+  46ebd1: 89 75 cc                     	movl	%esi, -0x34(%ebp)
+  46ebd4: e8 fb 6d 07 00               	calll	0x4e59d4 <.text+0xe49d4>
+  46ebd9: 8b 48 04                     	movl	0x4(%eax), %ecx
+  46ebdc: e8 76 2e 06 00               	calll	0x4d1a57 <.text+0xd0a57>
+  46ebe1: 33 db                        	xorl	%ebx, %ebx
+  46ebe3: 8d 4d ec                     	leal	-0x14(%ebp), %ecx
+  46ebe6: 89 5d fc                     	movl	%ebx, -0x4(%ebp)
+  46ebe9: e8 81 31 06 00               	calll	0x4d1d6f <.text+0xd0d6f>
+  46ebee: 8d 45 ec                     	leal	-0x14(%ebp), %eax
+  46ebf1: c6 45 fc 01                  	movb	$0x1, -0x4(%ebp)
+  46ebf5: 50                           	pushl	%eax
+  46ebf6: ff 75 08                     	pushl	0x8(%ebp)
+  46ebf9: e8 96 b2 fa ff               	calll	0x419e94 <.text+0x18e94>
+  46ebfe: 59                           	popl	%ecx
+  46ebff: 59                           	popl	%ecx
+  46ec00: 8d 4d d4                     	leal	-0x2c(%ebp), %ecx
+  46ec03: e8 51 4b 06 00               	calll	0x4d3759 <.text+0xd2759>
+  46ec08: 53                           	pushl	%ebx
+  46ec09: 53                           	pushl	%ebx
+  46ec0a: ff 75 ec                     	pushl	-0x14(%ebp)
+  46ec0d: 8d 4d d4                     	leal	-0x2c(%ebp), %ecx
+  46ec10: c6 45 fc 02                  	movb	$0x2, -0x4(%ebp)
+  46ec14: e8 69 4d 06 00               	calll	0x4d3982 <.text+0xd2982>
+  46ec19: 85 c0                        	testl	%eax, %eax
+  46ec1b: 74 23                        	je	0x46ec40 <.text+0x6dc40>
+  46ec1d: 8d 4d d4                     	leal	-0x2c(%ebp), %ecx
+  46ec20: e8 62 50 06 00               	calll	0x4d3c87 <.text+0xd2c87>
+  46ec25: 50                           	pushl	%eax
+  46ec26: 53                           	pushl	%ebx
+  46ec27: 89 45 e8                     	movl	%eax, -0x18(%ebp)
+  46ec2a: ff 15 bc b2 4f 00            	calll	*0x4fb2bc
+  46ec30: 50                           	pushl	%eax
+  46ec31: ff 15 b8 b2 4f 00            	calll	*0x4fb2b8
+  46ec37: 8b f8                        	movl	%eax, %edi
+  46ec39: 3b fb                        	cmpl	%ebx, %edi
+  46ec3b: 89 7d 08                     	movl	%edi, 0x8(%ebp)
+  46ec3e: 75 21                        	jne	0x46ec61 <.text+0x6dc61>
+  46ec40: 6a ff                        	pushl	$-0x1
+  46ec42: 53                           	pushl	%ebx
+  46ec43: 68 13 27 00 00               	pushl	$0x2713                 # imm = 0x2713
+  46ec48: e8 e3 ae 06 00               	calll	0x4d9b30 <.text+0xd8b30>
+  46ec4d: 8d 4d d4                     	leal	-0x2c(%ebp), %ecx
+  46ec50: c6 45 fc 01                  	movb	$0x1, -0x4(%ebp)
+  46ec54: e8 4a 4c 06 00               	calll	0x4d38a3 <.text+0xd28a3>
+  46ec59: 88 5d fc                     	movb	%bl, -0x4(%ebp)
+  46ec5c: e9 f6 01 00 00               	jmp	0x46ee57 <.text+0x6de57>
+  46ec61: ff 75 e8                     	pushl	-0x18(%ebp)
+  46ec64: 8d 4d d4                     	leal	-0x2c(%ebp), %ecx
+  46ec67: c6 45 fc 03                  	movb	$0x3, -0x4(%ebp)
+  46ec6b: 57                           	pushl	%edi
+  46ec6c: e8 39 4e 06 00               	calll	0x4d3aaa <.text+0xd2aaa>
+  46ec71: 8d 4d d4                     	leal	-0x2c(%ebp), %ecx

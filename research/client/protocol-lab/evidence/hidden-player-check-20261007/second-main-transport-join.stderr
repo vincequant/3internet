@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "Z:\Users\vk\Documents\Coding\三国志internet\research\client\protocol-lab\evidence\hidden-player-check-20261007\transport_join_probe.py", line 37, in <module>
+    addresses=list((c.c_uint32*ip_count).from_address(ip_ptr.value));virtual=[v for v in addresses if struct.pack('!I',v).startswith(bytes([10,128]))];assert len(virtual)==1
+                                                                                                                                                              ^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,3 @@
+{"kind": "native_tcp_login_probe", "uses_wine": false, "force_login": false, "frames": [{"command": "0x2010", "sequence": 0, "body_bytes": 0, "crc_valid": true}, {"command": "0x2011", "sequence": 1, "body_bytes": 106, "crc_valid": true}], "login_verified": false, "transport": [{"main": 101, "sub": 1, "bytes": 20}, {"main": 101, "sub": 1, "bytes": 126}], "end": "server_closed"}
+
+returncode 0

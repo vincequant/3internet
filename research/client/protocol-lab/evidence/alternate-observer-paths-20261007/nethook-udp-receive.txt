@@ -1,0 +1,18 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/NetHookCore.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10006270 <LoadHook>:
+10007140: 8b 44 24 10                  	movl	0x10(%esp), %eax
+10007144: 8b 4c 24 0c                  	movl	0xc(%esp), %ecx
+10007148: 8b 54 24 08                  	movl	0x8(%esp), %edx
+1000714c: 6a 00                        	pushl	$0x0
+1000714e: 6a 00                        	pushl	$0x0
+10007150: 50                           	pushl	%eax
+10007151: 8b 44 24 10                  	movl	0x10(%esp), %eax
+10007155: 51                           	pushl	%ecx
+10007156: 52                           	pushl	%edx
+10007157: 50                           	pushl	%eax
+10007158: e8 13 fb ff ff               	calll	0x10006c70 <LoadHook+0xa00>
+1000715d: c2 10 00                     	retl	$0x10

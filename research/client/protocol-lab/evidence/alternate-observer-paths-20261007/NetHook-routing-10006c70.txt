@@ -1,0 +1,82 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/NetHookCore.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10006270 <LoadHook>:
+10006c70: 83 ec 18                     	subl	$0x18, %esp
+10006c73: a1 30 b3 01 10               	movl	0x1001b330, %eax
+10006c78: 33 c4                        	xorl	%esp, %eax
+10006c7a: 89 44 24 14                  	movl	%eax, 0x14(%esp)
+10006c7e: 8b 54 24 28                  	movl	0x28(%esp), %edx
+10006c82: 53                           	pushl	%ebx
+10006c83: 8b 5c 24 34                  	movl	0x34(%esp), %ebx
+10006c87: 56                           	pushl	%esi
+10006c88: 8b 74 24 34                  	movl	0x34(%esp), %esi
+10006c8c: 33 c0                        	xorl	%eax, %eax
+10006c8e: 57                           	pushl	%edi
+10006c8f: 8b 7c 24 2c                  	movl	0x2c(%esp), %edi
+10006c93: 89 44 24 12                  	movl	%eax, 0x12(%esp)
+10006c97: 89 44 24 16                  	movl	%eax, 0x16(%esp)
+10006c9b: 89 44 24 1a                  	movl	%eax, 0x1a(%esp)
+10006c9f: 66 89 44 24 1e               	movw	%ax, 0x1e(%esp)
+10006ca4: 8d 44 24 0c                  	leal	0xc(%esp), %eax
+10006ca8: 50                           	pushl	%eax
+10006ca9: 8b 44 24 34                  	movl	0x34(%esp), %eax
+10006cad: 8d 4c 24 14                  	leal	0x14(%esp), %ecx
+10006cb1: 51                           	pushl	%ecx
+10006cb2: 8b 4c 24 30                  	movl	0x30(%esp), %ecx
+10006cb6: 52                           	pushl	%edx
+10006cb7: 50                           	pushl	%eax
+10006cb8: 57                           	pushl	%edi
+10006cb9: 51                           	pushl	%ecx
+10006cba: c7 44 24 24 10 00 00 00      	movl	$0x10, 0x24(%esp)
+10006cc2: 66 c7 44 24 28 02 00         	movw	$0x2, 0x28(%esp)
+10006cc9: ff 15 48 db 01 10            	calll	*0x1001db48
+10006ccf: 85 f6                        	testl	%esi, %esi
+10006cd1: 74 21                        	je	0x10006cf4 <LoadHook+0xa84>
+10006cd3: 8b 54 24 10                  	movl	0x10(%esp), %edx
+10006cd7: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+10006cdb: 89 16                        	movl	%edx, (%esi)
+10006cdd: 8b 54 24 18                  	movl	0x18(%esp), %edx
+10006ce1: 89 4e 04                     	movl	%ecx, 0x4(%esi)
+10006ce4: 8b 4c 24 1c                  	movl	0x1c(%esp), %ecx
+10006ce8: 89 56 08                     	movl	%edx, 0x8(%esi)
+10006ceb: 8b 54 24 0c                  	movl	0xc(%esp), %edx
+10006cef: 89 4e 0c                     	movl	%ecx, 0xc(%esi)
+10006cf2: 89 13                        	movl	%edx, (%ebx)
+10006cf4: 85 c0                        	testl	%eax, %eax
+10006cf6: 7e 26                        	jle	0x10006d1e <LoadHook+0xaae>
+10006cf8: 83 f8 0a                     	cmpl	$0xa, %eax
+10006cfb: 7e 21                        	jle	0x10006d1e <LoadHook+0xaae>
+10006cfd: 81 7c 07 f6 dd cc bb aa      	cmpl	$0xaabbccdd, -0xa(%edi,%eax) # imm = 0xAABBCCDD
+10006d05: 75 17                        	jne	0x10006d1e <LoadHook+0xaae>
+10006d07: 85 f6                        	testl	%esi, %esi
+10006d09: 74 10                        	je	0x10006d1b <LoadHook+0xaab>
+10006d0b: 8b 4c 07 fa                  	movl	-0x6(%edi,%eax), %ecx
+10006d0f: 89 4e 04                     	movl	%ecx, 0x4(%esi)
+10006d12: 66 8b 54 07 fe               	movw	-0x2(%edi,%eax), %dx
+10006d17: 66 89 56 02                  	movw	%dx, 0x2(%esi)
+10006d1b: 83 e8 0a                     	subl	$0xa, %eax
+10006d1e: 8b 4c 24 20                  	movl	0x20(%esp), %ecx
+10006d22: 5f                           	popl	%edi
+10006d23: 5e                           	popl	%esi
+10006d24: 5b                           	popl	%ebx
+10006d25: 33 cc                        	xorl	%esp, %ecx
+10006d27: e8 03 05 00 00               	calll	0x1000722f <LoadHook+0xfbf>
+10006d2c: 83 c4 18                     	addl	$0x18, %esp
+10006d2f: c2 18 00                     	retl	$0x18
+10006d32: cc                           	int3
+10006d33: cc                           	int3
+10006d34: cc                           	int3
+10006d35: cc                           	int3
+10006d36: cc                           	int3
+10006d37: cc                           	int3
+10006d38: cc                           	int3
+10006d39: cc                           	int3
+10006d3a: cc                           	int3
+10006d3b: cc                           	int3
+10006d3c: cc                           	int3
+10006d3d: cc                           	int3
+10006d3e: cc                           	int3
+10006d3f: cc                           	int3

@@ -1,0 +1,21 @@
+{
+  "phase": "stopped",
+  "account": "风夜",
+  "rooms": [],
+  "observed_at": 1791618052.3601549,
+  "query_status": "unconfirmed_empty",
+  "ok": true,
+  "session_id": 1,
+  "search_cycles": 126,
+  "enter_count": 1,
+  "logout_count": 1,
+  "login_count": 1,
+  "game_start_confirmed": false,
+  "hall_presence": "left_after_grant",
+  "room_list_visible_expected": false,
+  "presence_mechanism": "leave_hall_after_grant",
+  "opensession_join": false,
+  "error": null,
+  "mode": "live",
+  "updated_at": 1791618055.49838
+}

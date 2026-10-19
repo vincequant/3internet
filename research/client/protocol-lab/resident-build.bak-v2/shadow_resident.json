@@ -1,0 +1,17 @@
+{
+  "schema": "p51-shadow-resident-1",
+  "blob_offset": 4096,
+  "blob_size": 512,
+  "sha256": "2e0559fee40bc63c962aa9a7bb3c97b972e77f8a5f5015aa07e57d5d09e528af",
+  "entries": {
+    "resident_boot": 0,
+    "resident_worker": 20,
+    "resident_d_guard": 351,
+    "resident_ui_wait": 419,
+    "resident_ui_return": 445,
+    "resident_sync_begin": 580,
+    "resident_sync_end": 620,
+    "resident_emit": 260,
+    "resident_legacy_park": 658
+  }
+}

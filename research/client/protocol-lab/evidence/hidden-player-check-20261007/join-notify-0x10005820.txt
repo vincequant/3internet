@@ -1,0 +1,37 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10005820: 83 ec 30                     	subl	$0x30, %esp
+10005823: 8b 4c 24 44                  	movl	0x44(%esp), %ecx
+10005827: 8a 44 24 3c                  	movb	0x3c(%esp), %al
+1000582b: 8d 54 24 09                  	leal	0x9(%esp), %edx
+1000582f: 51                           	pushl	%ecx
+10005830: 52                           	pushl	%edx
+10005831: 88 44 24 08                  	movb	%al, 0x8(%esp)
+10005835: ff 15 24 e0 00 10            	calll	*0x1000e024
+1000583b: 8b 44 24 40                  	movl	0x40(%esp), %eax
+1000583f: 50                           	pushl	%eax
+10005840: ff 15 50 f0 00 10            	calll	*0x1000f050
+10005846: 8b 4c 24 48                  	movl	0x48(%esp), %ecx
+1000584a: 89 44 24 01                  	movl	%eax, 0x1(%esp)
+1000584e: 51                           	pushl	%ecx
+1000584f: ff 15 50 f0 00 10            	calll	*0x1000f050
+10005855: 8a 54 24 4c                  	movb	0x4c(%esp), %dl
+10005859: 8b 4c 24 38                  	movl	0x38(%esp), %ecx
+1000585d: 89 44 24 28                  	movl	%eax, 0x28(%esp)
+10005861: 8d 44 24 00                  	leal	(%esp), %eax
+10005865: 88 54 24 2e                  	movb	%dl, 0x2e(%esp)
+10005869: 8b 54 24 34                  	movl	0x34(%esp), %edx
+1000586d: 6a 2f                        	pushl	$0x2f
+1000586f: 50                           	pushl	%eax
+10005870: 51                           	pushl	%ecx
+10005871: 52                           	pushl	%edx
+10005872: e8 09 00 00 00               	calll	0x10005880 <_NetMsg_AcceptEXIT@4+0x3500>
+10005877: 83 c4 10                     	addl	$0x10, %esp
+1000587a: 83 c4 30                     	addl	$0x30, %esp
+1000587d: c3                           	retl
+1000587e: 90                           	nop
+1000587f: 90                           	nop

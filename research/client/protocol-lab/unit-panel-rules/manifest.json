@@ -1,0 +1,11 @@
+{
+  "schema": "p53-pure-rule-snapshot-1",
+  "source": "research/client/SGI-Hub-CrossOver-M4-0.2/bridge",
+  "sha256": {
+    "unit_combat.py": "35d1eedec4ca0b5983a35d6dbbd268eb8d16f6dfd6329659190d942edde938d5",
+    "unit_target_attack.py": "fa4f77ef38e0e5fb0bc0aae595bfcc5a95f65f616b2873a575bd2b0370d788bc",
+    "native_unit_rules.py": "ea1220acd1e5b441c50e5584b4179d0ab08259334edaa8b573152a038610f640",
+    "website_combat.py": "91040d41f6ee66c6696863e61693817b009eb46e71c3e5d4f6b5c5b514109687",
+    "state_extensions.py": "2c9218c9a6da608348009558e487058bc4730bcbc0315e29bedc9b869fe1394c"
+  }
+}

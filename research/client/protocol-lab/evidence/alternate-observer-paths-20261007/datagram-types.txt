@@ -1,0 +1,133 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+100072c0: 53                           	pushl	%ebx
+100072c1: 55                           	pushl	%ebp
+100072c2: 56                           	pushl	%esi
+100072c3: 57                           	pushl	%edi
+100072c4: 8b 7c 24 18                  	movl	0x18(%esp), %edi
+100072c8: 8b 47 01                     	movl	0x1(%edi), %eax
+100072cb: 50                           	pushl	%eax
+100072cc: ff 15 58 f0 00 10            	calll	*0x1000f058
+100072d2: 8b f0                        	movl	%eax, %esi
+100072d4: 33 c0                        	xorl	%eax, %eax
+100072d6: 8a 07                        	movb	(%edi), %al
+100072d8: 83 c0 fe                     	addl	$-0x2, %eax
+100072db: 83 f8 61                     	cmpl	$0x61, %eax
+100072de: 0f 87 82 02 00 00            	ja	0x10007566 <_NetMsg_AcceptEXIT@4+0x51e6>
+100072e4: 33 c9                        	xorl	%ecx, %ecx
+100072e6: 8a 88 b4 75 00 10            	movb	0x100075b4(%eax), %cl
+100072ec: ff 24 8d 70 75 00 10         	jmpl	*0x10007570(,%ecx,4)
+100072f3: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+100072f7: 8b 81 40 84 00 00            	movl	0x8440(%ecx), %eax
+100072fd: 3b c6                        	cmpl	%esi, %eax
+100072ff: 0f 85 5a 02 00 00            	jne	0x1000755f <_NetMsg_AcceptEXIT@4+0x51df>
+10007305: 8b 91 48 84 00 00            	movl	0x8448(%ecx), %edx
+1000730b: 40                           	incl	%eax
+1000730c: 52                           	pushl	%edx
+1000730d: 89 81 40 84 00 00            	movl	%eax, 0x8440(%ecx)
+10007313: ff 15 2c e0 00 10            	calll	*0x1000e02c
+10007319: 33 c0                        	xorl	%eax, %eax
+1000731b: 5f                           	popl	%edi
+1000731c: 5e                           	popl	%esi
+1000731d: 5d                           	popl	%ebp
+1000731e: 5b                           	popl	%ebx
+1000731f: c3                           	retl
+10007320: 56                           	pushl	%esi
+10007321: 8b 74 24 18                  	movl	0x18(%esp), %esi
+10007325: 56                           	pushl	%esi
+10007326: e8 f5 02 00 00               	calll	0x10007620 <_NetMsg_AcceptEXIT@4+0x52a0>
+1000732b: 83 c4 08                     	addl	$0x8, %esp
+1000732e: 85 c0                        	testl	%eax, %eax
+10007330: 0f 84 29 02 00 00            	je	0x1000755f <_NetMsg_AcceptEXIT@4+0x51df>
+10007336: 57                           	pushl	%edi
+10007337: 56                           	pushl	%esi
+10007338: e8 23 03 00 00               	calll	0x10007660 <_NetMsg_AcceptEXIT@4+0x52e0>
+1000733d: 83 c4 08                     	addl	$0x8, %esp
+10007340: 33 c0                        	xorl	%eax, %eax
+10007342: 5f                           	popl	%edi
+10007343: 5e                           	popl	%esi
+10007344: 5d                           	popl	%ebp
+10007345: 5b                           	popl	%ebx
+10007346: c3                           	retl
+10007347: 56                           	pushl	%esi
+10007348: 8b 74 24 18                  	movl	0x18(%esp), %esi
+1000734c: 56                           	pushl	%esi
+1000734d: e8 ce 02 00 00               	calll	0x10007620 <_NetMsg_AcceptEXIT@4+0x52a0>
+10007352: 83 c4 08                     	addl	$0x8, %esp
+10007355: 85 c0                        	testl	%eax, %eax
+10007357: 0f 84 02 02 00 00            	je	0x1000755f <_NetMsg_AcceptEXIT@4+0x51df>
+1000735d: 56                           	pushl	%esi
+1000735e: e8 7d 03 00 00               	calll	0x100076e0 <_NetMsg_AcceptEXIT@4+0x5360>
+10007363: 83 c4 04                     	addl	$0x4, %esp
+10007366: 33 c0                        	xorl	%eax, %eax
+10007368: 5f                           	popl	%edi
+10007369: 5e                           	popl	%esi
+1000736a: 5d                           	popl	%ebp
+1000736b: 5b                           	popl	%ebx
+1000736c: c3                           	retl
+1000736d: 56                           	pushl	%esi
+1000736e: 8b 74 24 18                  	movl	0x18(%esp), %esi
+10007372: 56                           	pushl	%esi
+10007373: e8 a8 02 00 00               	calll	0x10007620 <_NetMsg_AcceptEXIT@4+0x52a0>
+10007378: 83 c4 08                     	addl	$0x8, %esp
+1000737b: 85 c0                        	testl	%eax, %eax
+1000737d: 0f 84 dc 01 00 00            	je	0x1000755f <_NetMsg_AcceptEXIT@4+0x51df>
+10007383: 57                           	pushl	%edi
+10007384: 56                           	pushl	%esi
+10007385: e8 76 03 00 00               	calll	0x10007700 <_NetMsg_AcceptEXIT@4+0x5380>
+1000738a: 83 c4 08                     	addl	$0x8, %esp
+1000738d: 33 c0                        	xorl	%eax, %eax
+1000738f: 5f                           	popl	%edi
+10007390: 5e                           	popl	%esi
+10007391: 5d                           	popl	%ebp
+10007392: 5b                           	popl	%ebx
+10007393: c3                           	retl
+10007394: 56                           	pushl	%esi
+10007395: 8b 74 24 18                  	movl	0x18(%esp), %esi
+10007399: 56                           	pushl	%esi
+1000739a: e8 81 02 00 00               	calll	0x10007620 <_NetMsg_AcceptEXIT@4+0x52a0>
+1000739f: 83 c4 08                     	addl	$0x8, %esp
+100073a2: 85 c0                        	testl	%eax, %eax
+100073a4: 0f 84 b5 01 00 00            	je	0x1000755f <_NetMsg_AcceptEXIT@4+0x51df>
+100073aa: 57                           	pushl	%edi
+100073ab: 56                           	pushl	%esi
+100073ac: e8 9f 03 00 00               	calll	0x10007750 <_NetMsg_AcceptEXIT@4+0x53d0>
+100073b1: 83 c4 08                     	addl	$0x8, %esp
+100073b4: 33 c0                        	xorl	%eax, %eax
+100073b6: 5f                           	popl	%edi
+100073b7: 5e                           	popl	%esi
+100073b8: 5d                           	popl	%ebp
+100073b9: 5b                           	popl	%ebx
+100073ba: c3                           	retl
+100073bb: 56                           	pushl	%esi
+100073bc: 8b 74 24 18                  	movl	0x18(%esp), %esi
+100073c0: 56                           	pushl	%esi
+100073c1: e8 5a 02 00 00               	calll	0x10007620 <_NetMsg_AcceptEXIT@4+0x52a0>
+100073c6: 83 c4 08                     	addl	$0x8, %esp
+100073c9: 85 c0                        	testl	%eax, %eax
+100073cb: 0f 84 8e 01 00 00            	je	0x1000755f <_NetMsg_AcceptEXIT@4+0x51df>
+100073d1: 57                           	pushl	%edi
+100073d2: 56                           	pushl	%esi
+100073d3: e8 c8 03 00 00               	calll	0x100077a0 <_NetMsg_AcceptEXIT@4+0x5420>
+100073d8: 83 c4 08                     	addl	$0x8, %esp
+100073db: 33 c0                        	xorl	%eax, %eax
+100073dd: 5f                           	popl	%edi
+100073de: 5e                           	popl	%esi
+100073df: 5d                           	popl	%ebp
+100073e0: 5b                           	popl	%ebx
+100073e1: c3                           	retl
+100073e2: 56                           	pushl	%esi
+100073e3: 8b 74 24 18                  	movl	0x18(%esp), %esi
+100073e7: 56                           	pushl	%esi
+100073e8: e8 33 02 00 00               	calll	0x10007620 <_NetMsg_AcceptEXIT@4+0x52a0>
+100073ed: 83 c4 08                     	addl	$0x8, %esp
+100073f0: 85 c0                        	testl	%eax, %eax
+100073f2: 0f 84 67 01 00 00            	je	0x1000755f <_NetMsg_AcceptEXIT@4+0x51df>
+100073f8: 57                           	pushl	%edi
+100073f9: 56                           	pushl	%esi
+100073fa: e8 d1 03 00 00               	calll	0x100077d0 <_NetMsg_AcceptEXIT@4+0x5450>
+100073ff: 83 c4 08                     	addl	$0x8, %esp

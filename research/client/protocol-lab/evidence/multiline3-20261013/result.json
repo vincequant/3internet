@@ -1,0 +1,123 @@
+{
+  "started_at": 1791894456.21104,
+  "line": "多线3（备用）",
+  "room_id": 1002,
+  "opensession_join": false,
+  "attempts": 1,
+  "establish": {
+    "login_verified": true,
+    "entered": true,
+    "has_grant": true,
+    "session_id": 1,
+    "room_id": 1002,
+    "enter_count": 1,
+    "logout_count": 1,
+    "hall_presence": "left_after_grant",
+    "room_list_visible_expected": false,
+    "presence_mechanism": "leave_hall_after_grant"
+  },
+  "directory": [
+    {
+      "game_id": 1001,
+      "id": 1000,
+      "name": "电信1（备用）",
+      "flags": 1,
+      "field10": 0,
+      "field14": 100,
+      "field18": 300,
+      "field1c": 0,
+      "server": "61.147.99.233",
+      "port": 9008
+    },
+    {
+      "game_id": 1001,
+      "id": 1001,
+      "name": "多线2（主线）",
+      "flags": 1,
+      "field10": 0,
+      "field14": 100,
+      "field18": 300,
+      "field1c": 0,
+      "server": "",
+      "port": 9151
+    },
+    {
+      "game_id": 1001,
+      "id": 1002,
+      "name": "多线3（备用）",
+      "flags": 1,
+      "field10": 0,
+      "field14": 200,
+      "field18": 300,
+      "field1c": 0,
+      "server": "36.151.147.251",
+      "port": 29100
+    },
+    {
+      "game_id": 1001,
+      "id": 1003,
+      "name": "香港中转2（海外）",
+      "flags": 1,
+      "field10": 0,
+      "field14": 0,
+      "field18": 300,
+      "field1c": 0,
+      "server": "38.175.194.244",
+      "port": 9171
+    }
+  ],
+  "relay_endpoint": {
+    "server": "36.151.147.251",
+    "port": 29100,
+    "game_id": 1001,
+    "room_id": 1002
+  },
+  "loader_sha256": "61ff7af677d9c83376a2500ba05ee0bdb0d2b756c87c1c551516044109238801",
+  "relay_exit": 0,
+  "relay_events": [
+    {
+      "stage": "ready",
+      "start_rc": 0,
+      "relay_registered": true
+    },
+    {
+      "stage": "search_done",
+      "exit": 0,
+      "rooms": [],
+      "query_status": "unconfirmed_empty",
+      "callback_count": 2,
+      "observed_at": 1791894463.691339
+    },
+    {
+      "stage": "search_done",
+      "exit": 0,
+      "rooms": [],
+      "query_status": "unconfirmed_empty",
+      "callback_count": 3,
+      "observed_at": 1791894465.4431
+    },
+    {
+      "stage": "search_done",
+      "exit": 0,
+      "rooms": [],
+      "query_status": "unconfirmed_empty",
+      "callback_count": 3,
+      "observed_at": 1791894467.216848
+    },
+    {
+      "stage": "quitting"
+    },
+    {
+      "stage": "stopped"
+    }
+  ],
+  "rooms": [],
+  "query_status": "unconfirmed_empty",
+  "stderr_bytes": 5488,
+  "opcode_counts": {
+    "0x2001": 1,
+    "0x200b": 1,
+    "0x2002": 1
+  },
+  "finished_at": 1791894471.605707
+}

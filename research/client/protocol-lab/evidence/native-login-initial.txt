@@ -1,0 +1,3 @@
+{"kind": "native_tcp_login_probe", "uses_wine": false, "force_login": false, "frames": [], "login_verified": false, "end": "server_closed"}
+
+returncode 0

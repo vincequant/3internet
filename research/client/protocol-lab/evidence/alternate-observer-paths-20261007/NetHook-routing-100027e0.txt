@@ -1,0 +1,83 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/NetHookCore.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10001000 <.text>:
+100027e0: 56                           	pushl	%esi
+100027e1: 8b 74 24 08                  	movl	0x8(%esp), %esi
+100027e5: 56                           	pushl	%esi
+100027e6: b9 08 c7 01 10               	movl	$0x1001c708, %ecx       # imm = 0x1001C708
+100027eb: e8 f0 09 00 00               	calll	0x100031e0 <.text+0x21e0>
+100027f0: 85 c0                        	testl	%eax, %eax
+100027f2: 75 07                        	jne	0x100027fb <.text+0x17fb>
+100027f4: 83 c8 ff                     	orl	$-0x1, %eax
+100027f7: 5e                           	popl	%esi
+100027f8: c2 18 00                     	retl	$0x18
+100027fb: 8b 40 04                     	movl	0x4(%eax), %eax
+100027fe: 83 f8 06                     	cmpl	$0x6, %eax
+10002801: 74 76                        	je	0x10002879 <.text+0x1879>
+10002803: 83 f8 11                     	cmpl	$0x11, %eax
+10002806: 74 4e                        	je	0x10002856 <.text+0x1856>
+10002808: 3d e8 03 00 00               	cmpl	$0x3e8, %eax            # imm = 0x3E8
+1000280d: 74 24                        	je	0x10002833 <.text+0x1833>
+1000280f: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+10002813: 8b 4c 24 18                  	movl	0x18(%esp), %ecx
+10002817: 8b 54 24 14                  	movl	0x14(%esp), %edx
+1000281b: 50                           	pushl	%eax
+1000281c: 8b 44 24 14                  	movl	0x14(%esp), %eax
+10002820: 51                           	pushl	%ecx
+10002821: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+10002825: 52                           	pushl	%edx
+10002826: 50                           	pushl	%eax
+10002827: 51                           	pushl	%ecx
+10002828: 56                           	pushl	%esi
+10002829: ff 15 54 db 01 10            	calll	*0x1001db54
+1000282f: 5e                           	popl	%esi
+10002830: c2 18 00                     	retl	$0x18
+10002833: 8b 54 24 1c                  	movl	0x1c(%esp), %edx
+10002837: 8b 44 24 18                  	movl	0x18(%esp), %eax
+1000283b: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+1000283f: 52                           	pushl	%edx
+10002840: 8b 54 24 14                  	movl	0x14(%esp), %edx
+10002844: 50                           	pushl	%eax
+10002845: 8b 44 24 14                  	movl	0x14(%esp), %eax
+10002849: 51                           	pushl	%ecx
+1000284a: 52                           	pushl	%edx
+1000284b: 50                           	pushl	%eax
+1000284c: 56                           	pushl	%esi
+1000284d: e8 7e 1d 00 00               	calll	0x100045d0 <.text+0x35d0>
+10002852: 5e                           	popl	%esi
+10002853: c2 18 00                     	retl	$0x18
+10002856: 8b 4c 24 1c                  	movl	0x1c(%esp), %ecx
+1000285a: 8b 54 24 18                  	movl	0x18(%esp), %edx
+1000285e: 8b 44 24 14                  	movl	0x14(%esp), %eax
+10002862: 51                           	pushl	%ecx
+10002863: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+10002867: 52                           	pushl	%edx
+10002868: 8b 54 24 14                  	movl	0x14(%esp), %edx
+1000286c: 50                           	pushl	%eax
+1000286d: 51                           	pushl	%ecx
+1000286e: 52                           	pushl	%edx
+1000286f: 56                           	pushl	%esi
+10002870: e8 cb 44 00 00               	calll	0x10006d40 <LoadHook+0xad0>
+10002875: 5e                           	popl	%esi
+10002876: c2 18 00                     	retl	$0x18
+10002879: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+1000287d: 8b 4c 24 18                  	movl	0x18(%esp), %ecx
+10002881: 8b 54 24 14                  	movl	0x14(%esp), %edx
+10002885: 50                           	pushl	%eax
+10002886: 8b 44 24 14                  	movl	0x14(%esp), %eax
+1000288a: 51                           	pushl	%ecx
+1000288b: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+1000288f: 52                           	pushl	%edx
+10002890: 50                           	pushl	%eax
+10002891: 51                           	pushl	%ecx
+10002892: 56                           	pushl	%esi
+10002893: e8 78 42 00 00               	calll	0x10006b10 <LoadHook+0x8a0>
+10002898: 5e                           	popl	%esi
+10002899: c2 18 00                     	retl	$0x18
+1000289c: cc                           	int3
+1000289d: cc                           	int3
+1000289e: cc                           	int3
+1000289f: cc                           	int3

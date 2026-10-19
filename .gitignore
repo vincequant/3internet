@@ -1,0 +1,22 @@
+.DS_Store
+research/unpack/extracted/
+research/unpack/payload/
+research/00-control/workers/*/stdout.json
+research/00-control/workers/*/stderr.log
+research/00-control/workers/*/session.json
+research/client/run-*/
+research/client/bottles/
+
+# ---- 2026-10-19 GitHub 備份點（vincequant/3internet）用 ----
+# 絕對不能進版控：帳號憑據、大型二進位、本機設定
+query-credentials*.json
+*credentials*.json
+fengye-credentials.json
+**/__pycache__/
+research/client/protocol-lab/python32/
+research/client/protocol-lab/fonts/
+research/client/protocol-lab/game-archives/
+research/client/protocol-lab/history-data/
+research/client/protocol-lab/command-view-cache/
+research/client/protocol-lab/*.exe
+research/client/protocol-lab/evidence/**/*.pcap

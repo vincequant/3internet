@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/Users/vkquant/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+    "/Users/vkquant/sgi-protocol-lab-20260915/python32/python.exe",
+    "-X",
+    "utf8",
+    "-B",
+    "/Users/vkquant/sgi-protocol-lab-20260915/koeinm_probe.py",
+    "--dll",
+    "/Users/vkquant/Library/Application Support/SGI-Wine/prefix-monitor/drive_c/sgi/run-3.5/3I/Koeinm.dll",
+    "--loopback-fixture"
+  ],
+  "stdout": "{\"stage\": \"initialized\", \"return_code\": 0}\n{\"synthetic\": true, \"dll_sha256\": \"629f500a4fbb1fdcb056c4d681476a31f0ae31e6cd9d26221e8faaeb41283841\", \"rooms\": [{\"id\": \"123\", \"name\": \"LOCAL_FIXTURE\", \"host\": \"SYNTHETIC\", \"maximum\": 8, \"current\": 3, \"version\": 47577}], \"request_hex\": \"00534749\", \"process\": \"standalone_python32\", \"windows_version\": [10, 0, 19043, 2, \"\"], \"start_rc\": 0, \"search_rc\": 0, \"end_rc\": 1, \"elapsed_ms\": 1216, \"reply_count\": 1, \"observed_at\": 1789481986.567916, \"query_status\": \"replies_received\", \"credentials_only_verified\": false, \"fixture_pass\": true}\n",
+  "stderr": "",
+  "returncode": 0
+}

@@ -1,0 +1,15 @@
+{"stage": "start", "rc": 0, "windows_version": [6, 3, 9600, 2, ""]}
+{"stage": "resolved_addresses", "addresses": ["10.228.84.151", "100.65.161.42", "127.12.34.56"]}
+{"stage": "original_transport_identity", "local_ip": "10.228.84.151", "id": "182736023", "matches_original_client": true}
+{"stage": "search", "rc": 0, "rooms": [{"id": "176202538", "name": "SGZWLB", "host": "kwankwan"}]}
+{"stage": "target_binding", "primary_client_room": "SGZWLB[kwankwan]", "host_read_only_identity": "176202538", "target": "10.128.163.42", "own_probe_reply_verified": true}
+{"stage": "open_session", "rc": 0, "only_transport_handshake": true}
+{"stage": "after_join", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "held_connection", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "held_connection", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "held_connection", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "held_connection", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "held_connection", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "held_connection", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "held_connection", "connected": 1, "members": [{"id": "182736023", "name": "VK(筑基期)"}, {"id": "176202538", "name": "kwankwan"}], "count": 2}
+{"stage": "cleanup", "exit_rc": 1, "end_rc": 1}

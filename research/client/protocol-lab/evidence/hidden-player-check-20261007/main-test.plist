@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>EnvironmentVariables</key>
+	<dict>
+		<key>DYLD_FALLBACK_LIBRARY_PATH</key>
+		<string>/Users/vk/Library/Application Support/SGI-Wine/runtime/Wine Stable.app/Contents/Resources/wine/lib</string>
+		<key>LANG</key>
+		<string>zh_CN.UTF-8</string>
+		<key>LC_ALL</key>
+		<string>zh_CN.UTF-8</string>
+		<key>WINEDEBUG</key>
+		<string>-all</string>
+		<key>WINEDLLOVERRIDES</key>
+		<string>winegstreamer=d;winemenubuilder.exe=d</string>
+		<key>WINEPREFIX</key>
+		<string>/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10</string>
+	</dict>
+	<key>KeepAlive</key>
+	<false/>
+	<key>Label</key>
+	<string>com.vkquant.sgi-main-test-20261007</string>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/vk/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine</string>
+		<string>/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/SANGUO.exe</string>
+	</array>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>StandardErrorPath</key>
+	<string>/Users/vk/Documents/Coding/三国志internet/research/client/protocol-lab/evidence/hidden-player-check-20261007/main-gui-stderr.log</string>
+	<key>StandardOutPath</key>
+	<string>/Users/vk/Documents/Coding/三国志internet/research/client/protocol-lab/evidence/hidden-player-check-20261007/main-gui-stdout.log</string>
+	<key>WorkingDirectory</key>
+	<string>/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5</string>
+</dict>
+</plist>

@@ -1,0 +1,20 @@
+{
+  "schema": "p52-shadow-ui-1",
+  "sha256": "9177b75884443248fe93832e6b986aaf0264639c8667b4c0c7547caacc0f850e",
+  "size": 849,
+  "entries": {
+    "ui_panel_create": 0,
+    "ui_stat_12c": 595,
+    "ui_stat_12d": 602,
+    "ui_stat_12e": 609,
+    "ui_stat_12f": 616,
+    "ui_stat_130": 623,
+    "ui_stat_131": 630,
+    "ui_stat_132": 637,
+    "ui_cards_init": 745,
+    "ui_cards_update": 749,
+    "ui_visible_xy": 827,
+    "ui_visible_test": 839
+  },
+  "activation": "optional_per_element; NOT enabled by arm_now.sh"
+}

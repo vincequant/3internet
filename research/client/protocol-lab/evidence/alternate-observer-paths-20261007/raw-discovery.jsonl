@@ -1,0 +1,7 @@
+{"stage": "start", "rc": 0, "windows_version": [6, 3, 9600, 2, ""]}
+{"stage": "resolved_addresses", "addresses": ["10.228.84.151", "100.65.161.42", "127.12.34.56"]}
+{"stage": "original_transport_identity", "local_ip": "10.228.84.151", "id": "182736023", "matches_original_client": true}
+{"stage": "one_exact_discovery_datagram", "sent": 4, "local_port": 51616, "target": "10.128.163.42:7777", "no_join": true}
+{"stage": "discovery_response", "bytes": -1, "error": 10060}
+{"stage": "unjoined_after_raw_query", "connected": 0, "members": [], "count": 0, "cached_commands": 0}
+{"stage": "cleanup", "end_rc": 1}

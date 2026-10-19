@@ -1,0 +1,272 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10006b30: 15 04 e0 00 10               	adcl	$0x1000e004, %eax       # imm = 0x1000E004
+10006b35: 8b 8e bc 43 00 00            	movl	0x43bc(%esi), %ecx
+10006b3b: b8 01 00 00 00               	movl	$0x1, %eax
+10006b40: 3b c8                        	cmpl	%eax, %ecx
+10006b42: 89 44 24 10                  	movl	%eax, 0x10(%esp)
+10006b46: 7e 60                        	jle	0x10006ba8 <_NetMsg_AcceptEXIT@4+0x4828>
+10006b48: 8b 54 24 18                  	movl	0x18(%esp), %edx
+10006b4c: 8b 44 24 5c                  	movl	0x5c(%esp), %eax
+10006b50: 2b c2                        	subl	%edx, %eax
+10006b52: bf 64 01 00 00               	movl	$0x164, %edi            # imm = 0x164
+10006b57: 89 44 24 20                  	movl	%eax, 0x20(%esp)
+10006b5b: 8b 8e b8 43 00 00            	movl	0x43b8(%esi), %ecx
+10006b61: 8b 5c 24 1c                  	movl	0x1c(%esp), %ebx
+10006b65: 8b c7                        	movl	%edi, %eax
+10006b67: 03 c1                        	addl	%ecx, %eax
+10006b69: 8b 08                        	movl	(%eax), %ecx
+10006b6b: 3b cb                        	cmpl	%ebx, %ecx
+10006b6d: 74 18                        	je	0x10006b87 <_NetMsg_AcceptEXIT@4+0x4807>
+10006b6f: 8b 5c 24 20                  	movl	0x20(%esp), %ebx
+10006b73: 89 0c 13                     	movl	%ecx, (%ebx,%edx)
+10006b76: 8b 48 3c                     	movl	0x3c(%eax), %ecx
+10006b79: 89 0a                        	movl	%ecx, (%edx)
+10006b7b: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+10006b7f: 41                           	incl	%ecx
+10006b80: 83 c2 04                     	addl	$0x4, %edx
+10006b83: 89 4c 24 14                  	movl	%ecx, 0x14(%esp)
+10006b87: 8b 44 24 10                  	movl	0x10(%esp), %eax
+10006b8b: 8b 8e bc 43 00 00            	movl	0x43bc(%esi), %ecx
+10006b91: 40                           	incl	%eax
+10006b92: 81 c7 64 01 00 00            	addl	$0x164, %edi            # imm = 0x164
+10006b98: 3b c1                        	cmpl	%ecx, %eax
+10006b9a: 89 44 24 10                  	movl	%eax, 0x10(%esp)
+10006b9e: 7c bb                        	jl	0x10006b5b <_NetMsg_AcceptEXIT@4+0x47db>
+10006ba0: 8b 7c 24 64                  	movl	0x64(%esp), %edi
+10006ba4: 8b 5c 24 60                  	movl	0x60(%esp), %ebx
+10006ba8: 55                           	pushl	%ebp
+10006ba9: ff 15 98 e0 00 10            	calll	*0x1000e098
+10006baf: 8b 44 24 14                  	movl	0x14(%esp), %eax
+10006bb3: c7 44 24 10 00 00 00 00      	movl	$0x0, 0x10(%esp)
+10006bbb: 85 c0                        	testl	%eax, %eax
+10006bbd: 0f 8e 83 00 00 00            	jle	0x10006c46 <_NetMsg_AcceptEXIT@4+0x48c6>
+10006bc3: 8b 7c 24 5c                  	movl	0x5c(%esp), %edi
+10006bc7: 8b 44 24 18                  	movl	0x18(%esp), %eax
+10006bcb: 8b cf                        	movl	%edi, %ecx
+10006bcd: 2b c1                        	subl	%ecx, %eax
+10006bcf: 89 44 24 20                  	movl	%eax, 0x20(%esp)
+10006bd3: eb 04                        	jmp	0x10006bd9 <_NetMsg_AcceptEXIT@4+0x4859>
+10006bd5: 8b 5c 24 60                  	movl	0x60(%esp), %ebx
+10006bd9: 8b 07                        	movl	(%edi), %eax
+10006bdb: 8d 54 24 28                  	leal	0x28(%esp), %edx
+10006bdf: 52                           	pushl	%edx
+10006be0: 50                           	pushl	%eax
+10006be1: 56                           	pushl	%esi
+10006be2: e8 39 e2 ff ff               	calll	0x10004e20 <_NetMsg_AcceptEXIT@4+0x2aa0>
+10006be7: 83 c4 0c                     	addl	$0xc, %esp
+10006bea: 55                           	pushl	%ebp
+10006beb: ff 15 04 e0 00 10            	calll	*0x1000e004
+10006bf1: 53                           	pushl	%ebx
+10006bf2: 56                           	pushl	%esi
+10006bf3: e8 38 d7 ff ff               	calll	0x10004330 <_NetMsg_AcceptEXIT@4+0x1fb0>
+10006bf8: 8b 58 24                     	movl	0x24(%eax), %ebx
+10006bfb: 83 c4 08                     	addl	$0x8, %esp
+10006bfe: 55                           	pushl	%ebp
+10006bff: ff 15 98 e0 00 10            	calll	*0x1000e098
+10006c05: 8b 4c 24 20                  	movl	0x20(%esp), %ecx
+10006c09: 8b 07                        	movl	(%edi), %eax
+10006c0b: 8a 14 39                     	movb	(%ecx,%edi), %dl
+10006c0e: 8d 4c 24 28                  	leal	0x28(%esp), %ecx
+10006c12: 52                           	pushl	%edx
+10006c13: 8b 54 24 64                  	movl	0x64(%esp), %edx
+10006c17: 50                           	pushl	%eax
+10006c18: 51                           	pushl	%ecx
+10006c19: 53                           	pushl	%ebx
+10006c1a: 6a 04                        	pushl	$0x4
+10006c1c: 52                           	pushl	%edx
+10006c1d: 56                           	pushl	%esi
+10006c1e: e8 fd eb ff ff               	calll	0x10005820 <_NetMsg_AcceptEXIT@4+0x34a0>
+10006c23: 83 c4 1c                     	addl	$0x1c, %esp
+10006c26: 85 c0                        	testl	%eax, %eax
+10006c28: 0f 8c 80 00 00 00            	jl	0x10006cae <_NetMsg_AcceptEXIT@4+0x492e>
+10006c2e: 8b 44 24 10                  	movl	0x10(%esp), %eax
+10006c32: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+10006c36: 40                           	incl	%eax
+10006c37: 83 c7 04                     	addl	$0x4, %edi
+10006c3a: 3b c1                        	cmpl	%ecx, %eax
+10006c3c: 89 44 24 10                  	movl	%eax, 0x10(%esp)
+10006c40: 7c 93                        	jl	0x10006bd5 <_NetMsg_AcceptEXIT@4+0x4855>
+10006c42: 8b 7c 24 64                  	movl	0x64(%esp), %edi
+10006c46: 8b 54 24 5c                  	movl	0x5c(%esp), %edx
+10006c4a: 52                           	pushl	%edx
+10006c4b: e8 d0 30 00 00               	calll	0x10009d20 <_NetMsg_AcceptEXIT@4+0x79a0>
+10006c50: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+10006c54: 83 c4 04                     	addl	$0x4, %esp
+10006c57: 50                           	pushl	%eax
+10006c58: e8 c3 30 00 00               	calll	0x10009d20 <_NetMsg_AcceptEXIT@4+0x79a0>
+10006c5d: 8b 4c 24 28                  	movl	0x28(%esp), %ecx
+10006c61: 83 c4 04                     	addl	$0x4, %esp
+10006c64: 8d 54 24 31                  	leal	0x31(%esp), %edx
+10006c68: c6 44 24 28 05               	movb	$0x5, 0x28(%esp)
+10006c6d: 51                           	pushl	%ecx
+10006c6e: 52                           	pushl	%edx
+10006c6f: ff 15 24 e0 00 10            	calll	*0x1000e024
+10006c75: 8b 5c 24 1c                  	movl	0x1c(%esp), %ebx
+10006c79: c7 44 24 29 00 00 00 00      	movl	$0x0, 0x29(%esp)
+10006c81: 53                           	pushl	%ebx
+10006c82: ff 15 50 f0 00 10            	calll	*0x1000f050
+10006c88: 8d 4c 24 28                  	leal	0x28(%esp), %ecx
+10006c8c: 6a 2f                        	pushl	$0x2f
+10006c8e: 89 44 24 54                  	movl	%eax, 0x54(%esp)
+10006c92: 8a 47 53                     	movb	0x53(%edi), %al
+10006c95: 51                           	pushl	%ecx
+10006c96: 53                           	pushl	%ebx
+10006c97: 56                           	pushl	%esi
+10006c98: 88 44 24 66                  	movb	%al, 0x66(%esp)
+10006c9c: e8 af e5 ff ff               	calll	0x10005250 <_NetMsg_AcceptEXIT@4+0x2ed0>
+10006ca1: 83 c4 10                     	addl	$0x10, %esp
+10006ca4: 33 c0                        	xorl	%eax, %eax
+10006ca6: 5f                           	popl	%edi
+10006ca7: 5e                           	popl	%esi
+10006ca8: 5d                           	popl	%ebp
+10006ca9: 5b                           	popl	%ebx
+10006caa: 83 c4 48                     	addl	$0x48, %esp
+10006cad: c3                           	retl
+10006cae: 8b 44 24 5c                  	movl	0x5c(%esp), %eax
+10006cb2: 50                           	pushl	%eax
+10006cb3: e8 68 30 00 00               	calll	0x10009d20 <_NetMsg_AcceptEXIT@4+0x79a0>
+10006cb8: 8b 4c 24 1c                  	movl	0x1c(%esp), %ecx
+10006cbc: 83 c4 04                     	addl	$0x4, %esp
+10006cbf: 51                           	pushl	%ecx
+10006cc0: e8 5b 30 00 00               	calll	0x10009d20 <_NetMsg_AcceptEXIT@4+0x79a0>
+10006cc5: 83 c4 04                     	addl	$0x4, %esp
+10006cc8: 83 c8 ff                     	orl	$-0x1, %eax
+10006ccb: 5f                           	popl	%edi
+10006ccc: 5e                           	popl	%esi
+10006ccd: 5d                           	popl	%ebp
+10006cce: 5b                           	popl	%ebx
+10006ccf: 83 c4 48                     	addl	$0x48, %esp
+10006cd2: c3                           	retl
+10006cd3: 90                           	nop
+10006cd4: 90                           	nop
+10006cd5: 90                           	nop
+10006cd6: 90                           	nop
+10006cd7: 90                           	nop
+10006cd8: 90                           	nop
+10006cd9: 90                           	nop
+10006cda: 90                           	nop
+10006cdb: 90                           	nop
+10006cdc: 90                           	nop
+10006cdd: 90                           	nop
+10006cde: 90                           	nop
+10006cdf: 90                           	nop
+10006ce0: 83 ec 30                     	subl	$0x30, %esp
+10006ce3: 8b 44 24 3c                  	movl	0x3c(%esp), %eax
+10006ce7: 56                           	pushl	%esi
+10006ce8: 83 c0 09                     	addl	$0x9, %eax
+10006ceb: 8d 4c 24 0d                  	leal	0xd(%esp), %ecx
+10006cef: 50                           	pushl	%eax
+10006cf0: 51                           	pushl	%ecx
+10006cf1: c6 44 24 0c 07               	movb	$0x7, 0xc(%esp)
+10006cf6: ff 15 24 e0 00 10            	calll	*0x1000e024
+10006cfc: 8b 74 24 3c                  	movl	0x3c(%esp), %esi
+10006d00: c7 44 24 05 00 00 00 00      	movl	$0x0, 0x5(%esp)
+10006d08: 56                           	pushl	%esi
+10006d09: ff 15 50 f0 00 10            	calll	*0x1000f050
+10006d0f: 8d 54 24 04                  	leal	0x4(%esp), %edx
+10006d13: 89 44 24 2c                  	movl	%eax, 0x2c(%esp)
+10006d17: 8b 44 24 38                  	movl	0x38(%esp), %eax
+10006d1b: 6a 2f                        	pushl	$0x2f
+10006d1d: 52                           	pushl	%edx
+10006d1e: 56                           	pushl	%esi
+10006d1f: 50                           	pushl	%eax
+10006d20: c6 44 24 42 00               	movb	$0x0, 0x42(%esp)
+10006d25: e8 26 e5 ff ff               	calll	0x10005250 <_NetMsg_AcceptEXIT@4+0x2ed0>
+10006d2a: 83 c4 10                     	addl	$0x10, %esp
+10006d2d: 33 c0                        	xorl	%eax, %eax
+10006d2f: 5e                           	popl	%esi
+10006d30: 83 c4 30                     	addl	$0x30, %esp
+10006d33: c3                           	retl
+10006d34: 90                           	nop
+10006d35: 90                           	nop
+10006d36: 90                           	nop
+10006d37: 90                           	nop
+10006d38: 90                           	nop
+10006d39: 90                           	nop
+10006d3a: 90                           	nop
+10006d3b: 90                           	nop
+10006d3c: 90                           	nop
+10006d3d: 90                           	nop
+10006d3e: 90                           	nop
+10006d3f: 90                           	nop
+10006d40: 83 ec 30                     	subl	$0x30, %esp
+10006d43: 53                           	pushl	%ebx
+10006d44: 55                           	pushl	%ebp
+10006d45: 8b 6c 24 3c                  	movl	0x3c(%esp), %ebp
+10006d49: 56                           	pushl	%esi
+10006d4a: 8d 9d 24 84 00 00            	leal	0x8424(%ebp), %ebx
+10006d50: 53                           	pushl	%ebx
+10006d51: ff 15 04 e0 00 10            	calll	*0x1000e004
+10006d57: 8b 74 24 44                  	movl	0x44(%esp), %esi
+10006d5b: 56                           	pushl	%esi
+10006d5c: 55                           	pushl	%ebp
+10006d5d: e8 ce d5 ff ff               	calll	0x10004330 <_NetMsg_AcceptEXIT@4+0x1fb0>
+10006d62: 8b d0                        	movl	%eax, %edx
+10006d64: 83 c4 08                     	addl	$0x8, %esp
+10006d67: 85 d2                        	testl	%edx, %edx
+10006d69: 74 39                        	je	0x10006da4 <_NetMsg_AcceptEXIT@4+0x4a24>
+10006d6b: 57                           	pushl	%edi
+10006d6c: 8d 7a 04                     	leal	0x4(%edx), %edi
+10006d6f: 83 c9 ff                     	orl	$-0x1, %ecx
+10006d72: 33 c0                        	xorl	%eax, %eax
+10006d74: f2 ae                        	repne		scasb	%es:(%edi), %al
+10006d76: f7 d1                        	notl	%ecx
+10006d78: 8d 74 24 19                  	leal	0x19(%esp), %esi
+10006d7c: 2b f9                        	subl	%ecx, %edi
+10006d7e: 8b c1                        	movl	%ecx, %eax
+10006d80: 89 74 24 44                  	movl	%esi, 0x44(%esp)
+10006d84: 8b f7                        	movl	%edi, %esi
+10006d86: 8b 7c 24 44                  	movl	0x44(%esp), %edi
+10006d8a: c1 e9 02                     	shrl	$0x2, %ecx
+10006d8d: f3 a5                        	rep		movsl	(%esi), %es:(%edi)
+10006d8f: 8b c8                        	movl	%eax, %ecx
+10006d91: 83 e1 03                     	andl	$0x3, %ecx
+10006d94: f3 a4                        	rep		movsb	(%esi), %es:(%edi)
+10006d96: 8b 74 24 48                  	movl	0x48(%esp), %esi
+10006d9a: c7 42 30 01 00 00 00         	movl	$0x1, 0x30(%edx)
+10006da1: 5f                           	popl	%edi
+10006da2: eb 05                        	jmp	0x10006da9 <_NetMsg_AcceptEXIT@4+0x4a29>
+10006da4: c6 44 24 15 00               	movb	$0x0, 0x15(%esp)
+10006da9: 53                           	pushl	%ebx
+10006daa: ff 15 98 e0 00 10            	calll	*0x1000e098
+10006db0: 56                           	pushl	%esi
+10006db1: c6 44 24 10 08               	movb	$0x8, 0x10(%esp)
+10006db6: c7 44 24 11 00 00 00 00      	movl	$0x0, 0x11(%esp)
+10006dbe: ff 15 50 f0 00 10            	calll	*0x1000f050
+10006dc4: 8d 4c 24 0c                  	leal	0xc(%esp), %ecx
+10006dc8: 6a 2f                        	pushl	$0x2f
+10006dca: 51                           	pushl	%ecx
+10006dcb: 56                           	pushl	%esi
+10006dcc: 55                           	pushl	%ebp
+10006dcd: 89 44 24 44                  	movl	%eax, 0x44(%esp)
+10006dd1: c6 44 24 4a 00               	movb	$0x0, 0x4a(%esp)
+10006dd6: e8 75 e4 ff ff               	calll	0x10005250 <_NetMsg_AcceptEXIT@4+0x2ed0>
+10006ddb: 83 c4 10                     	addl	$0x10, %esp
+10006dde: 5e                           	popl	%esi
+10006ddf: 5d                           	popl	%ebp
+10006de0: 5b                           	popl	%ebx
+10006de1: 83 c4 30                     	addl	$0x30, %esp
+10006de4: c3                           	retl
+10006de5: 90                           	nop
+10006de6: 90                           	nop
+10006de7: 90                           	nop
+10006de8: 90                           	nop
+10006de9: 90                           	nop
+10006dea: 90                           	nop
+10006deb: 90                           	nop
+10006dec: 90                           	nop
+10006ded: 90                           	nop
+10006dee: 90                           	nop
+10006def: 90                           	nop
+10006df0: 53                           	pushl	%ebx
+10006df1: 56                           	pushl	%esi
+10006df2: 8b 74 24 0c                  	movl	0xc(%esp), %esi
+10006df6: 57                           	pushl	%edi
+10006df7: 8d be 24 84 00 00            	leal	0x8424(%esi), %edi
+10006dfd: 57                           	pushl	%edi
+10006dfe: ff 15 04 e0 00 10            	calll	*0x1000e004

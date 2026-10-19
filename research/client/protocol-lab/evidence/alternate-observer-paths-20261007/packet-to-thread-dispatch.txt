@@ -1,0 +1,79 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+10007c05: 6a 0c                        	pushl	$0xc
+10007c07: 6a 01                        	pushl	$0x1
+10007c09: e8 62 20 00 00               	calll	0x10009c70 <_NetMsg_AcceptEXIT@4+0x78f0>
+10007c0e: 8b d8                        	movl	%eax, %ebx
+10007c10: 83 c4 08                     	addl	$0x8, %esp
+10007c13: 85 db                        	testl	%ebx, %ebx
+10007c15: 0f 84 9d 00 00 00            	je	0x10007cb8 <_NetMsg_AcceptEXIT@4+0x5938>
+10007c1b: 89 33                        	movl	%esi, (%ebx)
+10007c1d: 8b 74 24 20                  	movl	0x20(%esp), %esi
+10007c21: 56                           	pushl	%esi
+10007c22: 6a 01                        	pushl	$0x1
+10007c24: 89 73 04                     	movl	%esi, 0x4(%ebx)
+10007c27: e8 44 20 00 00               	calll	0x10009c70 <_NetMsg_AcceptEXIT@4+0x78f0>
+10007c2c: 83 c4 08                     	addl	$0x8, %esp
+10007c2f: 89 43 08                     	movl	%eax, 0x8(%ebx)
+10007c32: 85 c0                        	testl	%eax, %eax
+10007c34: 75 0e                        	jne	0x10007c44 <_NetMsg_AcceptEXIT@4+0x58c4>
+10007c36: 53                           	pushl	%ebx
+10007c37: e8 e4 20 00 00               	calll	0x10009d20 <_NetMsg_AcceptEXIT@4+0x79a0>
+10007c3c: 83 c4 04                     	addl	$0x4, %esp
+10007c3f: 5f                           	popl	%edi
+10007c40: 5e                           	popl	%esi
+10007c41: 5d                           	popl	%ebp
+10007c42: 5b                           	popl	%ebx
+10007c43: c3                           	retl
+10007c44: 8b ce                        	movl	%esi, %ecx
+10007c46: 8b 74 24 1c                  	movl	0x1c(%esp), %esi
+10007c4a: 8b f8                        	movl	%eax, %edi
+10007c4c: 8b c1                        	movl	%ecx, %eax
+10007c4e: c1 e9 02                     	shrl	$0x2, %ecx
+10007c51: f3 a5                        	rep		movsl	(%esi), %es:(%edi)
+10007c53: 8b c8                        	movl	%eax, %ecx
+10007c55: 33 c0                        	xorl	%eax, %eax
+10007c57: 83 e1 03                     	andl	$0x3, %ecx
+10007c5a: f3 a4                        	rep		movsb	(%esi), %es:(%edi)
+10007c5c: 8b 4c 24 1c                  	movl	0x1c(%esp), %ecx
+10007c60: 8a 01                        	movb	(%ecx), %al
+10007c62: 48                           	decl	%eax
+10007c63: 74 3e                        	je	0x10007ca3 <_NetMsg_AcceptEXIT@4+0x5923>
+10007c65: 83 e8 05                     	subl	$0x5, %eax
+10007c68: 74 1f                        	je	0x10007c89 <_NetMsg_AcceptEXIT@4+0x5909>
+10007c6a: 83 e8 5d                     	subl	$0x5d, %eax
+10007c6d: 75 49                        	jne	0x10007cb8 <_NetMsg_AcceptEXIT@4+0x5938>
+10007c6f: 8b 95 50 84 00 00            	movl	0x8450(%ebp), %edx
+10007c75: 53                           	pushl	%ebx
+10007c76: 6a 07                        	pushl	$0x7
+10007c78: 68 00 04 00 00               	pushl	$0x400                  # imm = 0x400
+10007c7d: 52                           	pushl	%edx
+10007c7e: ff 15 20 e1 00 10            	calll	*0x1000e120
+10007c84: 5f                           	popl	%edi
+10007c85: 5e                           	popl	%esi
+10007c86: 5d                           	popl	%ebp
+10007c87: 5b                           	popl	%ebx
+10007c88: c3                           	retl
+10007c89: 8b 85 50 84 00 00            	movl	0x8450(%ebp), %eax
+10007c8f: 53                           	pushl	%ebx
+10007c90: 6a 06                        	pushl	$0x6
+10007c92: 68 00 04 00 00               	pushl	$0x400                  # imm = 0x400
+10007c97: 50                           	pushl	%eax
+10007c98: ff 15 20 e1 00 10            	calll	*0x1000e120
+10007c9e: 5f                           	popl	%edi
+10007c9f: 5e                           	popl	%esi
+10007ca0: 5d                           	popl	%ebp
+10007ca1: 5b                           	popl	%ebx
+10007ca2: c3                           	retl
+10007ca3: 8b 8d 50 84 00 00            	movl	0x8450(%ebp), %ecx
+10007ca9: 53                           	pushl	%ebx
+10007caa: 6a 05                        	pushl	$0x5
+10007cac: 68 00 04 00 00               	pushl	$0x400                  # imm = 0x400
+10007cb1: 51                           	pushl	%ecx
+10007cb2: ff 15 20 e1 00 10            	calll	*0x1000e120
+10007cb8: 5f                           	popl	%edi
+10007cb9: 5e                           	popl	%esi

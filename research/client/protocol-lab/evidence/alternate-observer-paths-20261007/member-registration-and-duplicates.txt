@@ -1,0 +1,141 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+
+Disassembly of section .text:
+
+10002380 <_NetMsg_AcceptEXIT@4>:
+100040e0: 53                           	pushl	%ebx
+100040e1: 55                           	pushl	%ebp
+100040e2: 56                           	pushl	%esi
+100040e3: 8b 74 24 10                  	movl	0x10(%esp), %esi
+100040e7: 57                           	pushl	%edi
+100040e8: 8d be 24 84 00 00            	leal	0x8424(%esi), %edi
+100040ee: 57                           	pushl	%edi
+100040ef: 89 7c 24 18                  	movl	%edi, 0x18(%esp)
+100040f3: ff 15 04 e0 00 10            	calll	*0x1000e004
+100040f9: 8b 86 48 01 00 00            	movl	0x148(%esi), %eax
+100040ff: 8b 6c 24 20                  	movl	0x20(%esp), %ebp
+10004103: 33 db                        	xorl	%ebx, %ebx
+10004105: 3b c3                        	cmpl	%ebx, %eax
+10004107: 74 40                        	je	0x10004149 <_NetMsg_AcceptEXIT@4+0x1dc9>
+10004109: 8b 96 bc 43 00 00            	movl	0x43bc(%esi), %edx
+1000410f: 8b 86 c4 43 00 00            	movl	0x43c4(%esi), %eax
+10004115: 3b d0                        	cmpl	%eax, %edx
+10004117: 75 11                        	jne	0x1000412a <_NetMsg_AcceptEXIT@4+0x1daa>
+10004119: 57                           	pushl	%edi
+1000411a: ff 15 98 e0 00 10            	calll	*0x1000e098
+10004120: b8 01 00 00 00               	movl	$0x1, %eax
+10004125: 5f                           	popl	%edi
+10004126: 5e                           	popl	%esi
+10004127: 5d                           	popl	%ebp
+10004128: 5b                           	popl	%ebx
+10004129: c3                           	retl
+1000412a: 33 c0                        	xorl	%eax, %eax
+1000412c: 3b d3                        	cmpl	%ebx, %edx
+1000412e: 7e 19                        	jle	0x10004149 <_NetMsg_AcceptEXIT@4+0x1dc9>
+10004130: 8b 8e b8 43 00 00            	movl	0x43b8(%esi), %ecx
+10004136: 39 29                        	cmpl	%ebp, (%ecx)
+10004138: 0f 84 e9 00 00 00            	je	0x10004227 <_NetMsg_AcceptEXIT@4+0x1ea7>
+1000413e: 40                           	incl	%eax
+1000413f: 81 c1 64 01 00 00            	addl	$0x164, %ecx            # imm = 0x164
+10004145: 3b c2                        	cmpl	%edx, %eax
+10004147: 7c ed                        	jl	0x10004136 <_NetMsg_AcceptEXIT@4+0x1db6>
+10004149: 8b 86 bc 43 00 00            	movl	0x43bc(%esi), %eax
+1000414f: 8d be bc 43 00 00            	leal	0x43bc(%esi), %edi
+10004155: 8b 96 b8 43 00 00            	movl	0x43b8(%esi), %edx
+1000415b: 53                           	pushl	%ebx
+1000415c: 8d 0c 80                     	leal	(%eax,%eax,4), %ecx
+1000415f: 53                           	pushl	%ebx
+10004160: 53                           	pushl	%ebx
+10004161: 53                           	pushl	%ebx
+10004162: 8d 0c c9                     	leal	(%ecx,%ecx,8), %ecx
+10004165: d1 e1                        	shll	%ecx
+10004167: 2b c8                        	subl	%eax, %ecx
+10004169: 8b 44 24 28                  	movl	0x28(%esp), %eax
+1000416d: 8d 34 8a                     	leal	(%edx,%ecx,4), %esi
+10004170: 89 2e                        	movl	%ebp, (%esi)
+10004172: 8b 2d 10 e0 00 10            	movl	0x1000e010, %ebp
+10004178: c7 46 24 01 00 00 00         	movl	$0x1, 0x24(%esi)
+1000417f: 89 5e 28                     	movl	%ebx, 0x28(%esi)
+10004182: 89 5e 2c                     	movl	%ebx, 0x2c(%esi)
+10004185: 89 5e 30                     	movl	%ebx, 0x30(%esi)
+10004188: 89 5e 34                     	movl	%ebx, 0x34(%esi)
+1000418b: 89 5e 38                     	movl	%ebx, 0x38(%esi)
+1000418e: 89 46 3c                     	movl	%eax, 0x3c(%esi)
+10004191: 89 5e 40                     	movl	%ebx, 0x40(%esi)
+10004194: ff d5                        	calll	*%ebp
+10004196: 3b c3                        	cmpl	%ebx, %eax
+10004198: 89 46 44                     	movl	%eax, 0x44(%esi)
+1000419b: 75 15                        	jne	0x100041b2 <_NetMsg_AcceptEXIT@4+0x1e32>
+1000419d: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+100041a1: 51                           	pushl	%ecx
+100041a2: ff 15 98 e0 00 10            	calll	*0x1000e098
+100041a8: b8 03 00 00 00               	movl	$0x3, %eax
+100041ad: 5f                           	popl	%edi
+100041ae: 5e                           	popl	%esi
+100041af: 5d                           	popl	%ebp
+100041b0: 5b                           	popl	%ebx
+100041b1: c3                           	retl
+100041b2: 53                           	pushl	%ebx
+100041b3: 53                           	pushl	%ebx
+100041b4: 53                           	pushl	%ebx
+100041b5: 53                           	pushl	%ebx
+100041b6: ff d5                        	calll	*%ebp
+100041b8: 3b c3                        	cmpl	%ebx, %eax
+100041ba: 89 46 48                     	movl	%eax, 0x48(%esi)
+100041bd: 75 1f                        	jne	0x100041de <_NetMsg_AcceptEXIT@4+0x1e5e>
+100041bf: 8b 56 44                     	movl	0x44(%esi), %edx
+100041c2: 52                           	pushl	%edx
+100041c3: ff 15 0c e0 00 10            	calll	*0x1000e00c
+100041c9: 8b 44 24 14                  	movl	0x14(%esp), %eax
+100041cd: 50                           	pushl	%eax
+100041ce: ff 15 98 e0 00 10            	calll	*0x1000e098
+100041d4: b8 03 00 00 00               	movl	$0x3, %eax
+100041d9: 5f                           	popl	%edi
+100041da: 5e                           	popl	%esi
+100041db: 5d                           	popl	%ebp
+100041dc: 5b                           	popl	%ebx
+100041dd: c3                           	retl
+100041de: ff 15 28 e0 00 10            	calll	*0x1000e028
+100041e4: 89 46 4c                     	movl	%eax, 0x4c(%esi)
+100041e7: 8b 44 24 1c                  	movl	0x1c(%esp), %eax
+100041eb: 3b c3                        	cmpl	%ebx, %eax
+100041ed: 89 5e 50                     	movl	%ebx, 0x50(%esi)
+100041f0: 89 5e 54                     	movl	%ebx, 0x54(%esi)
+100041f3: 89 5e 58                     	movl	%ebx, 0x58(%esi)
+100041f6: 89 5e 5c                     	movl	%ebx, 0x5c(%esi)
+100041f9: 89 5e 60                     	movl	%ebx, 0x60(%esi)
+100041fc: 74 0d                        	je	0x1000420b <_NetMsg_AcceptEXIT@4+0x1e8b>
+100041fe: 83 c6 04                     	addl	$0x4, %esi
+10004201: 50                           	pushl	%eax
+10004202: 56                           	pushl	%esi
+10004203: ff 15 24 e0 00 10            	calll	*0x1000e024
+10004209: eb 03                        	jmp	0x1000420e <_NetMsg_AcceptEXIT@4+0x1e8e>
+1000420b: 88 5e 04                     	movb	%bl, 0x4(%esi)
+1000420e: 57                           	pushl	%edi
+1000420f: ff 15 3c e0 00 10            	calll	*0x1000e03c
+10004215: 8b 4c 24 14                  	movl	0x14(%esp), %ecx
+10004219: 51                           	pushl	%ecx
+1000421a: ff 15 98 e0 00 10            	calll	*0x1000e098
+10004220: 33 c0                        	xorl	%eax, %eax
+10004222: 5f                           	popl	%edi
+10004223: 5e                           	popl	%esi
+10004224: 5d                           	popl	%ebp
+10004225: 5b                           	popl	%ebx
+10004226: c3                           	retl
+10004227: 57                           	pushl	%edi
+10004228: ff 15 98 e0 00 10            	calll	*0x1000e098
+1000422e: 5f                           	popl	%edi
+1000422f: 5e                           	popl	%esi
+10004230: 5d                           	popl	%ebp
+10004231: b8 02 00 00 00               	movl	$0x2, %eax
+10004236: 5b                           	popl	%ebx
+10004237: c3                           	retl
+10004238: 90                           	nop
+10004239: 90                           	nop
+1000423a: 90                           	nop
+1000423b: 90                           	nop
+1000423c: 90                           	nop
+1000423d: 90                           	nop
+1000423e: 90                           	nop
+1000423f: 90                           	nop

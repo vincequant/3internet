@@ -1,0 +1,185 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/Koeinm.dll:	file format coff-i386
+Characteristics 0x210e
+	executable
+	line numbers stripped
+	symbols stripped
+	32 bit words
+	DLL
+
+Time/Date               Thu Oct 28 12:19:00 1999
+Magic                   010b	(PE32)
+MajorLinkerVersion      5
+MinorLinkerVersion      10
+SizeOfCode              0000c600
+SizeOfInitializedData   0000f000
+SizeOfUninitializedData 00000000
+AddressOfEntryPoint     0000a050
+BaseOfCode              00001000
+BaseOfData              0000e000
+ImageBase               10000000
+SectionAlignment        00001000
+FileAlignment           00000200
+MajorOSystemVersion     4
+MinorOSystemVersion     0
+MajorImageVersion       0
+MinorImageVersion       0
+MajorSubsystemVersion   4
+MinorSubsystemVersion   0
+Win32Version            00000000
+SizeOfImage             0001e000
+SizeOfHeaders           00000400
+CheckSum                00000000
+Subsystem               00000002	(Windows GUI)
+DllCharacteristics      00000000
+SizeOfStackReserve      00100000
+SizeOfStackCommit       00001000
+SizeOfHeapReserve       00100000
+SizeOfHeapCommit        00001000
+LoaderFlags             00000000
+NumberOfRvaAndSizes     00000010
+
+The Data Directory
+Entry 0 0000eb00 000004c4 Export Directory [.edata (or where ever we found it)]
+Entry 1 0000e470 0000003c Import Directory [parts of .idata]
+Entry 2 0001c000 00000328 Resource Directory [.rsrc]
+Entry 3 00000000 00000000 Exception Directory [.pdata]
+Entry 4 00000000 00000000 Security Directory
+Entry 5 0001d000 00000afc Base Relocation Directory [.reloc]
+Entry 6 00000000 00000000 Debug Directory
+Entry 7 00000000 00000000 Description Directory
+Entry 8 00000000 00000000 Special Directory
+Entry 9 00000000 00000000 Thread Storage Directory [.tls]
+Entry a 00000000 00000000 Load Configuration Directory
+Entry b 00000000 00000000 Bound Import Directory
+Entry c 0000e000 00000130 Import Address Table Directory
+Entry d 00000000 00000000 Delay Import Directory
+Entry e 00000000 00000000 CLR Runtime Header
+Entry f 00000000 00000000 Reserved
+
+The Import Tables:
+  lookup 0000e4ac time 00000000 fwd 00000000 name 0000e7c2 addr 0000e000
+
+    DLL Name: KERNEL32.dll
+    Hint/Ord  Name
+         170  GetCommandLineA
+          88  EnterCriticalSection
+         377  InitializeCriticalSection
+          24  CloseHandle
+          46  CreateEventA
+          76  DeleteCriticalSection
+         481  ResetEvent
+         360  HeapAlloc
+         280  GetProcessHeap
+         667  lstrcpyA
+         325  GetTickCount
+         532  SetEvent
+         366  HeapFree
+          64  CreateSemaphoreA
+         618  WaitForSingleObject
+         382  InterlockedIncrement
+         616  WaitForMultipleObjects
+         379  InterlockedDecrement
+         482  ResumeThread
+         583  TerminateThread
+         661  lstrcmpA
+         575  Sleep
+         152  FreeLibrary
+         278  GetProcAddress
+         400  LoadLibraryA
+         478  ReleaseSemaphore
+         380  InterlockedExchange
+         211  GetCurrentProcess
+         582  TerminateProcess
+         537  SetFilePointer
+         553  SetStdHandle
+         142  FlushFileBuffers
+         302  GetStringTypeW
+         244  GetLastError
+          67  CreateThread
+         214  GetCurrentThreadId
+         587  TlsSetValue
+         108  ExitThread
+         399  LeaveCriticalSection
+         332  GetVersion
+         364  HeapDestroy
+         362  HeapCreate
+         606  VirtualFree
+         107  ExitProcess
+         603  VirtualAlloc
+         584  TlsAlloc
+         585  TlsFree
+         542  SetLastError
+         586  TlsGetValue
+         398  LCMapStringW
+         299  GetStringTypeA
+         592  UnhandledExceptionFilter
+         485  RtlUnwind
+         539  SetHandleCount
+         298  GetStdHandle
+         239  GetFileType
+         296  GetStartupInfoA
+         252  GetModuleFileNameA
+         163  GetCPInfo
+         157  GetACP
+         265  GetOEMCP
+         150  FreeEnvironmentStringsA
+         427  MultiByteToWideChar
+         151  FreeEnvironmentStringsW
+         225  GetEnvironmentStrings
+         227  GetEnvironmentStringsW
+         622  WideCharToMultiByte
+         635  WriteFile
+         397  LCMapStringA
+
+  lookup 0000e5c4 time 00000000 fwd 00000000 name 0000e820 addr 0000e118
+
+    DLL Name: USER32.dll
+    Hint/Ord  Name
+         431  PeekMessageA
+         277  GetMessageA
+         436  PostThreadMessageA
+         612  wsprintfA
+         433  PostMessageA
+
+Export Table:
+ DLL name: KOEINM.dll
+ Ordinal base: 1
+ Ordinal      RVA  Name
+       1   0x2380  _NetMsg_AcceptEXIT@4
+       2   0x21c0  _NetMsg_Chat@4
+       3   0x21e0  _NetMsg_ChatTo@8
+       4   0x1fd0  _NetMsg_CreateSession@28
+       5   0x2360  _NetMsg_DecodeWParam@4
+       6   0x21a0  _NetMsg_DeletePacket@4
+       7   0x2070  _NetMsg_EnableJoinSession@4
+       8   0x1f80  _NetMsg_End@0
+       9   0x20f0  _NetMsg_EndSync@4
+      10   0x2110  _NetMsg_EndSyncVerify@12
+      11   0x2060  _NetMsg_ExitSession@0
+      12   0x2320  _NetMsg_GetAppSyncTime@4
+      13   0x2130  _NetMsg_GetCmd@12
+      14   0x2150  _NetMsg_GetCmdCount@0
+      15   0x22a0  _NetMsg_GetFQDN@0
+      16   0x2210  _NetMsg_GetHostID@0
+      17   0x22b0  _NetMsg_GetIPAddress@4
+      18   0x22d0  _NetMsg_GetIPString@8
+      19   0x2290  _NetMsg_GetMachineName@0
+      20   0x2220  _NetMsg_GetNextHostCandidate@8
+      21   0x2310  _NetMsg_GetReconnTime@0
+      22   0x2240  _NetMsg_GetSessionName@0
+      23   0x2340  _NetMsg_GetSyncTime@4
+      24   0x2250  _NetMsg_GetUserName@8
+      25   0x20b0  _NetMsg_IsConnected@0
+      26   0x2200  _NetMsg_IsHost@0
+      27   0x2270  _NetMsg_IsHostOK@4
+      28   0x2010  _NetMsg_OpenSession@20
+      29   0x2090  _NetMsg_RefuseUser@4
+      30   0x2040  _NetMsg_SearchSession@12
+      31   0x20c0  _NetMsg_SendCmd@8
+      32   0x2160  _NetMsg_SendData@8
+      33   0x2180  _NetMsg_SendDataTo@12
+      34   0x1f90  _NetMsg_SetChatWindow@8
+      35   0x1fb0  _NetMsg_SetDataWindow@8
+      36   0x1f40  _NetMsg_Start@36
+      37   0x20e0  _NetMsg_StartSync@0

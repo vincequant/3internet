@@ -1,0 +1,52 @@
+
+/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10/drive_c/sgi/run-3.5/3I/SANPK.exe:	file format coff-i386
+
+Disassembly of section .text:
+
+00401000 <.text>:
+  431956: 8d 45 f0                     	leal	-0x10(%ebp), %eax
+  431959: c7 45 f0 10 00 00 00         	movl	$0x10, -0x10(%ebp)
+  431960: 50                           	pushl	%eax
+  431961: 50                           	pushl	%eax
+  431962: 50                           	pushl	%eax
+  431963: 50                           	pushl	%eax
+  431964: 50                           	pushl	%eax
+  431965: 50                           	pushl	%eax
+  431966: e8 15 8a 0c 00               	calll	0x4fa380 <.text+0xf9380>
+  43196b: 8d 45 c4                     	leal	-0x3c(%ebp), %eax
+  43196e: 8b ce                        	movl	%esi, %ecx
+  431970: 50                           	pushl	%eax
+  431971: 53                           	pushl	%ebx
+  431972: ff 75 0c                     	pushl	0xc(%ebp)
+  431975: ff 75 08                     	pushl	0x8(%ebp)
+  431978: e8 1f 84 ff ff               	calll	0x429d9c <.text+0x28d9c>
+  43197d: 3b c7                        	cmpl	%edi, %eax
+  43197f: 89 45 e8                     	movl	%eax, -0x18(%ebp)
+  431982: 74 72                        	je	0x4319f6 <.text+0x309f6>
+  431984: 57                           	pushl	%edi
+  431985: 8b ce                        	movl	%esi, %ecx
+  431987: e8 24 85 fe ff               	calll	0x419eb0 <.text+0x18eb0>
+  43198c: 8d 4d dc                     	leal	-0x24(%ebp), %ecx
+  43198f: e8 e2 cd 07 00               	calll	0x4ae776 <.text+0xad776>
+  431994: 8d 4d dc                     	leal	-0x24(%ebp), %ecx
+  431997: e8 e7 cd 07 00               	calll	0x4ae783 <.text+0xad783>
+  43199c: 8d be 32 01 00 00            	leal	0x132(%esi), %edi
+  4319a2: ff b6 d0 00 00 00            	pushl	0xd0(%esi)
+  4319a8: 8d 45 c4                     	leal	-0x3c(%ebp), %eax
+  4319ab: 8b cf                        	movl	%edi, %ecx
+  4319ad: ff 75 0c                     	pushl	0xc(%ebp)
+  4319b0: ff 75 08                     	pushl	0x8(%ebp)
+  4319b3: 50                           	pushl	%eax
+  4319b4: 53                           	pushl	%ebx
+  4319b5: e8 d6 8c ff ff               	calll	0x42a690 <.text+0x29690>
+  4319ba: 85 c0                        	testl	%eax, %eax
+  4319bc: 75 6c                        	jne	0x431a2a <.text+0x30a2a>
+  4319be: 83 be 42 01 00 00 04         	cmpl	$0x4, 0x142(%esi)
+  4319c5: 75 1d                        	jne	0x4319e4 <.text+0x309e4>
+  4319c7: e8 06 f5 ff ff               	calll	0x430ed2 <.text+0x2fed2>
+  4319cc: 8b 80 d0 00 00 00            	movl	0xd0(%eax), %eax
+  4319d2: 8d 4d dc                     	leal	-0x24(%ebp), %ecx
+  4319d5: 89 45 ec                     	movl	%eax, -0x14(%ebp)
+  4319d8: e8 be cd 07 00               	calll	0x4ae79b <.text+0xad79b>
+  4319dd: 3b 45 ec                     	cmpl	-0x14(%ebp), %eax
+  4319e0: 77 38                        	ja	0x431a1a <.text+0x30a1a>
