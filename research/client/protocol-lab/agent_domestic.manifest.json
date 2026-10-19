@@ -1,0 +1,60 @@
+{
+  "schema": "p59-domestic-cmd-1",
+  "target": "i386-pc-windows-msvc",
+  "blob_layout": {
+    "magic": 0,
+    "sent": 4,
+    "GetFileAttributesA": 8,
+    "CreateFileA": 12,
+    "WriteFileA": 16,
+    "CloseHandle": 20,
+    "Sleep": 24,
+    "GetTickCount": 28,
+    "is_connected": 32,
+    "get_ip": 36,
+    "core_global": 40,
+    "ctor": 44,
+    "send": 48,
+    "send_this": 52,
+    "actor": 56,
+    "parameter": 60,
+    "value": 64,
+    "extra": 68,
+    "sanpk_base": 72
+  },
+  "blob_size": 352,
+  "receipt_size": 48,
+  "anchors_va": {
+    "CRuntimeClass": 5452976,
+    "class_name": 5453140,
+    "vtable": 5257720,
+    "get_runtime_class": 4418011,
+    "ctor": 4418038,
+    "factory": 4417961,
+    "serialize": 4418159,
+    "handoff_ui_path": 4482178,
+    "send_object": 4368340,
+    "send_cmd": 4368300,
+    "send_this": 5486194,
+    "core_global": 5487408
+  },
+  "anchors_rva": {
+    "vtable": 1063416,
+    "class": 1258672,
+    "name": 1258836,
+    "factory": 223657,
+    "serialize": 223855,
+    "get_runtime_class": 223707,
+    "ctor": 223734,
+    "send": 174036,
+    "send_this": 1291890,
+    "core_global": 1293104,
+    "g_from_core": 2322
+  },
+  "agent_domestic": {
+    "size": 445,
+    "sha256": "079cd2ca10025f74ae1a09079852b34cd81e5fbd14425e631c49bd5c4ab6623e",
+    "instructions": 119
+  },
+  "golden_wire_actor7": "ffff010013004353616e496e6574446f6d6573746963436d641200000000000000000000000007000000000000005f00000001000000"
+}

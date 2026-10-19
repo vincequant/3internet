@@ -1,0 +1,119 @@
+0000: push    esi
+0001: push    ebx
+0002: push    edi
+0003: sub     esp, 0x70
+0006: mov     esi, dword ptr [esp + 0x80]
+000d: cmp     dword ptr [esi], 0x35474853
+0013: jne     0x1b3
+0019: cmp     dword ptr [esi + 4], 0
+001d: jne     0x1a6
+0023: lea     eax, [esi + 0x50]
+0026: push    eax
+0027: call    dword ptr [esi + 8]
+002a: cmp     eax, -1
+002d: je      0x199
+0033: call    dword ptr [esi + 0x20]
+0036: test    eax, eax
+0038: je      0x199
+003e: mov     eax, dword ptr [esi + 0x28]
+0041: test    eax, eax
+0043: je      0x199
+0049: mov     ebx, dword ptr [eax]
+004b: test    ebx, ebx
+004d: je      0x199
+0053: mov     ecx, dword ptr [ebx + 0x6c0]
+0059: cmp     ecx, 7
+005c: ja      0x199
+0062: cmp     dword ptr [esi + 0x38], 0x20
+0066: jae     0x199
+006c: cmp     dword ptr [esi + 0x3c], 3
+0070: jae     0x199
+0076: mov     dword ptr [esp + 0x58], 0
+007e: lea     eax, [esp + 0x58]
+0082: push    eax
+0083: call    dword ptr [esi + 0x24]
+0086: mov     eax, dword ptr [esp + 0x58]
+008a: test    eax, eax
+008c: je      0x199
+0092: mov     edi, dword ptr [eax]
+0094: test    edi, edi
+0096: je      0x199
+009c: mov     dword ptr [esp + 0x24], ebx
+00a0: mov     eax, ebx
+00a2: sub     eax, 0x912
+00a7: mov     eax, dword ptr [eax + 0x80]
+00ad: mov     dword ptr [esp + 0x5c], eax
+00b1: lea     ecx, [esp]
+00b4: call    dword ptr [esi + 0x2c]
+00b7: mov     eax, dword ptr [esi + 0x38]
+00ba: mov     dword ptr [esp + 0x14], eax
+00be: mov     eax, dword ptr [esi + 0x3c]
+00c1: mov     dword ptr [esp + 0x18], eax
+00c5: mov     eax, dword ptr [esi + 0x40]
+00c8: mov     dword ptr [esp + 0x1c], eax
+00cc: mov     eax, dword ptr [esi + 0x44]
+00cf: mov     dword ptr [esp + 0x20], eax
+00d3: mov     ecx, dword ptr [esi + 0x34]
+00d6: lea     eax, [esp]
+00d9: push    eax
+00da: call    dword ptr [esi + 0x30]
+00dd: mov     dword ptr [esi + 4], 1
+00e4: mov     dword ptr [esp + 0x28], 0x43523553
+00ec: mov     dword ptr [esp + 0x2c], eax
+00f0: mov     ecx, dword ptr [esp + 0x24]
+00f4: mov     dword ptr [esp + 0x30], ecx
+00f8: mov     ecx, dword ptr [esi + 0x38]
+00fb: mov     dword ptr [esp + 0x34], ecx
+00ff: mov     ecx, dword ptr [esi + 0x3c]
+0102: mov     dword ptr [esp + 0x38], ecx
+0106: mov     ecx, dword ptr [esi + 0x40]
+0109: mov     dword ptr [esp + 0x3c], ecx
+010d: mov     ecx, dword ptr [esi + 0x44]
+0110: mov     dword ptr [esp + 0x40], ecx
+0114: mov     ecx, dword ptr [esp + 0x5c]
+0118: mov     dword ptr [esp + 0x48], ecx
+011c: mov     ecx, dword ptr [esp + 0x24]
+0120: sub     ecx, 0x912
+0126: mov     ecx, dword ptr [ecx + 0x80]
+012c: mov     dword ptr [esp + 0x4c], ecx
+0130: mov     ecx, dword ptr [esp + 0x24]
+0134: movzx   ecx, word ptr [ecx + 0x4d8]
+013b: mov     dword ptr [esp + 0x50], ecx
+013f: mov     dword ptr [esp + 0x54], edi
+0143: call    dword ptr [esi + 0x1c]
+0146: mov     dword ptr [esp + 0x44], eax
+014a: lea     eax, [esi + 0xd0]
+0150: push    0
+0152: push    0x80
+0157: push    2
+0159: push    0
+015b: push    3
+015d: push    0x40000000
+0162: push    eax
+0163: call    dword ptr [esi + 0xc]
+0166: cmp     eax, -1
+0169: je      0x18c
+016b: mov     dword ptr [esp + 0x60], eax
+016f: push    0
+0171: lea     eax, [esp + 0x6c]
+0175: push    eax
+0176: push    0x30
+0178: lea     eax, [esp + 0x34]
+017c: push    eax
+017d: mov     eax, dword ptr [esp + 0x70]
+0181: push    eax
+0182: call    dword ptr [esi + 0x10]
+0185: push    dword ptr [esp + 0x60]
+0189: call    dword ptr [esi + 0x14]
+018c: push    0x3e8
+0191: call    dword ptr [esi + 0x18]
+0194: jmp     0x19
+0199: push    0xfa
+019e: call    dword ptr [esi + 0x18]
+01a1: jmp     0x19
+01a6: push    0x3e8
+01ab: call    dword ptr [esi + 0x18]
+01ae: jmp     0x19
+01b3: push    0x1388
+01b8: call    dword ptr [esi + 0x18]
+01bb: jmp     0x1b3
