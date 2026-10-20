@@ -9,6 +9,7 @@ import sys
 import time
 import threading
 import tkinter as tk
+import traceback
 from datetime import datetime
 from tkinter import ttk, messagebox
 
@@ -37,54 +38,209 @@ INK, GOLD, GOLD_HI = '#203440', '#286a72', '#f3fafb'
 MUTED, WARN, BG = '#657985', '#a13b42', '#e6eef2' 
 
 
-# 2026-10-20 使用者要求：地圖要回歸遊戲本身的地圖，而不是空白畫布。
-_MAP_ASSET = {'src': None, 'photo': None, 'size': None}
+# 2026-10-20 使用者要求：地圖要回歸遊戲本身的地圖（全知情報的全景大地圖），
+# 而不是空白畫布或 525×350 的全國示意圖。底圖快取在下面的 _MAP。
 
 
 def _map_debug(text):
+    """地圖除錯：/tmp/hub-map-debug.log（每行帶時間，方便對事件順序）。"""
     try:
+        stamp = datetime.now().strftime('%H:%M:%S.%f')[:-3]
         with open('/tmp/hub-map-debug.log', 'a', encoding='utf-8') as fh:
-            fh.write(text + '\n')
+            fh.write('%s %s\n' % (stamp, text))
     except OSError:
         pass
 
 
-def map_background():
-    if _MAP_ASSET['src'] is None:
-        try:
-            from PIL import Image
-            here = Path(__file__).resolve().parent
-            candidates = [here / 'app' / 'assets' / 'SanInet.lbm',
-                          here / 'assets' / 'SanInet.lbm',
-                          here / 'SanInet.lbm']
-            path = next((c for c in candidates if c.exists()), candidates[0])
-            _MAP_ASSET['src'] = Image.open(path).convert('RGB')
-            _map_debug('loaded %s %s' % (path, _MAP_ASSET['src'].size))
-        except Exception as exc:  # noqa: BLE001
-            _MAP_ASSET['src'] = False
-            _map_debug('FAILED: %s: %s' % (type(exc).__name__, exc))
-    return _MAP_ASSET['src']
+# ---------------------------------------------------------------- 地圖底圖
+# 2026-10-20 使用者要求：底圖要用「全知情報」的全景大地圖（原作地面），
+# 不是 525×350 的全國示意圖（SanInet.lbm）。
+# 原作地面在 app/assets/SanInet.mbm：9744×4872、8-bit 索引色、
+# 48×24 的交錯菱格（每格 1152 bytes、列上下翻轉）。解碼交給
+# app/tactical_terrain.py（跟全景地圖、城周邊同一套、唯讀、共用 mip 快取）。
+MAP_FILL = '#2b3527'          # 地圖外的留白（接近原作地面底色）
+WORLD = (101, 202)            # 世界格數（x, y）
+MAP_MIN_ZOOM = 1.0
+MAP_MAX_ZOOM = 10.0
+
+try:                          # app/ 在 sys.path 上（run.py 與 tests 都會加）
+    from tactical_terrain import shared_terrain as _shared_terrain
+    from tactical_terrain import world_pixel as _world_pixel
+except Exception:             # noqa: BLE001
+    _shared_terrain = None
+    _world_pixel = None
+
+_MAP = {'terrain': None, 'tried': False, 'error': ''}
 
 
-def map_photo(width, height, master):
-    src = map_background()
-    if not src:
+def map_terrain():
+    """原作地面（唯讀，載入一次共用）。載不到回 None。"""
+    if _MAP['tried']:
+        return _MAP['terrain']
+    _MAP['tried'] = True
+    if _shared_terrain is None:
+        _MAP['error'] = 'tactical_terrain 匯入失敗'
+        _map_debug('terrain FAILED: %s' % _MAP['error'])
         return None
-    key = (int(width), int(height))
-    if _MAP_ASSET['size'] != key or _MAP_ASSET['photo'] is None:
-        from PIL import ImageTk
-        _MAP_ASSET['photo'] = ImageTk.PhotoImage(src.resize(key), master=master)
-        _MAP_ASSET['size'] = key
-    return _MAP_ASSET['photo']
+    try:
+        started = time.monotonic()
+        terrain = _shared_terrain(warmup=True)
+        _MAP['terrain'] = terrain
+        _map_debug('terrain SanInet.mbm %sx%s tiles=%sx%s load=%.3fs' % (
+            terrain.size[0], terrain.size[1], terrain.tiles_x, terrain.tiles_y,
+            time.monotonic() - started))
+    except Exception as exc:  # noqa: BLE001
+        _MAP['terrain'] = None
+        _MAP['error'] = '%s: %s' % (type(exc).__name__, exc)
+        _map_debug('terrain FAILED: %s' % _MAP['error'])
+    return _MAP['terrain']
 
 
-WORLD_X, WORLD_Y = 101.0, 202.0
+def map_size():
+    terrain = map_terrain()
+    return terrain.size if terrain else None
 
 
-def map_project(xy, width, height):
-    x, y = xy
-    return (max(0.0, min(1.0, x / WORLD_X)) * width,
-            max(0.0, min(1.0, y / WORLD_Y)) * height)
+def map_error():
+    return _MAP['error'] or '缺少 app/assets/SanInet.mbm'
+
+
+def map_render(box, dw, dh):
+    """裁一塊原作地面（box 是 mbm 像素）並縮到 (dw, dh)。"""
+    terrain = map_terrain()
+    if terrain is None:
+        return None
+    try:
+        return terrain.crop_to(box, dw, dh)
+    except Exception as exc:  # noqa: BLE001
+        _map_debug('render failed box=%s %sx%s: %s: %s' % (
+            box, dw, dh, type(exc).__name__, exc))
+        return None
+
+
+def map_world_center():
+    """相機預設中心：原作地面的正中央（mbm 像素）。"""
+    size = map_size()
+    if not size:
+        return (0.0, 0.0)
+    return (size[0] / 2.0, size[1] / 2.0)
+
+
+def map_fit_scale(iw, ih, width, height):
+    """contain 倍率：整張底圖等比塞進畫布時的縮放倍率。"""
+    if iw <= 0 or ih <= 0 or width <= 0 or height <= 0:
+        return 1.0
+    return min(width / float(iw), height / float(ih))
+
+
+def map_camera(iw, ih, width, height, zoom, cx=None, cy=None):
+    """地圖相機（純函式，不改任何狀態）。
+
+    規則（0.2.29 修正後的單一模型，戰場頁與外部指令頁共用）：
+      * ``scale = contain 倍率 × zoom``：底圖永遠等比縮放 → 不會變形。
+      * ``zoom=1``：整張底圖可見並置中（contain，兩側留邊）。
+      * 畫布看到的底圖範圍 = 畫布範圍 ÷ scale（不再被畫布長寬比硬切），
+        所以 1.0 → 1.2 → 1.44 … 倍率連續，不會突然跳版。
+      * 相機中心會被夾住：可見範圍塞得下時夾在底圖內，否則回到置中。
+
+    回傳 dict：fit/scale/zoom、cx/cy（實際相機中心，底圖像素）、
+    want_cx/want_cy（使用者要求的中心，只夾在底圖範圍內）、
+    box（可見底圖區塊 left,top,right,bottom）、draw（圖塊畫在畫布的 x,y,w,h）、
+    view（可見範圍大小，底圖像素）。
+    """
+    fit = map_fit_scale(iw, ih, width, height)
+    zoom = max(MAP_MIN_ZOOM, float(zoom))
+    scale = fit * zoom
+    half_w = width / (2.0 * scale)
+    half_h = height / (2.0 * scale)
+    want_x = iw / 2.0 if cx is None else min(max(float(cx), 0.0), float(iw))
+    want_y = ih / 2.0 if cy is None else min(max(float(cy), 0.0), float(ih))
+    if half_w * 2.0 >= iw:
+        eff_x = iw / 2.0
+    else:
+        eff_x = min(max(want_x, half_w), iw - half_w)
+    if half_h * 2.0 >= ih:
+        eff_y = ih / 2.0
+    else:
+        eff_y = min(max(want_y, half_h), ih - half_h)
+    left = max(0.0, eff_x - half_w)
+    right = min(float(iw), eff_x + half_w)
+    top = max(0.0, eff_y - half_h)
+    bottom = min(float(ih), eff_y + half_h)
+    return {
+        'fit': fit, 'scale': scale, 'zoom': zoom, 'iw': iw, 'ih': ih,
+        'cx': eff_x, 'cy': eff_y, 'want_cx': want_x, 'want_cy': want_y,
+        'box': (left, top, right, bottom),
+        'draw': (width / 2.0 + (left - eff_x) * scale,
+                 height / 2.0 + (top - eff_y) * scale,
+                 (right - left) * scale, (bottom - top) * scale),
+        'view': (width / scale, height / scale),
+    }
+
+
+def map_project(xy, cam, width, height):
+    """世界格 → 畫布座標（城池方塊、名稱、部隊都走這裡）。
+
+    原作地面是 48×24 的**交錯菱格**，不是線性縮放：``world_pixel`` 給的是
+    格子中心，奇數列整排右移 48 px。舊版用 ``x / WORLD_X * 底圖寬`` 投影，
+    城池方塊會跟地形差一格（越往東南差越多）。
+    """
+    if _world_pixel is None:
+        return (-1e6, -1e6)
+    px, py = _world_pixel(float(xy[0]), float(xy[1]))
+    return (width / 2.0 + (px - cam['cx']) * cam['scale'],
+            height / 2.0 + (py - cam['cy']) * cam['scale'])
+
+
+def map_unproject(px, py, cam, width, height):
+    """畫布座標 → mbm 像素（點擊用；城池命中仍然走 _cmd_map_hits）。"""
+    return (cam['cx'] + (px - width / 2.0) / cam['scale'],
+            cam['cy'] + (py - height / 2.0) / cam['scale'])
+
+
+def map_xy(value):
+    """城池／部隊座標 → (x, y)；不合法回 None。
+
+    一筆壞座標（None、字串、NaN、負值）不該讓整張地圖畫不出來——舊版直接
+    ``xy[0] < 0`` 比較，遇到字串或 None 就拋 TypeError，整張圖變成空白。
+    """
+    if not isinstance(value, (list, tuple)) or len(value) < 2:
+        return None
+    try:
+        x, y = float(value[0]), float(value[1])
+    except (TypeError, ValueError):
+        return None
+    if x != x or y != y:          # NaN
+        return None
+    if x < 0 and y < 0:
+        return None
+    return x, y
+
+
+def wheel_steps(delta):
+    """滾輪 / 觸控板 → 縮放步數（1 步 = ×1.2）。
+
+    實體滾輪一格通常是 ±120（X11/Windows）→ 1 步；macOS 觸控板給很多
+    個 ±1 的小事件 → 每個事件 1 步。舊版只看正負號，所以一個手勢會
+    連跳十幾格，縮放像失控。
+    """
+    try:
+        delta = float(delta)
+    except (TypeError, ValueError):
+        return 0.0
+    if delta == 0.0:
+        return 0.0
+    if abs(delta) >= 60.0:
+        return max(-3.0, min(3.0, delta / 120.0))
+    return max(-1.0, min(1.0, delta))
+
+
+def map_zoom(zoom):
+    try:
+        zoom = float(zoom)
+    except (TypeError, ValueError):
+        return MAP_MIN_ZOOM
+    return max(MAP_MIN_ZOOM, min(MAP_MAX_ZOOM, zoom))
 
 
 def wall_text(value):
@@ -409,7 +565,8 @@ class FengyeWindow(OmniWindow):
         self.cmd_preset.bind('<<ComboboxSelected>>', lambda _e: self._cmd_rebuild_params())
         self.cmd_params = tk.Frame(box, bg=DAMASK)
         self.cmd_params.pack(fill='x', padx=12, pady=4)
-        self.cmd_map = tk.Canvas(box, height=160, bg='#e8ecdf', highlightthickness=1,
+        # 2026-10-20：底圖換成原作地面（2:1），畫布加高一點，整張地圖才不會縮成一條。
+        self.cmd_map = tk.Canvas(box, height=250, bg=MAP_FILL, highlightthickness=1,
                                  highlightbackground='#b9c2ad')
         self.cmd_map.pack(fill='x', padx=12, pady=(8, 2))
         self.cmd_map.bind('<Button-1>', self._cmd_map_click)
@@ -583,40 +740,68 @@ class FengyeWindow(OmniWindow):
         self._cmd_note('請在全景地圖上單擊要建設的城池（只認城關，不會送任何遊戲輸入）')
 
     def _fit_map(self, width, height):
-        """整張世界地圖等比置中（contain），回傳 (photo, ox, oy, w2, h2, iw, ih)。"""
-        src = map_background()
-        if not src:
+        """外部指令頁地圖：整張原作地面等比置中（contain，zoom=1）。
+
+        跟戰場頁共用同一套相機（map_camera）與投影（map_project），所以兩個
+        分頁的城池座標規則完全一致；外部指令頁固定 zoom=1（不做縮放互動）。
+        """
+        size = map_size()
+        if not size:
             return None
         from PIL import ImageTk
-        iw, ih = src.size
-        fit = min(width / float(iw), height / float(ih))
-        w2 = max(1, int(round(iw * fit)))
-        h2 = max(1, int(round(ih * fit)))
-        key = ('fit', w2, h2)
+        iw, ih = size
+        cam = map_camera(iw, ih, width, height, 1.0)
+        left, top, right, bottom = cam['box']
+        x0 = max(0, min(iw - 1, int(round(left))))
+        y0 = max(0, min(ih - 1, int(round(top))))
+        x1 = max(x0 + 1, min(iw, int(round(right))))
+        y1 = max(y0 + 1, min(ih, int(round(bottom))))
+        w2 = max(1, int(round(cam['draw'][2])))
+        h2 = max(1, int(round(cam['draw'][3])))
+        key = ('fit', x0, y0, x1, y1, w2, h2)
         photos = getattr(self, '_fit_photos', None)
         if photos is None:
             photos = self._fit_photos = {}
         photo = photos.get(key)
         if photo is None:
-            photo = ImageTk.PhotoImage(src.resize((w2, h2)), master=self.root)
+            img = map_render((x0, y0, x1, y1), w2, h2)
+            if img is None:
+                return None
+            photo = ImageTk.PhotoImage(img, master=self.root)
             photos[key] = photo
-        return photo, (width - w2) / 2.0, (height - h2) / 2.0, w2, h2, iw, ih
+            while len(photos) > 8:
+                photos.pop(next(iter(photos)))
+        return {'photo': photo, 'ox': cam['draw'][0], 'oy': cam['draw'][1],
+                'w2': w2, 'h2': h2, 'iw': iw, 'ih': ih, 'cam': cam}
 
     def _cmd_draw_map(self):
         canvas = getattr(self, 'cmd_map', None)
         if canvas is None:
             return
+        canvas.delete('all')
+        width, height = self._canvas_size(canvas, 320, 120, (640, 170))
+        try:
+            self._cmd_paint_map(canvas, width, height)
+        except Exception as exc:  # noqa: BLE001
+            # 靜默失敗會留下一個全黑的畫布（使用者只看到「地圖不見了」），
+            # 所以這裡一律寫進 debug log 並在畫布上留訊息。
+            detail = traceback.format_exc()
+            _map_debug('cmd map FAILED: %s\n%s' % (exc, detail))
+            canvas.create_text(width / 2, height / 2,
+                               text='地圖繪製失敗：%s（詳見 /tmp/hub-map-debug.log）'
+                                    % type(exc).__name__,
+                               fill='#ffffff', font=(self.face, 11, 'bold'))
+
+    def _cmd_paint_map(self, canvas, width, height):
         data = getattr(self, 'cmd_targets_data', {}) or {}
         cities = data.get('cities') or []
-        canvas.delete('all')
-        width = max(320, canvas.winfo_width() or 640)
-        height = max(120, canvas.winfo_height() or 170)
         fit = self._fit_map(width, height)
         if fit is not None:
-            photo, ox, oy, w2, h2, iw, ih = fit
-            canvas.create_image(ox, oy, image=photo, anchor='nw')
+            canvas.create_image(fit['ox'], fit['oy'], image=fit['photo'], anchor='nw')
         else:
-            ox, oy, w2, h2 = 0.0, 0.0, width, height
+            canvas.create_text(width / 2, height / 2, text='地圖底圖不可用（%s）' % map_error(),
+                               fill='#ffffff', font=(self.face, 11, 'bold'))
+            return
         if not cities:
             canvas.create_text(width / 2, height / 2, text='尚未讀到城池（按「讀取目標與勢力」）',
                                fill='#ffffff', font=(self.face, 11, 'bold'))
@@ -629,11 +814,10 @@ class FengyeWindow(OmniWindow):
                 owners[row['force_id']] = row['nickname']
         self._cmd_map_hits = []
         for city in cities:
-            xy = city.get('xy') or []
-            if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
+            xy = map_xy(city.get('xy'))
+            if xy is None:
                 continue
-            px = ox + xy[0] / WORLD_X * w2
-            py = oy + xy[1] / WORLD_Y * h2
+            px, py = map_project(xy, fit['cam'], width, height)
             color = palette.get(city.get('owner'), '#444444')
             canvas.create_oval(px - 5, py - 5, px + 5, py + 5, fill=color, outline='#ffffff', width=1)
             label = '%s %s' % (city.get('name'), owners.get(city.get('owner'), ''))
@@ -704,6 +888,9 @@ class FengyeWindow(OmniWindow):
 
         def work():
             cells = self.command_service.free_cells(target['prefix'], city['xy'], force['force_id'])
+            # 已經排隊/剛送出的格子也要跳過，否則連點兩下會挑到同一格
+            busy = self.command_service.busy_build_cells()
+            cells = [c for c in cells if (int(c[0]), int(c[1])) not in busy]
 
             def show():
                 if cells:
@@ -715,7 +902,7 @@ class FengyeWindow(OmniWindow):
                                                          cells[0][0], cells[0][1]))
                     self._cmd_note('已選 %s，空地 (%s,%s)' % (city.get('name'), cells[0][0], cells[0][1]))
                 else:
-                    self._cmd_note('挑不到空地（或讀取失敗）')
+                    self._cmd_note('挑不到空地（城邊已滿或讀取失敗）')
             self.root.after(0, show)
         threading.Thread(target=work, daemon=True, name='cmd-cells').start()
 
@@ -870,9 +1057,11 @@ class FengyeWindow(OmniWindow):
                   command=self._battle_refresh).pack(side='left')
         tk.Button(bar, text='重畫地圖', bg=BG, fg=INK,
                   command=self._battle_redraw).pack(side='left', padx=8)
+        tk.Button(bar, text='復原視角（1x）', bg=BG, fg=INK,
+                  command=self._battle_reset_view).pack(side='left')
         self.battle_note = tk.Label(bar, text='尚未讀取', bg=DAMASK, fg=MUTED, anchor='w')
         self.battle_note.pack(side='left', padx=12)
-        self.battle_map = tk.Canvas(box, height=360, bg='#dfe6d3', highlightthickness=1,
+        self.battle_map = tk.Canvas(box, height=360, bg=MAP_FILL, highlightthickness=1,
                                     highlightbackground='#b9c2ad')
         self.battle_map.pack(fill='x', padx=10, pady=(4, 8))
         self.battle_map.bind('<Configure>', lambda _e: self._battle_redraw())
@@ -881,16 +1070,19 @@ class FengyeWindow(OmniWindow):
             self.control_book.bind('<<NotebookTabChanged>>', self._on_tab_changed)
         except Exception:  # noqa: BLE001
             pass
-        self.battle_zoom = float(os.environ.get('FENGYE_BATTLE_ZOOM') or 1.0)
+        self.battle_zoom = map_zoom(os.environ.get('FENGYE_BATTLE_ZOOM') or 1.0)
         self.battle_cx = None
         self.battle_cy = None
         self._battle_photo = None
         self._battle_photo_key = None
+        self._battle_photos = {}
+        self._canvas_sizes = {}
         self.battle_map.bind('<MouseWheel>', self._battle_wheel)
-        self.battle_map.bind('<Button-4>', lambda _e: self._battle_set_zoom(1.2))
-        self.battle_map.bind('<Button-5>', lambda _e: self._battle_set_zoom(1 / 1.2))
+        self.battle_map.bind('<Button-4>', lambda e: self._battle_set_zoom(1.2, anchor=(e.x, e.y)))
+        self.battle_map.bind('<Button-5>', lambda e: self._battle_set_zoom(1 / 1.2, anchor=(e.x, e.y)))
         self.battle_map.bind('<Enter>', lambda _e: self.battle_map.focus_set())
         self.battle_map.bind('<Button-1>', lambda _e: self.battle_map.focus_set())
+        self.battle_map.bind('<Double-Button-1>', lambda _e: self._battle_reset_view())
         self.battle_map.configure(takefocus=1)
         for key, dx, dy in (('w', 0, -1), ('W', 0, -1), ('s', 0, 1), ('S', 0, 1),
                             ('a', -1, 0), ('A', -1, 0), ('d', 1, 0), ('D', 1, 0)):
@@ -955,131 +1147,280 @@ class FengyeWindow(OmniWindow):
             self.root.after(0, show)
         threading.Thread(target=work, daemon=True, name='battle-refresh').start()
 
+    def _canvas_size(self, canvas, min_w, min_h, fallback=(720, 230)):
+        """畫布尺寸：分頁沒被選到（未映射）時沿用上次有效的尺寸。
+
+        舊版用 ``canvas.winfo_width() or 720``，未映射時 winfo_width() 回 1（不是 0），
+        會把地圖畫成 360 寬的窄條，切回分頁才會突然變寬 → 「版面不固定」。
+        """
+        try:
+            width = canvas.winfo_width()
+            height = canvas.winfo_height()
+        except Exception:  # noqa: BLE001
+            width = height = 1
+        key = str(canvas)
+        sizes = getattr(self, '_canvas_sizes', None)
+        if sizes is None:
+            sizes = self._canvas_sizes = {}
+        if width <= 1 or height <= 1:
+            last = sizes.get(key)
+            width, height = last if last else fallback
+        else:
+            sizes[key] = (width, height)
+        return max(min_w, int(width)), max(min_h, int(height))
+
     def _battle_draw_map(self, cities, units, name_of):
         self._battle_last = (list(cities or []), list(units or []), dict(name_of or {}))
         canvas = self.battle_map
         canvas.delete('all')
-        width = max(360, canvas.winfo_width() or 720)
-        height = max(160, canvas.winfo_height() or 230)
+        width, height = self._canvas_size(canvas, 360, 160, (720, 230))
+        try:
+            self._battle_paint_map(canvas, width, height, cities, units)
+        except Exception as exc:  # noqa: BLE001
+            _map_debug('battle map FAILED: %s\n%s' % (exc, traceback.format_exc()))
+            canvas.create_text(width / 2, height / 2,
+                               text='地圖繪製失敗：%s（詳見 /tmp/hub-map-debug.log）'
+                                    % type(exc).__name__,
+                               fill='#ffffff', font=(self.face, 11, 'bold'))
+
+    def _battle_paint_map(self, canvas, width, height, cities, units):
         view = self._battle_view(width, height)
         if view is None:
-            canvas.create_text(width / 2, height / 2, text='地圖底圖不可用（缺少 SanInet.lbm）',
+            canvas.create_text(width / 2, height / 2, text='地圖底圖不可用（%s）' % map_error(),
                                fill='#ffffff', font=(self.face, 11, 'bold'))
             return
-        photo, pos, project = view
-        item = canvas.create_image(pos[0], pos[1], image=photo, anchor='nw')
-        _map_debug('draw w=%s h=%s items=%s photo=%s pos=%s item=%s' % (
-            width, height, len(canvas.find_all()),
-            getattr(photo, 'width', lambda: '?')() if photo else None, pos, item))
-        pts = [c['xy'] for c in cities if c.get('xy')] + [u['xy'] for u in units if u.get('xy')]
-        if not pts:
-            canvas.create_text(width / 2, height / 2, text='沒有座標資料（尚未進圖？）',
-                               fill='#ffffff', font=(self.face, 11, 'bold'))
-            return
+        photo, pos, project, cam = view
+        canvas.create_image(pos[0], pos[1], image=photo, anchor='nw')
+        # 1x 時地圖比畫布窄，加一圈邊框才不會像「貼歪的圖」
+        canvas.create_rectangle(pos[0], pos[1], pos[0] + cam['draw'][2], pos[1] + cam['draw'][3],
+                                outline='#0f1710', width=1)
+        _map_debug('battle draw canvas=%sx%s layer=mbm zoom=%.3f scale=%.4f fit=%.4f '
+                   'cam=(%.1f,%.1f) want=(%.1f,%.1f) box=(%.1f,%.1f,%.1f,%.1f) '
+                   'draw=(%.1f,%.1f,%.1f,%.1f) photo=%sx%s items=%s' % (
+                       width, height, cam['zoom'], cam['scale'], cam['fit'],
+                       cam['cx'], cam['cy'], cam['want_cx'], cam['want_cy'],
+                       cam['box'][0], cam['box'][1], cam['box'][2], cam['box'][3],
+                       cam['draw'][0], cam['draw'][1], cam['draw'][2], cam['draw'][3],
+                       getattr(photo, 'width', lambda: '?')(), getattr(photo, 'height', lambda: '?')(),
+                       len(canvas.find_all())))
         palette = {1: '#c0392b', 2: '#2b5fa8', 3: '#2f7a3f', 4: '#8a5a1f', 5: '#6b3fa0',
                    6: '#a0457a', 7: '#1f7a7a', 8: '#7a5c1f', 9: '#4a4a9a'}
+        # 城池：方塊一定畫，名稱重疊就跳過（1x 一次 92 座，全畫會糊成一團）
+        labels = []
         for city in cities:
-            xy = city.get('xy') or []
-            if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
+            xy = map_xy(city.get('xy'))
+            if xy is None:
                 continue
             px, py = project(xy)
             if not (-20 <= px <= width + 20 and -20 <= py <= height + 20):
                 continue
             canvas.create_rectangle(px - 4, py - 4, px + 4, py + 4,
-                                    fill=palette.get(city.get('owner'), '#555555'), outline='#ffffff')
-            canvas.create_text(px, py - 9, text=str(city.get('name')), fill='#ffffff',
-                               font=(self.face, 9, 'bold'))
+                                    fill=palette.get(city.get('owner'), '#555555'),
+                                    outline='#ffffff')
+            name = str(city.get('name') or '')
+            if name and self._map_label_fits(labels, px, py, name, width, height):
+                self._map_label(canvas, px, py - 9, name)
         for unit in units:
-            xy = unit.get('xy') or []
-            if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
+            xy = map_xy(unit.get('xy'))
+            if xy is None:
                 continue
             px, py = project(xy)
             if not (-20 <= px <= width + 20 and -20 <= py <= height + 20):
                 continue
             canvas.create_oval(px - 3, py - 3, px + 3, py + 3,
-                               fill=palette.get(unit.get('owner'), '#333333'), outline='#ffe08a')
-        canvas.create_text(10, height - 10, anchor='sw',
-                           text='滾輪縮放 %.1fx · WASD 平移' % self.battle_zoom,
-                           fill='#ffffff', font=(self.face, 9))
+                               fill=palette.get(unit.get('owner'), '#333333'),
+                               outline='#ffe08a')
+        seen_x = min(100, round(cam['view'][0] / max(1.0, float(cam['iw'])) * 100))
+        seen_y = min(100, round(cam['view'][1] / max(1.0, float(cam['ih'])) * 100))
+        self._map_hint(canvas,
+                       '滾輪縮放 %.1fx（可見 %d%%×%d%%）· WASD 平移 · 雙擊復原' % (
+                           self.battle_zoom, seen_x, seen_y),
+                       width, height)
 
-    def _battle_view(self, width, height):
-        """回傳 (photo, pos, project)：pos=None 表示整張圖置中；否則為裁切檢視。"""
-        src = map_background()
-        if not src:
+    def _map_font(self, size=9, bold=True):
+        """地圖用的字型（快取，不要每次重畫都建一次）。"""
+        fonts = getattr(self, '_map_fonts', None)
+        if fonts is None:
+            fonts = self._map_fonts = {}
+        key = (size, bold)
+        font = fonts.get(key)
+        if font is None:
+            from tkinter import font as tkfont
+            try:
+                font = tkfont.Font(family=self.face, size=size,
+                                   weight='bold' if bold else 'normal')
+            except Exception:  # noqa: BLE001
+                font = (self.face, size, 'bold' if bold else 'normal')
+            fonts[key] = font
+        return font
+
+    def _map_label_fits(self, placed, px, py, text, width, height):
+        """名稱是否放得下：不壓到已經畫過的名稱、不出界。"""
+        font = self._map_font(9)
+        try:
+            tw = font.measure(text)
+            th = font.metrics('linespace')
+        except Exception:  # noqa: BLE001
+            tw, th = 9 * len(text), 12
+        left, right = px - tw / 2.0 - 1, px + tw / 2.0 + 1
+        top, bottom = py - th - 1, py + 1
+        if right < 0 or left > width or bottom < 0 or top > height:
+            return False
+        for other in placed:
+            if left < other[2] and other[0] < right and top < other[3] and other[1] < bottom:
+                return False
+        placed.append((left, top, right, bottom))
+        return True
+
+    def _map_label(self, canvas, px, py, text):
+        """白字加深色描邊（地形很花，單靠白字看不清楚）。"""
+        font = self._map_font(9)
+        for dx, dy in ((1, 1), (-1, 1), (1, -1)):
+            canvas.create_text(px + dx, py + dy, text=text, fill='#101a12', font=font)
+        canvas.create_text(px, py, text=text, fill='#ffffff', font=font)
+
+    def _map_hint(self, canvas, text, width, height):
+        """左下角操作提示：先鋪一條深色底，白字才看得見。"""
+        font = self._map_font(9, bold=False)
+        try:
+            tw = font.measure(text)
+            th = font.metrics('linespace')
+        except Exception:  # noqa: BLE001
+            tw, th = 9 * len(text), 14
+        x0, y0 = 8, height - th - 12
+        canvas.create_rectangle(x0, y0, x0 + tw + 14, y0 + th + 6,
+                                fill='#1d2a1f', outline='')
+        canvas.create_text(x0 + 7, y0 + 3, anchor='nw', text=text,
+                           fill='#eef3e6', font=font)
+
+    def _battle_geometry(self, width, height):
+        """戰場地圖的幾何（不碰 Tk 物件，方便測試）。
+
+        回傳 (key, pos, project, cam, crop)：
+          key   快取鍵（含裁切區與畫上畫布的尺寸）
+          pos   圖塊在畫布上的左上角
+          project 世界格 → 畫布座標
+          cam   相機（見 map_camera；單位是原作地面像素）
+          crop  (x0, y0, x1, y1, dw, dh)：裁哪一塊原作地面、畫多大
+        """
+        size = map_size()
+        if not size:
             return None
-        from PIL import ImageTk
-        iw, ih = src.size
-        zoom = max(1.0, self.battle_zoom)
-        fit = min(width / float(iw), height / float(ih))
-        if zoom <= 1.0001:
-            w2 = max(1, int(round(iw * fit)))
-            h2 = max(1, int(round(ih * fit)))
-            key = ('fit', w2, h2)
-            if key != self._battle_photo_key:
-                self._battle_photo = ImageTk.PhotoImage(src.resize((w2, h2)), master=self.battle_map)
-                self._battle_photo_key = key
-            ox, oy = (width - w2) / 2.0, (height - h2) / 2.0
-
-            def project(xy):
-                return (ox + xy[0] / WORLD_X * w2, oy + xy[1] / WORLD_Y * h2)
-
-            return self._battle_photo, (ox, oy), project
-        scale = fit * zoom
-        aspect = width / max(1.0, float(height))
-        vw, vh = width / scale, height / scale
-        # 保持畫布比例裁切（否則寬畫布會把地圖橫向拉長）
-        if vw > iw:
-            vw = float(iw)
-            vh = vw / aspect
-        if vh > ih:
-            vh = float(ih)
-            vw = vh * aspect
-        if self.battle_cx is None or self.battle_cy is None:
-            self.battle_cx, self.battle_cy = iw / 2.0, ih / 2.0
-        half_w, half_h = vw / 2.0, vh / 2.0
-        self.battle_cx = max(half_w, min(iw - half_w, self.battle_cx))
-        self.battle_cy = max(half_h, min(ih - half_h, self.battle_cy))
-        box = (self.battle_cx - half_w, self.battle_cy - half_h,
-               self.battle_cx + half_w, self.battle_cy + half_h)
-        key = ('crop', round(box[0], 2), round(box[1], 2), width, height)
-        if key != self._battle_photo_key:
-            crop = src.crop((int(box[0]), int(box[1]),
-                             max(int(box[0]) + 1, int(round(box[2]))),
-                             max(int(box[1]) + 1, int(round(box[3])))))
-            self._battle_photo = ImageTk.PhotoImage(crop.resize((width, height)), master=self.battle_map)
-            self._battle_photo_key = key
-        left, top, right, bottom = box
+        iw, ih = size
+        cam = map_camera(iw, ih, width, height, self.battle_zoom,
+                         self.battle_cx, self.battle_cy)
+        left, top, right, bottom = cam['box']
+        x0 = max(0, min(iw - 1, int(round(left))))
+        y0 = max(0, min(ih - 1, int(round(top))))
+        x1 = max(x0 + 1, min(iw, int(round(right))))
+        y1 = max(y0 + 1, min(ih, int(round(bottom))))
+        dw = max(1, int(round(cam['draw'][2])))
+        dh = max(1, int(round(cam['draw'][3])))
+        key = ('battle', iw, ih, x0, y0, x1, y1, dw, dh)
 
         def project(xy):
-            sx = xy[0] / WORLD_X * iw
-            sy = xy[1] / WORLD_Y * ih
-            return ((sx - left) / max(1e-6, right - left) * width,
-                    (sy - top) / max(1e-6, bottom - top) * height)
+            return map_project(xy, cam, width, height)
 
-        return self._battle_photo, (0.0, 0.0), project
+        return key, (cam['draw'][0], cam['draw'][1]), project, cam, (x0, y0, x1, y1, dw, dh)
+
+    def _battle_view(self, width, height):
+        """回傳 (photo, pos, project, cam)。
+
+        底圖一律等比（不變形）；zoom=1 整張置中；放大時只看得到畫布範圍 ÷ 倍率
+        那一塊原作地面，倍率連續、置中縮放不位移。
+        """
+        geo = self._battle_geometry(width, height)
+        if geo is None:
+            return None
+        key, pos, project, cam, crop = geo
+        from PIL import ImageTk
+        photo = self._battle_photos.get(key)
+        if photo is None:
+            x0, y0, x1, y1, dw, dh = crop
+            img = map_render((x0, y0, x1, y1), dw, dh)
+            if img is None:
+                return None
+            photo = ImageTk.PhotoImage(img, master=self.battle_map)
+            self._battle_photos[key] = photo
+            while len(self._battle_photos) > 8:
+                self._battle_photos.pop(next(iter(self._battle_photos)))
+        self._battle_photo = photo
+        self._battle_photo_key = key
+        return photo, pos, project, cam
 
     def _battle_set_zoom(self, factor, anchor=None):
-        self.battle_zoom = max(1.0, min(10.0, self.battle_zoom * factor))
-        self._battle_photo_key = None
+        """滾輪縮放：以**游標底下那一點**為軸等比縮放。
+
+        舊版兩個問題：
+          1. zoom<=1 走 contain、zoom>1 走「切畫布比例」分支，兩邊倍率對不上：
+             1.0→1.0002 會讓地圖從 1.03x 突然跳成 1.72x（畫面整個被拉走）。
+          2. 以畫布中心為軸：游標在上半部時，一放大內容就往游標下方滑走，
+             使用者看到的就是「一滾地圖就往下移」。
+        現在只有一條路徑：scale = contain 倍率 × zoom，而且縮放軸跟著游標
+        （沒有游標座標時才用畫布中心）。
+        """
+        try:
+            factor = float(factor)
+        except (TypeError, ValueError):
+            return
+        if not factor > 0:
+            return
+        size = map_size()
+        width, height = self._canvas_size(self.battle_map, 360, 160, (720, 230))
+        before = self.battle_zoom
+        after = map_zoom(before * factor)
+        if size and anchor is not None and after != before:
+            iw, ih = size
+            cam = map_camera(iw, ih, width, height, before,
+                             self.battle_cx, self.battle_cy)
+            ax, ay = float(anchor[0]), float(anchor[1])
+            mx, my = map_unproject(ax, ay, cam, width, height)
+            scale = cam['fit'] * after
+            # 讓 (mx,my) 縮放後仍然落在游標那一點
+            self.battle_cx = min(max(mx - (ax - width / 2.0) / scale, 0.0), float(iw))
+            self.battle_cy = min(max(my - (ay - height / 2.0) / scale, 0.0), float(ih))
+        self.battle_zoom = after
+        _map_debug('battle zoom %.3f -> %.3f (factor=%.3f anchor=%s) cam=(%.1f,%.1f)' % (
+            before, after, factor, anchor, self.battle_cx or 0.0, self.battle_cy or 0.0))
         self._battle_redraw()
 
     def _battle_wheel(self, event):
-        delta = getattr(event, 'delta', 0) or 0
-        if delta == 0:
-            return 'break'
-        factor = 1.2 if delta > 0 else 1 / 1.2
-        self._battle_set_zoom(factor)
+        """滾輪：把 delta 換成步數（1 步 = ×1.2），一個手勢不再連跳十幾格。"""
+        steps = wheel_steps(getattr(event, 'delta', 0) or 0)
+        if steps:
+            self._battle_set_zoom(1.2 ** steps,
+                                  anchor=(getattr(event, 'x', 0), getattr(event, 'y', 0)))
         return 'break'
 
     def _battle_pan(self, dx, dy):
-        src = map_background()
-        if src is None:
+        """WASD 平移：每次移動「可見範圍」的 10%，並夾在地圖邊界內。
+
+        舊版用固定的 ``0.1 * 底圖高 / zoom``，在寬畫布上步幅跟畫面脫節；
+        而且平移量沒有跟可見範圍綁定，越界時相機被硬夾 → 感覺「按了沒反應」。
+        """
+        size = map_size()
+        if size is None:
             return
-        iw, ih = src.size
-        step = 0.10 * ih / max(1.0, self.battle_zoom)
-        self.battle_cx = (self.battle_cx or iw / 2.0) + dx * step
-        self.battle_cy = (self.battle_cy or ih / 2.0) + dy * step
-        self._battle_photo_key = None
+        iw, ih = size
+        width, height = self._canvas_size(self.battle_map, 360, 160, (720, 230))
+        cam = map_camera(iw, ih, width, height, self.battle_zoom,
+                         self.battle_cx, self.battle_cy)
+        step_x = 0.10 * cam['view'][0]
+        step_y = 0.10 * cam['view'][1]
+        base_x = self.battle_cx if self.battle_cx is not None else iw / 2.0
+        base_y = self.battle_cy if self.battle_cy is not None else ih / 2.0
+        self.battle_cx = min(max(base_x + dx * step_x, 0.0), float(iw))
+        self.battle_cy = min(max(base_y + dy * step_y, 0.0), float(ih))
+        _map_debug('battle pan dx=%s dy=%s step=(%.1f,%.1f) cam=(%.1f,%.1f) zoom=%.3f' % (
+            dx, dy, step_x, step_y, self.battle_cx, self.battle_cy, self.battle_zoom))
+        self._battle_redraw()
+
+    def _battle_reset_view(self):
+        """復原視角：1x 整張地圖置中（相機回到原作地面中心）。"""
+        self.battle_zoom = MAP_MIN_ZOOM
+        self.battle_cx, self.battle_cy = map_world_center()
+        _map_debug('battle reset view -> zoom=1.0 cam=(%.1f,%.1f)' % (
+            self.battle_cx, self.battle_cy))
         self._battle_redraw()
 
     def _battle_key(self, dx, dy):
@@ -1102,6 +1443,9 @@ class FengyeWindow(OmniWindow):
         last = getattr(self, '_battle_last', None)
         if last:
             self._battle_draw_map(*last)
+        else:
+            # 還沒讀到遊戲資料也要能看地圖（縮放不需要遊戲資料）。
+            self._battle_draw_map([], [], {})
 
     def _build_room_controls(self):
         box = self._box(self.room_control_page, '風夜進房與準備')

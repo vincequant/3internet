@@ -36,6 +36,9 @@ RECEIPT_MAGIC2 = 0x53365243
 PRESETS = ('train', 'alms', 'rice', 'build', 'personnel', 'phaseend')
 BUILD_TYPES = {4: '火計', 5: '落石', 6: '陷阱', 7: '練兵所', 8: '牧場', 9: '弓工坊'}
 TROOPS = {0: '步兵', 1: '騎兵', 2: '弓兵'}
+# 佔用格子的說法（去重用；同一格只能有一個物件）
+OCCUPIED_TEXT = {'building': '建築', 'trap': '陷阱', 'city': '城池/關卡'}
+BUSY_STATUS = ('arming', 'queued', 'firing', 'armed_waiting')
 
 # client prefix -> label shown in the panel
 TARGETS = (
@@ -67,6 +70,7 @@ class CommandService:
         self.lock = threading.Lock()
         self._cache = {}
         self._cache_at = 0.0
+        self._occupied = {}          # prefix -> (at, {(x,y): kind})
 
     # ------------------------------------------------------------------ utils
     def _env(self, prefix):
@@ -198,6 +202,79 @@ class CommandService:
                         [str(pid), str(city_xy[0]), str(city_xy[1]), str(force)])
         return [c['xy'] for c in data.get('candidates') or []]
 
+    # ------------------------------------------------------- 佔用格（去重複用）
+    def occupied_cells(self, prefix, ttl=6.0, refresh=False):
+        """客戶端上已經有東西的格子：{(x,y): 'building'|'trap'|'city'}。
+
+        2026-10-20：遊戲的建造函式（0x4515a8 的 4/5/6 分支）建物件前**不查**
+        目標格是否已被佔用，所以同一格重複下指令會疊出兩個陷阱（畫面上就是
+        疊起來的兩三條血條）。這裡先讀一次佔用表，指令就不會再疊上去。
+        """
+        now = time.time()
+        cached = self._occupied.get(prefix)
+        if cached and not refresh and now - cached[0] < ttl:
+            return cached[1]
+        pid = self.pid(prefix)
+        if not pid:
+            return dict(cached[1]) if cached else {}
+        data = self._py(prefix, self.z + '\\tools\\_p60_occupied.py', [str(pid)])
+        if not data.get('ok'):
+            # 讀不到就沿用舊表（寧可保守），完全沒有就回空
+            return dict(cached[1]) if cached else {}
+        cells = {}
+        for row in data.get('occupied') or []:
+            xy = row.get('xy') or []
+            if len(xy) == 2:
+                cells[(int(xy[0]), int(xy[1]))] = row.get('kind') or 'building'
+        self._occupied[prefix] = (now, cells)
+        return dict(cells)
+
+    def busy_build_cells(self):
+        """已經排進佇列或剛送出、還沒看到結果的建設格：{(x,y): 說明}。
+
+        陷阱要等下一個回合結算才真的出現在記憶體裡，光看佔用表擋不住
+        「連點兩下」——所以佇列與進行中的 job 也要算進去。
+        """
+        busy = {}
+        with self.lock:
+            queue = list(self.queue)
+            jobs = list(self.jobs)
+        for item in queue:
+            if item.get('preset') != 'build':
+                continue
+            xy = self._job_xy(item)
+            if xy:
+                busy[xy] = '已在佇列（#%s）' % item.get('id')
+        for job in jobs:
+            if job.get('preset') != 'build' or job.get('status') not in BUSY_STATUS:
+                continue
+            xy = self._job_xy(job.get('params') or {})
+            if xy and xy not in busy:
+                busy[xy] = '剛送出（#%s，%s）' % (job.get('id'), job.get('status'))
+        return busy
+
+    @staticmethod
+    def _job_xy(item):
+        try:
+            return (int(item.get('x')), int(item.get('y')))
+        except (TypeError, ValueError):
+            return None
+
+    def build_blocker(self, payload):
+        """這一格為什麼不能再蓋：回傳說明字串，可以蓋就回 None。"""
+        xy = self._job_xy(payload)
+        if xy is None:
+            return '建設座標不完整'
+        busy = self.busy_build_cells().get(xy)
+        if busy:
+            return '(%s,%s) %s，不重複疊加' % (xy[0], xy[1], busy)
+        prefix = payload.get('prefix')
+        kind = self.occupied_cells(prefix).get(xy) if prefix else None
+        if kind:
+            return '(%s,%s) 已經有%s，不再疊加' % (
+                xy[0], xy[1], OCCUPIED_TEXT.get(kind, '物件'))
+        return None
+
     # ----------------------------------------------------------------- sending
     def _ghost_home_slot(self, default=5):
         """風夜的家=無勢力席位；以現行 slotkeep 的 --slot 為準，讀不到就回 5。"""
@@ -263,12 +340,14 @@ class CommandService:
                      '--target', str(int(job.get('target_id', -1)))]
         return args, flag, receipt
 
-    def validate(self, payload, info):
+    def validate(self, payload, info, occupied=None):
         """Refuse commands that are known to be invalid (and have crashed clients).
 
         2026-10-19 22:17: one build with actor=0/city=0/xy=(0,0) produced an AV at
         0x44C156 in all three clients at the round settlement. The panel must
         never send that shape again.
+        2026-10-20: 同一格不重複建設——遊戲建物件前不查佔用，重複下就會疊出
+        第二個陷阱（畫面疊兩三條血條）。
         """
         preset = payload.get('preset')
         forces = {f['force_id'] for f in info.get('forces') or []}
@@ -297,6 +376,16 @@ class CommandService:
                 return '座標 (%s,%s) 離城太遠（城在 %s,%s）' % (x, y, bx, by)
             if (x, y) == (bx, by):
                 return '不能蓋在城池格上'
+            busy = self.busy_build_cells().get((x, y))
+            if busy:
+                return '(%s,%s) %s，不重複疊加' % (x, y, busy)
+            if occupied is None:
+                prefix = payload.get('prefix')
+                occupied = self.occupied_cells(prefix) if prefix else {}
+            kind = occupied.get((x, y))
+            if kind:
+                return '(%s,%s) 已經有%s，不再疊加' % (
+                    x, y, OCCUPIED_TEXT.get(kind, '物件'))
         if preset == 'personnel':
             if int(payload.get('target_id') or -1) < 0:
                 return '人事命令需要武將 id'
