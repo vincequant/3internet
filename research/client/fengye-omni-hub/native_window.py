@@ -41,17 +41,28 @@ MUTED, WARN, BG = '#657985', '#a13b42', '#e6eef2'
 _MAP_ASSET = {'src': None, 'photo': None, 'size': None}
 
 
+def _map_debug(text):
+    try:
+        with open('/tmp/hub-map-debug.log', 'a', encoding='utf-8') as fh:
+            fh.write(text + '\n')
+    except OSError:
+        pass
+
+
 def map_background():
     if _MAP_ASSET['src'] is None:
         try:
             from PIL import Image
             here = Path(__file__).resolve().parent
             candidates = [here / 'app' / 'assets' / 'SanInet.lbm',
-                          here / 'assets' / 'SanInet.lbm']
+                          here / 'assets' / 'SanInet.lbm',
+                          here / 'SanInet.lbm']
             path = next((c for c in candidates if c.exists()), candidates[0])
             _MAP_ASSET['src'] = Image.open(path).convert('RGB')
-        except Exception:  # noqa: BLE001
+            _map_debug('loaded %s %s' % (path, _MAP_ASSET['src'].size))
+        except Exception as exc:  # noqa: BLE001
             _MAP_ASSET['src'] = False
+            _map_debug('FAILED: %s: %s' % (type(exc).__name__, exc))
     return _MAP_ASSET['src']
 
 
@@ -571,6 +582,26 @@ class FengyeWindow(OmniWindow):
             pass
         self._cmd_note('請在全景地圖上單擊要建設的城池（只認城關，不會送任何遊戲輸入）')
 
+    def _fit_map(self, width, height):
+        """整張世界地圖等比置中（contain），回傳 (photo, ox, oy, w2, h2, iw, ih)。"""
+        src = map_background()
+        if not src:
+            return None
+        from PIL import ImageTk
+        iw, ih = src.size
+        fit = min(width / float(iw), height / float(ih))
+        w2 = max(1, int(round(iw * fit)))
+        h2 = max(1, int(round(ih * fit)))
+        key = ('fit', w2, h2)
+        photos = getattr(self, '_fit_photos', None)
+        if photos is None:
+            photos = self._fit_photos = {}
+        photo = photos.get(key)
+        if photo is None:
+            photo = ImageTk.PhotoImage(src.resize((w2, h2)), master=self.root)
+            photos[key] = photo
+        return photo, (width - w2) / 2.0, (height - h2) / 2.0, w2, h2, iw, ih
+
     def _cmd_draw_map(self):
         canvas = getattr(self, 'cmd_map', None)
         if canvas is None:
@@ -580,9 +611,12 @@ class FengyeWindow(OmniWindow):
         canvas.delete('all')
         width = max(320, canvas.winfo_width() or 640)
         height = max(120, canvas.winfo_height() or 170)
-        photo = map_photo(width, height, canvas)
-        if photo is not None:
-            canvas.create_image(0, 0, image=photo, anchor='nw')
+        fit = self._fit_map(width, height)
+        if fit is not None:
+            photo, ox, oy, w2, h2, iw, ih = fit
+            canvas.create_image(ox, oy, image=photo, anchor='nw')
+        else:
+            ox, oy, w2, h2 = 0.0, 0.0, width, height
         if not cities:
             canvas.create_text(width / 2, height / 2, text='尚未讀到城池（按「讀取目標與勢力」）',
                                fill='#ffffff', font=(self.face, 11, 'bold'))
@@ -598,7 +632,8 @@ class FengyeWindow(OmniWindow):
             xy = city.get('xy') or []
             if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
                 continue
-            px, py = map_project(xy, width, height)
+            px = ox + xy[0] / WORLD_X * w2
+            py = oy + xy[1] / WORLD_Y * h2
             color = palette.get(city.get('owner'), '#444444')
             canvas.create_oval(px - 5, py - 5, px + 5, py + 5, fill=color, outline='#ffffff', width=1)
             label = '%s %s' % (city.get('name'), owners.get(city.get('owner'), ''))
@@ -833,12 +868,19 @@ class FengyeWindow(OmniWindow):
         bar.pack(fill='x', padx=10, pady=(10, 4))
         tk.Button(bar, text='更新戰場資料', bg='#cbe7e4', fg='#164d51',
                   command=self._battle_refresh).pack(side='left')
+        tk.Button(bar, text='重畫地圖', bg=BG, fg=INK,
+                  command=self._battle_redraw).pack(side='left', padx=8)
         self.battle_note = tk.Label(bar, text='尚未讀取', bg=DAMASK, fg=MUTED, anchor='w')
         self.battle_note.pack(side='left', padx=12)
         self.battle_map = tk.Canvas(box, height=360, bg='#dfe6d3', highlightthickness=1,
                                     highlightbackground='#b9c2ad')
         self.battle_map.pack(fill='x', padx=10, pady=(4, 8))
         self.battle_map.bind('<Configure>', lambda _e: self._battle_redraw())
+        self.battle_map.bind('<Map>', lambda _e: self.root.after(40, self._battle_redraw))
+        try:
+            self.control_book.bind('<<NotebookTabChanged>>', self._on_tab_changed)
+        except Exception:  # noqa: BLE001
+            pass
         self.battle_zoom = float(os.environ.get('FENGYE_BATTLE_ZOOM') or 1.0)
         self.battle_cx = None
         self.battle_cy = None
@@ -925,7 +967,10 @@ class FengyeWindow(OmniWindow):
                                fill='#ffffff', font=(self.face, 11, 'bold'))
             return
         photo, pos, project = view
-        canvas.create_image(pos[0], pos[1], image=photo, anchor='nw')
+        item = canvas.create_image(pos[0], pos[1], image=photo, anchor='nw')
+        _map_debug('draw w=%s h=%s items=%s photo=%s pos=%s item=%s' % (
+            width, height, len(canvas.find_all()),
+            getattr(photo, 'width', lambda: '?')() if photo else None, pos, item))
         pts = [c['xy'] for c in cities if c.get('xy')] + [u['xy'] for u in units if u.get('xy')]
         if not pts:
             canvas.create_text(width / 2, height / 2, text='沒有座標資料（尚未進圖？）',
@@ -980,8 +1025,15 @@ class FengyeWindow(OmniWindow):
 
             return self._battle_photo, (ox, oy), project
         scale = fit * zoom
+        aspect = width / max(1.0, float(height))
         vw, vh = width / scale, height / scale
-        vw = min(vw, float(iw)); vh = min(vh, float(ih))
+        # 保持畫布比例裁切（否則寬畫布會把地圖橫向拉長）
+        if vw > iw:
+            vw = float(iw)
+            vh = vw / aspect
+        if vh > ih:
+            vh = float(ih)
+            vw = vh * aspect
         if self.battle_cx is None or self.battle_cy is None:
             self.battle_cx, self.battle_cy = iw / 2.0, ih / 2.0
         half_w, half_h = vw / 2.0, vh / 2.0
@@ -1035,6 +1087,16 @@ class FengyeWindow(OmniWindow):
             self._battle_pan(dx, dy)
             return 'break'
         return handler
+
+    def _on_tab_changed(self, event=None):
+        try:
+            current = str(self.control_book.select())
+            if current == str(self.battle_page):
+                self.root.after(60, self._battle_redraw)
+            elif current == str(self.command_page):
+                self.root.after(60, self._cmd_draw_map)
+        except Exception:  # noqa: BLE001
+            pass
 
     def _battle_redraw(self):
         last = getattr(self, '_battle_last', None)
@@ -2127,7 +2189,16 @@ class FengyeWindow(OmniWindow):
             else:
                 headline = '風夜還在大廳，尚未進入房間。'
         else:
-            headline = '風夜尚未進房 · 先請房主建房，再讓風夜進房。'
+            # 2026-10-20：幽靈是「影子實體客戶端」時，房間 probe 通常已收線，
+            # 但它的進程與局內資料仍在——用外部指令的同一個讀取結果判斷「在局中」。
+            cmd = getattr(self, 'cmd_targets_data', None) or {}
+            live = any(t.get('alive') for t in (cmd.get('targets') or [])
+                       if '風夜' in str(t.get('label')))
+            phase = cmd.get('phase')
+            if live and isinstance(phase, int) and phase >= 0:
+                headline = '✅ 風夜已在局中（監聽中；%s）' % (cmd.get('phase_text') or ('phase=%s' % phase))
+            else:
+                headline = '風夜尚未進房 · 先請房主建房，再讓風夜進房。'
         self.console_state.configure(text=headline)
         try:
             validate_control({'op': 'chat', 'text': self.chat_input.get('1.0', 'end-1c')})

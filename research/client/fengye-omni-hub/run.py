@@ -45,6 +45,9 @@ def main():
         # 2026-10-20: 驗收用；指定初始分頁（例如 FENGYE_START_TAB=外部指令）。
         start_tab = os.environ.get('FENGYE_START_TAB')
         if start_tab:
+            names = [app.control_book.tab(tid, 'text') for tid in app.control_book.tabs()]
+            open('/tmp/hub-tab-debug.log', 'a', encoding='utf-8').write(
+                'start_tab=%r tabs=%r\n' % (start_tab, names))
             for tid in app.control_book.tabs():
                 if app.control_book.tab(tid, 'text') == start_tab:
                     app.control_book.select(tid)
