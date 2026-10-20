@@ -75,9 +75,8 @@ class CommandService:
         self.z = 'Z:\\Users\\vk\\sgi-fengye-lab\\shadow'
         self.jobs = []
         self.pre_seat = None
-        # 2026-10-21：開局前上身建立身份後，開局完成就自動切回無勢力（slot 5）；
-        # 身份已實測可跨席位／跨回合保留，所以回 5 不影響之後下單。
-        self.auto_restore_after_start = True
+        # 2026-10-21 使用者定案：改為「開局綁定某個玩家」，不再開局自動切回無勢力。
+        self.auto_restore_after_start = False
         self.auto_restore_delay = 8.0
         self._restored_games = set()
         self._game_seen_at = {}

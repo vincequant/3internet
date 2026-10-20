@@ -108,6 +108,8 @@ class QueueTests(unittest.TestCase):
     def test_auto_restore_only_after_a_preseat_game_starts(self):
         # 2026-10-21：開局前上身 → 開局後自動切回 5；每局只做一次。
         key = INFO['game_key']
+        # 2026-10-21：預設已改成「不自動回無勢力」，這個測試要顯式打開。
+        self.svc.auto_restore_after_start = True
         self.svc.pre_seat = {'slot': 1, 'game_key': key, 'at': 0.0}
         started = dict(INFO, local={'force_id': 3, 'slot': 1}, phase=1)
         self.assertTrue(self.svc.should_auto_restore(started))

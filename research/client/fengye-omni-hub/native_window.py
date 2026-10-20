@@ -584,6 +584,10 @@ class FengyeWindow(OmniWindow):
         self._build_local_controls()
         # 2026-10-19 用戶要求：只留一頁聊天歷史；其餘兩頁隱藏（元件保留，避免既有刷新路徑失效）。
         self.control_book.hide(self.chat_control_page)
+        # 2026-10-21 使用者決定：不再從 Hub 下單，改在遊戲客戶端操作 → 這兩頁下架
+        for tab in self.control_book.tabs():
+            if self.control_book.tab(tab, 'text') in ('外部指令', '戰場'):
+                self.control_book.hide(tab)
         for tab in self.control_book.tabs():
             if self.control_book.tab(tab, 'text') == '玩家與遊戲':
                 self.control_book.hide(tab)
@@ -1068,9 +1072,14 @@ class FengyeWindow(OmniWindow):
         tk.Label(pre, text='開局前上身（風夜席位）', bg=DAMASK, fg=INK,
                  font=(self.face, 11, 'bold')).pack(side='left')
         self.pre_seat_value = tk.StringVar(value='0')
+        self.bind_choice = tk.StringVar(value='玩家 1（slot 0）')
+        self.bind_box = ttk.Combobox(
+            pre, textvariable=self.bind_choice, width=18, state='readonly',
+            values=['無勢力（不綁定）'] + ['玩家 %d（slot %d）' % (i + 1, i) for i in range(8)])
+        self.bind_box.pack(side='left', padx=(6, 0))
         self.pre_seat_hint = tk.Label(
             pre, bg=DAMASK, fg=INK, anchor='w',
-            text='默認：一鍵完成後自動上身 slot 0 → 開局 8 秒後自動回無勢力')
+            text='一鍵完成後自動綁定到這個玩家；選「無勢力」就不綁。')
         self.pre_seat_hint.pack(side='left', padx=(10, 0))
         self.pre_seat_label = tk.Label(pre, bg=DAMASK, fg=MUTED, anchor='w',
                                        text='0–7 是「席位」不是勢力；每局勢力隨機，套用後這裡會顯示 0→勢力X。')
@@ -1423,12 +1432,27 @@ class FengyeWindow(OmniWindow):
 
         threading.Thread(target=work, daemon=True, name='auto-seat').start()
 
-    def _auto_seat_now(self):
-        """立刻把風夜坐進所選席位（開局前上身）。"""
+    def bind_slot(self):
+        """回傳要綁定的 slot；選「無勢力」時回 None。"""
+        choice = (self.bind_choice.get() or '').strip()
+        if choice.startswith('無勢力'):
+            return None
+        import re as _re
+        found = _re.search(r'slot\s*(\d)', choice)
+        if found:
+            return int(found.group(1))
         try:
-            slot = int(self.pre_seat_value.get())
+            return int(self.pre_seat_value.get())
         except (TypeError, ValueError):
-            slot = 0
+            return 0
+
+    def _auto_seat_now(self):
+        """立刻把風夜綁進所選席位（開局前上身）。"""
+        slot = self.bind_slot()
+        if slot is None:
+            self.pre_seat_label.configure(text='開局綁定：無勢力（不綁定）')
+            return
+        self.pre_seat_value.set(str(slot))
         self.pre_seat_label.configure(
             text='進房後自動上身：切到 slot %d…（約 10 秒）' % slot)
 
