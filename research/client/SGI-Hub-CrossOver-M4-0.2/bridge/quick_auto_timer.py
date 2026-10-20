@@ -1,7 +1,4 @@
-"""One source-bound +30s attempt per original input stage.
-
-2026-10-21 使用者要求：加時改成「補一半時間」（60 秒 → 30 秒），讓 3v3 回合節奏不要被
-單一客戶端拖太久，風夜也能跟上。
+"""One source-bound +60s attempt per original input stage.
 
 SANPK 4a2c28 -> 49bccc ends exhausted civil input; 49dbd4 -> 49bccc
 ends the exhausted military cursor. Preserve those normal completion paths:
@@ -46,7 +43,7 @@ class AutoTimer:
         self.enabled=wanted is True and allowed is True
         if self.enabled and self.storage_error:
             self.enabled=False;self.status('自动加时记录不可用，未开启：'+self.storage_error);return
-        self.status('自动加时已开启：先走正常倒数，剩最后1秒补30秒；指令完成按原版立即结束。'
+        self.status('自动加时已开启：先走正常倒数，剩最后1秒补60秒；指令完成按原版立即结束。'
                     if self.enabled else '自动加时已关闭。')
 
     def stage_key(self,state):
@@ -78,13 +75,13 @@ class AutoTimer:
             self.status('内政指令已用完，按原版立即结束；自动加时保持开启。');return
         if stage in self.attempted:
             self.status('本阶段已处理自动加时，不重复增加；指令完成按原版立即结束。');return
-        try:remaining=extension_remaining(state,True,True,30000)
+        try:remaining=extension_remaining(state,True,True,60000)
         except (ValueError,KeyError,TypeError) as error:
             self.status('自动加时保持开启：'+str(error));return
         basis=extension_basis(state)
         if basis!=self.prepared_basis:self.prepared=None;self.prepared_basis=None
         if remaining>5000:
-            self.status('先走正常倒数，剩最后1秒才补30秒。');return
+            self.status('先走正常倒数，剩最后1秒才补60秒。');return
         if self.prepare and self.prepared is None:
             try:
                 prepared=self.prepare(state)
@@ -93,13 +90,13 @@ class AutoTimer:
                 fresh=self.n.capture()
                 if extension_basis(fresh)!=basis or self.stage_key(fresh)!=stage:
                     self.status('回合已改变，等待下一次稳定倒数。');return
-                remaining=extension_remaining(fresh,True,True,30000)
+                remaining=extension_remaining(fresh,True,True,60000)
                 state=fresh;self.prepared=prepared;self.prepared_basis=basis
             except (ValueError,OSError,KeyError,TypeError) as error:
                 self.status('自动加时保持开启，等待来源核对：'+str(error));return
         if remaining>1000:
-            self.status('先走正常倒数，剩最后1秒才补30秒。');return
-        try:extension_plan(state,True,True,30000)
+            self.status('先走正常倒数，剩最后1秒才补60秒。');return
+        try:extension_plan(state,True,True,60000)
         except (ValueError,KeyError,TypeError) as error:
             self.status('自动加时保持开启：'+str(error));return
         # Reserve durably before any write. Reconnects and uncertain receipts
@@ -110,7 +107,7 @@ class AutoTimer:
             with self.path.open('a',encoding='utf8') as log:
                 log.write(json.dumps(dict(binding_sha256=self.binding_sha,stage=stage))+'\n')
                 log.flush();os.fsync(log.fileno())
-            result=self.n.extend(state,True,True,self.prepared or self.emit,30000)
+            result=self.n.extend(state,True,True,self.prepared or self.emit,60000)
         except Exception as error:
             self.enabled=False;self.status('自动加时未完成，已停止；本阶段不重试：'+str(error));return
         if result.get('status')!='timer_field_verified':self.enabled=False
