@@ -77,3 +77,18 @@
   ⑨**畫布幾何診斷**：`battle canvas geom=...` 寫進 `/tmp/hub-map-debug.log`
   （scrollregion / xview / yview / image item 座標 / winfo 高），
   區分「相機算錯」與「Tk 畫布自己捲了／畫錯位置」。
+
+- **0.2.31（2026-10-20，GPT 接手完成地圖展示修復，使用者實機確認正常）**：
+  ①更正上一窗「不是 Tk 捲動／疑似合成」結論：無 scrollregion 時，`yview=(0,1)`
+  仍可有 `canvasy(0)=-396`；圖塊與所有標記因此整層下移，並非截圖漏抓。
+  ②可重現根因是漏接 Tk 9 `<TouchpadScroll>`；原版隱藏全景地圖安裝的
+  `map_navigation._class_touch → _fallback_scroll` 對戰場 Canvas 呼叫 `yview_scroll`，
+  每次把原點移動 36px。既有 `<MouseWheel>` 回傳 break，但擋不到這種獨立事件。
+  ③戰場改用全景地圖同一個 `bind_pointer_wheel`（含 packed touchpad、修飾鍵、
+  Linux 滾輪），保留相機游標錨點／節流／拖曳；外部指令小地圖也消化捲動事件。
+  `map_lock_viewport` 在 Configure 時以畫布內框限制 scrollregion，兩軸原點固定 0。
+  ④新增 7 項已對映 Tk 端到端測試：舊版 6 項失敗（實測 -36/-432px），
+  新版總計 **115/115**；合成事件測試只遮蔽無關的實體游標位置，不 withdraw 視窗。
+  ⑤正式 .app 已重建／重啟 0.2.31，使用者確認「已正常，地圖不再下沉」。
+  日誌新增真正 canvas origin。驗收圖／跨平台與發行核驗見 `docs/map-display-0.2.31.md`；
+  Windows 原生 GUI 未實測。未動遊戲進程、存檔或實驗室鏈。

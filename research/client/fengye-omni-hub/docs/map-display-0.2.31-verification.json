@@ -1,0 +1,57 @@
+{
+  "version": "0.2.31",
+  "source_tests": {
+    "passed": 115,
+    "skipped": 0
+  },
+  "extracted_package_tests": {
+    "passed": 114,
+    "skipped": 1,
+    "skip_reason": "source checkout comparison only"
+  },
+  "verified_package_files": 335,
+  "archive_sha256": "9df13cae0a3badf94d7085eb5014a7392f4df0d53564ab8c3aa93bd3cdf04fc8",
+  "python38_syntax": "pass (changed runtime paths and test)",
+  "windows_native_gui": "not run",
+  "native_app_version": "0.2.31",
+  "mapped_canvas": {
+    "mode": "baseline",
+    "tk": "9.0.3",
+    "canvas": [
+      74,
+      372,
+      1164,
+      362
+    ],
+    "canvas_y0": 0.0,
+    "canvas_x0": 0.0,
+    "bbox": [
+      8,
+      -1,
+      945,
+      363
+    ],
+    "cities": 0,
+    "bindings": [
+      ".!notebook.!frame6.!notebook.!frame4.!labelframe.!canvas",
+      "Canvas",
+      ".",
+      "all"
+    ],
+    "items": [
+      [
+        "image",
+        [
+          219.99999999999994,
+          -2.842170943040401e-14
+        ]
+      ]
+    ]
+  },
+  "user_confirmation": "已正常，地圖不再下沉",
+  "image_methods": [
+    "native screencapture -l",
+    "canvas.postscript + Ghostscript"
+  ],
+  "image_scope": "terrain only; no readable game client during final capture"
+}

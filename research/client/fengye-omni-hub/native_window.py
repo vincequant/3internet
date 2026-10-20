@@ -20,6 +20,7 @@ from backend.room_protocol import nickname
 from backend import fengyun_local
 from backend.lab_remote import lab_remote
 from command_service import CommandService
+from map_navigation import bind_pointer_wheel
 from player_text import (plain_error, room_summary, room_result, room_fresh,
                          operation_result, local_state, control_event,
                          force_choices, force_summary, lab_result)
@@ -277,6 +278,23 @@ def map_zoom(zoom):
     except (TypeError, ValueError):
         return MAP_MIN_ZOOM
     return max(MAP_MIN_ZOOM, min(MAP_MAX_ZOOM, zoom))
+
+
+def map_lock_viewport(canvas):
+    """Keep Tk's viewport at (0,0); only the map camera may pan.
+
+    Without a scrollregion, Tk can move its origin while yview() still says
+    (0,1). The inherited panorama's TouchpadScroll fallback used to do this
+    to our canvases. Match the region to the drawable interior, accounting
+    for the border so canvasx(0)/canvasy(0) stay exactly zero.
+    """
+    inset = sum(canvas.winfo_pixels(canvas.cget(key))
+                for key in ('borderwidth', 'highlightthickness'))
+    width, height = canvas.winfo_width(), canvas.winfo_height()
+    canvas.configure(scrollregion=(inset, inset, max(inset, width - inset),
+                                   max(inset, height - inset)), confine=True)
+    canvas.xview_moveto(0)
+    canvas.yview_moveto(0)
 
 
 def wall_text(value):
@@ -606,7 +624,11 @@ class FengyeWindow(OmniWindow):
                                  highlightbackground='#b9c2ad')
         self.cmd_map.pack(fill='x', padx=12, pady=(8, 2))
         self.cmd_map.bind('<Button-1>', self._cmd_map_click)
-        self.cmd_map.bind('<Configure>', lambda _e: self._cmd_draw_map())
+        self.cmd_map.bind('<Configure>', lambda e: (
+            map_lock_viewport(e.widget), self._cmd_draw_map()))
+        # This overview has no zoom; consume pointer scrolling rather than
+        # letting the inherited Canvas class binding move the whole layer.
+        bind_pointer_wheel(self.cmd_map, lambda *_: None)
         tk.Label(box, text='上圖：本局實際城池（世界座標，顏色=勢力）。點城池即選定，座標與城旁空地自動填。',
                  bg=DAMASK, fg=MUTED, anchor='w').pack(fill='x', padx=12)
         act = tk.Frame(box, bg=DAMASK)
@@ -1100,7 +1122,8 @@ class FengyeWindow(OmniWindow):
         self.battle_map = tk.Canvas(box, height=360, bg=MAP_FILL, highlightthickness=1,
                                     highlightbackground='#b9c2ad')
         self.battle_map.pack(fill='x', padx=10, pady=(4, 8))
-        self.battle_map.bind('<Configure>', lambda _e: self._battle_redraw())
+        self.battle_map.bind('<Configure>', lambda e: (
+            map_lock_viewport(e.widget), self._battle_redraw()))
         self.battle_map.bind('<Map>', lambda _e: self.root.after(40, self._battle_redraw))
         try:
             self.control_book.bind('<<NotebookTabChanged>>', self._on_tab_changed)
@@ -1113,9 +1136,10 @@ class FengyeWindow(OmniWindow):
         self._battle_photo_key = None
         self._battle_photos = {}
         self._canvas_sizes = {}
-        self.battle_map.bind('<MouseWheel>', self._battle_wheel)
-        self.battle_map.bind('<Button-4>', lambda e: self._battle_set_zoom(1.2, anchor=(e.x, e.y)))
-        self.battle_map.bind('<Button-5>', lambda e: self._battle_set_zoom(1 / 1.2, anchor=(e.x, e.y)))
+        # Same MouseWheel / packed Tk 9 TouchpadScroll / Linux button dispatch
+        # as the panorama. A MouseWheel-only binding misses macOS trackpads.
+        bind_pointer_wheel(self.battle_map,
+                           lambda event, x, y: self._battle_wheel(event, anchor=(x, y)))
         self.battle_map.bind('<Enter>', lambda _e: self.battle_map.focus_set())
         self.battle_map.bind('<Button-1>', self._battle_drag_start)
         self.battle_map.bind('<B1-Motion>', self._battle_drag_move)
@@ -1233,11 +1257,14 @@ class FengyeWindow(OmniWindow):
         # 寫進 log，才能分辨是「相機算錯」還是「Tk 畫布自己捲了」。
         try:
             _map_debug('battle canvas geom=%sx%s scrollregion=%s xview=%s yview=%s '
+                       'origin=(%s,%s) '
                        'img_item=%s coords=%s winfo_h=%s' % (
                            canvas.winfo_width(), canvas.winfo_height(),
-                           tuple(round(float(v)) for v in canvas.cget('scrollregion')),
+                           tuple(round(float(v)) for v in
+                                 canvas.tk.splitlist(canvas.cget('scrollregion'))),
                            tuple(round(float(v), 4) for v in canvas.xview()),
                            tuple(round(float(v), 4) for v in canvas.yview()),
+                           canvas.canvasx(0), canvas.canvasy(0),
                            img_item, tuple(round(float(v), 1) for v in canvas.coords(img_item)),
                            canvas.winfo_height()))
         except Exception as exc:  # noqa: BLE001
@@ -1441,7 +1468,7 @@ class FengyeWindow(OmniWindow):
             before, after, factor, anchor, self.battle_cx or 0.0, self.battle_cy or 0.0))
         self._battle_redraw()
 
-    def _battle_wheel(self, event):
+    def _battle_wheel(self, event, anchor=None):
         """滾輪：把 delta 換成步數（1 步 = ×1.2），一個手勢不再連跳十幾格。
 
         另外加上 40 ms 的節流（跟 app/panorama_map.py 的全景地圖一致）：
@@ -1455,7 +1482,8 @@ class FengyeWindow(OmniWindow):
             return 'break'
         self._battle_wheel_at = now
         self._battle_set_zoom(1.2 ** steps,
-                              anchor=(getattr(event, 'x', 0), getattr(event, 'y', 0)))
+                              anchor=anchor if anchor is not None else (
+                                  getattr(event, 'x', 0), getattr(event, 'y', 0)))
         return 'break'
 
     def _battle_pan(self, dx, dy):
