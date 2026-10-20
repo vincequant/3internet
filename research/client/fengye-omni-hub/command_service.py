@@ -118,7 +118,8 @@ class CommandService:
         env.update({'WINEPREFIX': str(Path.home() / 'Library/Application Support/SGI-Wine' / prefix),
                     'WINEDEBUG': '-all', 'PYTHONIOENCODING': 'utf-8',
                     'DYLD_FALLBACK_LIBRARY_PATH': self.dyld,
-                    'SGI_GAME_EXE': r'C:\sgi\run-3.5\3I\SANPK.exe'})
+                    'SGI_GAME_EXE': r'C:\sgi\run-3.5\3I\SANPK.exe',
+                    'SGI_BRIDGE_Z': self.z + '\\bridge'})
         return env
 
     def _run(self, prefix, args, timeout=30):
@@ -393,6 +394,28 @@ class CommandService:
             pass
         self._cache, self._cache_at = out, now
         return out
+
+    def room_players(self, prefix='prefix-fengye-shadow'):
+        """讀房間玩家名單（給「開局綁定」下拉用名字而不是編號）。"""
+        try:
+            pid = self.pid(prefix)
+            if not pid:
+                return {'ok': False, 'players': []}
+            data = self._py(prefix, self.z + '\\tools\\p32_app_rows_read.py', [str(pid)])
+            rows = []
+            for table in data.get('tables') or []:
+                rows.extend(table.get('rows') or [])
+            if not rows:
+                rows = data.get('rows') or []
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'players': [], 'error': str(error)}
+        players = []
+        for row in rows:
+            name = (row.get('name') or '').strip()
+            slot = row.get('i', row.get('index'))
+            if name and isinstance(slot, int) and row.get('id'):
+                players.append({'slot': slot, 'name': name})
+        return {'ok': bool(players), 'players': players}
 
     def battlefield(self, refresh=False):
         """One shared, read-only shadow snapshot; never fall back to players."""

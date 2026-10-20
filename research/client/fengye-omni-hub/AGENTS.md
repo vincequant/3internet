@@ -448,3 +448,9 @@
   `auto_restore_after_start` 預設 False（服務與 UI 都關）。④指令改在遊戲客戶端直接下，
   跟隨回合的問題用「快速軍令」面板處理（另一支程式）。
   測試 native+queue 通過。
+  ㉕**0.2.63 綁定用玩家真名＋切換速鍵**：①`CommandService.room_players()` 讀影子客戶端的
+  app rows（`p32_app_rows_read.py`，輸出是 `tables[*].rows`，欄位 `i`＝slot、`name`＝暱稱），
+  `_env` 補 `SGI_BRIDGE_Z` 否則 `probe` 模組匯入失敗。②進房頁「開局綁定」下拉改成
+  「丁满（slot 0）／风云（slot 1）…」，每 15 秒刷新、排除風夜自己、同 slot 去重。
+  ③新增「切換速鍵」列：`無勢力` ＋ 每個玩家一顆，按了立刻 `switch_ghost_seat(slot)`。
+  測試 native 通過。

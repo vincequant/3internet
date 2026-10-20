@@ -1081,6 +1081,12 @@ class FengyeWindow(OmniWindow):
             pre, bg=DAMASK, fg=INK, anchor='w',
             text='一鍵完成後自動綁定到這個玩家；選「無勢力」就不綁。')
         self.pre_seat_hint.pack(side='left', padx=(10, 0))
+        sw = tk.Frame(box, bg=DAMASK)
+        sw.pack(fill='x', padx=12, pady=(4, 0))
+        tk.Label(sw, text='切換速鍵', bg=DAMASK, fg=INK,
+                 font=(self.face, 11, 'bold')).pack(side='left')
+        self.force_switch_row = tk.Frame(sw, bg=DAMASK)
+        self.force_switch_row.pack(side='left', padx=8)
         self.pre_seat_label = tk.Label(pre, bg=DAMASK, fg=MUTED, anchor='w',
                                        text='0–7 是「席位」不是勢力；每局勢力隨機，套用後這裡會顯示 0→勢力X。')
         self.pre_seat_label.pack(side='left', padx=10, fill='x', expand=True)
@@ -1396,6 +1402,89 @@ class FengyeWindow(OmniWindow):
     def fengye_slot_restore(self):
         self._fengye_slot_async('切回風夜上一位玩家',
                                 'cd ~/sgi-protocol-lab-20260915/shadow && bash shadow_force.sh restore')
+
+    def _render_force_switch(self, players):
+        """「切換速鍵」：無勢力 ＋ 每個玩家一家，按了立刻切風夜的席位。"""
+        row = getattr(self, 'force_switch_row', None)
+        if row is None:
+            return
+        for child in row.winfo_children():
+            child.destroy()
+        tk.Button(row, text='無勢力', bg=BG,
+                  command=lambda: self._switch_seat(5, '無勢力')).pack(side='left')
+        seen = set()
+        for player in players or []:
+            slot = player.get('slot')
+            name = player.get('name')
+            if not isinstance(slot, int) or slot in seen:
+                continue
+            seen.add(slot)
+            tk.Button(row, text='%s' % name, bg=BG,
+                      command=lambda s=slot, n=name: self._switch_seat(s, n)).pack(side='left', padx=4)
+
+    def _switch_seat(self, slot, name=''):
+        self.pre_seat_label.configure(text='切換到 %s（slot %d）…' % (name or 'slot', slot))
+
+        def work():
+            try:
+                result = self.command_service.switch_ghost_seat(slot)
+            except Exception as error:  # noqa: BLE001
+                result = {'ok': False, 'error': str(error)}
+
+            def show():
+                if isinstance(result, dict) and result.get('ok'):
+                    self.pre_seat_label.configure(
+                        text='已切到 %s（slot %d）' % (name or 'slot', slot))
+                else:
+                    self.pre_seat_label.configure(
+                        text='切換失敗：%s' % ((result or {}).get('error') if isinstance(result, dict) else result))
+            self.root.after(0, show)
+
+        threading.Thread(target=work, daemon=True, name='seat-switch').start()
+
+    def _refresh_bind_choices(self, state):
+        """把「開局綁定」的選項換成房間裡的玩家名字（每 15 秒一次）。"""
+        if time.time() - getattr(self, '_bind_at', 0) < 15 or getattr(self, '_bind_busy', False):
+            return
+        if not (state.get('fresh') and state.get('connected')):
+            return
+        self._bind_at = time.time()
+        self._bind_busy = True
+        me = (self.room_nickname.get() or '').strip()
+
+        def work():
+            try:
+                data = self.command_service.room_players()
+            except Exception as error:  # noqa: BLE001
+                data = {'ok': False, 'players': [], 'error': str(error)}
+            self.root.after(0, lambda: self._apply_bind_choices(data, me))
+
+        threading.Thread(target=work, daemon=True, name='bind-choices').start()
+
+    def _apply_bind_choices(self, data, me):
+        self._bind_busy = False
+        players = [p for p in (data or {}).get('players') or []
+                   if p.get('name') and p['name'] != me]
+        if not players:
+            return
+        try:
+            self._render_force_switch(players)
+        except Exception:  # noqa: BLE001
+            pass
+        unique = {}
+        for player in players:
+            unique.setdefault(player['slot'], player['name'])
+        values = ['無勢力（不綁定）'] + ['%s（slot %d）' % (name, slot)
+                                       for slot, name in sorted(unique.items())]
+        current = self.bind_choice.get()
+        self.bind_box.configure(values=values)
+        if current in values:
+            return
+        import re as _re
+        found = _re.search(r'slot\s*(\d)', current or '')
+        slot = int(found.group(1)) if found else 0
+        pick = next((v for v in values[1:] if v.endswith('slot %d）' % slot)), values[1])
+        self.bind_choice.set(pick)
 
     def _maybe_auto_seat(self, state):
         """進房並藏好後，自動把風夜坐到所選席位（開局前上身）。
@@ -1828,6 +1917,10 @@ class FengyeWindow(OmniWindow):
                   and native_state == 1))
         try:
             self._maybe_auto_seat(state)
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            self._refresh_bind_choices(state)
         except Exception:  # noqa: BLE001
             pass
         retrying = self.retry is not None
