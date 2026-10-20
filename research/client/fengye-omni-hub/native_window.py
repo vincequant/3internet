@@ -1,5 +1,6 @@
 """The complete native OmniWindow with an additional Fengye console."""
 import json
+import os
 from pathlib import Path
 import queue
 import shlex
@@ -834,10 +835,24 @@ class FengyeWindow(OmniWindow):
                   command=self._battle_refresh).pack(side='left')
         self.battle_note = tk.Label(bar, text='尚未讀取', bg=DAMASK, fg=MUTED, anchor='w')
         self.battle_note.pack(side='left', padx=12)
-        self.battle_map = tk.Canvas(box, height=230, bg='#dfe6d3', highlightthickness=1,
+        self.battle_map = tk.Canvas(box, height=360, bg='#dfe6d3', highlightthickness=1,
                                     highlightbackground='#b9c2ad')
         self.battle_map.pack(fill='x', padx=10, pady=(4, 8))
         self.battle_map.bind('<Configure>', lambda _e: self._battle_redraw())
+        self.battle_zoom = float(os.environ.get('FENGYE_BATTLE_ZOOM') or 1.0)
+        self.battle_cx = None
+        self.battle_cy = None
+        self._battle_photo = None
+        self._battle_photo_key = None
+        self.battle_map.bind('<MouseWheel>', self._battle_wheel)
+        self.battle_map.bind('<Button-4>', lambda _e: self._battle_set_zoom(1.2))
+        self.battle_map.bind('<Button-5>', lambda _e: self._battle_set_zoom(1 / 1.2))
+        self.battle_map.bind('<Enter>', lambda _e: self.battle_map.focus_set())
+        self.battle_map.bind('<Button-1>', lambda _e: self.battle_map.focus_set())
+        self.battle_map.configure(takefocus=1)
+        for key, dx, dy in (('w', 0, -1), ('W', 0, -1), ('s', 0, 1), ('S', 0, 1),
+                            ('a', -1, 0), ('A', -1, 0), ('d', 1, 0), ('D', 1, 0)):
+            self.battle_map.bind('<KeyPress-%s>' % key, self._battle_key(dx, dy))
         panes = tk.PanedWindow(box, orient='horizontal', bg=DAMASK, sashwidth=8)
         panes.pack(fill='both', expand=True, padx=10, pady=(0, 8))
         left = self._box(panes, '勢力基礎情報')
@@ -904,9 +919,13 @@ class FengyeWindow(OmniWindow):
         canvas.delete('all')
         width = max(360, canvas.winfo_width() or 720)
         height = max(160, canvas.winfo_height() or 230)
-        photo = map_photo(width, height, canvas)
-        if photo is not None:
-            canvas.create_image(0, 0, image=photo, anchor='nw')
+        view = self._battle_view(width, height)
+        if view is None:
+            canvas.create_text(width / 2, height / 2, text='地圖底圖不可用（缺少 SanInet.lbm）',
+                               fill='#ffffff', font=(self.face, 11, 'bold'))
+            return
+        photo, pos, project = view
+        canvas.create_image(pos[0], pos[1], image=photo, anchor='nw')
         pts = [c['xy'] for c in cities if c.get('xy')] + [u['xy'] for u in units if u.get('xy')]
         if not pts:
             canvas.create_text(width / 2, height / 2, text='沒有座標資料（尚未進圖？）',
@@ -918,7 +937,9 @@ class FengyeWindow(OmniWindow):
             xy = city.get('xy') or []
             if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
                 continue
-            px, py = map_project(xy, width, height)
+            px, py = project(xy)
+            if not (-20 <= px <= width + 20 and -20 <= py <= height + 20):
+                continue
             canvas.create_rectangle(px - 4, py - 4, px + 4, py + 4,
                                     fill=palette.get(city.get('owner'), '#555555'), outline='#ffffff')
             canvas.create_text(px, py - 9, text=str(city.get('name')), fill='#ffffff',
@@ -927,9 +948,93 @@ class FengyeWindow(OmniWindow):
             xy = unit.get('xy') or []
             if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
                 continue
-            px, py = map_project(xy, width, height)
+            px, py = project(xy)
+            if not (-20 <= px <= width + 20 and -20 <= py <= height + 20):
+                continue
             canvas.create_oval(px - 3, py - 3, px + 3, py + 3,
                                fill=palette.get(unit.get('owner'), '#333333'), outline='#ffe08a')
+        canvas.create_text(10, height - 10, anchor='sw',
+                           text='滾輪縮放 %.1fx · WASD 平移' % self.battle_zoom,
+                           fill='#ffffff', font=(self.face, 9))
+
+    def _battle_view(self, width, height):
+        """回傳 (photo, pos, project)：pos=None 表示整張圖置中；否則為裁切檢視。"""
+        src = map_background()
+        if not src:
+            return None
+        from PIL import ImageTk
+        iw, ih = src.size
+        zoom = max(1.0, self.battle_zoom)
+        fit = min(width / float(iw), height / float(ih))
+        if zoom <= 1.0001:
+            w2 = max(1, int(round(iw * fit)))
+            h2 = max(1, int(round(ih * fit)))
+            key = ('fit', w2, h2)
+            if key != self._battle_photo_key:
+                self._battle_photo = ImageTk.PhotoImage(src.resize((w2, h2)), master=self.battle_map)
+                self._battle_photo_key = key
+            ox, oy = (width - w2) / 2.0, (height - h2) / 2.0
+
+            def project(xy):
+                return (ox + xy[0] / WORLD_X * w2, oy + xy[1] / WORLD_Y * h2)
+
+            return self._battle_photo, (ox, oy), project
+        scale = fit * zoom
+        vw, vh = width / scale, height / scale
+        vw = min(vw, float(iw)); vh = min(vh, float(ih))
+        if self.battle_cx is None or self.battle_cy is None:
+            self.battle_cx, self.battle_cy = iw / 2.0, ih / 2.0
+        half_w, half_h = vw / 2.0, vh / 2.0
+        self.battle_cx = max(half_w, min(iw - half_w, self.battle_cx))
+        self.battle_cy = max(half_h, min(ih - half_h, self.battle_cy))
+        box = (self.battle_cx - half_w, self.battle_cy - half_h,
+               self.battle_cx + half_w, self.battle_cy + half_h)
+        key = ('crop', round(box[0], 2), round(box[1], 2), width, height)
+        if key != self._battle_photo_key:
+            crop = src.crop((int(box[0]), int(box[1]),
+                             max(int(box[0]) + 1, int(round(box[2]))),
+                             max(int(box[1]) + 1, int(round(box[3])))))
+            self._battle_photo = ImageTk.PhotoImage(crop.resize((width, height)), master=self.battle_map)
+            self._battle_photo_key = key
+        left, top, right, bottom = box
+
+        def project(xy):
+            sx = xy[0] / WORLD_X * iw
+            sy = xy[1] / WORLD_Y * ih
+            return ((sx - left) / max(1e-6, right - left) * width,
+                    (sy - top) / max(1e-6, bottom - top) * height)
+
+        return self._battle_photo, (0.0, 0.0), project
+
+    def _battle_set_zoom(self, factor, anchor=None):
+        self.battle_zoom = max(1.0, min(10.0, self.battle_zoom * factor))
+        self._battle_photo_key = None
+        self._battle_redraw()
+
+    def _battle_wheel(self, event):
+        delta = getattr(event, 'delta', 0) or 0
+        if delta == 0:
+            return 'break'
+        factor = 1.2 if delta > 0 else 1 / 1.2
+        self._battle_set_zoom(factor)
+        return 'break'
+
+    def _battle_pan(self, dx, dy):
+        src = map_background()
+        if src is None:
+            return
+        iw, ih = src.size
+        step = 0.10 * ih / max(1.0, self.battle_zoom)
+        self.battle_cx = (self.battle_cx or iw / 2.0) + dx * step
+        self.battle_cy = (self.battle_cy or ih / 2.0) + dy * step
+        self._battle_photo_key = None
+        self._battle_redraw()
+
+    def _battle_key(self, dx, dy):
+        def handler(event=None):
+            self._battle_pan(dx, dy)
+            return 'break'
+        return handler
 
     def _battle_redraw(self):
         last = getattr(self, '_battle_last', None)
