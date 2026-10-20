@@ -77,3 +77,19 @@ hidden-kick-fengyun/{同上}
 | 同上 | 線路寫死 `多线3（备用）` | `LINE_TITLE` 改讀 `line.txt` 第一行（沒有則 `SHADOW_LINE`，再沒有才用預設）；**預設行為不變**。轉線路 2：`echo '多线2（主线）' > ~/sgi-fengye-lab/shadow/line.txt` |
 | `arm_now.sh` | `verify_patches nullguard 22`，現行注入器只有 21 站（第 22 站 0x195AF 已於 10-19 撤回）→ 每次 arm 都 abort | 改成 21 |
 | `one_click_test.sh` | 沒有「停在坐席」模式 | 新增 `--no-hide`（已鏡像回 repo） |
+
+## E6 局中踢人（08:04）→ **不在收件當下生效；排隊等回合結束**
+
+- 遊戲已開始（兩台客戶端都出現「小地圖」視窗；主機 P 表 row1 風雲 state=2）。
+- 幽靈（藏身）netobj：`is_host=0`、`rows_n=3`、`4c80→178390280`；發射 departing=168299312，
+  回執 `D8G1 rc=1`。
+- **主機 `netobj+0x84A8 = 3`**（局中）。`0x3fd0` 的分支是 `1f00(netobj,1)`/`1f00(netobj,2)`，
+  而 `0x10001f00` 的本體就是 `cmp [netobj+0x84A8], arg; sete al`（snippet `Koeinm.dll-1eb0-1f32`）。
+  ⇒ 只有本端 state **1/2** 才走「立即 type2+31d0」；state 3 走 `0x10003b00`：
+  把 departing 追加到 `+0x84d0` 陣列、`+0x84d4` 計數（鎖 `+0x854c`）。
+- `0x100036e0`（回合結束）逐筆處理該陣列：`3350(netobj,2,id)` → `31d0(netobj,id)` →
+  `SetEvent(netobj+0x84d8,-1)`，最後把 `+0x84d4` 清零（snippet `Koeinm.dll-3170-3cd0` L590-626）。
+- 觀測：發射後 8 秒與 90 秒各讀一次主機 L 表，風雲仍在（id=168299312、state=0）。
+  ⇒ **局中 D8 = 回合邊界生效**，不是內政階段、也不是收件當下。
+- 這正好解釋 P61 run（193 年局中、70 秒內無回合邊界）為何「完全無效」。
+- 待驗：推進一回合，確認 `36e0` 把風雲摘掉（E6b）。
