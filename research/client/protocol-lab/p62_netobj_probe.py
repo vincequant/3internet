@@ -90,10 +90,16 @@ def main():
         out = {'ok': True, 'pid': pid, 'koeinm_base': hex(mod['base']),
                'koeinm_size': hex(mod['size']), 'netobj': hex(netobj)}
         is_host = read32(k, h, netobj + 0x0148)
+        sync_a = read32(k, h, netobj + 0x84C4)
+        sync_b = read32(k, h, netobj + 0x84C8)
+        q_n = read32(k, h, netobj + 0x84D4)
+        q_ptr = read32(k, h, netobj + 0x84D0)
         state = read32(k, h, netobj + 0x84A8)
         rows_ptr = read32(k, h, netobj + 0x43B8)
         rows_n = read32(k, h, netobj + 0x43BC)
         out.update({'is_host': is_host, 'state_84a8': state,
+                    'sync_84c4': sync_a, 'sync_84c8': sync_b,
+                    'queue_count_84d4': q_n, 'queue_ptr_84d0': (hex(q_ptr) if q_ptr else None),
                     'rows_ptr': (hex(rows_ptr) if rows_ptr else None), 'rows_n': rows_n})
         row_ids = []
         if rows_ptr and rows_n and 0 < rows_n <= 64:
@@ -101,6 +107,11 @@ def main():
                 rid = read32(k, h, rows_ptr + i * ROW_STRIDE)
                 row_ids.append(rid)
         out['row_ids'] = row_ids
+        q = []
+        if q_ptr and q_n and 0 < q_n <= 32:
+            for i in range(int(q_n)):
+                q.append(read32(k, h, q_ptr + i * 4))
+        out['queue_ids'] = q
         if is_host:
             out['gethost_4c80'] = row_ids[0] if row_ids else 0
         elif rows_n is not None and rows_n > 1 and len(row_ids) > 1:

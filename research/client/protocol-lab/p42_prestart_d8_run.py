@@ -211,8 +211,7 @@ def main():
                          '--stop-file', z(ev/'stop-p42'),
                          '--control-file', z(ev/'hub-control.json'),
                          '--control-result', z(ev/'hub-control-result.json'),
-                         '--observe-seconds', str(args.observe_seconds),
-                         '--health-seconds', str(args.health_seconds)] + ghost_args),
+                         '--observe-seconds', str(args.observe_seconds)] + ghost_args),
                      P2_CHILD_STDERR=z(ev/'p42.stderr'))
     end_reason = None
     driver = watch = None

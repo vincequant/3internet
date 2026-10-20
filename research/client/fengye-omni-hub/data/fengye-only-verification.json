@@ -1,0 +1,215 @@
+{
+  "title": "風夜 · 全知情報 Hub 0.1.6",
+  "viewable": true,
+  "frontend": "native-tk",
+  "run": "run-115248",
+  "mode": "回放 · 本地記錄",
+  "feed_count": 92,
+  "total_feed_count": 92,
+  "snapshot_rows": [
+    [
+      "0",
+      "丁满",
+      "汉",
+      "0"
+    ],
+    [
+      "1",
+      "风夜",
+      "赵",
+      "0"
+    ],
+    [
+      "2",
+      "電腦",
+      "晋",
+      "2"
+    ],
+    [
+      "3",
+      "電腦",
+      "齐",
+      "2"
+    ],
+    [
+      "4",
+      "電腦",
+      "燕",
+      "2"
+    ],
+    [
+      "5",
+      "電腦",
+      "宋",
+      "2"
+    ],
+    [
+      "6",
+      "電腦",
+      "义渠",
+      "2"
+    ],
+    [
+      "7",
+      "電腦",
+      "鲁",
+      "2"
+    ]
+  ],
+  "control_ready": false,
+  "chat_button": "disabled",
+  "stop_button": "disabled",
+  "render_error": null,
+  "workspace_tabs": [
+    "風夜情報／操控台",
+    "势力情报",
+    "势力对比",
+    "武将资料",
+    "全图部队 · 红≤5/黄≤10格",
+    "变化",
+    "战役",
+    "附近情报",
+    "全图城关",
+    "全景地图",
+    "偷袭主城",
+    "外交对比",
+    "宣战拒绝",
+    "策反",
+    "抽牌概率",
+    "攻略预判"
+  ],
+  "legacy_tabs": [
+    "房間",
+    "成員",
+    "事件",
+    "線路目錄",
+    "會話與採集來源"
+  ],
+  "selected_tab": "風夜情報／操控台",
+  "data_source": "fengye-only",
+  "upstream_state_loaded": false,
+  "world_source": null,
+  "world_counts": {},
+  "rendered_forces": 0,
+  "original_pages": {
+    "势力情报": "normal",
+    "势力对比": "normal",
+    "武将资料": "normal",
+    "全图部队 · 红≤5/黄≤10格": "hidden",
+    "变化": "hidden",
+    "战役": "hidden",
+    "附近情报": "hidden",
+    "全图城关": "hidden",
+    "全景地图": "normal",
+    "偷袭主城": "hidden",
+    "外交对比": "normal",
+    "宣战拒绝": "normal",
+    "策反": "normal",
+    "抽牌概率": "normal",
+    "攻略预判": "normal"
+  },
+  "original_identity_controls_visible": false,
+  "room_controls": {
+    "room_start": "disabled",
+    "room_search": "disabled",
+    "room_join": "disabled",
+    "room_leave": "disabled",
+    "room_stop": "disabled"
+  },
+  "room_monitor": {
+    "phase": "idle",
+    "fresh": false,
+    "connected": false
+  },
+  "fengye_decoded": [
+    {
+      "wall": 1792123078.3488781,
+      "round": 2,
+      "sender": 173851270,
+      "run_name": "run-115248",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 20,
+      "target_raw": 486,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792123534.483914,
+      "round": 23,
+      "sender": 173851270,
+      "run_name": "run-115248",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 20,
+      "target_raw": 121,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792124598.431082,
+      "round": 72,
+      "sender": 173851270,
+      "run_name": "run-115248",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 20,
+      "target_raw": 247,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792124887.468605,
+      "round": 86,
+      "sender": 173851270,
+      "run_name": "run-115248",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 20,
+      "target_raw": 824,
+      "action": "接纳仕官"
+    }
+  ],
+  "original_panorama_bindings": [
+    ".!notebook.!panoramamap.!panedwindow.!frame.!frame2.!canvas",
+    "Canvas",
+    ".",
+    "all"
+  ],
+  "data_filter_count": 4,
+  "data_detail": "10-16 12:28:07　CSanInetPersonnelCmd\n第 86 輪 · sender=173851270 · 47 B · c36eb512dd7a\nffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000001400000038030000",
+  "console_viewable": true
+}

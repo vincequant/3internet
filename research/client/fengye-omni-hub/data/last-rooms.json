@@ -1,0 +1,18 @@
+{
+  "observed_at": 1792307411.072209,
+  "rooms": [
+    {
+      "id": "171071049",
+      "name": "SGZWLB",
+      "host": "丁满",
+      "maximum": 8,
+      "current": 2,
+      "virtual_ip": "10.50.86.73"
+    }
+  ],
+  "query_status": "replies_received",
+  "rc": 0,
+  "source": "session SearchSession（本局會話自己的查房）",
+  "line_verified": false,
+  "error": null
+}

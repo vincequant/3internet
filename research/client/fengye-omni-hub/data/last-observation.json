@@ -1,0 +1,227 @@
+{
+  "queried_at": 1792504683.447247,
+  "source_kind": "local_lab",
+  "host_watch": null,
+  "activity": {},
+  "member_names": {},
+  "chain": [
+    {
+      "pid": 48136,
+      "parent_pid": 1,
+      "role": "orchestrator"
+    },
+    {
+      "pid": 48445,
+      "parent_pid": 48136,
+      "role": "watch"
+    },
+    {
+      "pid": 48446,
+      "parent_pid": 48136,
+      "role": "driver",
+      "line": "多线3",
+      "target": "10.214.65.97",
+      "session": "SGZWLB"
+    },
+    {
+      "pid": 48621,
+      "parent_pid": 48446,
+      "role": "relay"
+    },
+    {
+      "pid": 48818,
+      "parent_pid": 1,
+      "role": "ghost",
+      "target": "10.214.65.97",
+      "session": "SGZWLB"
+    }
+  ],
+  "ghost_log": {
+    "mode": "hub_room_session",
+    "registration": "verified",
+    "last_log_at": 1792502544.471044,
+    "packet_count": 0,
+    "release_calls": 0,
+    "receiver_errors": 0,
+    "last_packet_at": null,
+    "last_cmd": null,
+    "watchdog_started_at": null,
+    "cmd23_attempts": null,
+    "cmd23_returns": null,
+    "cmd9_attempts": null,
+    "cmd9_returns": null,
+    "start_command_received_at": null,
+    "start_snapshot": {},
+    "automatic_ready": false
+  },
+  "events": [],
+  "p34": {
+    "run_name": "run-20261020-212101-shadow",
+    "pointer_state": null,
+    "pointer_source": "hub_session",
+    "registration_verified": true,
+    "registered": {
+      "own_id": 0,
+      "machine_name": null,
+      "w4": null,
+      "row_state": null,
+      "pending_2723": null
+    },
+    "fakeexit": {},
+    "d8": {
+      "sent_once": false,
+      "sent_wall": null,
+      "body_hex": null,
+      "raw_rc": null,
+      "target": null,
+      "fast": false,
+      "effect": null,
+      "withdrawn": null
+    },
+    "window": {
+      "anchor_wall": null,
+      "observe_seconds": null,
+      "end_wall": null,
+      "anchored_by": null
+    },
+    "longrun": {},
+    "counters": {
+      "received": 0,
+      "released": 0,
+      "errors": 0,
+      "rounds": 0,
+      "received_after_d8": null,
+      "last_packet_wall": null,
+      "last_packet_cmd": null
+    },
+    "snapshots": {
+      "initial": null,
+      "start": null
+    },
+    "frames": [],
+    "sync": {
+      "rounds": 0,
+      "nonempty": []
+    },
+    "notifications": {
+      "wm_event": 0,
+      "wm_data": 0,
+      "wm_chat": 0
+    },
+    "control": {
+      "last_result": null,
+      "pending": null,
+      "events": []
+    },
+    "chat": {
+      "wm_chat_count": 0,
+      "type3_frames": 0,
+      "messages": []
+    },
+    "live_probe": false
+  },
+  "session": {
+    "alive": false,
+    "fresh": false,
+    "phase": "match",
+    "connected": true,
+    "nickname": "待秋至",
+    "room_name": "SGZWLB",
+    "virtual_ip": "",
+    "room_id": "",
+    "ghost_registered": true,
+    "ghost_withdrawn": true,
+    "host_init_wait": false,
+    "exit_seen_wall": null,
+    "observed_at": 1792502544.471044,
+    "started_at": 1792502461.536441,
+    "driver_pid": 2400,
+    "line": "多线3",
+    "error": null
+  },
+  "status": {
+    "schema": "fengye-status-1",
+    "wall": 1792502542.087,
+    "pid": 624,
+    "present": true,
+    "link": {
+      "connected": true,
+      "sync": 1,
+      "tx": 4,
+      "rx_backlog": 0
+    },
+    "scene": {
+      "in_map": null,
+      "error": "ValueError"
+    },
+    "fog_original": true,
+    "seat": {
+      "slot": 5,
+      "force": 4294967295
+    },
+    "patches": {
+      "opening": {
+        "ok": 18,
+        "total": 18,
+        "missing": []
+      },
+      "guard": {
+        "ok": 21,
+        "total": 21,
+        "missing": []
+      },
+      "suppress": {
+        "ok": 2,
+        "total": 2,
+        "missing": []
+      },
+      "ready": true
+    },
+    "rx": {
+      "received": 0,
+      "last_wall": null,
+      "last_age": null
+    },
+    "hide": {
+      "verified": true,
+      "at": 1792502443.587083,
+      "by": "host_L_table",
+      "note": "application row gone on the host; DLL member row intentionally kept"
+    },
+    "godview": {
+      "installed": false,
+      "at": 1792483367.1179981,
+      "elements": 7,
+      "parts": [
+        "迷霧移除",
+        "部隊與城池圖示",
+        "詳細資訊圖層"
+      ],
+      "by": "p52 ui install (manual, 0.2.35)"
+    },
+    "driver": {
+      "rows": 0,
+      "rounds": 0,
+      "last_event": null,
+      "last_tick": null,
+      "faults": 0,
+      "age": null,
+      "hooks": false,
+      "started": false
+    },
+    "world": null,
+    "disk_free_gb": 694.69,
+    "uptime_s": 80.5,
+    "age": 2141.4
+  },
+  "host": {
+    "virtual_ip": "",
+    "session": "SGZWLB",
+    "source": "hub_session",
+    "observed_at": 1792502544.471044
+  },
+  "line": "多线3",
+  "run_name": "run-20261020-212101-shadow",
+  "source_sha256": {},
+  "room_query": null
+}

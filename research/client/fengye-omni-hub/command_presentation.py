@@ -17,10 +17,10 @@ PROGRESS = {
     'held': '前一筆結果尚未確認；這筆還沒送出，可以撤回。',
     'pending': '已加入隊列，輪到這筆就會處理；尚可撤回。',
     'validating': '正在確認所屬勢力及位置；尚可撤回。',
-    'waiting_phase_exit': '目前已在內政回合，等下一個內政回合執行；尚可撤回。',
+    'waiting_phase_exit': '目前不是內政階段；等內政階段（phase 1）再切席發送。這筆還沒送出，可以撤回。',
     'switching_slot': '正在準備讓選定的勢力執行指令。',
     'arming': '正在準備這筆指令，請等候下令結果。',
-    'waiting_phase': '已準備好，進入內政回合便會執行。',
+    'waiting_phase': '已武裝；內政階段一到就會發送（通常數秒內）。',
     'awaiting_receipt': '正在下令，尚未確認遊戲中的變化。',
     'fired': '已下令，等待遊戲數值或地圖物件更新。',
     'verifying': '已下令，等待訓練值增加或新建物出現。',
@@ -80,6 +80,10 @@ def progress_text(job, snapshot=None):
     before, after = effect.get('before') or {}, effect.get('after') or {}
     status = job.get('status')
     text = PROGRESS.get(status, '狀態待確認。')
+    if status == 'unknown' and job.get('stall_note'):
+        # Explain a receipt timeout with the observed round state instead of
+        # leaving the row at the generic "結果待確認".
+        text = job['stall_note']
     if status in ('error', 'send_failed'):
         reason = str(job.get('error') or '') + ' ' + str(job.get('note') or '')
         for needles, explanation in (
@@ -117,6 +121,10 @@ def job_detail(job, snapshot=None):
     lines = ['%s · %s · %s' % (actor_text(job, snapshot), action_text(job, snapshot),
                                 STATUS.get(job.get('status'), '狀態待確認')),
              progress_text(job, snapshot)]
+    if job.get('sender_label'):
+        lines.append('送出：%s' % job['sender_label'])
+    if job.get('eta_text'):
+        lines.append('預計執行：%s' % job['eta_text'])
     # Diagnostics stay in the local audit journal; the timeline explains the
     # game action without exposing transport return codes or implementation.
     for event in (job.get('events') or [])[-8:]:

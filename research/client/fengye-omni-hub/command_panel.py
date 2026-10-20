@@ -37,6 +37,8 @@ class CommandPanel(tk.Frame):
         self._results = queue.Queue()
         self._last_rows = {}
         self._jobs = {}
+        self._reference = None
+        self._reference_at = 0.0
         self._auto = autostart and not readonly
         self._after = None
         self._build()
@@ -49,42 +51,41 @@ class CommandPanel(tk.Frame):
 
     def _build(self):
         top = tk.Frame(self, bg=BG)
-        top.pack(fill='x', padx=16, pady=(8, 0))
+        top.pack(fill='x', padx=14, pady=(6, 0))
         self._label(top, '勢力').pack(side='left')
         self.force_box = ttk.Combobox(top, width=28, state='readonly')
         self.force_box.pack(side='left', padx=8)
         self.force_box.bind('<<ComboboxSelected>>', self._force_changed)
         self.refresh_button = ttk.Button(top, text='立即讀取', command=self.refresh)
         self.live = self._label(top, '正在讀取風夜資料…')
-        self.live.pack(side='left', padx=12)
+        self.live.pack(side='right', padx=(12, 0))
         rows = tk.Frame(self, bg=BG)
-        rows.pack(fill='x', padx=16, pady=(10, 4))
+        rows.pack(fill='x', padx=14, pady=(6, 2))
         self._label(rows, '練兵', True).pack(side='left', padx=(0, 10))
         self.train_buttons = {}
         for troop, text in TRAIN_CHOICES:
-            button = ttk.Button(rows, text=text, width=11, command=lambda t=troop: self.train(t))
+            button = ttk.Button(rows, text=text, width=9, command=lambda t=troop: self.train(t))
             button.pack(side='left', padx=4)
             self.train_buttons[troop] = button
         self.values = self._label(rows, '訓練度：—　金：—')
-        self.values.pack(side='left', padx=14)
+        self.values.pack(side='left', padx=10)
         build = tk.Frame(self, bg=BG)
-        build.pack(fill='x', padx=16, pady=4)
+        build.pack(fill='x', padx=14, pady=2)
         self._label(build, '建設', True).pack(side='left', padx=(0, 10))
         self.build_buttons = {}
         for kind, text in BUILD_CHOICES:
-            button = ttk.Button(build, text=text, width=11, command=lambda k=kind: self.build(k))
+            button = ttk.Button(build, text=text, width=9, command=lambda k=kind: self.build(k))
             button.pack(side='left', padx=4)
             self.build_buttons[kind] = button
-        self._label(build, '選種類 → 地圖點淡藍高亮 → 確認入隊').pack(side='left', padx=14)
         self.map_view = EmbeddedConstructionMap(self, self._confirm_build)
-        self.map_view.pack(fill='both', expand=True, padx=16, pady=(4, 6))
+        self.map_view.pack(fill='both', expand=True, padx=14, pady=(2, 4))
         self.note = self._label(self, '完成後顯示實際訓練值或新增建物；尚未確認生效的指令會保留進度。')
-        self.note.configure(fg=ACCENT, wraplength=1080, justify='left')
-        self.note.pack(fill='x', padx=16, pady=(0, 8))
+        self.note.configure(fg=ACCENT, wraplength=1240, justify='left')
+        self.note.pack(fill='x', padx=14, pady=(0, 4))
         tools = tk.Frame(self, bg=BG)
         self._queue_tools = tools
         self._queue_visible = True
-        tools.pack(fill='x', padx=16, pady=4)
+        tools.pack(fill='x', padx=14, pady=2)
         self.count = self._label(tools, '指令隊列', True)
         self.count.pack(side='left')
         self.queue_toggle = ttk.Button(tools, text='收合隊列，放大地圖', command=self._toggle_queue)
@@ -92,17 +93,18 @@ class CommandPanel(tk.Frame):
         self.cancel_button = ttk.Button(tools, text='撤回選中的未處理指令', command=self.cancel_selected)
         self.cancel_button.pack(side='right')
         self.tabs = ttk.Notebook(self)
-        self.tabs.pack(fill='x', padx=16, pady=4)
+        self.tabs.pack(fill='x', padx=14, pady=2)
         self.tabs.bind('<<NotebookTabChanged>>', lambda _e: self._show_detail())
         self.tables = {}
         self.pages = {}
         for key, title in (('active', '處理中'), ('completed', '已完成'), ('other', '已撤回／未完成')):
             page = ttk.Frame(self.tabs)
             self.tabs.add(page, text=title)
-            tree = ttk.Treeview(page, columns=('time', 'actor', 'action', 'status', 'note'),
-                                show='headings', height=3, selectmode='browse')
-            for col, label, width in (('time', '加入時間', 85), ('actor', '玩家・勢力', 145),
-                                      ('action', '指令／位置', 200), ('status', '處理狀態', 150),
+            tree = ttk.Treeview(page, columns=('time', 'actor', 'action', 'status', 'eta', 'note'),
+                                show='headings', height=2, selectmode='browse')
+            for col, label, width in (('time', '加入時間', 80), ('actor', '玩家・勢力', 140),
+                                      ('action', '指令／位置', 190), ('status', '處理狀態', 135),
+                                      ('eta', '預計執行（遊戲時間）', 170),
                                       ('note', '進度／實際變化', 420)):
                 tree.heading(col, text=label)
                 tree.column(col, width=width, minwidth=60, stretch=True)
@@ -113,18 +115,18 @@ class CommandPanel(tk.Frame):
             tree.bind('<<TreeviewSelect>>', lambda _e: self._show_detail())
             tree.bind('<Delete>', lambda _e: self.cancel_selected())
             self.tables[key], self.pages[key] = tree, page
-        self.details = tk.Text(self, height=2, wrap='word', bg='white', fg=INK,
+        self.details = tk.Text(self, height=1, wrap='word', bg='white', fg=INK,
                                state='disabled', relief='flat', padx=10, pady=6)
-        self.details.pack(fill='x', padx=16, pady=(4, 12))
+        self.details.pack(fill='x', padx=14, pady=(2, 6))
         # Reserve the timeline before giving the remaining space to the map.
         # Tk pack otherwise clips later siblings on a 1280x928 laptop window.
         for widget in (self.map_view, self.note, tools, self.tabs, self.details):
             widget.pack_forget()
-        self.details.pack(side='bottom', fill='x', padx=16, pady=(4, 8))
-        self.tabs.pack(side='bottom', fill='x', padx=16, pady=4)
-        tools.pack(side='bottom', fill='x', padx=16, pady=4)
-        self.note.pack(side='bottom', fill='x', padx=16, pady=(2, 4))
-        self.map_view.pack(fill='both', expand=True, padx=16, pady=(4, 6))
+        self.details.pack(side='bottom', fill='x', padx=14, pady=(2, 6))
+        self.tabs.pack(side='bottom', fill='x', padx=14, pady=2)
+        tools.pack(side='bottom', fill='x', padx=14, pady=2)
+        self.note.pack(side='bottom', fill='x', padx=14, pady=(2, 4))
+        self.map_view.pack(fill='both', expand=True, padx=14, pady=(2, 4))
         if self.readonly:
             for b in list(self.train_buttons.values()) + list(self.build_buttons.values()):
                 b.configure(state='disabled')
@@ -194,6 +196,17 @@ class CommandPanel(tk.Frame):
                        'city': city['city_id'], 'city_name': city.get('name') or '未知城池',
                        'x': x, 'y': y, 'extra': 2000})
 
+    def _ghost_force(self):
+        """風夜自己的 force；藏身／旁聽時沒有，回 None。
+
+        2026-10-20 使用者定案：一切只准用風夜客戶端送出。主機以 sender id
+        對應用行；風夜沒有行（藏身）或不是該行時，指令會被丟棄。因此面板
+        只放行「風夜自己的勢力」，其他勢力直接拒絕，不再用別人的客戶端。
+        """
+        local = self.snapshot.get('local') or {}
+        force = local.get('force_id')
+        return force if isinstance(force, int) and force >= 0 else None
+
     def _enqueue(self, params):
         force = self.selected_force()
         if self.readonly:
@@ -201,8 +214,35 @@ class CommandPanel(tk.Frame):
         if force is None:
             self.note.configure(text='請等候讀到勢力資料。')
             return
+        reference = self.snapshot.get('_reference') or {}
+        eta = None
+        eta_fn = getattr(self.service, 'eta_text', None)
+        if eta_fn:
+            try:
+                eta = eta_fn(reference.get('phase', self.snapshot.get('phase')),
+                             reference.get('year', self.snapshot.get('year')),
+                             reference.get('season', self.snapshot.get('season')))
+            except Exception:
+                eta = None
+        ghost_force = self._ghost_force()
+        # 2026-10-20 19:xx 使用者定案：藏身（無勢力）也可以先排隊；送出時
+        # 由服務在「內政階段開始前」把風夜席位切到目標，合成指令才帶得到
+        # actor，送完再切回 5。之前只放行已入座是錯的（P58 合成指令可通）。
+        own = ghost_force is not None and int(force['force_id']) == ghost_force
+        if ghost_force is None:
+            sender = '風夜（藏身；內政前自動借席）'
+        elif own:
+            sender = '風夜（自己的勢力）'
+        else:
+            sender = '風夜（借目標席位）'
+        # 2026-10-20 21:xx P40 D5：主機批次收集不驗成員上傳的 sender，風夜
+        # probe 用自己 member id 上傳 control5 就會被併入批次（P58 UI 同等
+        # 路徑）。因此不需要借席、不需要在內政前切到目標；席位保持旁聽，
+        # 由服務寫 control JSON 給 probe、等 D5 回執再驗效果。
         payload = dict(params, prefix='prefix-fengye-shadow', actor=force['force_id'],
-                       actor_label=self.force_box.get(), auto_slot=True)
+                       actor_label=self.force_box.get(), auto_slot=False,
+                       sender='probe', eta_text=eta,
+                       sender_label='風夜（probe D5，免切席位）')
         result = self.service.submit(payload, info=self.snapshot, execute=True)
         if result.get('ok'):
             self._set_queue_visible(True)
@@ -275,7 +315,8 @@ class CommandPanel(tk.Frame):
                 added_at = '時間未知'
             vals = (added_at,
                     actor_text(job, self.snapshot), action_text(job, self.snapshot),
-                    STATUS.get(status, '狀態待確認'), progress_text(job, self.snapshot))
+                    STATUS.get(status, '狀態待確認'), job.get('eta_text') or '—',
+                    progress_text(job, self.snapshot))
             tree = self.tables[key]
             if tree.exists(job['id']):
                 if tree.item(job['id'], 'values') != tuple(str(v) for v in vals):
@@ -315,6 +356,19 @@ class CommandPanel(tk.Frame):
                     if battle.get('game_key') == data.get('game_key'):
                         data['_battle_payload'] = battle
                         data['_busy_cells'] = list(self.service.busy_build_cells())
+                    # A real player's season is the estimate reference; the
+                    # hidden shadow can be a whole season behind. One read per
+                    # minute is enough and stays off the Tk thread.
+                    reader = getattr(self.service, 'reference_state', None)
+                    now = time.monotonic()
+                    if reader and now - self._reference_at >= 60:
+                        try:
+                            self._reference = reader() or self._reference
+                        except Exception:
+                            pass
+                        self._reference_at = now
+                    if self._reference:
+                        data['_reference'] = dict(self._reference)
             except Exception as exc:
                 report('command-read', exc)
                 data = {'ok': False, 'error': str(exc)}

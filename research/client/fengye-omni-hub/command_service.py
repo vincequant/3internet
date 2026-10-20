@@ -82,7 +82,9 @@ class CommandService:
         self._worker_generation = 0
         self._verify_running = False
         self._verification_jobs = {}
-        self.phase_wait_timeout = 150
+        self.phase_wait_timeout = 600
+        self.reference_check_interval = 20.0
+        self.reference_prefixes = ('prefix-sikarugir10', 'prefix-dingman-local')
         self.receipt_timeout = 300
         self.verification_timeout = 120
         self.poll_interval = 0.5
@@ -150,6 +152,84 @@ class CommandService:
                     continue
                 return data.get('phase_4d8'), data
         return None, None
+
+    @staticmethod
+    def _round_state(phase, data):
+        """One comparable round tuple from roundprobe output (read-only)."""
+        if not isinstance(phase, int) or phase not in range(6):
+            return None
+        data = data if isinstance(data, dict) else {}
+        season = data.get('f_4d6')
+        year = data.get('f_4d0')
+        roster = data.get('rows_f4a')
+        return {'phase': phase,
+                'season': season if isinstance(season, int) else None,
+                'year': year if isinstance(year, int) else None,
+                'roster': tuple(roster) if isinstance(roster, list) else None}
+
+    def reference_state(self, prefix=None):
+        """Read a local real player's round tuple as a staleness reference.
+
+        The hidden observer can miss a round boundary and keep an old season
+        while the real clients move on. Comparing with the player (or host)
+        client locally distinguishes "still waiting" from "already stale"
+        without asking the remote host.
+        """
+        for candidate in self.reference_prefixes:
+            if prefix and candidate == prefix:
+                continue
+            # Skip a prefix that is not installed on this Mac (e.g. the host
+            # runs remotely) without paying a Wine start-up timeout.
+            if not (Path.home() / 'Library/Application Support/SGI-Wine' / candidate).is_dir():
+                continue
+            try:
+                phase, data = self.phase(candidate)
+            except Exception:  # noqa: BLE001 - a missing local client is normal
+                continue
+            state = self._round_state(phase, data)
+            if state and state.get('season') is not None:
+                return state
+        return None
+
+    @staticmethod
+    def _staleness_error(shadow, reference):
+        """Return a user-facing explanation when the shadow missed a round."""
+        if not shadow or not reference:
+            return None
+        shadow_season, reference_season = shadow.get('season'), reference.get('season')
+        if not (isinstance(shadow_season, int) and isinstance(reference_season, int)):
+            return None
+        if shadow_season >= reference_season:
+            return None
+        # Different rosters mean the two clients are not in the same match;
+        # their season counters are not comparable.
+        shadow_roster, reference_roster = shadow.get('roster'), reference.get('roster')
+        if shadow_roster and reference_roster and shadow_roster != reference_roster:
+            return None
+        return ('代送客戶端（風夜）停在 season %d（phase %d），'
+                '玩家端已在 season %d（phase %d）；請重啟風夜或改用玩家端代送'
+                % (shadow_season, shadow.get('phase'),
+                   reference_season, reference.get('phase')))
+
+    @staticmethod
+    def eta_text(phase, year, season):
+        """Game-time estimate for the next domestic phase (not a promise).
+
+        0.2.34 fires in the current phase when it is already phase 1.  When
+        waiting, the next domestic phase is the current season's (phase 0) or
+        the following season's (phase 2 and later); seasons are 0..3.
+        """
+        if not (isinstance(phase, int) and phase in range(6) and
+                isinstance(year, int) and isinstance(season, int) and 0 <= season <= 3):
+            return None
+        names = '春夏秋冬'
+        if phase == 1:
+            return '%d年%s內政階段（現在）' % (year, names[season])
+        step = 1 if phase >= 2 else 0
+        next_season = season + step
+        next_year = year + next_season // 4
+        next_season %= 4
+        return '%d年%s內政階段結束後' % (next_year, names[next_season])
 
     # --------------------------------------------------------------- discovery
     @staticmethod
@@ -263,14 +343,23 @@ class CommandService:
             out['error'] = battle.get('error') or '風夜資料尚未讀到'
             self._cache, self._cache_at = out, now
             return out
-        phase, _ = self.phase(prefix)
+        phase, phase_data = self.phase(prefix)
         out['phase'] = phase
         out['phase_text'] = {0: '回合開始', 1: '內政', 2: '軍事', 3: '結算中',
                              4: '結算中', 5: '結算中'}.get(phase, '未知')
+        if isinstance(phase_data, dict):
+            # Year/season of the delivery client, used for the game-time ETA.
+            out['year'] = (phase_data.get('f_4d0')
+                           if isinstance(phase_data.get('f_4d0'), int) else None)
+            out['season'] = (phase_data.get('f_4d6')
+                             if isinstance(phase_data.get('f_4d6'), int) else None)
         slots = self._py(prefix, self.z + '\\tools\\_p60_slots.py', [str(pid)])
         if slots.get('ok'):
             out['player_slots'] = [{'slot': r.get('slot'), 'nickname': r.get('nickname'),
                                     'force_id': r.get('force_id')} for r in slots.get('slots') or []]
+            # 風夜自己的 force：藏身/旁聽時為 None；入座後才有，且只有這個
+            # 勢力的指令是「用自己的席位」送出（主機才會認 sender id）。
+            out['local'] = slots.get('local') if isinstance(slots.get('local'), dict) else None
         self._cache, self._cache_at = out, now
         return out
 
@@ -425,7 +514,16 @@ class CommandService:
 
     # ----------------------------------------------------------------- sending
     def _ghost_home_slot(self, default=5):
-        """風夜的家=無勢力席位；以現行 slotkeep 的 --slot 為準，讀不到就回 5。"""
+        """風夜的家=無勢力席位；先沿用尚未還席 job 記錄的家，再看 slotkeep。
+
+        2026-10-20：一次回執逾時會把 slotkeep 留在目標玩家的 --slot；若只讀
+        pgrep，下一次就會把「玩家席」當成家。先讀未還席 job 的 slot_home。
+        """
+        with self.lock:
+            for job in reversed(self.jobs):
+                if (job.get('slot_pending_restore') and
+                        isinstance(job.get('slot_home'), int)):
+                    return job['slot_home']
         try:
             res = self.runner(['pgrep', '-fl', 'shadow_slotkeep'], capture_output=True, text=True, timeout=5)
             text = res.stdout or ''
@@ -452,6 +550,25 @@ class CommandService:
             return False, '%s: %s' % (type(exc).__name__, exc)
         text = ((res.stdout or '') + (res.stderr or '')).strip().splitlines()
         return res.returncode == 0, (text[-1] if text else '')
+
+    def drop_client(self, prefix, timeout=45):
+        """Make one local player client exit in-process (natural disconnect).
+
+        2026-10-20 使用者要求把 p63 的一發掉線做成按鈕；破壞性操作，呼叫端
+        必須先取得明確確認。風夜（旁聽端）不可作為目標。
+        """
+        if prefix not in dict(TARGETS) or prefix == 'prefix-fengye-shadow':
+            return {'ok': False, 'error': '這個客戶端不能作為掉線目標'}
+        script = self.lab / 'tools' / 'p63_drop_inject.py'
+        if not script.exists():
+            return {'ok': False, 'error': 'p63_drop_inject.py 不在 lab'}
+        try:
+            res = self._run(prefix, [self.z + '\\tools\\p63_drop_inject.py',
+                                     '--target-name', 'SANPK.exe'], timeout=timeout)
+        except Exception as exc:  # noqa: BLE001
+            return {'ok': False, 'error': '%s: %s' % (type(exc).__name__, exc)}
+        text = ((res.stdout or '') + (res.stderr or '')).strip()
+        return {'ok': res.returncode == 0, 'output': text[-400:]}
 
     def build_args(self, job):
         preset = job.get('preset')
@@ -721,6 +838,10 @@ class CommandService:
                    'actor_label': payload.get('actor_label') or str(payload.get('actor')),
                    'city_name': payload.get('city_name'), 'target_pid': target.get('pid'),
                    'auto_slot': bool(payload.get('auto_slot')),
+                   'sender_label': payload.get('sender_label') or (
+                       '風夜（借席送出）' if payload.get('auto_slot') else '本機客戶端'),
+                   'eta_text': payload.get('eta_text') or self.eta_text(
+                       snapshot.get('phase'), snapshot.get('year'), snapshot.get('season')),
                    'receipt': None, 'error': None, 'events': []}
             self.jobs.append(job)
             self.queue.append(dict(payload, id=job['id'], game_key=game_key,
@@ -890,32 +1011,63 @@ class CommandService:
         args, flag, receipt = self.build_args(job)
         return {'info': info, 'args': args, 'flag': flag, 'receipt': receipt}
 
-    def _wait_phase_exit(self, jobs, prefix):
-        phase, _ = self.phase(prefix)
+    def _wait_for_domestic_phase(self, jobs, prefix):
+        """Wait for phase 1 without touching the borrowed seat.
+
+        Firing in the *current* domestic phase keeps the borrowed player seat
+        for only the few seconds around the send.  Holding that seat across a
+        round boundary is what left the shadow client sitting in settlement
+        on 2026-10-20, after which its phase-1 gate never opened again.
+        """
+        phase, data = self.phase(prefix)
         for job in jobs:
             job['phase_at_submit'] = phase
-        if not isinstance(phase, int) or phase not in range(6):
+        shadow = self._round_state(phase, data)
+        if shadow is None:
             for job in jobs:
                 self._advance(job, 'error', '無法確認階段；未切席、未發送')
             return None
-        if phase != 1:
-            return phase
+        stale = self._staleness_error(shadow, self.reference_state(prefix))
+        if stale:
+            for job in jobs:
+                self._advance(job, 'error', stale)
+            return None
+        if phase == 1:
+            return 1
         for job in jobs:
-            self._advance(job, 'waiting_phase_exit', '等本回合結束後借席；此筆尚未發送，可取消')
+            self._advance(job, 'waiting_phase_exit',
+                          '等內政階段（目前 phase=%d）；尚未切席、未發送，可撤回' % phase)
         deadline = time.monotonic() + self.phase_wait_timeout
+        last_reference = time.monotonic()
         while time.monotonic() < deadline:
             if all(j.get('status') == 'cancelled' for j in jobs):
                 return None
             time.sleep(self.poll_interval)
-            phase, _ = self.phase(prefix)
-            if not isinstance(phase, int) or phase not in range(6):
+            phase, data = self.phase(prefix)
+            shadow = self._round_state(phase, data)
+            if shadow is None:
                 for job in jobs:
                     self._advance(job, 'error', '階段讀取中斷；未切席、未發送')
                 return None
-            if phase != 1:
-                return phase
+            if phase == 1:
+                # Re-check right before the seat change: a hidden observer
+                # can report phase 1 from a season it never actually left.
+                stale = self._staleness_error(shadow, self.reference_state(prefix))
+                if stale:
+                    for job in jobs:
+                        self._advance(job, 'error', stale)
+                    return None
+                return 1
+            if time.monotonic() - last_reference >= self.reference_check_interval:
+                last_reference = time.monotonic()
+                stale = self._staleness_error(shadow, self.reference_state(prefix))
+                if stale:
+                    for job in jobs:
+                        self._advance(job, 'error', stale)
+                    return None
         for job in jobs:
-            self._advance(job, 'error', '等候回合結束逾時；未切席、未發送')
+            self._advance(job, 'error',
+                          '等候內政階段逾時（phase=%d）；未切席、未發送' % phase)
         return None
 
     def _effect_snapshot(self):
@@ -930,6 +1082,57 @@ class CommandService:
     def _capture_baseline(self, job):
         from fengye_command_effects import capture_effect_baseline
         return capture_effect_baseline(job, self._effect_snapshot())
+
+    def _run_probe_batch(self, prepared):
+        """風夜 probe 版：寫 control JSON → probe D5 → 等 result → 驗效果。"""
+        from probe_sender import ProbeSender, build_record
+        sender = ProbeSender(self.lab, self.z, self._py)
+        try:
+            host_pid = self.pid('prefix-dingman-local')
+            if not host_pid:
+                raise ValueError('主機客戶端離線')
+            own, host = sender.ids(host_pid)
+        except Exception as exc:
+            for _, job, _ in prepared:
+                self._advance(job, 'error', 'probe 無法取得成員身分；未發送：' + str(exc))
+            return
+        sender.arm(own, host)
+        for payload, job, _plan in prepared:
+            if job.get('status') == 'cancelled':
+                continue
+            try:
+                record = build_record(payload)
+            except Exception as exc:
+                self._advance(job, 'error', 'probe 指令組建失敗；未發送：' + str(exc))
+                continue
+            try:
+                baseline = self._capture_baseline(job)
+            except Exception as exc:
+                self._advance(job, 'error', '送出前狀態讀取失敗；未發送：' + str(exc))
+                continue
+            if not baseline.get('ok'):
+                self._advance(job, 'error', '送出前狀態不足以驗證效果；此筆未發送')
+                continue
+            if not self._advance(job, 'arming',
+                                 '由風夜 probe 送出 D5（只送一次，已不能安全撤回）'):
+                continue
+            res = sender.send(record)
+            if res.get('ok'):
+                job['receipt'] = {'rc': 1, 'raw_rc': res.get('raw_rc'),
+                                  'target': res.get('target'),
+                                  'probe_request': res.get('request_id')}
+                job['receipt_at'] = time.time()
+                self._update(job, 'fired', 'probe 已回報送出；正在核對實際數值或建設物件')
+                with self.lock:
+                    self._verification_jobs[job['id']] = {
+                        'job': job, 'baseline': baseline,
+                        'deadline': time.monotonic() + self.verification_timeout}
+            else:
+                self._update(job, 'unknown', 'probe 未回報送出；不重送、後續暫停',
+                             str(res.get('error')))
+                self._pause_prefix(payload['prefix'])
+                break
+        self._start_verifier()
 
     def _run_batch(self, batch):
         prepared = []
@@ -948,10 +1151,15 @@ class CommandService:
             prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
             if not prepared:
                 return
+            # 2026-10-20 P40 D5 路徑：風夜 probe 以自己 member id 上傳
+            # control5，主機批次收集不驗 sender（P40 靜態結論）。這條路
+            # 不需要借席、不需要 p60 agent，也不受 standalone sender 檢查。
+            if any((p or {}).get('sender') == 'probe' for p, _, _ in prepared):
+                return self._run_probe_batch(prepared)
             first_payload, marker, plan = prepared[0]
             auto = bool(first_payload.get('auto_slot')) and prefix == 'prefix-fengye-shadow'
             if auto:
-                phase = self._wait_phase_exit([row[1] for row in prepared], prefix)
+                phase = self._wait_for_domestic_phase([row[1] for row in prepared], prefix)
             else:
                 phase, _ = self.phase(prefix)
                 if not isinstance(phase, int) or phase not in range(6):
@@ -999,6 +1207,122 @@ class CommandService:
                 ok, note = self._switch_slot(slot)
                 if not ok:
                     self._update(marker, 'restore_failed', '借席未確認；後續暫停，不再切席', note)
+                    return
+                phase_now, _ = self.phase(prefix)
+                if phase_now != 1:
+                    restored, restore_note = self._switch_slot(home)
+                    reason = ('切席後已離開內政階段' if isinstance(phase_now, int)
+                              else '切席後無法確認內政階段')
+                    for _, job, _ in prepared:
+                        if job.get('status') != 'cancelled':
+                            self._advance(job, 'error', reason + '；未發送、' +
+                                          ('已還席' if restored else
+                                           '還席未確認：' + str(restore_note)))
+                    borrowed = not restored
+                    if not restored:
+                        self._pause_prefix(prefix)
+                    return
+            for payload, job, plan in prepared:
+                if (not fresh.get('ok', True) or not job.get('game_key') or
+                        job['game_key'] != fresh.get('game_key')):
+                    self._advance(job, 'error', '等待期間當局身分改變或無法確認；此筆未發送')
+                    continue
+                plan['info'] = fresh
+                retained.append((payload, job, plan))
+            prepared = retained
+            if not prepared:
+                if preborrowed:
+                    restored, _ = self._switch_slot(home)
+                    marker['slot_pending_restore'] = not restored
+                    borrowed = not restored
+                return
+            if auto and not preborrowed:
+                # Legacy path: seat was not pre-set; keep it for safety.
+                first_payload, marker, plan = prepared[0]
+                slot = next((r.get('slot') for r in plan['info'].get('player_slots', [])
+                             if r.get('force_id') == first_payload['actor'] and
+                             isinstance(r.get('slot'), int)), None)
+                home = self._ghost_home_slot(default=None)
+                if slot is None or home is None:
+                    for _, job, _ in prepared:
+                        self._advance(job, 'error', '無法確認借用及旁聽席位；未切席、未發送')
+                    return
+                with self.lock:
+                    marker['slot_home'] = home
+                    marker['slot_pending_restore'] = True
+                    if not self._advance(marker, 'switching_slot', '準備由風夜代送本批指令'):
+                        marker['slot_pending_restore'] = False
+                        return
+                borrowed = True
+                ok, note = self._switch_slot(slot)
+                if not ok:
+                    self._update(marker, 'restore_failed', '借席未確認；後續暫停，不再切席', note)
+                    return
+                phase_now, _ = self.phase(prefix)
+                if phase_now != 1:
+                    restored, restore_note = self._switch_slot(home)
+                    reason = ('切席後已離開內政階段' if isinstance(phase_now, int)
+                              else '切席後無法確認內政階段')
+                    for _, job, _ in prepared:
+                        if job.get('status') != 'cancelled':
+                            self._advance(job, 'error', reason + '；未發送、' +
+                                          ('已還席' if restored else
+                                           '還席未確認：' + str(restore_note)))
+                    borrowed = not restored
+                    if not restored:
+                        self._pause_prefix(prefix)
+                    return
+            for payload, job, plan in prepared:
+                if (not fresh.get('ok', True) or not job.get('game_key') or
+                        job['game_key'] != fresh.get('game_key')):
+                    self._advance(job, 'error', '等待期間當局身分改變或無法確認；此筆未發送')
+                    continue
+                plan['info'] = fresh
+                retained.append((payload, job, plan))
+            prepared = retained
+            if not prepared:
+                return
+            if auto:
+                first_payload, marker, plan = prepared[0]
+                slot = next((r.get('slot') for r in plan['info'].get('player_slots', [])
+                             if r.get('force_id') == first_payload['actor'] and
+                             isinstance(r.get('slot'), int)), None)
+                home = self._ghost_home_slot(default=None)
+                if slot is None or home is None:
+                    for _, job, _ in prepared:
+                        self._advance(job, 'error', '無法確認借用及旁聽席位；未切席、未發送')
+                    return
+                with self.lock:
+                    prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
+                    if not prepared:
+                        return
+                    first_payload, marker, plan = prepared[0]
+                    marker['slot_home'] = home
+                    marker['slot_pending_restore'] = True
+                    if not self._advance(marker, 'switching_slot', '準備由風夜代送本批指令'):
+                        marker['slot_pending_restore'] = False
+                        return
+                borrowed = True  # Even a failed call may already have changed it.
+                ok, note = self._switch_slot(slot)
+                if not ok:
+                    self._update(marker, 'restore_failed', '借席未確認；後續暫停，不再切席', note)
+                    return
+                # The switch takes a few seconds. If the domestic phase ended
+                # meanwhile, restore the home seat and fail without arming;
+                # never hold a borrowed player seat across a round boundary.
+                phase_now, _ = self.phase(prefix)
+                if phase_now != 1:
+                    restored, restore_note = self._switch_slot(home)
+                    reason = ('切席後已離開內政階段' if isinstance(phase_now, int)
+                              else '切席後無法確認內政階段')
+                    for _, job, _ in prepared:
+                        if job.get('status') != 'cancelled':
+                            self._advance(job, 'error', reason + '；未發送、' +
+                                          ('已還席' if restored else
+                                           '還席未確認：' + str(restore_note)))
+                    borrowed = not restored
+                    if not restored:
+                        self._pause_prefix(prefix)
                     return
             for payload, job, plan in prepared:
                 if job.get('status') == 'cancelled':
@@ -1125,7 +1449,26 @@ class CommandService:
                 self._update(job, 'unknown', '回執無法確認；不重送，後續暫停', str(exc))
                 return
             time.sleep(self.poll_interval)
-        self._update(job, 'unknown', '回執逾時；客戶端可能仍在等待，不重送、不自動還席')
+        # A timeout is ambiguous: the armed agent may still fire later.  Read
+        # the delivery client once more and explain *why* it never fired, so
+        # the queue does not look like an unexplained five-minute freeze.
+        note = '回執逾時；客戶端可能仍在等待，不重送、不自動還席'
+        try:
+            phase, data = self.phase(job['prefix'])
+            state = self._round_state(phase, data)
+        except Exception:  # noqa: BLE001
+            state = None
+        if state is not None and state.get('phase') != 1:
+            stale = self._staleness_error(state, self.reference_state(job['prefix']))
+            if stale:
+                note = '回執逾時；' + stale + '；不重送、不自動還席'
+            else:
+                note = ('回執逾時；代送客戶端停在 phase=%s、season=%s，'
+                        '沒有進入內政階段；不重送、不自動還席'
+                        % (state.get('phase'),
+                           state.get('season') if state.get('season') is not None else '?'))
+            job['stall_note'] = note
+        self._update(job, 'unknown', note)
 
     def _start_verifier(self):
         with self.lock:

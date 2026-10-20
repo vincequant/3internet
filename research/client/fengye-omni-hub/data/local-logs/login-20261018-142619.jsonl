@@ -1,0 +1,4 @@
+{"ev": "start", "account": "fengyun", "prefix": "/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10", "join_name": null, "dry_run": false, "wall": 1792304779.984}
+{"ev": "checks", "hub_room_monitor": true, "hub_win32_python": true, "hub_host_python": true, "prefix": true, "wine": true, "sanpk": true, "account_file": true, "sanpk_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea", "wall": 1792304779.986}
+{"ev": "login", "ok": false, "submitted": true, "stage": "protocol_login", "state": null, "message": "协议登录提示用户已经登录。请本人在已登录端退出，或在大厅勾选强制登录。不会再次交密码。", "login_verified": false, "entered": false, "game_name": null, "room_name": null, "game_id": null, "room_id": null, "wall": 1792304780.134}
+{"ev": "abort", "reason": "login", "stage": "protocol_login", "wall": 1792304780.135}

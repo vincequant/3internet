@@ -51,8 +51,15 @@ class PresentationTests(unittest.TestCase):
 
     def test_waiting_text_does_not_claim_a_command_already_executed(self):
         text = progress_text({'status': 'waiting_phase_exit'})
-        self.assertIn('等下一個內政回合', text)
+        self.assertIn('等內政階段', text)
+        self.assertIn('還沒送出', text)
         self.assertNotIn('已處理過', text)
+
+    def test_unknown_stall_note_is_shown_instead_of_the_generic_line(self):
+        job = {'status': 'unknown',
+               'stall_note': '回執逾時；代送客戶端停在 phase=4、season=0'}
+        self.assertIn('phase=4', progress_text(job))
+        self.assertNotIn('還不能確定是否生效', progress_text(job))
 
 
 if __name__ == '__main__':

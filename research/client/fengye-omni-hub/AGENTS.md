@@ -130,3 +130,170 @@
   全域待發陷阱context未完整捕，保留未知，不能用0或各城pending和代替，位置高亮非全額度證明。
   ⑤最終287/287；真已對映原生screencapture-l與唯讀自動幀核對見docs/live-and-construction-0.2.33.md。
   未實送新遊戲指令、未動遊戲/存檔；Windows原生GUI未實測。
+
+- **0.2.34（2026-10-20，代送閘門修復：內政期內直接發送／落後偵測／不再跨回合借席）**：
+  ①**實局失敗**：15:23:21 第一筆（73,21，陷阱）下單時風夜 phase=1；Hub 依原設計等「本回合
+  結束」→15:24:18 切到燕席位→15:24:24 武裝「只在 phase=1 發射」；風夜之後停在 phase=4
+  （結算）、season=0，主機／風雲已到 phase=1、season=3，agent 永遠等不到 phase 1；
+  15:29:24 回執逾時→unknown，後 5 筆 held。證據見 docs/command-gate-0.2.34.md。
+  ②**主修**：`_wait_for_domestic_phase` 取代 `_wait_phase_exit`。若下單時已在內政期（phase=1）
+  **立即切席、武裝、發送、還席**，只在內政期內持有借席數秒，不再跨回合邊界；
+  非內政期則**不切席**地等 phase 1（`phase_wait_timeout` 150→600 秒），可撤回。
+  ③**落後偵測**：新增 `reference_state()` 讀本機真實玩家（prefix-sikarugir10，退回
+  prefix-dingman-local）的 phase/season；`_staleness_error()` 在 shadow season < 真實 season
+  且 roster 相同（同一局）時，**切席前**直接 error：「代送客戶端停在 season 0…玩家端已在
+  season 3」；等待中每 20 秒重比，真實端前進而風夜不動就提早失敗。不同 roster 不比，
+  避免跨局誤判。無本機真實端時跳過（遠端主機仍可代送）。
+  ④**切席後複查**：切席約需數秒，若期間已離開 phase 1，立刻還席並 error（不武裝），
+  避免把借席帶進下一回合。⑤**還席家修正**：`_ghost_home_slot()` 先沿用
+  `slot_pending_restore` job 的 `slot_home`，不再把 slotkeep 的目標玩家 `--slot` 當家。
+  ⑥**回執逾時說明**：`_wait_receipt` 逾時時重讀 phase/season，寫入 `stall_note`
+  （停在 phase=4、season=0 或落後訊息），`progress_text` 的 unknown 直接顯示，不再只有
+  「結果待確認」。
+  ⑦**驗證**：`python3.14 -m unittest discover -s tests` **293/293**；新增 current-phase
+  直接發送、切席前落後拒絕、等待中真實端超前中止、不同 roster 不誤判、pending job 保留家
+  等回歸。**真唯讀**讀數：shadow (phase 4, season 0)、reference (phase 1, season 3)，失敗
+  訊息正確。⑧**限制**：本局風夜已停擺且局中不能重入；舊 unknown job 仍會擋同進程新單，
+  需風夜換進程。**本輪未實送任何遊戲指令**；same-IA 代送需下一局實測才算端到端成功。
+  未動遊戲/存檔；Windows 原生 GUI 未實測。
+
+- **0.2.35（2026-10-20，版面放大／預計遊戲時間／實驗室掉線鈕／同盟聊天說明／風夜全域去霧）**：
+  ①**版面**：`display_layout` 預設上限 1280x900→**1400x1000**（1710x1107 螢幕實得
+  1400x967）；外部指令頁地圖請求高度 320→**380**；隊列列高 3→2、詳情 2→1 行、周邊 padding
+  收窄；「勢力／立即讀取」與自動讀取狀態同列（狀態靠右），建設提示移入地圖頁腳。
+  ②**預計執行遊戲時間**：`CommandService.eta_text(phase, year, season)` 以真實玩家端
+  （reference）的 `f_4d0`/`f_4d6` 計算；phase=1 →「YYYY年X內政階段（現在）」，
+  phase≥2 → 下一季「YYYY年X內政階段結束後」，phase=0 → 本季。隊列新增
+  **「預計執行（遊戲時間）」**欄（job.eta_text），詳情頁同步顯示。年份/季節讀值由
+  `_read_targets` 帶入；reference 由外部指令頁每 60 秒快取一次（背景執行緒）。
+  ③**實驗室掉線鈕**：新可見子分頁「實驗室」，內含目標下拉（丁滿／風雲）、
+  「讓對手掉線」紅色鈕與「檢查本機客戶端」。呼叫 `CommandService.drop_client(prefix)`
+  → lab `tools/p63_drop_inject.py`（一發 ExitProcess）；每次 `askokcancel` 二次確認，
+  失敗不重試；風夜不可作為目標。**未實按**（破壞性），只驗按鈕/服務參數。
+  ④**聊天歷史**：頁首加註「只顯示風夜連線收到的聊天；同盟／私聊是否可旁聽尚未驗證
+  （P60）」；目前 type-3 本地投遞＋公開 Chat 可見，同盟頻道未經實測不宣稱可攔。
+  ⑤**風夜全域去霧**：本局 one_click_test 未裝 p52 godview（`fog_original=true`）。已對
+  當前 shadow（PID 1456）以 p52 UI 交易安裝 **map-tiles + map-unit-sight + 5 個
+  detail/skin**（`ui-state-godview.json`，全部 `enabled`）；`shadow_status` 現回
+  `fog_original=false`、`godview.installed=true`。此為 lab 執行期補丁，**不進發行包**；
+  重開客戶端後需重裝（`arm_now.sh` GODVIEW=1 已含 22 元素流程）。
+  ⑥**驗證**：`python3.14 -m unittest discover -s tests` **296/296**（新增 eta 格式、
+  submit 保留 eta、drop 目標限制/p63 參數）；本機 .app 重啟 0.2.35，外部指令頁截圖
+  `docs/command-page-0.2.35.png`。未實送遊戲指令、未按掉線鈕；Windows 原生 GUI 未實測。
+
+- **0.2.36（2026-10-20，代送歸屬修正：本機玩家自己的勢力改由本機客戶端直接送出）**：
+  ①**實局證據**：16:05:27–16:05:41 四筆建設（actor 3 丁滿·齊，魯縣）全部收到本機回執
+  （rc=1、phase=1、own=183165165＝風夜 id），但主機狀態 186 棟 production_buildings 中
+  目標格（73,63/73,65/74,64/74,65）**沒有新建物**；受控讀 host `_p60_battle.py`（改帶
+  `SGI_GAME_EXE`/`PYTHONIOENCODING`）確認。判定：**隱身風夜沒有應用行，主機以 sender id
+  找不到席位而丟棄 domestic 指令**；rc=1 只代表本機 SendObject 成功，不等於主機執行。
+  ②**修正**：`CommandPanel._sender_for_force()`——若目標勢力是 slot 的暱稱「丁满」→
+  `prefix-dingman-local`、「风云」→`prefix-sikarugir10`，`auto_slot=False`（由真實客戶端
+  直接送，不切風夜席位）；其他（非本機玩家／電腦）才 fallback 風夜借席。payload 帶
+  `sender_label`，job/detail 顯示「送出：丁滿（本機直接送出）」。
+  ③**服務路徑**：`_run_batch` 的 `auto` 只在 `auto_slot and prefix==shadow` 成立；直接
+  客戶端走非 auto：讀該 prefix 的 phase、無切席、agent 在該 prefix 發射、回執/效果照舊
+  由 shadow 快照驗證。`submit` 的 target pid 對直接 prefix 為 None，`_prepare_job` 以
+  `self.pid(prefix)` 重新確認。
+  ④**測試**：**298/298**（新增 panel 三勢力 sender 映射、丁滿 force 走本機 client、
+  service 直接 batch 不切席）。⑤**注意**：16:05 那四筆已進入 `verifying`（本機回執、
+  主機無效果），不重送、不自動取消；要用新路徑**重新下單**。未實按掉線鈕；Windows
+  原生 GUI 未實測。
+
+- **0.2.37（2026-10-20，使用者定案：一切只准風夜客戶端執行；面板改為只放行風夜自己的勢力）**：
+  ①**使用者否決 0.2.36**：丁滿／風雲本機客戶端只可用於內測輔助驗証，正式執行必須由風夜
+  客戶端完成，包括收聊天紀錄。②**面板強制**：`CommandPanel._ghost_force()` 讀 snapshot 的
+  `local.force_id`；`_enqueue` 只放行 `force_id == 風夜自己的 force`，其他一律拒絕並在
+  note 說明「這不是風夜自己的勢力…風夜送主機會丟棄」；藏身／旁聽（local force=None）時
+  任何指令都拒絕，提示「風夜目前沒有勢力」。payload 固定 `prefix-fengye-shadow`、
+  `auto_slot=True`、`sender_label='風夜（自己的勢力）'`。`_read_targets` 新增 `local`。
+  ③**根因（實局證據）**：主機的 domestic 指令處理與聊天一樣，以 **sender id 對應用行**；
+  藏身風夜只有 DLL 成員、沒有應用行 → 4 筆 rc=1 但主機 186 棟 production_buildings 無
+  目標格新建物；`风云: hi` 在風夜 session 68 幀中 **0 幀**。這不是 Hub 顯示或閘門問題，
+  是應用層路由只認有行的成員。④**可行路線**：風夜必須以**有席位的玩家**（偽名可見）入座，
+  拿到自己的勢力；此時它可以用自己的 sender id 送**自己勢力**的指令、並收到投給應用行的
+  公開聊天。要送丁滿／風雲的勢力＝冒用他們的 session id（伺服器端認證）或改主機，屬紅線，
+  需使用者另行裁決。⑤**測試**：**299/299**（新增只放行風夜自己勢力、藏身無 force 全拒絕；
+  移除 0.2.36 的面板直接 client 期望）。⑥未實送指令；下一步需以 `one_click_test.sh --no-hide`
+  讓風夜入座取得勢力，才能做風夜-only 的實局驗証。
+
+- **0.2.38（2026-10-20，session-id 冒用兩發實測：frame spoof＋host member 表 patch 均 negative；面板改為「入座後可借任何勢力」）**：
+  ①**第一發（P57 agent_spoof，broadcast）**：`--spoof-id 167872591`（丁滿）、54B domestic
+  指令；receipt `magic=39474853 rc=1 own=183165165 target=167872591 len=54`。主機金仍
+  **37,233**、`production_buildings` 仍 **186**、目標格無新建物 → 未套用。
+  ②**第二發（agent_uplink + spoof，to host）**：`magic=37474853 rc=1`、同一 payload、
+  spoof 167872591；主機仍未扣金／無建物。
+  ③**host member 表 patch**：掃到 host 進程 16 處風夜 id；把 `0x2702210` 與 `0x2701ed0`
+  兩處成員 id 由 183165165 改成 167872591，再送 p60 指令；主機仍未套用；**已寫回
+  0xaeae0ed 還原**（readback 確認），host 金/建物未變。
+  ④**判定**：主機的 domestic 指令 gate 不只在 frame sender／member id；**sync roster
+  （+84c4/+84c8，host 2 人：丁滿/風雲；風夜不在）+ 應用行**才是 gate。藏身 D8 風夜只有
+  DLL 成員、沒有應用行、也不在 sync roster → 任何 frame/member id 冒用都不會套用。
+  ⑤**面板調整**：`_ghost_force()` 仍用 `local.force_id`；藏身（None）→ 全拒絕；
+  **已入座（有 force）→ 允許選任何勢力**，交由 `_run_batch` 的借席切到目標 slot，
+  `sender_label='風夜（借目標席位）'`。這樣下一局風夜以 no-hide 入座＋P33 同步參與後，
+  可直接從面板選丁滿/風雲測試；不再需要本機玩家 client。
+  ⑥**測試**：**299/299**（入座可借任何勢力、藏身全拒絕）。⑦**未完成**：私聊／他人聊天
+  仍受同一 gate（host 依 member/session 投遞）；session-level 接管（中繼/loader 用目標
+  session id）尚未實作。實測與下一步程序見 docs/ghost-takeover-0.2.38.md。
+
+- **0.2.39（2026-10-20，Hub 合成指令「先切席位再送」＋藏身可排隊；myforce 補丁為真兇）**：
+  ①**使用者定案**：不要在遊戲介面切來切去，Hub 外部指令要直接走合成指令。②**真兇**：一鍵
+  開局守衛 `patch_start_nulls.py` 的 `myforce` 兩站（`0x445E98`、`0x445FE3`）把風夜本地
+  force 壓成 None；退回原版 6 bytes（`0fbf48083b4d`）後 slot 1 的 `local.force_id=3`
+  （風雲·齊）verified、面板出現、P58「切席→點界面→切回」成功（風雲端同步看到騎兵）。
+  ③**面板改動**：藏身（`_ghost_force=None`）不再拒絕；下單時先 `service._switch_slot(目標
+  slot)`（**內政階段開始前**切好），再 submit；服務維持 0.2.38 的等 phase 1→切席（同席）
+  →送→還席 5。合成指令只有在席位先於指令階段建立時才會被主機採納（P58/10-19 實證）。
+  ④**教訓**：實時採集（幀數）與指令 worker 是兩條路；採集活著不代表 worker 沒卡（本次
+  7 筆春季陷阱卡在「等待前筆確認」，主機 traps=0、金未扣 → 前筆根本沒套用）。
+  ⑤**測試**：面板隱身排隊測試更新；隊列/面板單元測試（GUI 的 laptop 測試在離屏 Tk 下
+  會卡 until，屬測試環境問題）。⑥**操作**：一鍵後、開局前若沒退 myforce，風夜會沒勢力；
+  `ghost_takeover.sh` 待補。合成指令送出的驗收一律看主機 production_buildings/traps/金，
+  不看訓練度。
+
+- **0.2.40（2026-10-20，同一建設多格連點＋同格再點取消）**：
+  ①`build_picker.EmbeddedPicker` 新增 `selected_cells`（有序）；`_click` 對候選格 toggle：
+  未選→加入、已選→移除；非候選格＝清空整批（沿用舊行為）。②`_update_selection` 顯示
+  「已選 N 格（最後 x,y）」，確認鈕在 N≥1 時可用；`_draw_overlay` 把所有選取格畫金框與座標。
+  ③`_confirm` 逐格呼叫 `on_select(city,x,y)`（＝`CommandPanel._confirm_build`→`_enqueue`），
+  每格拆成一筆獨立 job；成功格進 local_pending/candidates 移除，失敗格留在原選取。
+  ④測試：`tests.test_build_picker` **47/47**。⑤使用者需求：一次點周邊多個同類建設、確認後
+  自動拆分；同格再點一次＝取消該格。⑥未動服務層與合成指令 gate。
+
+- **0.2.41（2026-10-20，Hub 合成指令改走風夜 probe 的 P40 D5 成員上傳）**：
+  ①**關鍵靜態結論（p40_d5_inject.py 開頭）**：主機批次收集「不驗證成員上傳的 sender」，
+  成員以自己 member id 上傳 control5（D5）會被直接併入批次；p60 的 `0x42a7d4 SendObject`
+  standalone 才會被 sender/sync 檢查丟棄。這解釋 P58 UI 生效、p60 合成失敗。
+  ②**probe 端早已內建橋**：`p34_d8_probe.py --control-file/--control-result/
+  --d5-authorization-file`；`op:"d5"` → `domestic_record(**record)` → `D5Gate.reserve`
+  → `send_reliable_native`（`4c80`+`4b60`）→ result JSON。
+  ③**Hub 新增 `probe_sender.py`**：`build_record(job)`（54B 同構：actor/parameter=建設種類/
+  value=城池/extra/operand=(y<<16)|x/subtype=4）、`ProbeSender.ids(host_pid)`（讀主機
+  member table 取風夜 id 與房主 id）、`arm()`（P40 receipt：contract=P40/enable_d5/
+  test_game_confirmed/own_id/host_id/observed_wall）、`send()`（寫 control JSON、等 result、
+  回 raw_rc/target，逾時不重送）。
+  ④**CommandService**：`_run_batch` 偵測 `sender=='probe'` 即走 `_run_probe_batch`
+  （不借席、不等 phase、不跑 p60 agent；baseline→arming→send→fired→verifier）。
+  ⑤**面板**：`_enqueue` 固定 `sender='probe'`、`auto_slot=False`，移除 0.2.39 的
+  「先切席位」；label「風夜（probe D5，免切席位）」。
+  ⑥測試：`tests.test_probe_sender` 6/6；panel hidden/seated 2/2（laptop 測試在離屏 Tk
+  仍會卡 until，屬測試環境問題）。
+  ⑦**未完成**：本局風夜是 SANPK（非 probe），舊批次用 `agent_uplink` 送的 D5 已到 host
+  （rc=1 own=181506542 target=179754453 len=70）但停在 200 秋 phase 3，需推進回合才能
+  驗 production/gold；probe 版端到端要等新一局（probe 當風夜）才能驗。
+
+- **0.2.42（2026-10-20，probe 風夜一鍵與交付）**：
+  ①新增 `~/sgi-fengye-lab/shadow/one_click_probe.sh`：probe 風夜版一鍵（headless 進房→
+  使用者開局→cmd9→sync→D8 摘席→被動旁聽），帶 `--control-file/--control-result/
+  --d5-authorization-file/--d8-authorization-file/--execute`，控制檔與 Hub `ProbeSender`
+  完全對齊（`hub_control.json`/`hub_control_result.json`/`hub_d5_auth.json`）。
+  ②**使用順序**：使用者建房→`one_click_probe.sh <主機IP>`（SHADOW_USER=待秋至）→使用者開局→
+  probe D8 摘席→Hub 外部指令按建設/練兵→Hub `_run_probe_batch` 寫 control→probe D5
+  （`4c80`+`4b60`）→主機批次併入→結算後讀 production/traps/金。
+  ③**已知限制（必須如實告知）**：probe 是 headless，沒有遊戲地圖記憶體；Hub 的
+  `targets`/`battle`（金、cities、兵）目前仍讀 SANPK 影子。probe-only 局只能從 probe 的
+  p28 wire 取席位（cmd7）/指令（control5）/聊天；要完整局面需另一個唯讀旁聽端。
+  ④交付狀態：Hub 0.2.42 已建置重啟；`test_probe_sender` 6/6、panel hidden/seated 2/2。
+  **端到端未驗**：本局（SANPK 風夜）的 D5 批次已到 host（rc=1 len=70）但停在 200 秋
+  phase 3；probe 版需新局。未宣稱合成指令已實局生效。

@@ -1,0 +1,137 @@
+{
+  "title": "風夜 · 全知情報 Hub 0.2.4",
+  "viewable": true,
+  "frontend": "native-tk",
+  "run": "run-20261017-085457-24bb92ffecf14f4a",
+  "mode": "回放 · 本地記錄",
+  "feed_count": 8,
+  "total_feed_count": 8,
+  "snapshot_rows": [
+    [
+      "0",
+      "风云",
+      "—",
+      "0"
+    ],
+    [
+      "1",
+      "風夜",
+      "—",
+      "0"
+    ],
+    [
+      "2",
+      "空席",
+      "—",
+      "0"
+    ],
+    [
+      "3",
+      "空席",
+      "—",
+      "0"
+    ],
+    [
+      "4",
+      "空席",
+      "—",
+      "0"
+    ],
+    [
+      "5",
+      "空席",
+      "—",
+      "0"
+    ],
+    [
+      "6",
+      "空席",
+      "—",
+      "0"
+    ],
+    [
+      "7",
+      "空席",
+      "—",
+      "0"
+    ]
+  ],
+  "control_ready": false,
+  "chat_button": "disabled",
+  "stop_button": "disabled",
+  "render_error": null,
+  "d8_label": "D8：尚未執行（已註冊 cmd2，等待摘席）\n注意：主機已把本席位拉入開局等待（已有人按了開始）。",
+  "room_channel": "通道記錄（未確認在線）：本端 ID — → 房主 ID —／—　遊戲口 —　中繼 A —／B —　OpenSession rc=—\n暱稱：— · 收包 0／釋放 0 · 註冊 未執行 · 摘席 未執行",
+  "workspace_tabs": [
+    "風夜情報／操控台",
+    "势力情报",
+    "势力对比",
+    "武将资料",
+    "全图部队 · 红≤5/黄≤10格",
+    "变化",
+    "战役",
+    "附近情报",
+    "全图城关",
+    "全景地图",
+    "偷袭主城",
+    "外交对比",
+    "宣战拒绝",
+    "策反",
+    "抽牌概率",
+    "攻略预判"
+  ],
+  "legacy_tabs": [
+    "房間",
+    "成員",
+    "事件",
+    "線路目錄",
+    "會話與採集來源"
+  ],
+  "selected_tab": "風夜情報／操控台",
+  "data_source": "fengye-only",
+  "upstream_state_loaded": false,
+  "world_source": null,
+  "world_counts": {},
+  "rendered_forces": 0,
+  "original_pages": {
+    "势力情报": "normal",
+    "势力对比": "normal",
+    "武将资料": "normal",
+    "全图部队 · 红≤5/黄≤10格": "hidden",
+    "变化": "hidden",
+    "战役": "hidden",
+    "附近情报": "hidden",
+    "全图城关": "hidden",
+    "全景地图": "normal",
+    "偷袭主城": "hidden",
+    "外交对比": "normal",
+    "宣战拒绝": "normal",
+    "策反": "normal",
+    "抽牌概率": "normal",
+    "攻略预判": "normal"
+  },
+  "original_identity_controls_visible": false,
+  "room_controls": {
+    "room_start": "disabled",
+    "room_search": "disabled",
+    "room_join": "disabled",
+    "room_leave": "disabled",
+    "room_stop": "disabled",
+    "room_register": "disabled",
+    "room_d8": "disabled"
+  },
+  "room_monitor": {
+    "phase": "idle",
+    "fresh": false,
+    "connected": false
+  },
+  "fengye_decoded": [],
+  "original_panorama_bindings": [
+    ".!notebook.!panoramamap.!panedwindow.!frame.!frame2.!canvas",
+    "Canvas",
+    ".",
+    "all"
+  ],
+  "data_filter_count": 0,
+  "console_viewable": true
+}

@@ -762,7 +762,7 @@ class EmbeddedMapTkTests(unittest.TestCase):
     def test_original_camera_scroll_drag_and_bounded_height_remain_available(self):
         page, canvas = self.map.panorama, self.map.canvas
         self.assertEqual(int(canvas.cget('height')), 250)
-        self.assertLessEqual(page.winfo_reqheight(), 320)
+        self.assertLessEqual(page.winfo_reqheight(), 380)
         old_zoom = page.zoom
         page._wheel_at = 0
         with mock.patch('map_navigation._pointer_root', return_value=None):

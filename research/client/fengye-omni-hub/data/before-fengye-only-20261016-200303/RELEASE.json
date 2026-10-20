@@ -1,0 +1,7 @@
+{
+  "name": "風夜 · 全知情報 Hub",
+  "version": "0.1.5",
+  "upstream": "1.1.336",
+  "frontend": "native-tk",
+  "data_source": "original-hub-plus-fengye"
+}

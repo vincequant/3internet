@@ -13,7 +13,7 @@ import time  # noqa: F401  (kept for the module's documented freshness semantics
 
 def username_authorized42(username, allow_blank_username=False):
     """Display-name gate for the pre-start smoke: 风夜 or the established fake."""
-    if username in ('风夜', '小白'):
+    if username in ('风夜', '小白', '待秋至'):
         return True
     return bool(allow_blank_username) and username == ' '
 

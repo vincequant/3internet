@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/app/panorama_map.py", line 13, in <module>
+    from city_tactical import fmt
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/app/city_tactical.py", line 8, in <module>
+    from native_city_map import state_force_rgb
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/app/native_city_map.py", line 5, in <module>
+    from map_unit_labels import unit_label,label_box,unit_label_ink
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/app/map_unit_labels.py", line 2, in <module>
+    from officer_sortie import AMBUSH_INK, unit_has_ambush
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/app/officer_sortie.py", line 2, in <module>
+    from preparation_model import combat_power, size_index, skills_for, training_bases
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/app/preparation_model.py", line 14, in <module>
+    from state_history import kind_label
+ModuleNotFoundError: No module named 'state_history'

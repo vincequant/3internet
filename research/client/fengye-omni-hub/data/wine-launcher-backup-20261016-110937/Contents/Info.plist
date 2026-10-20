@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDisplayName</key>
+	<string>三国志 Wine</string>
+	<key>CFBundleExecutable</key>
+	<string>SGIWineLauncher</string>
+	<key>CFBundleIconFile</key>
+	<string>AppIcon</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.vk.sgi.wine-launcher</string>
+	<key>CFBundleName</key>
+	<string>三国志 Wine</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.19</string>
+	<key>LSMinimumSystemVersion</key>
+	<string>14.0</string>
+	<key>NSHighResolutionCapable</key>
+	<true/>
+	<key>SGIHubRoot</key>
+	<string>/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2</string>
+	<key>SGILauncherScript</key>
+	<string>/Users/vk/Documents/Coding/三国志internet/scripts/sgi_wine_launcher.py</string>
+	<key>SGIPythonInterpreter</key>
+	<string>/opt/homebrew/bin/python3</string>
+</dict>
+</plist>

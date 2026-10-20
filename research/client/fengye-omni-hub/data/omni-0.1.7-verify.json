@@ -1,0 +1,1174 @@
+{
+  "title": "風夜 · 全知情報 Hub 0.1.7",
+  "viewable": true,
+  "frontend": "native-tk",
+  "run": "run-192945",
+  "mode": "回放 · 本地記錄",
+  "feed_count": 177,
+  "total_feed_count": 177,
+  "snapshot_rows": [
+    [
+      "0",
+      "丁满",
+      "中山",
+      "0"
+    ],
+    [
+      "1",
+      "风云",
+      "吴",
+      "0"
+    ],
+    [
+      "2",
+      "電腦",
+      "秦",
+      "2"
+    ],
+    [
+      "3",
+      "電腦",
+      "南蛮",
+      "2"
+    ],
+    [
+      "4",
+      "電腦",
+      "代",
+      "2"
+    ],
+    [
+      "5",
+      "電腦",
+      "韩",
+      "2"
+    ],
+    [
+      "6",
+      "電腦",
+      "宋",
+      "2"
+    ],
+    [
+      "7",
+      "電腦",
+      "义渠",
+      "2"
+    ]
+  ],
+  "control_ready": false,
+  "chat_button": "disabled",
+  "stop_button": "disabled",
+  "render_error": null,
+  "workspace_tabs": [
+    "風夜情報／操控台",
+    "势力情报",
+    "势力对比",
+    "武将资料",
+    "全图部队 · 红≤5/黄≤10格",
+    "变化",
+    "战役",
+    "附近情报",
+    "全图城关",
+    "全景地图",
+    "偷袭主城",
+    "外交对比",
+    "宣战拒绝",
+    "策反",
+    "抽牌概率",
+    "攻略预判"
+  ],
+  "legacy_tabs": [
+    "房間",
+    "成員",
+    "事件",
+    "線路目錄",
+    "會話與採集來源"
+  ],
+  "selected_tab": "風夜情報／操控台",
+  "data_source": "fengye-only",
+  "upstream_state_loaded": false,
+  "world_source": null,
+  "world_counts": {},
+  "rendered_forces": 0,
+  "original_pages": {
+    "势力情报": "normal",
+    "势力对比": "normal",
+    "武将资料": "normal",
+    "全图部队 · 红≤5/黄≤10格": "hidden",
+    "变化": "hidden",
+    "战役": "hidden",
+    "附近情报": "hidden",
+    "全图城关": "hidden",
+    "全景地图": "normal",
+    "偷袭主城": "hidden",
+    "外交对比": "normal",
+    "宣战拒绝": "normal",
+    "策反": "normal",
+    "抽牌概率": "normal",
+    "攻略预判": "normal"
+  },
+  "original_identity_controls_visible": false,
+  "room_controls": {
+    "room_start": "disabled",
+    "room_search": "disabled",
+    "room_join": "disabled",
+    "room_leave": "disabled",
+    "room_stop": "disabled",
+    "room_register": "disabled",
+    "room_d8": "disabled"
+  },
+  "room_monitor": {
+    "phase": "idle",
+    "fresh": false,
+    "connected": false
+  },
+  "fengye_decoded": [
+    {
+      "wall": 1792150841.3465128,
+      "round": 21,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150841.3465128,
+      "round": 21,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150864.419282,
+      "round": 25,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150886.624265,
+      "round": 29,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150886.624265,
+      "round": 29,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150888.790886,
+      "round": 33,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150888.790886,
+      "round": 33,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150913.331075,
+      "round": 45,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 15,
+      "target_raw": 136,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792150913.331075,
+      "round": 45,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 8,
+      "target_raw": 250,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792150913.331075,
+      "round": 45,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetDomesticCmd",
+      "native_type": 18,
+      "subtype": 0,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 8,
+      "parameter_raw": 0,
+      "value_raw": 78,
+      "extra_raw": 1,
+      "action": "步兵训练"
+    },
+    {
+      "wall": 1792150913.331075,
+      "round": 45,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetDomesticCmd",
+      "native_type": 18,
+      "subtype": 2,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 15,
+      "parameter_raw": 0,
+      "value_raw": 0,
+      "extra_raw": 2,
+      "action": "施舍"
+    },
+    {
+      "wall": 1792150913.331075,
+      "round": 45,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150913.331075,
+      "round": 45,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150916.796624,
+      "round": 49,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792150916.796624,
+      "round": 49,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151100.218108,
+      "round": 77,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151100.218108,
+      "round": 77,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151287.881558,
+      "round": 105,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151287.881558,
+      "round": 105,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151294.099346,
+      "round": 109,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151294.099346,
+      "round": 109,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151296.674859,
+      "round": 113,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151296.674859,
+      "round": 113,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151299.731763,
+      "round": 117,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151299.731763,
+      "round": 117,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151340.054055,
+      "round": 129,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 8,
+      "target_raw": 353,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792151340.054055,
+      "round": 129,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 15,
+      "target_raw": 490,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792151340.054055,
+      "round": 129,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetDomesticCmd",
+      "native_type": 18,
+      "subtype": 0,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 8,
+      "parameter_raw": 0,
+      "value_raw": 93,
+      "extra_raw": 0,
+      "action": "步兵训练"
+    },
+    {
+      "wall": 1792151340.054055,
+      "round": 129,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetDomesticCmd",
+      "native_type": 18,
+      "subtype": 4,
+      "sender_raw": 3276868,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 15,
+      "parameter_raw": 8,
+      "value_raw": 5,
+      "extra_raw": 80,
+      "action": "建牧场",
+      "target_xy_raw": [
+        68,
+        50
+      ],
+      "base_value_semantics": "packed_coordinates_not_sender"
+    },
+    {
+      "wall": 1792151340.054055,
+      "round": 129,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151340.054055,
+      "round": 129,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151343.449273,
+      "round": 133,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151343.449273,
+      "round": 133,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151366.4656541,
+      "round": 137,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151377.4734879,
+      "round": 141,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151377.4734879,
+      "round": 141,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151379.4752278,
+      "round": 145,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151379.4752278,
+      "round": 145,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151409.1607301,
+      "round": 157,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 15,
+      "target_raw": 112,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792151409.1607301,
+      "round": 157,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 8,
+      "target_raw": 155,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792151409.1607301,
+      "round": 157,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetUnitNetCmdCreate",
+      "native_type": 16,
+      "subtype": 0,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 8,
+      "troop_kind_raw": 0,
+      "general_ids_raw": [
+        572,
+        -1,
+        -1
+      ],
+      "soldiers_raw": 6000,
+      "rice_raw": 6000,
+      "placement_raw": [
+        37,
+        2,
+        -1,
+        7
+      ],
+      "action": "出征"
+    },
+    {
+      "wall": 1792151409.1607301,
+      "round": 157,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetUnitNetCmdCreate",
+      "native_type": 16,
+      "subtype": 0,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 15,
+      "troop_kind_raw": 1,
+      "general_ids_raw": [
+        245,
+        -1,
+        -1
+      ],
+      "soldiers_raw": 4000,
+      "rice_raw": 4000,
+      "placement_raw": [
+        5,
+        3,
+        -1,
+        6
+      ],
+      "action": "出征"
+    },
+    {
+      "wall": 1792151409.1607301,
+      "round": 157,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151409.1607301,
+      "round": 157,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151412.9636962,
+      "round": 161,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151412.9636962,
+      "round": 161,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151476.0731268,
+      "round": 165,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151476.0731268,
+      "round": 165,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151539.476919,
+      "round": 169,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151539.476919,
+      "round": 169,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151602.8288782,
+      "round": 173,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151602.8288782,
+      "round": 173,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151721.069748,
+      "round": 189,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151721.069748,
+      "round": 189,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151727.928422,
+      "round": 193,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151727.928422,
+      "round": 193,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151727.928422,
+      "round": 193,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151727.928422,
+      "round": 193,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151735.948722,
+      "round": 197,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151735.948722,
+      "round": 197,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151735.948722,
+      "round": 197,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151735.948722,
+      "round": 197,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151745.8198662,
+      "round": 201,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151745.8198662,
+      "round": 201,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151745.8198662,
+      "round": 201,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151745.8198662,
+      "round": 201,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151855.576878,
+      "round": 213,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "native_class": "CSanInetPersonnelCmd",
+      "native_type": 20,
+      "subtype": 1,
+      "sender_raw": 0,
+      "decoded_from_raw": true,
+      "match_id": null,
+      "game_quarter": null,
+      "command_committed": null,
+      "action_training_eligible": false,
+      "actor_force_id": 15,
+      "target_raw": 12,
+      "action": "接纳仕官"
+    },
+    {
+      "wall": 1792151858.8670652,
+      "round": 217,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151858.8670652,
+      "round": 217,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151922.116394,
+      "round": 221,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151922.116394,
+      "round": 221,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151985.52643,
+      "round": 225,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792151985.52643,
+      "round": 225,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152048.9757109,
+      "round": 229,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152048.9757109,
+      "round": 229,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152178.417324,
+      "round": 245,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152178.417324,
+      "round": 245,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152241.5830731,
+      "round": 249,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152241.5830731,
+      "round": 249,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152316.32962,
+      "round": 253,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152316.32962,
+      "round": 253,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152381.8939729,
+      "round": 257,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152381.8939729,
+      "round": 257,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152516.767154,
+      "round": 273,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152516.767154,
+      "round": 273,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152580.0747461,
+      "round": 277,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152580.0747461,
+      "round": 277,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152656.2800891,
+      "round": 281,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152656.2800891,
+      "round": 281,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152723.392502,
+      "round": 285,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152723.392502,
+      "round": 285,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152888.592557,
+      "round": 301,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152888.592557,
+      "round": 301,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152966.039667,
+      "round": 305,
+      "sender": 172338238,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    },
+    {
+      "wall": 1792152966.039667,
+      "round": 305,
+      "sender": 173466439,
+      "run_name": "run-192945",
+      "source": "fengye_received_sync",
+      "server_result_verified": false,
+      "error": "unsupported class"
+    }
+  ],
+  "original_panorama_bindings": [
+    ".!notebook.!panoramamap.!panedwindow.!frame.!frame2.!canvas",
+    "Canvas",
+    ".",
+    "all"
+  ],
+  "data_filter_count": 95,
+  "data_detail": "10-16 20:16:06　CSanInetUnitNetCmdMove\n第 305 輪 · sender=172338238 · 63 B · 792b24cf7b3f\nffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001004e00000036000000030000000000ffffffff0000",
+  "console_viewable": true
+}

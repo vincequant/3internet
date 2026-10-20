@@ -1,0 +1,21 @@
+{
+  "status": "ok",
+  "session": {
+    "phase": "external_lobby",
+    "session_id": "existing-14133",
+    "alive": true,
+    "fresh": true,
+    "connected": false,
+    "external": true,
+    "line": "多线3",
+    "driver_pid": 14133,
+    "room_query": {
+      "driver_pid": 14133,
+      "observed_at": 1792152961.033591,
+      "status": "unconfirmed_empty",
+      "rooms": [],
+      "source": "existing relay SearchSession"
+    },
+    "error": "現有研究會話僅供查房；進退房由原會話管理，未接管"
+  }
+}

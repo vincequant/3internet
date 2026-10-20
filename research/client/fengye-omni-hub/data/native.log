@@ -1,0 +1,14 @@
+2026-10-16 12:08:07.704 FengyeHub[18159:11652608] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-16 23:32:43.386 FengyeHub[44849:15718399] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-17 08:56:34.793 Python[52608:17873562] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-10-17 22:34:30.553 FengyeHub[76999:22045017] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-18 12:20:30.129 FengyeHub[35376:26242645] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.

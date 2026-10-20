@@ -49,6 +49,8 @@ def snapshot():
                                'game_key': GAME_KEY, 'state': raw,
                                'captured_at': raw['capture_end']}
     data['_busy_cells'] = []
+    # 風夜自己的 force（入座後）；藏身時為 None。面板只放行這個勢力。
+    data['local'] = {'force_id': 3, 'slot': 0, 'status': 'seated'}
     return data
 
 
@@ -68,6 +70,11 @@ class FakeService:
         return {'ok': True, 'jobs': copy.deepcopy(self.jobs),
                 'current_game_key': self.current_key,
                 'current_jobs': copy.deepcopy(self.jobs)}
+
+    def _switch_slot(self, slot, timeout=60):
+        self.switched_slots = getattr(self, 'switched_slots', [])
+        self.switched_slots.append(slot)
+        return True, 'fake switch'
 
     def submit(self, payload, info=None, execute=True):
         self.submitted.append((copy.deepcopy(payload), info, execute))
@@ -184,6 +191,8 @@ class CommandPanelMappedTests(unittest.TestCase):
         payload, info, execute = self.service.submitted[0]
         self.assertEqual((payload['preset'], payload['troop'], payload['actor']), ('train', 1, 3))
         self.assertEqual(payload['prefix'], 'prefix-fengye-shadow')
+        self.assertFalse(payload['auto_slot'])
+        self.assertEqual(payload.get('sender'), 'probe')
         self.assertIs(info, self.panel.snapshot)
         self.assertTrue(execute)
         self.assertEqual(self.panel.tables['active'].get_children(), ('job-1',))
@@ -195,6 +204,31 @@ class CommandPanelMappedTests(unittest.TestCase):
         self.panel.train_buttons[0].invoke()
         self.assertEqual(len(self.service.submitted), 2)
         self.assertEqual(len(self.panel.tables['active'].get_children()), 2)
+
+    def test_seated_ghost_can_target_any_force_but_hidden_cannot(self):
+        self.assertEqual(self.panel._ghost_force(), 3)
+        self.panel.force_box.current(1)  # 丁滿・巴，借目標席位
+        self.panel._force_changed()
+        self.panel.train_buttons[0].invoke()
+        payload = self.service.submitted[0][0]
+        self.assertEqual(payload['prefix'], 'prefix-fengye-shadow')
+        self.assertFalse(payload['auto_slot'])
+        self.assertEqual(payload.get('sender'), 'probe')
+        self.assertEqual(payload['actor'], 4)
+        self.assertIn('probe', payload['sender_label'])
+
+    def test_hidden_ghost_can_queue_with_probe_d5_sender(self):
+        self.panel.snapshot['local'] = {'force_id': None, 'slot': 5, 'status': 'hidden'}
+        self.assertIsNone(self.panel._ghost_force())
+        self.panel.train_buttons[0].invoke()
+        self.assertEqual(len(self.service.submitted), 1)
+        payload = self.service.submitted[0][0]
+        self.assertEqual(payload['prefix'], 'prefix-fengye-shadow')
+        self.assertFalse(payload['auto_slot'])
+        self.assertEqual(payload.get('sender'), 'probe')
+        self.assertEqual(payload['actor'], 3)
+        self.assertIn('probe', payload['sender_label'])
+        self.assertIn('已加入', self.panel.note.cget('text'))
 
     def test_laptop_layout_keeps_map_queue_details_and_confirmation_inside_panel(self):
         # A 1280x928 main window leaves about 650 px after the application

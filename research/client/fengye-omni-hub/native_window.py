@@ -573,8 +573,14 @@ class FengyeWindow(OmniWindow):
         self.chat_history_page = tk.Frame(self.control_book, bg=DAMASK)
         self.control_book.add(self.chat_history_page, text='聊天歷史')
         tk.Label(self.chat_history_page, text='本局收到的聊天（唯讀，逐條按時間）', bg=DAMASK, fg=GOLD,
-                 font=(self.face, 13, 'bold'), anchor='w').pack(fill='x', padx=16, pady=(10, 4))
+                 font=(self.face, 13, 'bold'), anchor='w').pack(fill='x', padx=16, pady=(10, 2))
+        tk.Label(self.chat_history_page, text='目前只顯示風夜連線收到的聊天；同盟／私聊頻道是否可旁聽尚未驗證（P60）。',
+                 bg=DAMASK, fg=MUTED, anchor='w', justify='left',
+                 wraplength=1000).pack(fill='x', padx=16, pady=(0, 4))
         self.chat_history = self._text(self.chat_history_page, 14)
+        self.lab_page = tk.Frame(self.control_book, bg=DAMASK)
+        self.control_book.add(self.lab_page, text='實驗室')
+        self._build_lab_page()
         self._build_local_controls()
         # 2026-10-19 用戶要求：只留一頁聊天歷史；其餘兩頁隱藏（元件保留，避免既有刷新路徑失效）。
         self.control_book.hide(self.chat_control_page)
@@ -1502,6 +1508,87 @@ class FengyeWindow(OmniWindow):
             "tail -2 logs/app.log 2>/dev/null\n"
         )
         self._lab_async('查看風夜狀態', script, timeout=60)
+
+    def _build_lab_page(self):
+        # 2026-10-20 使用者要求：把 p63 的自然斷線做成一顆按鈕。破壞性操作，
+        # 每次都要在對話框確認；風夜（旁聽端）不在目標清單。
+        box = self._box(self.lab_page, '實驗室 · 讓對手掉線（自然斷線）')
+        box.pack(fill='x', padx=14, pady=14)
+        tk.Label(box, text='選一位本機玩家，送出一次程序內退出。對方會立刻斷線；'
+                           '約 30–40 秒主機顯示「無法重新連線／退出」。'
+                           '每次執行都要確認，失敗不重試。',
+                 bg=DAMASK, fg=MUTED, anchor='w', justify='left',
+                 wraplength=1000).pack(fill='x', padx=12, pady=(10, 6))
+        bar = tk.Frame(box, bg=DAMASK)
+        bar.pack(fill='x', padx=12, pady=6)
+        tk.Label(bar, text='目標：', bg=DAMASK, fg=INK).pack(side='left')
+        self.drop_target = tk.StringVar(value='丁滿（主機）')
+        ttk.Combobox(bar, textvariable=self.drop_target, width=18, state='readonly',
+                     values=['丁滿（主機）', '風雲']).pack(side='left', padx=6)
+        self.drop_button = tk.Button(bar, text='讓對手掉線', bg='#f7e5e5', fg=WARN,
+                                     command=self.drop_client)
+        self.drop_button.pack(side='left', padx=10)
+        tk.Button(bar, text='檢查本機客戶端', bg=BG, command=self.drop_check).pack(side='right')
+        self.drop_label = tk.Label(box, text='', bg=WELL, fg=INK, anchor='w', justify='left',
+                                   wraplength=1000, padx=12, pady=10)
+        self.drop_label.pack(fill='x', padx=12, pady=(6, 12))
+        tk.Label(self.lab_page, text='其他實驗室工具（D8 摘席、回合跟隨）仍在既有頁面與 CLI；'
+                                     '這裡只放需要二次確認的破壞性操作。',
+                 bg=DAMASK, fg=MUTED, anchor='w', justify='left',
+                 wraplength=1000).pack(fill='x', padx=20, pady=(0, 10))
+
+    @staticmethod
+    def _drop_prefixes():
+        return {'丁滿（主機）': 'prefix-dingman-local', '風雲': 'prefix-sikarugir10'}
+
+    def drop_check(self):
+        self.drop_label.configure(text='正在檢查本機客戶端…')
+
+        def work():
+            lines = []
+            for label, prefix in self._drop_prefixes().items():
+                try:
+                    pid = self.command_service.pid(prefix)
+                except Exception:
+                    pid = None
+                lines.append('%s：%s' % (label, '在線' if pid else '離線或未啟動'))
+            text = '　'.join(lines) + '\n只列出本機客戶端；遠端主機請用實驗室 CLI。'
+            try:
+                self.after(0, lambda: self.drop_label.configure(text=text))
+            except Exception:
+                pass
+        threading.Thread(target=work, name='drop-check', daemon=True).start()
+
+    def drop_client(self):
+        label = self.drop_target.get()
+        prefix = self._drop_prefixes().get(label)
+        if not prefix:
+            return
+        if not messagebox.askokcancel(
+                '讓對手掉線？',
+                '讓「%s」立刻斷線？\n\n這是破壞性操作：對方會直接退出，'
+                '主機約 30–40 秒後顯示「無法重新連線／退出」。\n'
+                '每次只送一次，失敗不重試。' % label, parent=self.root):
+            return
+        self.drop_button.configure(state='disabled')
+        self.drop_label.configure(text='正在送出掉線…')
+
+        def work():
+            result = self.command_service.drop_client(prefix)
+            if result.get('ok'):
+                text = '%s 已送出掉線；約 30–40 秒主機顯示退出。' % label
+            else:
+                detail = result.get('error') or result.get('output') or '未知原因'
+                text = '沒有送出：%s' % str(detail)[:300]
+
+            def show():
+                self.drop_button.configure(state='normal')
+                self.drop_label.configure(text=text)
+            try:
+                self.after(0, show)
+            except Exception:
+                pass
+        threading.Thread(target=work, name='drop-client', daemon=True).start()
 
     def _build_local_controls(self):
         page = tk.Frame(self.control_book, bg=DAMASK)

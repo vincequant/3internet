@@ -1,0 +1,49 @@
+{
+  "version": "0.2.18",
+  "checked_at": "2026-10-18 13:41:43",
+  "ui": {
+    "title": "風夜 · 全知情報 Hub 0.2.18",
+    "selected_tab": "風夜操控台",
+    "console_viewable": true,
+    "console_subtabs": [
+      "房間監控",
+      "發言與回執",
+      "風雲・本機控制"
+    ],
+    "console_subtabs_viewable": [
+      true,
+      true,
+      true
+    ],
+    "original_pages_all_hidden": true,
+    "render_error": null,
+    "replay_verify_file": "data/omni-0.2.18-verify.json"
+  },
+  "readonly_actions": {
+    "實驗室：查看狀態": {
+      "rc": 0,
+      "note": "進程(空=影子未運行)/D8回執 SHG2 rc=1/崩潰台帳 172144B@13:10/app.log session_closed@13:25"
+    },
+    "風夜・遠端勢力切換：讀取": {
+      "rc": 1,
+      "note": "no sanpk.exe in this bottle（影子未運行；乾淨報錯，管線正常）"
+    },
+    "風雲・本機控制：重新整理狀態": {
+      "rc": 0,
+      "result": {
+        "helper_pid": 6656,
+        "sanpk_pid": 6867,
+        "stop_file": false,
+        "staging": true
+      }
+    }
+  },
+  "pending_live_actions": [
+    "房間：登入風夜大廳 / 更新房間 / 進入所選房間（自動報到→藏身）/ 退出房間 / 停止大廳",
+    "開局前：風夜報到 / 風夜藏身 / ↻重新來過",
+    "實驗室：一鍵武裝並進房 / 實驗室收線",
+    "發言與回執：以風夜發言 / 風夜下線（正常退出）",
+    "本機控制：登入大廳→進遊戲 / 退出遊戲（溫和）/ 強制關閉 / 本機席位切換",
+    "風夜・遠端勢力切換：切到 0–7 / 還原"
+  ]
+}

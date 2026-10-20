@@ -1,0 +1,215 @@
+{
+  "version": "0.1.5",
+  "original_features_restored": true,
+  "tests": {
+    "native": 11,
+    "original_core_history_compare_map": 30,
+    "backend": 43
+  },
+  "gui": {
+    "title": "風夜 · 全知情報 Hub 0.1.5",
+    "viewable": true,
+    "frontend": "native-tk",
+    "run": "run-093702",
+    "mode": "回放 · 本地記錄",
+    "feed_count": 62,
+    "total_feed_count": 62,
+    "snapshot_rows": [
+      [
+        "0",
+        "丁满",
+        "蜀",
+        "0"
+      ],
+      [
+        "1",
+        "风夜",
+        "中山",
+        "0"
+      ],
+      [
+        "2",
+        "電腦",
+        "赵",
+        "2"
+      ],
+      [
+        "3",
+        "電腦",
+        "晋",
+        "2"
+      ],
+      [
+        "4",
+        "電腦",
+        "巴",
+        "2"
+      ],
+      [
+        "5",
+        "電腦",
+        "宋",
+        "2"
+      ],
+      [
+        "6",
+        "電腦",
+        "韩",
+        "2"
+      ],
+      [
+        "7",
+        "電腦",
+        "西凉",
+        "2"
+      ]
+    ],
+    "control_ready": false,
+    "chat_button": "disabled",
+    "stop_button": "disabled",
+    "render_error": null,
+    "workspace_tabs": [
+      "風夜情報／操控台",
+      "势力情报",
+      "势力对比",
+      "武将资料",
+      "全图部队",
+      "变化 (0)",
+      "战役",
+      "附近情报",
+      "全图城关",
+      "全景地图",
+      "偷袭主城",
+      "外交对比",
+      "宣战拒绝",
+      "策反",
+      "抽牌概率",
+      "攻略预判"
+    ],
+    "legacy_tabs": [
+      "房間",
+      "成員",
+      "事件",
+      "線路目錄",
+      "會話與採集來源"
+    ],
+    "selected_tab": "势力情报",
+    "data_source": "original-hub-and-fengye",
+    "upstream_state_loaded": true,
+    "world_source": "original_archive",
+    "world_counts": {
+      "lords": 2,
+      "generals": 923,
+      "field_units": 0,
+      "cities_and_barriers": 92,
+      "unclassified_empty_574": 0,
+      "production_buildings": 186,
+      "traps": 0
+    },
+    "rendered_forces": 2,
+    "original_pages": {
+      "势力情报": "normal",
+      "势力对比": "normal",
+      "武将资料": "normal",
+      "全图部队": "hidden",
+      "变化 (0)": "hidden",
+      "战役": "hidden",
+      "附近情报": "hidden",
+      "全图城关": "hidden",
+      "全景地图": "normal",
+      "偷袭主城": "hidden",
+      "外交对比": "normal",
+      "宣战拒绝": "normal",
+      "策反": "normal",
+      "抽牌概率": "normal",
+      "攻略预判": "normal"
+    },
+    "original_identity_controls_visible": true,
+    "fengye_decoded": [
+      {
+        "wall": 1792115018.983296,
+        "round": 9,
+        "sender": 167993904,
+        "run_name": "run-093702",
+        "source": "fengye_received_sync",
+        "server_result_verified": false,
+        "native_class": "CSanInetDomesticCmd",
+        "native_type": 18,
+        "subtype": 0,
+        "sender_raw": 0,
+        "decoded_from_raw": true,
+        "match_id": null,
+        "game_quarter": null,
+        "command_committed": null,
+        "action_training_eligible": false,
+        "actor_force_id": 17,
+        "parameter_raw": 0,
+        "value_raw": 79,
+        "extra_raw": 1,
+        "action": "步兵训练"
+      },
+      {
+        "wall": 1792115018.983296,
+        "round": 9,
+        "sender": 167993904,
+        "run_name": "run-093702",
+        "source": "fengye_received_sync",
+        "server_result_verified": false,
+        "native_class": "CSanInetDomesticCmd",
+        "native_type": 18,
+        "subtype": 0,
+        "sender_raw": 0,
+        "decoded_from_raw": true,
+        "match_id": null,
+        "game_quarter": null,
+        "command_committed": null,
+        "action_training_eligible": false,
+        "actor_force_id": 17,
+        "parameter_raw": 1,
+        "value_raw": 86,
+        "extra_raw": 1,
+        "action": "骑兵训练"
+      },
+      {
+        "wall": 1792115018.983296,
+        "round": 9,
+        "sender": 167993904,
+        "run_name": "run-093702",
+        "source": "fengye_received_sync",
+        "server_result_verified": false,
+        "native_class": "CSanInetDomesticCmd",
+        "native_type": 18,
+        "subtype": 0,
+        "sender_raw": 0,
+        "decoded_from_raw": true,
+        "match_id": null,
+        "game_quarter": null,
+        "command_committed": null,
+        "action_training_eligible": false,
+        "actor_force_id": 17,
+        "parameter_raw": 0,
+        "value_raw": 73,
+        "extra_raw": 1,
+        "action": "步兵训练"
+      }
+    ],
+    "original_panorama_bindings": [
+      ".!notebook.!panoramamap.!panedwindow.!frame.!frame2.!canvas",
+      "Canvas",
+      ".",
+      "all"
+    ],
+    "panorama_viewable": true,
+    "panorama_items": 11,
+    "original_officer_rows": 106,
+    "original_force_officer_rows": 1,
+    "data_filter_count": 3,
+    "data_detail": "10-16 09:43:38　CSanInetDomesticCmd\n第 9 輪 · sender=167993904 · 54 B · 525937e59b92\nffff010013004353616e496e6574446f6d6573746963436d641200000000000000000000000011000000000000004f00000001000000",
+    "console_viewable": true
+  },
+  "wine_entry_opened_version": "0.1.5",
+  "distribution_files": 315,
+  "sha256": "2004a1ca2ee14f4df64af05fa5893334c4bc6b7646b10164b68ff0f697ed84d3",
+  "live_controls_sent": false,
+  "windows_native_validation": "not_run"
+}

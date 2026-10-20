@@ -230,8 +230,9 @@ class EmbeddedConstructionMap(tk.Frame):
         self._pending_samples = {}
         self._width, self._height = WORLD
         self.panorama = EmbeddedConstructionPanorama(self, self)
-        # A bounded requested height leaves the parent command timeline visible.
-        self.panorama.configure(height=320)
+        # A bounded requested height leaves the parent command timeline visible;
+        # 0.2.34 raises it for the larger default window and shorter queue rows.
+        self.panorama.configure(height=380)
         self.panorama.pack_propagate(False)
         self.panorama.pack(fill='both', expand=True)
         self.canvas = self.panorama.canvas
@@ -286,6 +287,7 @@ class EmbeddedConstructionMap(tk.Frame):
         context = (build_label or None, actor, self._game_scope)
         if context != self._context:
             self.selected = None
+            self.selected_cells = []
         self._context = context
         self.build_label, self.actor = build_label or None, actor
         self._payload = payload
@@ -325,8 +327,9 @@ class EmbeddedConstructionMap(tk.Frame):
             self.panorama.status.set(text)
         except Exception as exc:
             self.panorama.status.set('資料未知／過期 · '+str(exc))
+        self.selected_cells = [xy for xy in self.selected_cells if xy in self.candidates]
         if self.selected not in self.candidates:
-            self.selected = None
+            self.selected = self.selected_cells[-1] if self.selected_cells else None
         self._update_selection()
         self.panorama.draw(refresh_view=False)
 
@@ -360,24 +363,44 @@ class EmbeddedConstructionMap(tk.Frame):
             self._known = False
             self.candidates.clear()
             self.selected = None
+            self.selected_cells = []
             self.panorama.status.set('資料未知／過期，等待新地圖後再選址')
         else:
             xy = self._event_cell(event)
-            self.selected = xy if xy in self.candidates else None
+            if xy in self.candidates:
+                # 2026-10-20 使用者定案：同一種建設可一次點多格，確認時
+                # 逐格拆成獨立指令；同一格再點一次＝取消該格。
+                if xy in self.selected_cells:
+                    self.selected_cells.remove(xy)
+                else:
+                    self.selected_cells.append(xy)
+                self.selected = (xy if xy in self.selected_cells
+                                 else (self.selected_cells[-1] if self.selected_cells else None))
+            else:
+                # 非候選格＝清除整批選擇（沿用舊行為）
+                self.selected = None
+                self.selected_cells = []
         self._update_selection()
         self._draw_overlay()
         return 'break'
 
     def _update_selection(self):
-        city = self.candidates.get(self.selected)
-        if city:
-            text = '%s · %s · 位置 %s,%s' % (self.build_label, city.get('name') or '己方城池', *self.selected)
+        cells = [xy for xy in self.selected_cells if xy in self.candidates]
+        if cells:
+            last = cells[-1]
+            city = self.candidates.get(last)
+            if len(cells) == 1 and city:
+                text = '%s · %s · 位置 %s,%s' % (self.build_label, city.get('name') or '己方城池', *last)
+            else:
+                text = '%s：已選 %d 格（最後 %s,%s）；確認後逐格入隊，同格再點可取消' % (
+                    self.build_label, len(cells), *last)
         elif self.build_label:
             text = '%s：點淡藍高亮後確認；資源與額度會再核對' % self.build_label
         else:
             text = '選建設種類後，在原地圖點淡藍高亮位置'
         self.selection_label.configure(text=text)
-        self.confirm_button.configure(state='normal' if self._known and city and not self._confirming else 'disabled')
+        self.confirm_button.configure(
+            state='normal' if self._known and cells and not self._confirming else 'disabled')
 
     def _draw_overlay(self):
         if self._closed:
@@ -398,7 +421,7 @@ class EmbeddedConstructionMap(tk.Frame):
             points = [coordinate for p in vertices for coordinate in p]
             if max(points[::2]) < 0 or min(points[::2]) > width or max(points[1::2]) < 0 or min(points[1::2]) > height:
                 continue
-            selected, hovered = xy == self.selected, xy == self._hover_cell
+            selected, hovered = xy in self.selected_cells, xy == self._hover_cell
             tint = (255, 218, 76, 100) if selected else (166, 225, 255, 110 if hovered else 65)
             painter.polygon(vertices, fill=tint)
             visible.append((points, selected, hovered))
@@ -408,9 +431,9 @@ class EmbeddedConstructionMap(tk.Frame):
             canvas.create_polygon(points, fill='', outline='#ffe35c' if selected else ('#ffffff' if hovered else '#c0eaff'),
                                   width=3 if selected or hovered else 1.5,
                                   tags=('build-pick', 'build-selected' if selected else 'build-candidate'))
-        if self.selected is not None:
-            px, py = page._project(*self.selected, width, height, layer)
-            label = '%s,%s' % self.selected
+        for xy in self.selected_cells:
+            px, py = page._project(*xy, width, height, layer)
+            label = '%s,%s' % xy
             canvas.create_text(px+1, py-29, text=label, fill='#172018', tags='build-pick')
             canvas.create_text(px, py-30, text=label, fill='#fff099', tags='build-pick')
 
@@ -425,31 +448,40 @@ class EmbeddedConstructionMap(tk.Frame):
             self._update_selection()
             self._draw_overlay()
             return False
-        xy = self.selected
-        city = self.candidates.get(xy)
-        if city is None:
+        cells = [xy for xy in self.selected_cells if self.candidates.get(xy) is not None]
+        if not cells:
             return False
         context = self._context
         self._confirming = True
         self._update_selection()
+        accepted_any = False
         try:
-            accepted = self.on_select(deepcopy(city), *xy) is True
-        except Exception as exc:
-            self.panorama.status.set('未加入隊列：'+str(exc))
-            accepted = False
+            for xy in list(cells):
+                city = self.candidates.get(xy)
+                if city is None:
+                    continue
+                try:
+                    accepted = self.on_select(deepcopy(city), *xy) is True
+                except Exception as exc:
+                    self.panorama.status.set('未加入隊列：'+str(exc))
+                    accepted = False
+                if accepted:
+                    accepted_any = True
+                    self._local_pending.add(xy)
+                    state = self._payload.get('state') or {}
+                    self._pending_samples[xy] = ((state.get('snapshot_id'), state.get('capture_end')),
+                                                 datetime.now(timezone.utc).timestamp())
+                    self.candidates.pop(xy, None)
+                    if xy in self.selected_cells:
+                        self.selected_cells.remove(xy)
         finally:
             self._confirming = False
-        if accepted and self._context == context:
-            self._local_pending.add(xy)
-            state = self._payload.get('state') or {}
-            self._pending_samples[xy] = ((state.get('snapshot_id'), state.get('capture_end')),
-                                         datetime.now(timezone.utc).timestamp())
-            self.candidates.pop(xy, None)
-            self.selected = None
+        if self._context == context:
+            self.selected = self.selected_cells[-1] if self.selected_cells else None
         if not self._closed:
             self._update_selection()
             self._draw_overlay()
-        return accepted
+        return accepted_any
 
 
 class BuildPicker(tk.Toplevel):
@@ -464,6 +496,7 @@ class BuildPicker(tk.Toplevel):
         self.build_label = str(build_label)
         self.on_select, self.loader = on_select, loader
         self.selected = None
+        self.selected_cells = []
         self.candidates, self.occupied, self.busy = set(), set(), set()
         self._closed = False
         self._selection_used = False

@@ -26,7 +26,7 @@ SEND_CALL_SHAPE = (
 def username_authorized(username, allow_blank_username=False):
     """Display-name gate. Strict single allowed default; an explicit flag may
     additionally admit exactly one ASCII space (blank-name smoke, Session 1)."""
-    if username == '风夜':
+    if username in ('风夜', '待秋至'):
         return True
     return bool(allow_blank_username) and username == ' '
 

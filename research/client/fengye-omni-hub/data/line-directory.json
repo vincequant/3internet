@@ -1,0 +1,30 @@
+{
+  "observed_at": 1791894471.605707,
+  "source": "research/client/protocol-lab/evidence/multiline3-20261013/result.json",
+  "lines": [
+    {
+      "id": 1000,
+      "name": "电信1（备用）",
+      "server": "61.147.99.233",
+      "port": 9008
+    },
+    {
+      "id": 1001,
+      "name": "多线2（主线）",
+      "server": "",
+      "port": 9151
+    },
+    {
+      "id": 1002,
+      "name": "多线3（备用）",
+      "server": "36.151.147.251",
+      "port": 29100
+    },
+    {
+      "id": 1003,
+      "name": "香港中转2（海外）",
+      "server": "38.175.194.244",
+      "port": 9171
+    }
+  ]
+}

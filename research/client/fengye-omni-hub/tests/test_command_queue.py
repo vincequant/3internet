@@ -57,7 +57,10 @@ class MockService(CommandService):
 
     def phase(self, prefix=PREFIX):
         self.phase_reads += 1
-        return 2, {}
+        return 1, {'f_4d6': 0}
+
+    def reference_state(self, prefix=None):
+        return None
 
     def occupied_cells(self, *a, **k):
         return {}
@@ -116,7 +119,8 @@ class QueueTests(unittest.TestCase):
         self.svc._dispatch()
         self.assertEqual(len(self.svc.calls), 2)
         self.assertEqual(self.svc.switches, [1, 5])
-        self.assertEqual(self.svc.phase_reads, 1)
+        # one read for the domestic gate, one re-check after the seat switch
+        self.assertEqual(self.svc.phase_reads, 2)
         self.assertEqual([j['status'] for j in self.svc.jobs], ['verifying', 'verifying'])
         self.assertTrue(all(not j.get('finished') for j in self.svc.jobs))
 
@@ -163,7 +167,7 @@ class QueueTests(unittest.TestCase):
 
     def test_cancel_waiting_phase_has_no_side_effect(self):
         job_id = self.svc.submit(train(), INFO)['job']['id']
-        self.svc.phase = lambda *a: (1, {})
+        self.svc.phase = lambda *a: (4, {'f_4d6': 0})
         thread = threading.Thread(target=self.svc._dispatch)
         thread.start()
         deadline = time.monotonic() + 1
@@ -347,6 +351,106 @@ class QueueTests(unittest.TestCase):
         self.assertFalse(self.svc._worker_running)
         self.assertEqual(len(self.svc.calls), 2)
         self.assertEqual(active[1], 1)
+
+
+    def test_fires_in_the_current_domestic_phase_without_waiting(self):
+        job_id = self.svc.submit(train(), INFO)['job']['id']
+        self.svc._dispatch()
+        job = self.svc.jobs[0]
+        self.assertEqual(job['status'], 'verifying')
+        self.assertEqual(job.get('phase_at_submit'), 1)
+        self.assertNotIn('waiting_phase_exit',
+                         [event['status'] for event in job['events']])
+        self.assertEqual(self.svc.switches, [1, 5])
+        self.assertEqual(len(self.svc.calls), 1)
+
+    def test_stale_delivery_client_fails_before_the_seat_switch(self):
+        self.svc.phase = lambda *a: (4, {'f_4d6': 0, 'rows_f4a': [16, 5]})
+        self.svc.reference_state = lambda prefix=None: {
+            'phase': 1, 'season': 3, 'roster': (16, 5)}
+        self.svc.submit(train(), INFO)
+        self.svc._dispatch()
+        job = self.svc.jobs[0]
+        self.assertEqual(job['status'], 'error')
+        self.assertIn('停在 season 0', job['note'])
+        self.assertEqual(self.svc.switches, [])
+        self.assertEqual(self.svc.calls, [])
+
+    def test_waiting_aborts_when_the_real_client_moves_ahead(self):
+        self.svc.phase = lambda *a: (2, {'f_4d6': 0, 'rows_f4a': [16, 5]})
+        reference = [{'phase': 2, 'season': 0, 'roster': (16, 5)},
+                     {'phase': 2, 'season': 1, 'roster': (16, 5)}]
+        calls = {'n': 0}
+
+        def next_reference(prefix=None):
+            index = min(calls['n'], len(reference) - 1)
+            calls['n'] += 1
+            return reference[index]
+
+        self.svc.reference_state = next_reference
+        self.svc.reference_check_interval = 0.0
+        self.svc.submit(train(), INFO)
+        self.svc._dispatch()
+        job = self.svc.jobs[0]
+        self.assertEqual(job['status'], 'error')
+        self.assertIn('玩家端已在 season 1', job['note'])
+        self.assertEqual(self.svc.switches, [])
+
+    def test_different_roster_is_not_treated_as_stale(self):
+        self.assertIsNone(CommandService._staleness_error(
+            {'phase': 4, 'season': 0, 'roster': (1, 2)},
+            {'phase': 1, 'season': 3, 'roster': (3, 4)}))
+
+    def test_home_seat_survives_a_pending_restore(self):
+        self.svc.jobs = [{'id': 'pending', 'slot_pending_restore': True,
+                          'slot_home': 5}]
+        self.svc.runner = lambda *a, **k: SimpleNamespace(
+            stdout='123 bash slotkeep.sh --slot 1 --seconds 1',
+            stderr='', returncode=0)
+        self.assertEqual(self.svc._ghost_home_slot(default=None), 5)
+
+
+    def test_eta_text_uses_game_year_and_season(self):
+        self.assertEqual(CommandService.eta_text(1, 200, 0),
+                         '200年春內政階段（現在）')
+        self.assertEqual(CommandService.eta_text(4, 200, 0),
+                         '200年夏內政階段結束後')
+        self.assertEqual(CommandService.eta_text(2, 200, 3),
+                         '201年春內政階段結束後')
+        self.assertIsNone(CommandService.eta_text(None, 200, 0))
+
+    def test_submit_keeps_the_payload_eta_text(self):
+        result = self.svc.submit(dict(train(), eta_text='200年夏內政階段結束後'), INFO)
+        self.assertEqual(result['job']['eta_text'], '200年夏內政階段結束後')
+
+    def test_drop_client_is_local_only_and_uses_p63(self):
+        tools = Path(self.temp.name) / 'tools'
+        tools.mkdir()
+        (tools / 'p63_drop_inject.py').write_text('# fake')
+        calls = []
+
+        def run(prefix, args, timeout=30):
+            calls.append((prefix, args))
+            return SimpleNamespace(returncode=0, stdout='{"ok": true}', stderr='')
+
+        self.svc._run = run
+        result = self.svc.drop_client('prefix-dingman-local')
+        self.assertTrue(result['ok'])
+        self.assertEqual(calls[0][0], 'prefix-dingman-local')
+        self.assertIn('p63_drop_inject.py', calls[0][1][0])
+        refused = self.svc.drop_client('prefix-fengye-shadow')
+        self.assertFalse(refused['ok'])
+        self.assertEqual(len(calls), 1)
+
+
+    def test_direct_client_batch_does_not_borrow_the_ghost_seat(self):
+        payload = dict(train(), prefix='prefix-dingman-local', auto_slot=False)
+        self.svc.submit(payload, INFO)
+        self.svc._dispatch()
+        self.assertEqual(self.svc.switches, [])
+        self.assertEqual(len(self.svc.calls), 1)
+        self.assertEqual(self.svc.jobs[0]['status'], 'verifying')
+        self.assertEqual(self.svc.jobs[0]['prefix'], 'prefix-dingman-local')
 
 
 if __name__ == '__main__':
