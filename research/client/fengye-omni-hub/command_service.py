@@ -22,23 +22,32 @@ send is exactly one command, once-only, never retried.
 from __future__ import annotations
 
 import json
+import math
 import os
 import struct
 import subprocess
 import threading
 import time
 import uuid
+from hashlib import sha256
 from pathlib import Path
 
 RECEIPT_KEYS = ('magic2 rc core own gate_before gate_after phase tick '
                 'vtable kind subtype operand f14 f18 f1c f20').split()
 RECEIPT_MAGIC2 = 0x53365243
 PRESETS = ('train', 'alms', 'rice', 'build', 'personnel', 'phaseend')
-BUILD_TYPES = {4: '火計', 5: '落石', 6: '陷阱', 7: '練兵所', 8: '牧場', 9: '弓工坊'}
+BUILD_TYPES = {6: '陷阱', 7: '兵營', 8: '馬房', 9: '弓房'}
 TROOPS = {0: '步兵', 1: '騎兵', 2: '弓兵'}
 # 佔用格子的說法（去重用；同一格只能有一個物件）
 OCCUPIED_TEXT = {'building': '建築', 'trap': '陷阱', 'city': '城池/關卡'}
-BUSY_STATUS = ('arming', 'queued', 'firing', 'armed_waiting')
+BUSY_STATUS = ('held', 'pending', 'validating', 'waiting_phase_exit', 'switching_slot',
+               'arming', 'queued', 'firing', 'waiting_phase', 'awaiting_receipt',
+               'armed_waiting', 'unknown', 'restoring', 'restore_failed',
+               'waiting_effect', 'fired', 'verifying')
+CANCELLABLE = ('held', 'pending', 'validating', 'waiting_phase_exit', 'waiting_effect')
+UNRESOLVED = ('unknown', 'restore_failed')
+TERMINAL = ('cancelled', 'error', 'send_failed', 'completed')
+_DISPATCH_LOCK = threading.Lock()
 
 # client prefix -> label shown in the panel
 TARGETS = (
@@ -56,7 +65,7 @@ def _default_lab():
 
 
 class CommandService:
-    def __init__(self, lab=None, runner=None, wine=None, p32=None):
+    def __init__(self, lab=None, runner=None, wine=None, p32=None, history_path=None):
         self.lab = Path(lab).expanduser() if lab else _default_lab()
         self.runner = runner or subprocess.run
         self.wine = wine or str(Path.home() / 'Library/Application Support/SGI-Wine'
@@ -67,10 +76,32 @@ class CommandService:
         self.jobs = []
         self.queue = []
         self.flush_state = {'running': False, 'phase': 'idle', 'note': ''}
-        self.lock = threading.Lock()
+        self.lock = threading.RLock()
+        self.history_path = Path(history_path) if history_path else None
+        self._worker_running = False
+        self._worker_generation = 0
+        self._verify_running = False
+        self._verification_jobs = {}
+        self.phase_wait_timeout = 150
+        self.receipt_timeout = 300
+        self.verification_timeout = 120
+        self.poll_interval = 0.5
         self._cache = {}
         self._cache_at = 0.0
+        self._targets_lock = threading.Lock()
+        self._targets_at = 0.0
         self._occupied = {}          # prefix -> (at, {(x,y): kind})
+        self._battle_lock = threading.Lock()
+        self._battle_cache = {}
+        self._battle_at = 0.0
+        self.current_game_key = None
+        self.current_game_token = None
+        self._game_identity_key = None
+        self._game_identity = None
+        self._observation_game_key = None
+        self.game_identity_limitation = ('原始獨立局 ID 未知；這是本輪觀測識別，'
+                                        '同進程／核心重用不保證可辨認新局')
+        self._load_history()
 
     # ------------------------------------------------------------------ utils
     def _env(self, prefix):
@@ -107,7 +138,7 @@ class CommandService:
                 return int(line)
         return None
 
-    def phase(self, prefix='prefix-dingman-local'):
+    def phase(self, prefix='prefix-fengye-shadow'):
         res = self._run(prefix, [self.z + '\\tools\\roundprobe.py', '--bridge',
                                  self.z + '\\bridge', '--samples', '1'], timeout=25)
         for line in reversed((res.stdout or '').strip().splitlines()):
@@ -121,64 +152,152 @@ class CommandService:
         return None, None
 
     # --------------------------------------------------------------- discovery
+    @staticmethod
+    def _identity_facts(binding):
+        """Only observed stable identity facts, never timestamps or player slot."""
+        keys = ('identity', 'core_address', 'build_sha256', 'schema', 'scenario_map',
+                'roster', 'run_id', 'game_id', 'session_id', 'run_identity', 'game_identity')
+        result = {key: binding[key] for key in keys if key in binding}
+        # _binding deliberately keeps only these three process identity fields.
+        # Exclude observer player_context/slot even if a future collector adds it.
+        result['identity'] = {key: (binding.get('identity') or {}).get(key)
+                              for key in ('pid', 'path', 'creation_filetime')}
+        for key in ('run_id', 'game_id', 'session_id', 'run_identity', 'game_identity'):
+            if 'identity.' + key in binding:
+                result['identity.' + key] = binding['identity.' + key]
+        return result
+
+    @staticmethod
+    def _identity_digest(facts):
+        return sha256(json.dumps(facts, sort_keys=True, ensure_ascii=False,
+                                 separators=(',', ':')).encode('utf-8')).hexdigest()
+
+    def _adopt_game(self, state):
+        """Bind the display to observed process/core/roster facts, never a UUID.
+
+        The same proven facts survive a panel restart. No independent game ID
+        is invented; exact same-process/core/scenario/roster reuse remains an
+        explicit limitation, and never clears an unknown live-agent gate.
+        """
+        try:
+            if not isinstance(state, dict) or state.get('readonly') is not True:
+                raise ValueError('missing readonly state')
+            if (state.get('consistency') or {}).get('root_headers_and_clock_unchanged') is not True:
+                raise ValueError('unstable state')
+            from command_effects import _binding
+            facts = self._identity_facts(_binding(state))
+            identity_key = self._identity_digest(facts)
+        except (ValueError, TypeError, KeyError):
+            with self.lock:
+                self.current_game_key = None
+            return None
+        with self.lock:
+            if identity_key != self._game_identity_key:
+                self._game_identity_key, self._game_identity = identity_key, facts
+                self.current_game_token = 'observed-' + identity_key[:20]
+                self._observation_game_key = identity_key
+                self._cache = {}
+                self._targets_at = 0.0
+                self._occupied.clear()
+                for job in self.jobs:
+                    if job.get('status') in CANCELLABLE and job.get('game_key') != self._observation_game_key:
+                        job['finished'] = time.time()
+                        self._update(job, 'cancelled', '觀測到不同局面身分；舊局未發送請求已取消')
+                self.queue = [q for q in self.queue
+                              if q.get('game_key') == self._observation_game_key]
+                self._verification_jobs = {
+                    key: item for key, item in self._verification_jobs.items()
+                    if item['job'].get('game_key') == self._observation_game_key}
+            self.current_game_key = self._observation_game_key
+            return self.current_game_key
+
+    def _current_game_fields(self):
+        return {'game_key': self.current_game_key,
+                'game_token': self.current_game_token if self.current_game_key else None,
+                'game_identity_key': self._game_identity_key if self.current_game_key else None,
+                'game_identity': self._game_identity if self.current_game_key else None,
+                'game_identity_limitation': self.game_identity_limitation}
+
     def targets(self, refresh=False):
+        requested = time.monotonic()
+        with self._targets_lock:
+            if self._cache and ((not refresh and requested - self._targets_at < 3) or
+                                self._targets_at >= requested):
+                return self._cache
+            result = self._read_targets(refresh=True)
+            self._targets_at = time.monotonic()
+            return result
+
+    def _read_targets(self, refresh=False):
         now = time.time()
-        if not refresh and self._cache and now - self._cache_at < 8:
+        if not refresh and self._cache and now - self._cache_at < 3:
             return self._cache
-        out = {'ok': True, 'at': now, 'targets': [], 'phase': None, 'phase_text': '',
-               'forces': [], 'cities': [], 'build_types': BUILD_TYPES, 'troops': TROOPS,
-               'presets': PRESETS}
-        phase, raw = self.phase()
+        prefix = 'prefix-fengye-shadow'
+        battle = self.battlefield(refresh=refresh)
+        self._adopt_game(battle.get('state') if battle.get('ok') else None)
+        pid = battle.get('source_pid')
+        captured = battle.get('captured_at')
+        try:
+            if isinstance(captured, str):
+                from datetime import datetime
+                captured = datetime.fromisoformat(captured.replace('Z', '+00:00')).timestamp()
+            elif captured is not None:
+                captured = float(captured)
+        except (ValueError, TypeError):
+            captured = None
+        raw_lords = {r.get('force_id'): r for r in
+                     ((battle.get('state') or {}).get('entities') or {}).get('lords') or []}
+        forces = []
+        for lord in battle.get('lords') or []:
+            row = dict(lord)
+            raw = raw_lords.get(row.get('force_id')) or {}
+            row['armament_raw'] = dict(raw.get('armament_raw') or {})
+            forces.append(row)
+        out = {'ok': bool(battle.get('ok')), 'at': captured,
+               'targets': [{'prefix': prefix, 'label': '風夜（藏身）', 'pid': pid, 'alive': bool(pid)}],
+               'phase': None, 'phase_text': '未知', 'forces': forces,
+               'cities': battle.get('cities') or [], 'build_types': BUILD_TYPES,
+               'troops': TROOPS, 'presets': PRESETS}
+        out.update(self._current_game_fields())
+        if not battle.get('ok'):
+            out['error'] = battle.get('error') or '風夜資料尚未讀到'
+            self._cache, self._cache_at = out, now
+            return out
+        phase, _ = self.phase(prefix)
         out['phase'] = phase
-        out['phase_text'] = {0: '回合開始', 1: '內政（可送）', 2: '?2', 3: '結算中',
+        out['phase_text'] = {0: '回合開始', 1: '內政', 2: '軍事', 3: '結算中',
                              4: '結算中', 5: '結算中'}.get(phase, '未知')
-        for prefix, label in TARGETS:
-            pid = self.pid(prefix)
-            out['targets'].append({'prefix': prefix, 'label': label, 'pid': pid,
-                                   'alive': bool(pid)})
-        # forces + cities come from whichever client is alive (prefer the host)
-        for prefix, label in TARGETS:
-            if not any(t['pid'] for t in out['targets'] if t['prefix'] == prefix):
-                continue
-            pid = next(t['pid'] for t in out['targets'] if t['prefix'] == prefix)
-            lords = self._py(prefix, self.z + '\\tools\\lord_read_any.py', [str(pid)])
-            if lords.get('ok'):
-                out['forces'] = [{'force_id': r['force_id'], 'name': r['name'],
-                                  'gold': r.get('gold'), 'rice': r.get('rice'),
-                                  'troop_stock': r.get('troop_stock'),
-                                  'armament': r.get('armament')} for r in lords.get('lords') or []]
-                break
-        for prefix, label in TARGETS:
-            alive = next((t['pid'] for t in out['targets'] if t['prefix'] == prefix), None)
-            if not alive:
-                continue
-            slots = self._py(prefix, self.z + '\\tools\\_p60_slots.py', [str(alive)])
-            if slots.get('ok'):
-                out['player_slots'] = [{'slot': r.get('slot'), 'nickname': r.get('nickname'),
-                                        'force_id': r.get('force_id')} for r in slots.get('slots') or []]
-                break
-        for prefix, label in TARGETS:
-            alive = next((t['pid'] for t in out['targets'] if t['prefix'] == prefix), None)
-            if not alive:
-                continue
-            cities = self._py(prefix, self.z + '\\tools\\_p60_cities_lite.py', [str(alive)])
-            if cities.get('ok'):
-                out['cities'] = cities.get('cities') or []
-                break
+        slots = self._py(prefix, self.z + '\\tools\\_p60_slots.py', [str(pid)])
+        if slots.get('ok'):
+            out['player_slots'] = [{'slot': r.get('slot'), 'nickname': r.get('nickname'),
+                                    'force_id': r.get('force_id')} for r in slots.get('slots') or []]
         self._cache, self._cache_at = out, now
         return out
 
-    def battlefield(self):
-        """2026-10-19：把「各勢力基礎情報／城池／部隊」給情報台用（單次採集）。"""
-        for prefix, _label in TARGETS:
+    def battlefield(self, refresh=False):
+        """One shared, read-only shadow snapshot; never fall back to players."""
+        requested = time.monotonic()
+        with self._battle_lock:
+            if self._battle_cache and ((not refresh and requested - self._battle_at < 1) or
+                                      self._battle_at >= requested):
+                return self._battle_cache
+            prefix = 'prefix-fengye-shadow'
             pid = self.pid(prefix)
             if not pid:
-                continue
+                self._adopt_game(None)
+                return {'ok': False, 'error': '風夜客戶端不在線；保留上次畫面'}
             data = self._py(prefix, self.z + '\\tools\\_p60_battle.py', [str(pid)])
             if data.get('ok'):
-                data['source_prefix'] = prefix
-                return data
-        return {'ok': False, 'error': '沒有可讀的客戶端'}
+                data.update(source_prefix=prefix, source_pid=pid)
+                data.setdefault('captured_at', time.time())
+                state = dict(data.get('state') or {})
+                state.update(source_pid=pid, source_prefix=prefix)
+                self._adopt_game(state)
+                data.update(self._current_game_fields())
+                self._battle_cache, self._battle_at = data, time.monotonic()
+            else:
+                self._adopt_game(None)
+            return data
 
     def general_ids(self, prefix, limit=24):
         """2026-10-20: 在野武將 id 清單（人事指令用下拉選，不讓使用者填數字）。"""
@@ -194,13 +313,34 @@ class CommandService:
                 out.append(gid)
         return out[:limit]
 
-    def free_cells(self, prefix, city_xy, force):
+    def free_cells(self, prefix, city_xy, force, exclude_id=None):
+        return self.build_sites(prefix, city_xy, force, exclude_id=exclude_id,
+                                with_state=False).get('cells') or []
+
+    def build_sites(self, prefix, city_xy, force, exclude_id=None, with_state=True):
+        """Strict read result for the picker: empty is distinct from unreadable."""
         pid = self.pid(prefix)
         if not pid:
-            return []
+            return {'ok': False, 'error': '風夜客戶端不在線'}
         data = self._py(prefix, self.z + '\\tools\\_p60_pick_cell_wide.py',
                         [str(pid), str(city_xy[0]), str(city_xy[1]), str(force)])
-        return [c['xy'] for c in data.get('candidates') or []]
+        if not data.get('ok'):
+            return {'ok': False, 'error': data.get('error') or '無法讀取城周邊地形'}
+        busy = self.busy_build_cells(exclude_id)
+        occupied = ({tuple(r['xy']): r.get('kind', 'building') for r in data['occupied']}
+                    if isinstance(data.get('occupied'), list) else self.occupied_cells(prefix))
+        self._occupied[prefix] = (time.time(), occupied)
+        result = {'ok': True, 'cells': [c['xy'] for c in data.get('candidates') or []
+                                     if tuple(c['xy']) not in busy],
+                'occupied': occupied, 'busy': busy,
+                'captured_at': time.time()}
+        if with_state:
+            battle = self.battlefield()
+            if not battle.get('ok') or battle.get('source_pid') != pid:
+                return {'ok': False, 'error': '原地圖未讀到或客戶端已更換，請稍候再選址'}
+            result.update(state=battle.get('state'), source_prefix=battle.get('source_prefix'),
+                          source_pid=pid)
+        return result
 
     # ------------------------------------------------------- 佔用格（去重複用）
     def occupied_cells(self, prefix, ttl=6.0, refresh=False):
@@ -229,7 +369,7 @@ class CommandService:
         self._occupied[prefix] = (now, cells)
         return dict(cells)
 
-    def busy_build_cells(self):
+    def busy_build_cells(self, exclude_id=None):
         """已經排進佇列或剛送出、還沒看到結果的建設格：{(x,y): 說明}。
 
         陷阱要等下一個回合結算才真的出現在記憶體裡，光看佔用表擋不住
@@ -240,12 +380,20 @@ class CommandService:
             queue = list(self.queue)
             jobs = list(self.jobs)
         for item in queue:
+            if self.current_game_key and item.get('game_key') != self.current_game_key:
+                continue
+            if item.get('id') == exclude_id:
+                continue
             if item.get('preset') != 'build':
                 continue
             xy = self._job_xy(item)
             if xy:
                 busy[xy] = '已在佇列（#%s）' % item.get('id')
         for job in jobs:
+            if self.current_game_key and job.get('game_key') != self.current_game_key:
+                continue
+            if job.get('id') == exclude_id:
+                continue
             if job.get('preset') != 'build' or job.get('status') not in BUSY_STATUS:
                 continue
             xy = self._job_xy(job.get('params') or {})
@@ -340,7 +488,7 @@ class CommandService:
                      '--target', str(int(job.get('target_id', -1)))]
         return args, flag, receipt
 
-    def validate(self, payload, info, occupied=None):
+    def validate(self, payload, info, occupied=None, exclude_id=None):
         """Refuse commands that are known to be invalid (and have crashed clients).
 
         2026-10-19 22:17: one build with actor=0/city=0/xy=(0,0) produced an AV at
@@ -359,6 +507,8 @@ class CommandService:
         if actor not in forces:
             return '勢力不在本局（force=%s）' % actor
         if preset == 'build':
+            if payload.get('build_type') not in BUILD_TYPES:
+                return '只支援兵營、馬房、弓房和陷阱'
             cities = {c['city_id']: c for c in info.get('cities') or []}
             try:
                 cid = int(payload.get('city'))
@@ -376,7 +526,7 @@ class CommandService:
                 return '座標 (%s,%s) 離城太遠（城在 %s,%s）' % (x, y, bx, by)
             if (x, y) == (bx, by):
                 return '不能蓋在城池格上'
-            busy = self.busy_build_cells().get((x, y))
+            busy = self.busy_build_cells(exclude_id).get((x, y))
             if busy:
                 return '(%s,%s) %s，不重複疊加' % (x, y, busy)
             if occupied is None:
@@ -391,238 +541,676 @@ class CommandService:
                 return '人事命令需要武將 id'
         return None
 
-    def queue_add(self, payload):
-        info = self.targets()
-        reason = self.validate(payload, info)
-        if reason:
-            return {'ok': False, 'error': reason}
-        item = dict(payload)
-        item['queued_at'] = time.time()
-        item['id'] = uuid.uuid4().hex[:8]
+    def _load_history(self):
+        """Load a display/audit ledger only: never recreate executable queue items."""
+        if not self.history_path or not self.history_path.exists():
+            return
+        try:
+            rows = json.loads(self.history_path.read_text(encoding='utf-8'))
+            if not isinstance(rows, list):
+                raise ValueError('history must be a list')
+        except (OSError, ValueError, TypeError):
+            self.history_error = '記錄檔格式無法確認；原檔保留，不會重播'
+            return
+        bad = False
+        for original in rows:
+            if not isinstance(original, dict):
+                bad = True
+                continue
+            job = dict(original)
+            created = job.get('created')
+            if (not isinstance(job.get('id'), str) or not job['id'] or
+                    job.get('prefix') not in dict(TARGETS) or job.get('preset') not in PRESETS or
+                    isinstance(created, bool) or not isinstance(created, (int, float)) or
+                    not math.isfinite(created) or not isinstance(job.get('params'), dict) or
+                    not isinstance(job.get('status'), str)):
+                bad = True
+                continue
+            job['events'] = [dict(e) for e in job.get('events', [])
+                             if isinstance(e, dict) and isinstance(e.get('note'), str)][-40:] if isinstance(job.get('events', []), list) else []
+            if not isinstance(job.get('receipt'), dict):
+                job['receipt'] = None
+            if not isinstance(job.get('effect'), dict):
+                job.pop('effect', None)
+            for field in ('finished', 'receipt_at'):
+                value = job.get(field)
+                if value is not None and (isinstance(value, bool) or
+                                          not isinstance(value, (int, float)) or
+                                          not math.isfinite(value)):
+                    job.pop(field, None)
+            status = job['status']
+            if job.get('slot_pending_restore'):
+                job['status'] = 'unknown'
+                job['note'] = '重啟前借席尚未確認還原；不重送，後續代送暫停'
+            elif status in CANCELLABLE:
+                job['status'] = 'cancelled'
+                job['finished'] = time.time()
+                job['note'] = '面板已重新啟動；此筆未發送，不會自動重播'
+            elif status in ('fired', 'verifying') and job.get('receipt'):
+                job['status'] = 'verifying'
+                job['note'] = '本機曾回報發送；重啟後遊戲效果尚未確認，不會重送'
+            elif status in BUSY_STATUS:
+                job['status'] = 'unknown'
+                job['note'] = '重啟前已有執行；結果未確認，不重送，後續代送暫停'
+            elif status == 'completed' and not (job.get('effect') or {}).get('confirmed'):
+                job['status'] = 'verifying'
+                job['note'] = '舊記錄沒有遊戲效果證據，保留為未確認'
+            self.jobs.append(job)
+        if bad:
+            self.history_error = '部分舊記錄格式不完整，已略過；沒有重播任何指令'
+
+    def _save_history(self):
+        if not self.history_path:
+            return True
+        try:
+            with self.lock:
+                # Never truncate unknown sends, unobserved builds, or other
+                # unfinished work: that would erase the persistent safety gate.
+                terminal = [j for j in self.jobs if j.get('status') in TERMINAL][-200:]
+                keep = {j['id'] for j in terminal}
+                rows = [self._public(j) for j in self.jobs
+                        if j.get('slot_pending_restore') or
+                        j.get('status') not in TERMINAL or j['id'] in keep]
+                self.history_path.parent.mkdir(parents=True, exist_ok=True)
+                temp = self.history_path.with_name(self.history_path.name + '.tmp')
+                temp.write_text(json.dumps(rows, ensure_ascii=False, indent=2), encoding='utf-8')
+                temp.replace(self.history_path)
+            return True
+        except (OSError, TypeError, ValueError):
+            self.history_error = '記錄檔寫入失敗，本次記錄只保留在面板中'
+            return False
+
+    def _update(self, job, status, note, error=None):
         with self.lock:
-            self.queue.append(item)
-        return {'ok': True, 'queue': self.queue_view()['queue']}
+            job['status'], job['note'] = status, note
+            if error is not None:
+                job['error'] = error
+            job.setdefault('events', []).append({'at': time.time(), 'status': status, 'note': note})
+            job['events'] = job['events'][-40:]
+            return self._save_history()
+
+    def _advance(self, job, status, note):
+        """Cancellation and the first side-effect boundary share one lock."""
+        with self.lock:
+            if job.get('status') == 'cancelled':
+                return False
+            saved = self._update(job, status, note)
+            if not saved and status in ('switching_slot', 'arming'):
+                self._update(job, 'error', '無法保存執行記錄；此筆未發送')
+                return False
+            return True
+
+    def _prefix_blocker(self, prefix):
+        current = self._game_identity
+        for job in self.jobs:
+            if job.get('prefix') != prefix or job.get('status') not in UNRESOLVED or job.get('legacy'):
+                continue
+            old = job.get('game_identity')
+            if isinstance(current, dict) and isinstance(old, dict):
+                # The once-only native agent re-reads &core in its loop. A
+                # changed core/build/roster cannot prove it has stopped; only
+                # a different actual process lifetime can clear this gate.
+                before = old.get('identity') or {}
+                after = current.get('identity') or {}
+                fields = ('pid', 'creation_filetime')
+                if all(type(before.get(k)) is int and type(after.get(k)) is int
+                       for k in fields):
+                    if any(before[k] != after[k] for k in fields):
+                        continue
+                elif (type(before.get('pid')) is int and type(after.get('pid')) is int and
+                      before['pid'] != after['pid']):
+                    continue
+            elif isinstance(current, dict):
+                old_pid = job.get('target_pid')
+                new_pid = (current.get('identity') or {}).get('pid')
+                if old_pid is not None and new_pid is not None and old_pid != new_pid:
+                    continue
+            return job
+        return None
+
+    @staticmethod
+    def _effect_key(job):
+        params = job.get('params') or {}
+        if job.get('preset') == 'train':
+            return job.get('game_key'), job.get('prefix'), params.get('actor'), params.get('troop')
+        return None
+
+    def _effect_blocker(self, job):
+        key = self._effect_key(job)
+        if key is None:
+            return None
+        return next((j for j in self.jobs if j['id'] != job['id'] and
+                     self._effect_key(j) == key and j.get('status') in ('fired', 'verifying')),
+                    None)
+
+    def submit(self, payload, info=None, execute=True):
+        """Create the canonical visible row immediately; never probe on caller."""
+        if not isinstance(payload, dict):
+            return {'ok': False, 'error': '指令參數不完整'}
+        if payload.get('preset') not in PRESETS or payload.get('prefix') not in dict(TARGETS):
+            return {'ok': False, 'error': '指令或目標不支援'}
+        snapshot = info if info is not None else self._cache
+        if not snapshot:
+            return {'ok': False, 'error': '請先讀取目標與勢力'}
+        with self.lock:
+            game_key = snapshot.get('game_key')
+            if not isinstance(game_key, str) or not game_key:
+                return {'ok': False, 'error': '尚未核實當局身分，請等候重新讀取'}
+            if self._game_identity is not None and game_key != self.current_game_key:
+                return {'ok': False, 'error': '當局已變更或資料未確認，請重新選擇勢力'}
+            occupied = dict((self._occupied.get(payload['prefix']) or (0, {}))[1])
+            try:
+                reason = self.validate(payload, snapshot, occupied=occupied)
+            except (ValueError, TypeError, KeyError):
+                reason = '指令參數不完整'
+            if reason:
+                return {'ok': False, 'error': reason}
+            target = next((t for t in snapshot.get('targets', [])
+                           if t.get('prefix') == payload['prefix']), {})
+            blocked = self._prefix_blocker(payload['prefix'])
+            status = 'pending' if execute and not blocked else 'held'
+            job = {'id': uuid.uuid4().hex[:10], 'tag': uuid.uuid4().hex[:12],
+                   'created': time.time(), 'prefix': payload['prefix'],
+                   'game_key': game_key, 'game_token': snapshot.get('game_token'),
+                   'game_identity_key': snapshot.get('game_identity_key'),
+                   'game_identity': snapshot.get('game_identity'),
+                   'preset': payload['preset'], 'status': status,
+                   'params': {k: payload[k] for k in
+                              ('actor', 'troop', 'value', 'extra', 'buy', 'build_type',
+                               'x', 'y', 'city', 'subtype', 'target_id') if k in payload},
+                   'actor_label': payload.get('actor_label') or str(payload.get('actor')),
+                   'city_name': payload.get('city_name'), 'target_pid': target.get('pid'),
+                   'auto_slot': bool(payload.get('auto_slot')),
+                   'receipt': None, 'error': None, 'events': []}
+            self.jobs.append(job)
+            self.queue.append(dict(payload, id=job['id'], game_key=game_key,
+                                   execute=bool(execute and not blocked)))
+            self._update(job, status,
+                         '前筆結果未確認；已記錄，代送暫停' if blocked else
+                         ('已加入，等候依序執行' if execute else '已加入，尚未開始執行'))
+            if execute and not blocked:
+                self._start_worker()
+            return {'ok': True, 'job': self._public(job), 'queue': [dict(q) for q in self.queue]}
+
+    def queue_add(self, payload, info=None):
+        # Compatibility only. The UI supplies its displayed snapshot.
+        return self.submit(payload, info if info is not None else self.targets(), execute=False)
+
+    def cancel(self, job_id):
+        with self.lock:
+            job = next((j for j in self.jobs if j['id'] == job_id), None)
+            if job is None:
+                return {'ok': False, 'error': '找不到這筆指令'}
+            if job.get('status') not in CANCELLABLE:
+                return {'ok': False, 'error': '此筆已開始代送，無法保證撤回；不會重送',
+                        'job': self._public(job)}
+            self.queue = [q for q in self.queue if q['id'] != job_id]
+            job['finished'] = time.time()
+            self._update(job, 'cancelled', '已取消；此筆未發送')
+            return {'ok': True, 'job': self._public(job)}
 
     def queue_clear(self):
         with self.lock:
-            self.queue = []
-        return {'ok': True, 'queue': []}
+            ids = [j['id'] for j in self.jobs if j.get('status') in CANCELLABLE]
+            for job_id in ids:
+                self.cancel(job_id)
+        return {'ok': True, 'queue': self.queue_view()['queue'], 'cancelled': len(ids)}
 
     def queue_view(self):
         with self.lock:
-            items = list(self.queue)
-        return {'ok': True, 'queue': [{k: v for k, v in it.items()} for it in items],
-                'flush': dict(self.flush_state)}
+            return {'ok': True, 'queue': [dict(it) for it in self.queue],
+                    'flush': dict(self.flush_state)}
 
     def flush_queue(self):
-        """把佇列裡同一勢力的命令，在『下一個內政階段』一次全部送出。
-
-        流程（2026-10-19 實測條件）：
-          1. 等到非內政階段（結算期）；
-          2. 風夜的話先把席位借到該勢力（切換必須早於指令階段）；
-          3. 逐條 arm（agent 會自己等到內政階段）；
-          4. 全部收到回執後把席位切回。
-        佇列裡若有多個勢力，只處理第一個勢力，其餘留到下一回合。
-        """
         with self.lock:
-            if self.flush_state.get('running'):
-                return {'ok': False, 'error': '上一批還在跑'}
             if not self.queue:
-                return {'ok': False, 'error': '佇列是空的'}
-            batch = []
-            force = self.queue[0].get('actor')
+                return {'ok': False, 'error': '沒有待執行的指令'}
+            if any(self._prefix_blocker(q['prefix']) for q in self.queue):
+                return {'ok': False, 'error': '前筆結果或還席未確認；後續代送暫停，不會重送'}
+            ids = {item['id'] for item in self.queue}
             for item in self.queue:
-                if item.get('actor') == force:
-                    batch.append(item)
-            self.queue = [it for it in self.queue if it.get('actor') != force]
-            self.flush_state = {'running': True, 'phase': 'waiting',
-                                'note': '等結算期（%d 條，force %s）' % (len(batch), force)}
-        thread = threading.Thread(target=self._flush_worker, args=(batch, force), daemon=True,
-                                  name='cmd-flush')
-        thread.start()
-        return {'ok': True, 'batch': len(batch), 'force': force}
-
-    def _flush_worker(self, batch, force):
-        info = self.targets(refresh=True)
-        prefix = batch[0].get('prefix')
-        home = None
-        try:
-            # 1) 等到非內政階段
-            deadline = time.time() + 200
-            while time.time() < deadline:
-                phase, _ = self.phase()
-                if phase != 1:
-                    break
-                time.sleep(2)
-            # 2) 借席（風夜專用）
-            if prefix == 'prefix-fengye-shadow':
-                row = next((r for r in info.get('player_slots') or []
-                            if r.get('force_id') == force and isinstance(r.get('slot'), int)), None)
-                if row is None:
-                    self.flush_state = {'running': False, 'phase': 'error',
-                                        'note': '找不到 force %s 的席位' % force}
-                    return
-                home = self._ghost_home_slot()
-                ok_switch, note = self._switch_slot(row['slot'])
-                if not ok_switch:
-                    self.flush_state = {'running': False, 'phase': 'error',
-                                        'note': '切席位失敗：' + note}
-                    return
-            # 3) 逐條送出（agent 自己等內政階段）
-            jobs = []
-            for item in batch:
-                payload = dict(item)
-                payload['auto_slot'] = False
-                res = self.send(payload)
-                jobs.append((res.get('ok'), res.get('job') or {}, res.get('error')))
-                self.flush_state = {'running': True, 'phase': 'armed',
-                                    'note': '已 arm %d/%d' % (len(jobs), len(batch))}
-            # 4) 等回執
-            self.flush_state = {'running': True, 'phase': 'firing',
-                                'note': '等 %d 條回執（內政階段觸發）' % len(batch)}
-            deadline = time.time() + 240
-            while time.time() < deadline:
-                done = 0
-                for _ok, job, _err in jobs:
-                    view = next((j for j in self.jobs_view()['jobs'] if j.get('id') == job.get('id')), None)
-                    if view and view.get('receipt'):
-                        done += 1
-                if done >= len(batch):
-                    break
-                time.sleep(2)
-            # 5) 還席
-            if home is not None:
-                self._switch_slot(home)
-            fired = sum(1 for ok, job, err in jobs if ok)
-            self.flush_state = {'running': False, 'phase': 'done',
-                                'note': '完成：%d/%d 條已送出%s' % (
-                                    fired, len(batch), '，席位已切回 %s' % home if home is not None else '')}
-        except Exception as exc:  # noqa: BLE001
-            self.flush_state = {'running': False, 'phase': 'error',
-                                'note': '%s: %s' % (type(exc).__name__, exc)}
+                item['execute'] = True
+            for job in self.jobs:
+                if job['id'] in ids:
+                    self._update(job, 'pending', '等候依序執行')
+            self._start_worker()
+            return {'ok': True, 'batch': len(ids)}
 
     def send(self, payload):
-        if not isinstance(payload, dict):
-            return {'ok': False, 'error': 'bad payload'}
-        preset = payload.get('preset')
-        if preset not in PRESETS:
-            return {'ok': False, 'error': 'unknown preset'}
-        prefix = payload.get('prefix')
-        if prefix not in [p for p, _ in TARGETS]:
-            return {'ok': False, 'error': 'unknown target'}
-        pid = self.pid(prefix)
-        if not pid:
-            return {'ok': False, 'error': '目標客戶端不在線'}
-        info = self.targets()
-        reason = self.validate(payload, info)
-        if reason:
-            return {'ok': False, 'error': reason}
-        phase, _ = self.phase()
-        job = {'id': uuid.uuid4().hex[:10], 'tag': uuid.uuid4().hex[:8], 'prefix': prefix,
-               'preset': preset, 'phase_at_submit': phase, 'status': 'arming',
-               'created': time.time(), 'receipt': None, 'error': None,
-               'params': {k: payload.get(k) for k in
-                          ('actor', 'troop', 'value', 'extra', 'buy', 'build_type', 'x', 'y',
-                           'city', 'subtype', 'target_id')},
-               'auto_slot': bool(payload.get('auto_slot'))}
-        args, flag, receipt = self.build_args(job)
-        job['flag'] = flag
-        job['receipt_path'] = receipt
-        auto_slot = bool(payload.get('auto_slot')) and prefix == 'prefix-fengye-shadow'
-        target_slot = None
-        original_slot = None
-        if auto_slot:
-            slots = info.get('player_slots') or []
-            row = next((r for r in slots if r.get('force_id') == job['params'].get('actor')
-                        and isinstance(r.get('slot'), int)), None)
-            if row is None:
-                return {'ok': False, 'error': '找不到該勢力的席位，無法臨時切換'}
-            target_slot = row['slot']
-            original_slot = self._ghost_home_slot()
-            if original_slot == target_slot:
-                original_slot = 5
-            # 2026-10-19 實測：席位必須在「指令階段開始之前」切好；
-            # 若現在正是內政階段，先等它結束（最多 150s），在結算期切換。
-            if phase == 1:
-                deadline = time.time() + 150
-                while time.time() < deadline:
-                    p2, _ = self.phase()
-                    if p2 != 1:
-                        break
-                    time.sleep(2)
-                phase, _ = self.phase()
-            ok_switch, note = self._switch_slot(target_slot)
-            job['slot_switch'] = {'to': target_slot, 'ok': ok_switch, 'note': note}
-            if not ok_switch:
-                return {'ok': False, 'error': '切席位失敗：' + note}
-        try:
-            res = self._run(prefix, args, timeout=40)
-        except Exception as exc:  # noqa: BLE001
-            job['status'] = 'error'
-            job['error'] = '%s: %s' % (type(exc).__name__, exc)
-            self._push(job)
-            return {'ok': False, 'error': job['error']}
-        text = (res.stdout or '') + (res.stderr or '')
-        if '"thread_id"' not in text:
-            job['status'] = 'error'
-            job['error'] = (text.strip().splitlines() or ['injector failed'])[-1][:300]
-            self._push(job)
-            return {'ok': False, 'error': job['error'], 'detail': text[-500:]}
-        job['status'] = 'queued' if phase != 1 else 'firing'
-        # touch the trigger: the agent decides *when* (phase gate)
-        try:
-            Path(flag.replace(self.z, str(self.lab)).replace('\\', '/')).write_text('')
-        except OSError as exc:
-            job['status'] = 'error'
-            job['error'] = 'cannot touch flag: %s' % exc
-            self._push(job)
-            return {'ok': False, 'error': job['error']}
-        self._push(job)
-        if auto_slot:
-            job['slot_home'] = original_slot
-        threading.Thread(target=self._wait_receipt, args=(job,), daemon=True).start()
-        return {'ok': True, 'job': self._public(job)}
+        return self.submit(payload)
 
-    def _push(self, job):
+    def _start_worker(self):
+        if self._worker_running:
+            return
+        self._worker_running = True
+        self._worker_generation += 1
+        threading.Thread(target=self._dispatch, args=(self._worker_generation,),
+                         daemon=True, name='cmd-dispatch').start()
+
+    def _pause_prefix(self, prefix):
         with self.lock:
-            self.jobs = ([job] + self.jobs)[:20]
+            if not self._prefix_blocker(prefix):
+                return
+            ids = {q['id'] for q in self.queue if q['prefix'] == prefix}
+            for job in self.jobs:
+                if job['id'] in ids and job.get('status') in CANCELLABLE:
+                    self._update(job, 'held', '前筆結果未確認，後續代送已暫停')
+            for item in self.queue:
+                if item['prefix'] == prefix:
+                    item['execute'] = False
+            self.flush_state = {'running': False, 'phase': 'paused',
+                                'note': '前筆結果未確認，不重送、不切換席位'}
+
+    def _next_batch(self):
+        """Take a contiguous same-seat batch without reordering other factions."""
+        for item in list(self.queue):
+            if not item.get('execute'):
+                continue
+            if self.current_game_key and item.get('game_key') != self.current_game_key:
+                job = next(j for j in self.jobs if j['id'] == item['id'])
+                self.cancel(job['id'])
+                continue
+            if self._prefix_blocker(item['prefix']):
+                self._pause_prefix(item['prefix'])
+                continue
+            job = next(j for j in self.jobs if j['id'] == item['id'])
+            if self._effect_blocker(job):
+                self._update(job, 'waiting_effect', '等前一筆同兵種的實際訓練變化；此筆尚未發送，可取消')
+                continue
+            key = (item.get('game_key'), item['prefix'], item.get('actor'), bool(item.get('auto_slot')))
+            batch = []
+            start = self.queue.index(item)
+            for candidate in self.queue[start:]:
+                if not candidate.get('execute'):
+                    continue
+                if (candidate.get('game_key'), candidate['prefix'], candidate.get('actor'), bool(candidate.get('auto_slot'))) != key:
+                    break
+                row = next(j for j in self.jobs if j['id'] == candidate['id'])
+                if not self._effect_blocker(row):
+                    batch.append((candidate, row))
+            ids = {j['id'] for _, j in batch}
+            self.queue = [q for q in self.queue if q['id'] not in ids]
+            return batch
+        return []
+
+    def _dispatch(self, generation=None):
+        # Also serialize two service objects in one app process. All Wine work
+        # stays off Tk; one slot owner holds this through its known receipts.
+        generation = self._worker_generation if generation is None else generation
+        with _DISPATCH_LOCK:
+            try:
+                while True:
+                    with self.lock:
+                        batch = self._next_batch()
+                        if not batch:
+                            self._worker_running = False
+                            if self.flush_state.get('phase') != 'paused':
+                                waiting = any(q.get('execute') for q in self.queue)
+                                self.flush_state = {'running': False,
+                                                    'phase': 'waiting_effect' if waiting else 'idle',
+                                                    'note': '等前筆實際效果' if waiting else ''}
+                            return
+                        self.flush_state = {'running': True, 'phase': 'processing',
+                                            'note': batch[0][1]['id']}
+                    self._run_batch(batch)
+            finally:
+                with self.lock:
+                    if self._worker_generation == generation:
+                        self._worker_running = False
+
+    def _prepare_job(self, payload, job):
+        if not self._advance(job, 'validating', '核對客戶端、勢力與建設位置'):
+            return None
+        prefix = payload['prefix']
+        pid = self.pid(prefix)
+        if not pid or job.get('target_pid') and pid != job['target_pid']:
+            self._advance(job, 'error', '客戶端已離線或已換局；未發送')
+            return None
+        info = self.targets(refresh=True)
+        if not info.get('ok', True):
+            self._advance(job, 'error', '無法確認本局資料；未發送')
+            return None
+        if not job.get('game_key') or job['game_key'] != info.get('game_key'):
+            self._advance(job, 'error', '當局身分已變更；舊局指令未發送')
+            return None
+        occupied = self.occupied_cells(prefix, refresh=True) if payload['preset'] == 'build' else {}
+        reason = self.validate(payload, info, occupied=occupied, exclude_id=job['id'])
+        if reason:
+            self._advance(job, 'error', '檢查未通過；未發送：' + reason)
+            return None
+        if payload['preset'] == 'build':
+            city = next(c for c in info.get('cities', []) if c['city_id'] == payload['city'])
+            sites = self.build_sites(prefix, city['xy'], payload['actor'], exclude_id=job['id'])
+            if not sites.get('ok') or (payload['x'], payload['y']) not in {
+                    tuple(xy) for xy in sites.get('cells') or []}:
+                self._advance(job, 'error', '這個位置已不可建設或無法確認，請重新選址；未發送')
+                return None
+        # All parameter conversion happens before changing seats.
+        args, flag, receipt = self.build_args(job)
+        return {'info': info, 'args': args, 'flag': flag, 'receipt': receipt}
+
+    def _wait_phase_exit(self, jobs, prefix):
+        phase, _ = self.phase(prefix)
+        for job in jobs:
+            job['phase_at_submit'] = phase
+        if not isinstance(phase, int) or phase not in range(6):
+            for job in jobs:
+                self._advance(job, 'error', '無法確認階段；未切席、未發送')
+            return None
+        if phase != 1:
+            return phase
+        for job in jobs:
+            self._advance(job, 'waiting_phase_exit', '等本回合結束後借席；此筆尚未發送，可取消')
+        deadline = time.monotonic() + self.phase_wait_timeout
+        while time.monotonic() < deadline:
+            if all(j.get('status') == 'cancelled' for j in jobs):
+                return None
+            time.sleep(self.poll_interval)
+            phase, _ = self.phase(prefix)
+            if not isinstance(phase, int) or phase not in range(6):
+                for job in jobs:
+                    self._advance(job, 'error', '階段讀取中斷；未切席、未發送')
+                return None
+            if phase != 1:
+                return phase
+        for job in jobs:
+            self._advance(job, 'error', '等候回合結束逾時；未切席、未發送')
+        return None
+
+    def _effect_snapshot(self):
+        data = self.battlefield(refresh=True)
+        if not data.get('ok') or not isinstance(data.get('state'), dict):
+            raise ValueError('無法讀取完整的風夜遊戲狀態')
+        state = dict(data['state'])
+        state['source_prefix'] = data.get('source_prefix', 'prefix-fengye-shadow')
+        state['source_pid'] = data.get('source_pid')
+        return state
+
+    def _capture_baseline(self, job):
+        from command_effects import capture_effect_baseline
+        return capture_effect_baseline(job, self._effect_snapshot())
+
+    def _run_batch(self, batch):
+        prepared = []
+        borrowed = False
+        home = None
+        marker = None
+        prefix = batch[0][0]['prefix']
+        try:
+            for payload, job in batch:
+                try:
+                    plan = self._prepare_job(payload, job)
+                    if plan is not None:
+                        prepared.append((payload, job, plan))
+                except Exception as exc:
+                    self._advance(job, 'error', '準備檢查失敗；未切席、未發送：' + str(exc))
+            prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
+            if not prepared:
+                return
+            first_payload, marker, plan = prepared[0]
+            auto = bool(first_payload.get('auto_slot')) and prefix == 'prefix-fengye-shadow'
+            if auto:
+                phase = self._wait_phase_exit([row[1] for row in prepared], prefix)
+            else:
+                phase, _ = self.phase(prefix)
+                if not isinstance(phase, int) or phase not in range(6):
+                    for _, job, _ in prepared:
+                        self._advance(job, 'error', '無法確認階段；未發送')
+                    return
+            prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
+            if phase is None or not prepared:
+                return
+            # A phase wait can cross a restart/new-room boundary. Recheck the
+            # actual source again before the first seat-changing operation.
+            fresh = self.targets(refresh=True)
+            retained = []
+            for payload, job, plan in prepared:
+                if (not fresh.get('ok', True) or not job.get('game_key') or
+                        job['game_key'] != fresh.get('game_key')):
+                    self._advance(job, 'error', '等待期間當局身分改變或無法確認；此筆未發送')
+                    continue
+                plan['info'] = fresh
+                retained.append((payload, job, plan))
+            prepared = retained
+            if not prepared:
+                return
+            if auto:
+                first_payload, marker, plan = prepared[0]
+                slot = next((r.get('slot') for r in plan['info'].get('player_slots', [])
+                             if r.get('force_id') == first_payload['actor'] and
+                             isinstance(r.get('slot'), int)), None)
+                home = self._ghost_home_slot(default=None)
+                if slot is None or home is None:
+                    for _, job, _ in prepared:
+                        self._advance(job, 'error', '無法確認借用及旁聽席位；未切席、未發送')
+                    return
+                with self.lock:
+                    prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
+                    if not prepared:
+                        return
+                    first_payload, marker, plan = prepared[0]
+                    marker['slot_home'] = home
+                    marker['slot_pending_restore'] = True
+                    if not self._advance(marker, 'switching_slot', '準備由風夜代送本批指令'):
+                        marker['slot_pending_restore'] = False
+                        return
+                borrowed = True  # Even a failed call may already have changed it.
+                ok, note = self._switch_slot(slot)
+                if not ok:
+                    self._update(marker, 'restore_failed', '借席未確認；後續暫停，不再切席', note)
+                    return
+            for payload, job, plan in prepared:
+                if job.get('status') == 'cancelled':
+                    continue
+                if self._effect_blocker(job):
+                    with self.lock:
+                        self._update(job, 'waiting_effect', '等前筆同兵種的實際變化；此筆未發送，可取消')
+                        self.queue.append(dict(payload, execute=True))
+                    continue
+                # Capture a distinct real pre-state for this command. Failure is
+                # known to precede injection and cannot be called completed.
+                try:
+                    baseline = self._capture_baseline(job)
+                except Exception as exc:
+                    self._advance(job, 'error', '送出前狀態讀取失敗；未發送：' + str(exc))
+                    continue
+                if not baseline.get('ok'):
+                    self._advance(job, 'error', '送出前狀態不足以驗證效果；此筆未發送')
+                    continue
+                baseline_pid = ((baseline.get('binding') or {}).get('identity') or {}).get('pid')
+                if baseline_pid is not None and job.get('target_pid') not in (None, baseline_pid):
+                    self._advance(job, 'error', '送出前客戶端身分已變更；此筆未發送')
+                    continue
+                if self._game_identity is not None and job.get('game_key') != self.current_game_key:
+                    self._update(job, 'unknown' if borrowed else 'error',
+                                 '借席後當局身分改變；不發送、不自動還席' if borrowed else
+                                 '當局身分已改變；此筆未發送')
+                    break
+                if job.get('game_identity_key') and baseline.get('binding'):
+                    baseline_key = self._identity_digest(self._identity_facts(baseline['binding']))
+                    if baseline_key != job['game_identity_key']:
+                        self._update(job, 'unknown' if borrowed else 'error',
+                                     '發送前來源局面不一致；不發送、不自動還席')
+                        break
+                if not self._advance(job, 'arming', '正在準備此筆指令（只送一次，已不能安全撤回）'):
+                    continue
+                job['flag'], job['receipt_path'] = plan['flag'], plan['receipt']
+                try:
+                    res = self._run(prefix, plan['args'], timeout=40)
+                except Exception as exc:
+                    self._update(job, 'unknown', '準備結果未確認；不重送，後續暫停', str(exc))
+                    break
+                text = (res.stdout or '') + (res.stderr or '')
+                if '"thread_id"' not in text:
+                    self._update(job, 'unknown', '沒有完整準備回執；不重送，後續暫停', text[-300:])
+                    break
+                try:
+                    Path(plan['flag'].replace(self.z, str(self.lab)).replace('\\', '/')).write_text('')
+                except OSError as exc:
+                    self._update(job, 'unknown', '啟動結果未確認；不重送，後續暫停', str(exc))
+                    break
+                self._update(job, 'waiting_phase', '已準備，等內政階段發送及本機回執')
+                self._wait_receipt(job)
+                if job.get('status') in UNRESOLVED:
+                    break
+                if job.get('receipt') and job['receipt'].get('rc'):
+                    self._update(job, 'verifying', '本機已回報發送；正在核對實際數值或建設物件')
+                    with self.lock:
+                        self._verification_jobs[job['id']] = {
+                            'job': job, 'baseline': baseline,
+                            'deadline': time.monotonic() + self.verification_timeout}
+            uncertain = any(j.get('status') in UNRESOLVED for _, j, _ in prepared)
+            if uncertain:
+                # A live agent may still be waiting for phase 1. Never return
+                # its slot or send the next request until this is reconciled.
+                for payload, job, _ in prepared:
+                    if job.get('status') in CANCELLABLE:
+                        self._update(job, 'held', '本批前筆結果未確認；此筆尚未發送')
+                        if not any(q['id'] == job['id'] for q in self.queue):
+                            self.queue.append(dict(payload, execute=False))
+                self._pause_prefix(prefix)
+                return
+            if borrowed:
+                prior = marker['status']
+                self._update(marker, 'restoring', '本批已收到本機回執，正在返回旁聽')
+                ok, note = self._switch_slot(home)
+                marker['slot_restore'] = {'to': home, 'ok': ok, 'note': note}
+                if not ok:
+                    self._update(marker, 'restore_failed', '返回旁聽未確認；後續代送暫停', note)
+                    self._pause_prefix(prefix)
+                    return
+                marker['slot_pending_restore'] = False
+                self._update(marker, prior, '已返回旁聽；遊戲效果仍以實際觀測確認' if prior == 'verifying' else
+                             '已返回旁聽；' + str(marker.get('note', '')))
+                borrowed = False
+            self._start_verifier()
+        except Exception as exc:
+            # Any unexpected exception after the seat boundary is ambiguous.
+            target = marker or batch[0][1]
+            self._update(target, 'restore_failed' if borrowed else 'error',
+                         '借席後執行中斷；後續暫停，不重送、不自動還席' if borrowed else
+                         '執行前檢查中斷；未發送', '%s: %s' % (type(exc).__name__, exc))
+            if borrowed:
+                self._pause_prefix(prefix)
+        finally:
+            if self._prefix_blocker(prefix):
+                self._pause_prefix(prefix)
+            # Earlier known sends in a partially failed batch can still have
+            # their real effects observed. This never sends or restores a slot.
+            self._start_verifier()
+
+    def _send_now(self, payload, job):
+        """Compatibility helper; real dispatch groups a same-seat batch."""
+        return self._run_batch([(payload, job)])
 
     def _wait_receipt(self, job):
         path = Path(job['receipt_path'].replace(self.z, str(self.lab)).replace('\\', '/'))
-        deadline = time.time() + 300
-        while time.time() < deadline:
-            if path.exists() and path.stat().st_size >= 64:
-                try:
-                    raw = path.read_bytes()[:64]
-                    data = dict(zip(RECEIPT_KEYS, struct.unpack('<16I', raw)))
-                    job['receipt'] = {
-                        'rc': data['rc'], 'kind': data['kind'], 'subtype': data['subtype'],
-                        'operand': data['operand'], 'actor': data['f14'], 'f18': data['f18'],
-                        'f1c': data['f1c'], 'f20': data['f20'],
-                        'phase_at_send': data['phase'], 'own': data['own'],
-                        'gate_before': data['gate_before'], 'gate_after': data['gate_after'],
-                        'tick': data['tick'], 'vtable': data['vtable'],
-                        'magic_ok': data['magic2'] == RECEIPT_MAGIC2}
-                    job['status'] = 'fired' if data['rc'] else 'send_failed'
-                except Exception as exc:  # noqa: BLE001
-                    job['status'] = 'error'
-                    job['error'] = 'receipt parse: %s' % exc
-                job['finished'] = time.time()
-                home = job.get('slot_home')
-                if home is not None:
-                    ok_restore, note = self._switch_slot(home)
-                    job['slot_restore'] = {'to': home, 'ok': ok_restore, 'note': note}
+        deadline = time.monotonic() + self.receipt_timeout
+        while time.monotonic() < deadline:
+            try:
+                if path.exists() and path.stat().st_size >= 64:
+                    data = dict(zip(RECEIPT_KEYS, struct.unpack('<16I', path.read_bytes()[:64])))
+                    if data['magic2'] != RECEIPT_MAGIC2:
+                        raise ValueError('回執識別不符')
+                    job['receipt'] = {k: data[k] for k in RECEIPT_KEYS if k != 'core'}
+                    job['receipt_at'] = time.time()
+                    if data['rc']:
+                        self._update(job, 'fired', '本機回報已發送；尚未驗證遊戲效果')
+                    else:
+                        job['finished'] = time.time()
+                        self._update(job, 'send_failed', '本機回報發送失敗，沒有標記完成')
+                    return
+            except Exception as exc:
+                self._update(job, 'unknown', '回執無法確認；不重送，後續暫停', str(exc))
                 return
-            time.sleep(0.5)
-        job['status'] = 'armed_waiting'
-        job['error'] = ('300s 內沒有等到內政階段（agent 仍在客戶端裡等待，席位維持在 %s，'
-                        '需要時用 shadow_force.sh switch 5 還原）' % job.get('slot_switch'))
+            time.sleep(self.poll_interval)
+        self._update(job, 'unknown', '回執逾時；客戶端可能仍在等待，不重送、不自動還席')
+
+    def _start_verifier(self):
+        with self.lock:
+            if self._verify_running or not self._verification_jobs:
+                return
+            self._verify_running = True
+            threading.Thread(target=self._verification_loop, daemon=True, name='cmd-effects').start()
+
+    def _verify_effect(self, job, baseline, state):
+        from command_effects import check_effect
+        return check_effect(job, baseline, state)
+
+    def _verification_loop(self):
+        try:
+            while True:
+                with self.lock:
+                    pending = list(self._verification_jobs.values())
+                    if not pending:
+                        return
+                try:
+                    state = self._effect_snapshot()
+                    error = None
+                except Exception as exc:
+                    state, error = None, str(exc)
+                for item in pending:
+                    job = item['job']
+                    if self._game_identity is not None and job.get('game_key') != self.current_game_key:
+                        with self.lock:
+                            self._verification_jobs.pop(job['id'], None)
+                        continue
+                    # A restore failure must retain its prefix safety gate.
+                    if job.get('status') != 'verifying':
+                        if job.get('status') not in ('restoring', 'fired'):
+                            with self.lock:
+                                self._verification_jobs.pop(job['id'], None)
+                        continue
+                    try:
+                        effect = self._verify_effect(job, item['baseline'], state) if state else {
+                            'confirmed': False, 'summary': '無法讀取遊戲效果：' + str(error)}
+                    except Exception as exc:
+                        effect = {'confirmed': False, 'summary': '遊戲效果尚未確認：' + str(exc)}
+                    with self.lock:
+                        job['effect'] = effect
+                        if effect.get('confirmed') is True:
+                            if job.get('preset') == 'build':
+                                xy = self._job_xy(job.get('params') or {})
+                                cached = dict((self._occupied.get(job['prefix']) or (0, {}))[1])
+                                if xy:
+                                    cached[xy] = 'trap' if job['params'].get('build_type') == 6 else 'building'
+                                self._occupied[job['prefix']] = (time.time(), cached)
+                            job['finished'] = time.time()
+                            self._update(job, 'completed', effect.get('summary') or '已觀察到實際遊戲變化')
+                            self._verification_jobs.pop(job['id'], None)
+                            self._start_worker()
+                        elif time.monotonic() >= item['deadline']:
+                            self._update(job, 'verifying', '遊戲效果仍未確認；保留記錄，不重送')
+                            job['verification_exhausted'] = True
+                            self._verification_jobs.pop(job['id'], None)
+                            self._save_history()
+                time.sleep(max(self.poll_interval, 3.0))
+        finally:
+            with self.lock:
+                self._verify_running = False
+                # A just-finished batch may have added a sample at this boundary.
+                if self._verification_jobs and all(
+                        item['job'].get('status') == 'verifying'
+                        for item in self._verification_jobs.values()):
+                    self._start_verifier()
 
     def _public(self, job):
-        out = {k: v for k, v in job.items() if k not in ('flag', 'receipt_path')}
+        out = {k: v for k, v in job.items()
+               if k not in ('flag', 'receipt_path') and not k.startswith('_')}
+        out['params'] = dict(job.get('params') or {})
+        out['events'] = [dict(e) for e in job.get('events', [])]
+        out['cancellable'] = job.get('status') in CANCELLABLE
         out['waited'] = round((job.get('finished') or time.time()) - job['created'], 1)
         return out
 
     def jobs_view(self):
         with self.lock:
-            return {'ok': True, 'jobs': [self._public(j) for j in self.jobs]}
+            rows = [self._public(j) for j in reversed(self.jobs)]
+            current = [job for job in rows if self.current_game_key and
+                       job.get('game_key') == self.current_game_key and not job.get('legacy') and
+                       not str(job.get('status', '')).startswith('legacy_')]
+            return {'ok': True, 'jobs': rows, 'current_jobs': current,
+                    'current_game_key': self.current_game_key,
+                    'current_game_token': self.current_game_token if self.current_game_key else None,
+                    'game_identity_limitation': self.game_identity_limitation,
+                    'history_error': getattr(self, 'history_error', None)}

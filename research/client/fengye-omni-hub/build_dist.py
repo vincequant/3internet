@@ -15,19 +15,35 @@ FILES = ('player_text.py', 'backend/fengyun_local.py', 'backend/lab_remote.py',
          'config.example.json', 'room_client.py', 'backend/room_protocol.py',
          'backend/room_remote.py', 'backend/room_probe.py', 'tests/test_rooms.py',
          'command_service.py', 'tests/test_command_dedupe.py',
+         'command_panel.py', 'command_presentation.py', 'command_effects.py',
+         'build_picker.py', 'fengye_battle_panel.py', 'fengye_icon.py',
+         'legacy_command_history.py',
+         'tests/test_command_queue.py', 'tests/test_command_session.py',
+         'tests/test_command_effects.py', 'tests/test_command_presentation.py',
+         'tests/test_command_panel.py', 'tests/test_build_picker.py',
+         'tests/test_battle_panel.py', 'tests/test_legacy_command_history.py',
+         'assets/fengye-icon.png', 'assets/fengye-icon-256.png',
+         'assets/fengye-icon.ico', 'assets/fengye.icns', 'assets/fengye-icon.prompt.txt',
+         'docs/command-map-0.2.32.md', 'docs/verify_native_0_2_32.py',
+         'docs/panel-0.2.32-battle.png', 'docs/panel-0.2.32-commands.png',
+         'docs/panel-0.2.32-picker.png',
          'tests/test_map_camera.py', 'tests/test_map_events.py',
          'docs/map-display-0.2.31.md',
          'docs/panel-20261020-mapfix-0.2.31-window.png',
          'docs/panel-20261020-mapfix-0.2.31-canvas.png',
          'docs/panel-20261020-mapfix-0.2.31-canvas.ps')
+LAB_TOOLS = ('_p60_battle.py', '_p60_pick_cell_wide.py')
 
 
 def main():
     upstream = json.loads((ROOT / 'UPSTREAM.json').read_text(encoding='utf-8'))['files']
-    names = sorted(set(FILES) | set(upstream))
+    sources = {n: ROOT / n for n in set(FILES) | set(upstream)}
+    sources.update({'lab-tools/' + n: (ROOT / 'lab-tools' / n if (ROOT / 'lab-tools' / n).is_file()
+                                      else ROOT.parent / 'protocol-lab' / n) for n in LAB_TOOLS})
+    names = sorted(sources)
     if any(Path(n).is_absolute() or '..' in Path(n).parts or n.startswith('data/') for n in names):
         raise ValueError('Unapproved distribution path')
-    contents = {n: (ROOT / n).read_bytes() for n in names}
+    contents = {n: sources[n].read_bytes() for n in names}
     sums = {n: hashlib.sha256(b).hexdigest() for n, b in contents.items()}
     release = json.loads(contents['RELEASE.json'])
     dest = ROOT / 'dist'

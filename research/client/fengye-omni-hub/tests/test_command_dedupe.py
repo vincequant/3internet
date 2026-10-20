@@ -17,7 +17,8 @@ sys.path.insert(0, str(ROOT / 'bridge'))
 from command_service import CommandService
 
 CITY = {'city_id': 7, 'name': '洛陽', 'owner': 3, 'xy': [50, 100]}
-INFO = {'forces': [{'force_id': 3, 'name': '風夜'}], 'cities': [CITY]}
+INFO = {'game_key': 'mock-current-game',
+        'forces': [{'force_id': 3, 'name': '風夜'}], 'cities': [CITY]}
 
 
 def build_payload(x=52, y=101, build_type=6):
@@ -117,10 +118,19 @@ class QueueDedupeTests(unittest.TestCase):
         self.assertIsNotNone(reason)
         self.assertIn('剛送出', reason)
 
-    def test_finished_job_stops_blocking(self):
-        self.svc.jobs = [{'id': 'abc123', 'preset': 'build', 'status': 'fired',
+    def test_observed_completed_job_stops_reserving_the_cell(self):
+        self.svc.jobs = [{'id': 'abc123', 'preset': 'build', 'status': 'completed',
+                          'effect': {'confirmed': True},
                           'params': {'x': 54, 'y': 101}}]
+        # The reservation is replaced by the real occupancy table on completion.
+        # This fixture has no object; a later real demolition can free the cell.
         self.assertIsNone(self.svc.validate(build_payload(x=54, y=101), INFO))
+
+    def test_local_receipt_does_not_release_an_unobserved_build_cell(self):
+        for status in ('fired', 'verifying'):
+            self.svc.jobs = [{'id': 'abc123', 'preset': 'build', 'status': status,
+                              'params': {'x': 54, 'y': 101}}]
+            self.assertIsNotNone(self.svc.validate(build_payload(x=54, y=101), INFO))
 
     def test_non_build_commands_are_untouched(self):
         payload = {'prefix': 'prefix-fengye-shadow', 'preset': 'alms',

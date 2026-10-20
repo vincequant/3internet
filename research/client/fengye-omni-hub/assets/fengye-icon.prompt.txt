@@ -1,0 +1,16 @@
+Generated with the built-in image_gen tool on 2026-10-20.
+transparent_background: true
+Source: /Users/vk/.codex/generated_images/01a15742-fdb8-75c0-ab3e-016d318f4d32/exec-84399fc9-4839-4d69-914a-a269abbdfa72.png
+Final source bitmap is fengye-icon.png. Size-only derivatives are fengye-icon-256.png,
+fengye-icon.ico, and fengye.icns; no content edits were applied after generation.
+
+Use case: logo-brand
+Asset type: final bitmap app icon for a macOS desktop strategy-game intelligence console named Fengye.
+Primary request: Create one polished, distinctive app icon combining a stylized Three Kingdoms era military command token with a clear watchful eye motif, suggesting strategic observation and intelligence. No written words, letters, numbers, or official brand emblems.
+Subject: A single elegantly simplified bronze-gold command seal, its center an abstract watchful eye formed from a jade-green curved aperture and gold pupil; subtle symmetrical wind-shaped flourishes integrated into the seal silhouette.
+Style/medium: Refined premium desktop app icon, restrained dimensional enamel and metal, precise broad readable shapes, crisp edges, small-icon legibility.
+Composition/framing: Square 1024 x 1024. A dark ink-teal rounded-square app tile centered with a generous transparent outer margin, emblem centered inside and occupying about 60% of the tile. Flat frontal view with a very slight bevel, balanced compact silhouette. No separate surrounding objects.
+Lighting/mood: Calm, confident, observant, softly illuminated.
+Color palette: Dark ink teal and deep forest teal for the rounded tile, luminous jade green details and warm muted gold accents.
+Materials/textures: Matte dark enamel with subtle metallic gold rim and clean jade inlay; avoid busy texture.
+Constraints: Actual transparent background outside the rounded-square tile; preserve the complete tile within the image. Original design. No Koei or other existing official logos. No text, watermark, photographic scene, characters, weapons, flags, or ornamental clutter.

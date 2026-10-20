@@ -1,25 +1,48 @@
-"""Read-only battlefield snapshot for the console: forces, cities, units (one capture)."""
-import json, sys
-sys.path.insert(0, r'Z:\Users\vk\sgi-fengye-lab\shadow\bridge')
+"""Read-only shadow snapshot, retaining the complete original Collector state.
+
+The caller supplies the shadow prefix and PID. No client fallback/discovery.
+The compact fields remain compatible with previous console versions.
+"""
+import json
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'bridge'))
 from collector import Collector
-pid = int(sys.argv[1])
-c = Collector(pid)
-try:
-    c.bind(); s = c.capture(); e = s.get('entities') or {}
-    lords = [{'force_id': r.get('force_id'), 'name': r.get('name'),
-              'gold': r.get('gold'), 'rice': r.get('rice'),
-              'armament': r.get('armament'), 'troop_stock': r.get('troop_stock')}
-             for r in (e.get('lords') or [])]
-    cities = [{'city_id': r.get('city_id'), 'name': r.get('name'), 'owner': r.get('owner_raw'),
-               'xy': r.get('world_xy_raw'), 'defense': r.get('defense')}
-              for r in (e.get('cities_and_barriers') or [])]
-    units = [{'unit_id': r.get('unit_id'), 'owner': r.get('owner_raw'), 'kind': r.get('unit_kind'),
-              'xy': r.get('world_xy_raw'), 'attack': r.get('native_attack_index'),
-              'morale': r.get('morale'), 'generals': r.get('general_ids')}
-             for r in (e.get('field_units') or [])]
-    print(json.dumps({'ok': True, 'lords': lords, 'cities': cities, 'units': units},
-                     ensure_ascii=False))
-except Exception as exc:
-    print(json.dumps({'ok': False, 'error': '%s: %s' % (type(exc).__name__, exc)}))
-finally:
-    c.close()
+
+
+def snapshot(pid):
+    collector = Collector(pid)
+    try:
+        collector.bind()
+        state = collector.capture()
+        entities = state.get('entities') or {}
+        lords = [{key: row.get(key) for key in
+                  ('force_id', 'name', 'gold', 'rice', 'armament', 'troop_stock')}
+                 for row in entities.get('lords') or []]
+        cities = [{'city_id': row.get('city_id'), 'name': row.get('name'),
+                   'owner': row.get('owner_raw'), 'xy': row.get('world_xy_raw'),
+                   'defense': row.get('defense')}
+                  for row in entities.get('cities_and_barriers') or []]
+        units = [{'unit_id': row.get('unit_id'), 'owner': row.get('owner_raw'),
+                  'kind': row.get('unit_kind'), 'xy': row.get('world_xy_raw'),
+                  'attack': row.get('native_attack_index'), 'morale': row.get('morale'),
+                  'generals': row.get('general_ids')}
+                 for row in entities.get('field_units') or []]
+        return {'ok': True, 'readonly': True, 'state': state,
+                'captured_at': state.get('capture_end'),
+                'lords': lords, 'cities': cities, 'units': units}
+    finally:
+        collector.close()
+
+
+def main():
+    try:
+        result = snapshot(int(sys.argv[1]))
+    except Exception as exc:
+        result = {'ok': False, 'error': '%s: %s' % (type(exc).__name__, exc)}
+    print(json.dumps(result, ensure_ascii=False))
+
+
+if __name__ == '__main__':
+    main()

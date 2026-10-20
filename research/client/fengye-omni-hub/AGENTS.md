@@ -92,3 +92,24 @@
   ⑤正式 .app 已重建／重啟 0.2.31，使用者確認「已正常，地圖不再下沉」。
   日誌新增真正 canvas origin。驗收圖／跨平台與發行核驗見 `docs/map-display-0.2.31.md`；
   Windows 原生 GUI 未實測。未動遊戲進程、存檔或實驗室鏈。
+
+- **0.2.32（2026-10-20，指令即時隊列／主地圖建設／原作全景與持續讀取）**：
+  ①僅七按鍵：練步／騎／弓，以及兵營7／馬房8／弓房9／陷阱6。練兵立即建立 canonical job。
+  建設直接在外部指令主頁原全景地圖顯示全部己方城池可建綠框，沒有城池按鈕列或Toplevel；
+  單擊只選格，按「確認位置並加入隊列」才入隊。同樣本terrain_grid沿用radius4/type2規則，
+  排除真物件與busy；重疊格按距離/cityid歸城。成功立即鎖格、切勢力/類型/局/失效清選格。
+  ②隊列三頁僅顯示真game_key相同且非legacy記錄，無key/異局只留本機audit，不再自動匯入。
+  真身分key跨面板重啟穩定且不重播；準備、等phase後與baseline後核局。未知agent同process
+  即使core改變仍擋後續；Collector無獨立局ID，同process/core/劇本/名單完全重用仍有識別限制。
+  ③未有代送副作用的指令可撤回；arming起不冒稱可安全撤回。同勢力批次、異勢力串行、同兵種
+  待前筆真變化。玩家視角顯示真玩家/勢力/城名、訓練值及金前後變化；不露rc/狀態碼/核心位址。
+  ④本機回執不算完成。完整同來源原始新快照且capture_start晚於receipt_at，確認訓練增加或
+  同格同勢力同類型唯一新建物件才completed；未知不重送、不自行解除待發門檻，建設格保留。
+  ⑤入口 **fengye_battle_panel.py** 勿改回會撞app/battle_panel.py的名稱。原renderer保留城池/
+  兵種sprite/旗/補給/格線/HP士氣；隱藏對手狀態、上方filters/定位/產兵；陷阱固定True、僅文字
+  可勾選，zoom深色字。兩頁3秒背景singleflight讀shadow-only，共用cache，失效不回退真人端。
+  ⑥自有logo/PNG/ICO/ICNS位assets及prompt，不改遊戲/Wine圖標。發行包明確白名單＋SHA，
+  附兩支只讀lab helper；本機data/config/遊戲/存檔/憑據不打包。
+  ⑦最終測試及實際已對映畫面見docs/command-map-0.2.32.md；本輪Mock指令＋真唯讀地圖，
+  **未實送新遊戲指令，不宣稱新版代送已實局端到端成功**。Windows原生GUI未實測。未改遊戲
+  或存檔，不新增HANDOFF。

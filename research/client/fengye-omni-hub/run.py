@@ -29,7 +29,7 @@ def main():
     import tkinter as tk
     from mac_light_theme import apply_light_defaults
     from display_layout import configure
-    from dock_icon import apply
+    from fengye_icon import apply
     from fengye_source import FengyeSource, control_ready, mode_text, decoded_commands
     from native_window import FengyeWindow
     from connection import CONNECTION
@@ -40,7 +40,7 @@ def main():
         root = tk.Tk()
         apply_light_defaults(root)
         configure(root)
-        apply(root, 'hub')
+        apply(root)
         app = FengyeWindow(root, source)
         # 2026-10-20: 驗收用；指定初始分頁（例如 FENGYE_START_TAB=外部指令）。
         start_tab = os.environ.get('FENGYE_START_TAB')
@@ -54,6 +54,8 @@ def main():
                     break
         def close():
             app.stop.set()
+            if hasattr(app, 'battle_panel'):
+                app.battle_panel.dispose()
             CONNECTION.close()
             root.destroy()
         root.protocol('WM_DELETE_WINDOW', close)

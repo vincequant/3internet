@@ -6,9 +6,9 @@ which can move even while yview() still reports (0, 1).
 """
 import sys
 import tkinter as tk
+import time
 import unittest
 from pathlib import Path
-from types import SimpleNamespace
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -16,7 +16,8 @@ sys.path[:0] = [str(ROOT), str(ROOT / 'app'), str(ROOT / 'bridge')]
 
 from tkinter import ttk
 from map_navigation import bind_pointer_wheel
-from native_window import FengyeWindow, map_unproject
+from fengye_battle_panel import ShadowPanorama
+from panorama_model import MIN_ZOOM
 
 
 class MapEventTests(unittest.TestCase):
@@ -37,22 +38,23 @@ class MapEventTests(unittest.TestCase):
         # OmniWindow installs these bindings even though its maps are hidden.
         self.legacy = tk.Canvas(self.root)
         bind_pointer_wheel(self.legacy, lambda *_: None)
-        self.app = FengyeWindow.__new__(FengyeWindow)
-        self.app.root = self.root
-        self.app.face = 'Helvetica'
-        self.app.control_book = ttk.Notebook(self.root)
-        self.app.control_book.pack(fill='both', expand=True)
-        self.app.battle_page = tk.Frame(self.app.control_book)
-        self.app.command_page = tk.Frame(self.app.control_book)
-        self.app.control_book.add(self.app.battle_page, text='戰場')
-        self.app._battle_refresh = lambda: None  # No game, network or commands.
-        self.app._build_battle_page()
+        self.book = ttk.Notebook(self.root)
+        self.book.pack(fill='both', expand=True)
+        self.page = tk.Frame(self.book)
+        self.book.add(self.page, text='戰場')
+        # This is the actual renderer mounted by BattlePanel; no retired map
+        # camera, game reads, network source or commands are involved.
+        self.app = ShadowPanorama(self.page, title='戰場測試', detachable=False)
+        self.app.pack(fill='both', expand=True)
         self.root.update()
-        self.canvas = self.app.battle_map
+        self.canvas = self.app.canvas
         self.assertTrue(self.canvas.winfo_ismapped())
-        self.app._battle_draw_map(
-            [{'xy': [50, 100], 'name': '測試城', 'owner': 1}], [], {})
+        self.app.center, self.app.zoom = (50.5, 101.0), 3.0
+        self.app.update_state({'entities': {}})
         self.root.update()
+        self.initial_zoom = self.app.zoom
+        self.anchor = (round(self.canvas.winfo_width()*.44),
+                       round(self.canvas.winfo_height()*.47))
 
     def callback_error(self, *_error):
         self.errors.append(_error)
@@ -61,53 +63,68 @@ class MapEventTests(unittest.TestCase):
         self.assertEqual((self.canvas.canvasx(0), self.canvas.canvasy(0)), (0, 0))
         self.assertEqual(self.errors, [])
 
+    def flush_draw(self):
+        # Panorama coalesces draws with an actual after timer. update() alone
+        # can return before fit/Configure has applied its legal camera clamp.
+        deadline = time.monotonic() + 1
+        while getattr(self.app, '_draw_job', None) and time.monotonic() < deadline:
+            self.root.update()
+            time.sleep(.01)
+        self.root.update()
+        self.assertIsNone(getattr(self.app, '_draw_job', None))
+
     def touch(self, dx=0, dy=0):
         try:
             self.canvas.bind('<TouchpadScroll>')
         except tk.TclError:
             self.skipTest('TouchpadScroll requires Tk 9')
         packed = ((dx & 0xffff) << 16) | (dy & 0xffff)
-        self.app._battle_wheel_at = 0
-        self.canvas.event_generate('<TouchpadScroll>', delta=packed, x=500, y=140,
-                                   rootx=self.canvas.winfo_rootx() + 500,
-                                   rooty=self.canvas.winfo_rooty() + 140)
+        self.app._wheel_at = 0
+        x, y = self.anchor
+        self.canvas.event_generate('<TouchpadScroll>', delta=packed, x=x, y=y,
+                                   rootx=self.canvas.winfo_rootx() + x,
+                                   rooty=self.canvas.winfo_rooty() + y)
         self.root.update()
 
     def test_touchpad_changes_zoom_without_scrolling_canvas(self):
         for _ in range(12):
             self.touch(dy=16)
             self.assert_origin()
-        self.assertGreater(self.app.battle_zoom, 1)
+        self.assertGreater(self.app.zoom, self.initial_zoom)
 
     def test_touchpad_zoom_keeps_pointer_world_point(self):
-        w, h = self.canvas.winfo_width(), self.canvas.winfo_height()
-        before = self.app._battle_geometry(w, h)[3]
-        source = map_unproject(500, 140, before, w, h)
+        source = self.app._world_at(*self.anchor)
         self.touch(dy=16)
-        after = self.app._battle_geometry(w, h)[3]
-        self.assertAlmostEqual(self.app.battle_zoom, 1.2)
-        point = map_unproject(500, 140, after, w, h)
+        self.assertAlmostEqual(self.app.zoom, self.initial_zoom + .5)
+        point = self.app._world_at(*self.anchor)
         self.assertAlmostEqual(source[0], point[0], places=6)
         self.assertAlmostEqual(source[1], point[1], places=6)
         self.assert_origin()
 
     def test_horizontal_and_reverse_touchpad_do_not_scroll(self):
         for dx, dy in ((16, 0), (0, -16), (-16, 0), (0, 16)):
+            old = self.app.zoom
             self.touch(dx, dy)
+            self.assertNotEqual(self.app.zoom, old)
             self.assert_origin()
 
     def test_tiny_touchpad_events_are_consumed(self):
         for _ in range(24):
             self.touch(dy=1)
             self.assert_origin()
+        self.assertGreater(self.app.zoom, self.initial_zoom)
 
     def test_wheel_and_linux_buttons_only_change_camera(self):
         for event, kwargs in (('<MouseWheel>', {'delta': 120}),
                               ('<Shift-MouseWheel>', {'delta': -120}),
                               ('<Button-4>', {}), ('<Button-5>', {})):
-            self.app._battle_wheel_at = 0
-            self.canvas.event_generate(event, x=500, y=140, **kwargs)
+            old = self.app.zoom
+            self.app._wheel_at = 0
+            x, y = self.anchor
+            self.canvas.event_generate(event, x=x, y=y,
+                rootx=self.canvas.winfo_rootx()+x, rooty=self.canvas.winfo_rooty()+y, **kwargs)
             self.root.update()
+            self.assertNotEqual(self.app.zoom, old)
             self.assert_origin()
 
     def test_canvas_cannot_drift_even_from_class_scroll(self):
@@ -119,19 +136,30 @@ class MapEventTests(unittest.TestCase):
 
     def test_reset_drag_and_tab_switch_preserve_canvas_origin(self):
         self.touch(dy=16)
-        self.app._battle_drag_start(SimpleNamespace(x=500, y=140))
-        self.app._battle_drag_move(SimpleNamespace(x=530, y=170))
-        self.app._battle_drag_end()
-        self.app._battle_reset_view()
+        before = self.app.center
+        x, y = self.anchor
+        self.canvas.event_generate('<ButtonPress-1>', x=x, y=y)
+        self.canvas.event_generate('<B1-Motion>', x=x+30, y=y+30)
+        self.canvas.event_generate('<ButtonRelease-1>', x=x+30, y=y+30)
         self.root.update()
-        self.assertEqual(self.app.battle_zoom, 1)
+        self.assertNotEqual(self.app.center, before)
+        self.app.fit()
+        self.flush_draw()
+        # The original panorama computes the minimum legal fit for this
+        # viewport's aspect ratio, so fit need not be exactly MIN_ZOOM.
+        self.assertGreaterEqual(self.app.zoom, MIN_ZOOM)
+        self.assertLess(self.app.zoom, self.initial_zoom)
         self.assert_origin()
-        other = tk.Frame(self.app.control_book)
-        self.app.control_book.add(other, text='other')
-        self.app.control_book.select(other)
+        fitted = (self.app.center, self.app.zoom)
+        other = tk.Frame(self.book)
+        self.book.add(other, text='other')
+        self.book.select(other)
         self.root.update()
-        self.app.control_book.select(self.app.battle_page)
+        self.book.select(self.page)
         self.root.update()
+        self.flush_draw()
+        self.assertTrue(self.canvas.winfo_ismapped())
+        self.assertEqual((self.app.center, self.app.zoom), fitted)
         self.assert_origin()
 
 
