@@ -191,8 +191,11 @@ class CommandPanelMappedTests(unittest.TestCase):
         payload, info, execute = self.service.submitted[0]
         self.assertEqual((payload['preset'], payload['troop'], payload['actor']), ('train', 1, 3))
         self.assertEqual(payload['prefix'], 'prefix-fengye-shadow')
+        # P64：走遊戲按鈕自己的送出函式。這個面板情境風夜已經坐在目標勢力上
+        # （local.force_id == 點選的 force），所以不切席、不還席，直接送。
         self.assertFalse(payload['auto_slot'])
-        self.assertEqual(payload.get('sender'), 'probe')
+        self.assertEqual(payload.get('sender'), 'agent')
+        self.assertIn('已上身', payload.get('sender_label') or '')
         self.assertIs(info, self.panel.snapshot)
         self.assertTrue(execute)
         self.assertEqual(self.panel.tables['active'].get_children(), ('job-1',))
@@ -205,29 +208,31 @@ class CommandPanelMappedTests(unittest.TestCase):
         self.assertEqual(len(self.service.submitted), 2)
         self.assertEqual(len(self.panel.tables['active'].get_children()), 2)
 
-    def test_seated_ghost_can_target_any_force_but_hidden_cannot(self):
+    def test_seated_ghost_borrows_the_target_seat_for_the_button_path(self):
+        # 2026-10-20 P64：D5 被否定後回到遊戲按鈕自己的路徑——先借目標席位，
+        # 由 agent 呼叫 0x446482（actor 由席位決定）。
         self.assertEqual(self.panel._ghost_force(), 3)
         self.panel.force_box.current(1)  # 丁滿・巴，借目標席位
         self.panel._force_changed()
         self.panel.train_buttons[0].invoke()
         payload = self.service.submitted[0][0]
         self.assertEqual(payload['prefix'], 'prefix-fengye-shadow')
-        self.assertFalse(payload['auto_slot'])
-        self.assertEqual(payload.get('sender'), 'probe')
+        self.assertTrue(payload['auto_slot'])
+        self.assertEqual(payload.get('sender'), 'agent')
         self.assertEqual(payload['actor'], 4)
-        self.assertIn('probe', payload['sender_label'])
+        self.assertIn('按鈕', payload['sender_label'])
 
-    def test_hidden_ghost_can_queue_with_probe_d5_sender(self):
+    def test_hidden_ghost_can_queue_and_borrows_seat(self):
         self.panel.snapshot['local'] = {'force_id': None, 'slot': 5, 'status': 'hidden'}
         self.assertIsNone(self.panel._ghost_force())
         self.panel.train_buttons[0].invoke()
         self.assertEqual(len(self.service.submitted), 1)
         payload = self.service.submitted[0][0]
         self.assertEqual(payload['prefix'], 'prefix-fengye-shadow')
-        self.assertFalse(payload['auto_slot'])
-        self.assertEqual(payload.get('sender'), 'probe')
+        self.assertTrue(payload['auto_slot'])
+        self.assertEqual(payload.get('sender'), 'agent')
         self.assertEqual(payload['actor'], 3)
-        self.assertIn('probe', payload['sender_label'])
+        self.assertIn('按鈕', payload['sender_label'])
         self.assertIn('已加入', self.panel.note.cget('text'))
 
     def test_laptop_layout_keeps_map_queue_details_and_confirmation_inside_panel(self):

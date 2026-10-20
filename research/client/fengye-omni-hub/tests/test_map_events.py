@@ -134,6 +134,32 @@ class MapEventTests(unittest.TestCase):
         # Without a bounded viewport yview is (0,1) but canvasy(0) is -432.
         self.assert_origin()
 
+    def test_wasd_pans_even_when_focus_is_not_the_canvas(self):
+        # 2026-10-20 使用者回報「WASD 經常用不了」：焦點在別的控制項時，
+        # 綁在 canvas 上的按鍵收不到事件。改成 toplevel 統一派送。
+        button = ttk.Button(self.page, text='焦點測試')
+        button.pack()
+        self.root.update()
+        button.focus_set()
+        self.root.update()
+        before = self.app.center
+        button.event_generate('<KeyPress-w>')
+        self.root.update()
+        self.assertLess(self.app.center[1], before[1])
+        self.assert_origin()
+
+    def test_wasd_in_a_text_field_does_not_pan(self):
+        entry = ttk.Entry(self.page)
+        entry.pack()
+        self.root.update()
+        entry.focus_set()
+        self.root.update()
+        before = self.app.center
+        entry.event_generate('<KeyPress-w>')
+        self.root.update()
+        self.assertEqual(self.app.center, before)
+        self.assert_origin()
+
     def test_reset_drag_and_tab_switch_preserve_canvas_origin(self):
         self.touch(dy=16)
         before = self.app.center

@@ -12,6 +12,7 @@ from command_presentation import (BUILD_CHOICES, TRAIN_CHOICES, STATUS, action_t
 from fengye_diagnostics import report
 
 BG, INK, MUTED, ACCENT = '#f3f6fa', '#203440', '#657985', '#286a72'
+WARN = '#8a3030'
 OTHER = {'cancelled', 'error', 'send_failed'}
 
 
@@ -59,6 +60,12 @@ class CommandPanel(tk.Frame):
         self.refresh_button = ttk.Button(top, text='立即讀取', command=self.refresh)
         self.live = self._label(top, '正在讀取風夜資料…')
         self.live.pack(side='right', padx=(12, 0))
+        # 2026-10-21：實時顯示風夜現在的「身份狀態」——無勢力／正在哪一家。
+        state_row = tk.Frame(self, bg=BG)
+        state_row.pack(fill='x', padx=14, pady=(2, 0))
+        self.force_state = self._label(state_row, '風夜目前：讀取中…', True)
+        self.force_state.pack(side='left')
+        self._label(state_row, '（下單時會自動借目標席位，送完自動回無勢力）').pack(side='left', padx=(8, 0))
         rows = tk.Frame(self, bg=BG)
         rows.pack(fill='x', padx=14, pady=(6, 2))
         self._label(rows, '練兵', True).pack(side='left', padx=(0, 10))
@@ -207,6 +214,32 @@ class CommandPanel(tk.Frame):
         force = local.get('force_id')
         return force if isinstance(force, int) and force >= 0 else None
 
+    def _render_force_state(self, data):
+        """實時顯示風夜現在的身份：無勢力（旁聽）或某勢力。"""
+        local = (data or {}).get('local') or {}
+        force = local.get('force_id')
+        slot = local.get('slot')
+        seat = (data or {}).get('pre_seat') or {}
+        if not isinstance(force, int) or force < 0:
+            if seat.get('ok'):
+                text = '風夜目前：無勢力（旁聽）· ✓ 本局已取得身份（可下單）'
+                colour = '#2e7d32'
+            else:
+                text = '風夜目前：無勢力（旁聽）· ✗ 這一局沒有身份（下單會被主機丟棄）'
+                colour = WARN
+        else:
+            name = next((f.get('name') for f in (data.get('forces') or [])
+                         if f.get('force_id') == force), None)
+            text = '風夜目前：%s（force %s%s）%s' % (
+                ('%s ' % name) if name else '', force,
+                '，slot %s' % slot if isinstance(slot, int) else '',
+                '· ✓ 已上身' if seat.get('ok') else '')
+            colour = ACCENT
+        try:
+            self.force_state.configure(text=text, fg=colour)
+        except Exception:  # noqa: BLE001
+            pass
+
     def _enqueue(self, params):
         force = self.selected_force()
         if self.readonly:
@@ -235,14 +268,18 @@ class CommandPanel(tk.Frame):
             sender = '風夜（自己的勢力）'
         else:
             sender = '風夜（借目標席位）'
-        # 2026-10-20 21:xx P40 D5：主機批次收集不驗成員上傳的 sender，風夜
-        # probe 用自己 member id 上傳 control5 就會被併入批次（P58 UI 同等
-        # 路徑）。因此不需要借席、不需要在內政前切到目標；席位保持旁聽，
-        # 由服務寫 control JSON 給 probe、等 D5 回執再驗效果。
+        # 2026-10-20 22:xx P64：D5（成員自己上傳 control5）已被實測否定——Koeinm 的
+        # type-5 分支只給「非主機」收，主機端 0x3E28 只收 type-4 單筆（sender 由連線
+        # 決定），所以風夜上傳的 control5 一定被丟。回到遊戲自己的路徑：內政階段開始前
+        # 借到目標席位 → 遊戲按鈕最後那支 0x446482 → type-4 上傳 → 主機併入批次。
+        # 2026-10-20 23:3x：若風夜開局前已上身（local.force_id == 目標），就不要
+        # 再切席／還席——切席會把它的玩家身份弄掉，主機就不再收它的上傳。
+        already = own
         payload = dict(params, prefix='prefix-fengye-shadow', actor=force['force_id'],
-                       actor_label=self.force_box.get(), auto_slot=False,
-                       sender='probe', eta_text=eta,
-                       sender_label='風夜（probe D5，免切席位）')
+                       actor_label=self.force_box.get(), auto_slot=not already,
+                       sender='agent', eta_text=eta,
+                       sender_label=('風夜（已上身 → 遊戲按鈕函式）' if already
+                                     else '風夜（借目標席位 → 遊戲按鈕函式）'))
         result = self.service.submit(payload, info=self.snapshot, execute=True)
         if result.get('ok'):
             self._set_queue_visible(True)
@@ -385,6 +422,10 @@ class CommandPanel(tk.Frame):
         values = ['%s・%s' % (players.get(f['force_id']) or '未知玩家', f.get('name') or '未知勢力')
                   for f in self.forces]
         self.force_box.configure(values=values)
+        # 0.2.54：沒有明確選擇時，默認挑「風夜現在坐的那家」——這樣下單不用切席。
+        local_force = (data.get('local') or {}).get('force_id')
+        if not any(f.get('force_id') == fid for f in self.forces) and isinstance(local_force, int) and local_force >= 0:
+            fid = local_force
         index = next((i for i, f in enumerate(self.forces) if f.get('force_id') == fid), 0)
         if values:
             self.force_box.current(index)
@@ -392,6 +433,7 @@ class CommandPanel(tk.Frame):
         self._render_values()
         self.live.configure(text='自動讀取 · %s · %s' %
                                   (data.get('phase_text') or '未知', datetime.now().strftime('%H:%M:%S')))
+        self._render_force_state(data)
         if self.on_snapshot:
             self.on_snapshot(data)
 

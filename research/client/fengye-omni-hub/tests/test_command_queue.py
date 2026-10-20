@@ -19,7 +19,8 @@ INFO = {'ok': True, 'game_key': 'mock-current-game',
         'targets': [{'prefix': PREFIX, 'pid': 42}],
         'forces': [{'force_id': 3}],
         'cities': [{'city_id': 7, 'owner': 3, 'name': '洛陽', 'xy': [50, 100]}],
-        'player_slots': [{'force_id': 3, 'slot': 1}]}
+        'player_slots': [{'force_id': 3, 'slot': 1}],
+        'local': {'force_id': None, 'slot': 5, 'status': 'hidden'}}
 
 
 def train(troop=0):
@@ -35,12 +36,16 @@ def build(x=52):
 
 class MockService(CommandService):
     def __init__(self, lab, history_path=None):
-        super().__init__(lab=lab, history_path=history_path)
+        # Keep the pre-seat persistence inside the test's temp dir: a real
+        # data/pre_seat.json would leak the mock game key into the app.
+        super().__init__(lab=lab, history_path=history_path or (Path(lab) / 'history.json'))
         self.calls = []
         self.switches = []
         self.phase_reads = 0
         self.effect_count = 0
         self._cache = INFO
+        # 這一局已經「開局前上身」（mock）
+        self.pre_seat = {'slot': 1, 'game_key': INFO['game_key'], 'at': 0.0}
         self.poll_interval = 0.001
 
     def _start_worker(self):
@@ -99,6 +104,42 @@ class QueueTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.svc = MockService(self.temp.name)
+
+    def test_auto_restore_only_after_a_preseat_game_starts(self):
+        # 2026-10-21：開局前上身 → 開局後自動切回 5；每局只做一次。
+        key = INFO['game_key']
+        self.svc.pre_seat = {'slot': 1, 'game_key': key, 'at': 0.0}
+        started = dict(INFO, local={'force_id': 3, 'slot': 1}, phase=1)
+        self.assertTrue(self.svc.should_auto_restore(started))
+        # 只在內政期切回（避免跨回合把客戶端卡住）
+        self.assertFalse(self.svc.should_auto_restore(dict(started, phase=3)))
+        # 開局後先等幾秒再切
+        self.svc._game_seen_at[key] = __import__('time').time()
+        self.assertFalse(self.svc.should_auto_restore(started))
+        self.svc._game_seen_at[key] = __import__('time').time() - 30
+        self.assertTrue(self.svc.should_auto_restore(started))
+        self.assertFalse(self.svc.should_auto_restore(started, restored={key}))
+        self.assertFalse(self.svc.should_auto_restore(dict(INFO, local={'force_id': None, 'slot': 5})))
+        self.assertFalse(self.svc.should_auto_restore(dict(INFO, game_key='other')))
+        self.assertFalse(self.svc.should_auto_restore(started, enabled=False))
+        self.svc.pre_seat = None
+        self.assertFalse(self.svc.should_auto_restore(started))
+
+    def test_refuses_to_send_without_a_preseat_for_this_game(self):
+        # 2026-10-20 23:5x：主機只收「開局前已在該席位」的指令，沒有上身的局
+        # 一律拒絕，避免送出後留下假成功。
+        self.svc.pre_seat = None
+        reason = self.svc.validate(train(), INFO)
+        self.assertIn('開局前上身', reason or '')
+
+    def test_switch_ghost_seat_takes_a_slot_and_rejects_out_of_range(self):
+        # 2026-10-20: 「開局前上身」按鈕走這條；只切席位，不送指令。
+        self.assertTrue(self.svc.switch_ghost_seat(0)['ok'])
+        self.assertEqual(self.svc.switches, [0])
+        bad = self.svc.switch_ghost_seat(9)
+        self.assertFalse(bad['ok'])
+        self.assertEqual(self.svc.switches, [0], '超出 0–7 不得呼叫切換')
+        self.assertFalse(self.svc.switch_ghost_seat(True)['ok'])
 
     def test_submit_is_immediate_and_does_no_discovery(self):
         self.svc.targets = lambda **k: self.fail('submit discovered targets')

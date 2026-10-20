@@ -17,7 +17,9 @@ Run:  ~/.venvs/fengye/bin/python -m unittest test_p60_generic -v
 from __future__ import annotations
 
 import struct
+import subprocess
 import sys
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -52,7 +54,8 @@ def _addrs():
     return {'gfa': STUBS, 'conn': STUBS + 0x1000, 'getip': STUBS + 0x2000,
             'cfa': STUBS + 0x3000, 'wfa': STUBS + 0x4000, 'close': STUBS + 0x5000,
             'tick': STUBS + 0x6000, 'sleep': STUBS + 0x7000,
-            'ctor': STUBS + 0x8000, 'send': STUBS + 0x9000}
+            'ctor': STUBS + 0x8000, 'send': STUBS + 0x9000,
+            'send_ui': STUBS + 0xA000, 'seat': STUBS + 0xB000}
 
 
 ADDR = _addrs()
@@ -79,7 +82,8 @@ CTOR_DEFAULTS = {
 
 
 def run_payload(bin_path, *, cls, fields, trigger=True, core=CORE, slot=5, own=OWN,
-                sent=0, phase_req=0, phase=PHASE, max_insns=80000):
+                sent=0, phase_req=0, phase=PHASE, max_insns=80000, ui=False, seat_force=42, expect_actor=0,
+                settle=0, sleep_ret=0):
     from unicorn import Uc, UC_ARCH_X86, UC_MODE_32, UC_HOOK_CODE, UcError
     from unicorn.x86_const import UC_X86_REG_ESP
     code = Path(bin_path).read_bytes()
@@ -104,7 +108,13 @@ def run_payload(bin_path, *, cls, fields, trigger=True, core=CORE, slot=5, own=O
                  b'\xb8\x01\x00\x00\x00\xc2\x14\x00')
     sb['close'] = b'\xb8\x01\x00\x00\x00\xc2\x04\x00'
     sb['tick'] = b'\xb8' + struct.pack('<I', TICK) + b'\xc3'
-    sb['sleep'] = b'\xb8\x00\x00\x00\x00\xc2\x04\x00'
+    sb['sleep'] = b'\xb8' + struct.pack('<I', sleep_ret) + b'\xc2\x04\x00'
+    # P64 UI mode stubs: 0x446482(this=world, &obj) and 0x44B83B(this=world+0x912)
+    sb['send_ui'] = (b'\x8b\x44\x24\x04' + b'\xa3' + struct.pack('<I', SEND_LOG) +
+                     b'\x89\x0d' + struct.pack('<I', SEND_LOG + 4) +
+                     b'\xc7\x05' + struct.pack('<I', SEND_LOG + 8) + struct.pack('<I', 1) +
+                     b'\xb8\x01\x00\x00\x00\xc2\x04\x00')
+    sb['seat'] = b'\xb8' + struct.pack('<I', seat_force) + b'\xc3'
     for key, base in ADDR.items():
         uc.mem_write(base, sb[key])
     uc.mem_write(CORE_GLOBAL, struct.pack('<I', core))
@@ -119,12 +129,16 @@ def run_payload(bin_path, *, cls, fields, trigger=True, core=CORE, slot=5, own=O
                 'get_ip': ADDR['getip'], 'core_global': CORE_GLOBAL}
     blob = bytearray(b.build_blob(pointers, cls=cls, fields=fields, sanpk_base=0,
                                   flag_path='Z:\\t\\flag', receipt_path='Z:\\t\\receipt',
-                                  phase_req=phase_req, phase_settle=0))
+                                  phase_req=phase_req, phase_settle=settle, ui=ui,
+                                  expect_actor=(expect_actor if ui else 0)))
     if sent:
         struct.pack_into('<I', blob, 4, sent)
     # route the blob's ctor/send at our stubs
     struct.pack_into('<I', blob, 0x2C, ADDR['ctor'])
     struct.pack_into('<I', blob, 0x30, ADDR['send'])
+    if ui:
+        struct.pack_into('<I', blob, 0x34, ADDR['send_ui'])
+        struct.pack_into('<I', blob, 0x38, ADDR['seat'])
     uc.mem_write(BLOB_M, bytes(blob))
     esp0 = STACK + 0xF000
     uc.mem_write(esp0, struct.pack('<II', SPIN, BLOB_M))
@@ -163,6 +177,8 @@ def run_payload(bin_path, *, cls, fields, trigger=True, core=CORE, slot=5, own=O
     log['send_obj'] = send_obj
     log['sent_count'] = 1 if send_obj else 0
     log['obj'] = bytes(uc.mem_read(send_obj, 0x40)) if send_obj else b''
+    log['this'] = struct.unpack('<I', uc.mem_read(SEND_LOG + 4, 4))[0]
+    log['ui_called'] = struct.unpack('<I', uc.mem_read(SEND_LOG + 8, 4))[0]
     log['gate'] = struct.unpack('<I', uc.mem_read(G + 0x80, 4))[0]
     return log
 
@@ -332,6 +348,75 @@ class TestAgentEmulation(unittest.TestCase):
     def test_gate_already_sent(self):
         log = run_payload(self.bin, cls='domestic', fields=b.fields_train(1, 0, 10, 0), sent=1)
         self.assertEqual(log['sent_count'], 0)
+
+
+class TestUiPath(unittest.TestCase):
+    """P64: the agent can use the button's own send entry (0x446482) and take the
+    actor from the seat it currently occupies (0x44B83B)."""
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix='p60ui-')
+        subprocess.run([sys.executable, str(ROOT / 'p60_generic_cmd_build.py'),
+                        '--outdir', self.tmp], check=True, capture_output=True)
+        self.bin = Path(self.tmp) / 'agent_generic.bin'
+
+    def test_blob_marks_ui_mode(self):
+        ptr = {'GetFileAttributesA': 1, 'CreateFileA': 2, 'WriteFileA': 3, 'CloseHandle': 4,
+               'Sleep': 5, 'GetTickCount': 6, 'is_connected': 7, 'get_ip': 8,
+               'core_global': 0x401000}
+        base = 0x10000000
+        ui = b.build_blob(ptr, cls='domestic', fields=b.fields_build(3, 8, 35, 39, 5, 2000),
+                          sanpk_base=base, flag_path='a', receipt_path='b', ui=True)
+        self.assertEqual(struct.unpack_from('<I', ui, b.UI_MODE_OFF)[0], 1)
+        self.assertEqual(struct.unpack_from('<I', ui, 0x34)[0], base + b.RVA_SEND_UI)
+        self.assertEqual(struct.unpack_from('<I', ui, 0x38)[0], base + b.RVA_SEAT_FORCE)
+        old = b.build_blob(ptr, cls='domestic', fields=b.fields_build(3, 8, 35, 39, 5, 2000),
+                           sanpk_base=base, flag_path='a', receipt_path='b')
+        self.assertEqual(struct.unpack_from('<I', old, b.UI_MODE_OFF)[0], 0)
+        self.assertEqual(struct.unpack_from('<I', old, 0x34)[0], base + b.RVA_SEND_THIS)
+        self.assertEqual(struct.unpack_from('<I', old, 0x38)[0], 0x24)
+
+    def test_ui_calls_button_entry_once(self):
+        log = run_payload(self.bin, cls='domestic', fields=b.fields_build(3, 8, 35, 39, 5, 2000),
+                          ui=True, seat_force=3)
+        self.assertIsNone(log['error'])
+        self.assertEqual(log['sent_count'], 1)
+        self.assertEqual(log['ui_called'], 1, 'the legacy 0x42A7D4 send must not run')
+        self.assertEqual(log['this'], G, '0x446482 takes the world object (core-0x912)')
+        obj = struct.unpack_from('<9I', log['obj'], 0)
+        self.assertEqual((obj[1], obj[2], obj[3]), (18, 4, (35 | (39 << 16)) & 0xFFFFFFFF))
+        self.assertEqual(obj[5], 3, 'actor was taken from the seat getter, not argv')
+        rec = b.parse_receipt(log['wfa'][0]['data'])
+        self.assertEqual(rec['f14'], 3)
+        self.assertEqual((rec['gate_before'], rec['gate_after']), (GATE, GATE))
+
+    def test_ui_actor_follows_seat(self):
+        for slot, force in ((1, 8), (0, 2), (5, 0)):
+            log = run_payload(self.bin, cls='domestic', fields=b.fields_train(99, 1, 30, 0),
+                              ui=True, seat_force=force, slot=slot)
+            self.assertIsNone(log['error'])
+            self.assertEqual(struct.unpack_from('<I', log['obj'], 0x14)[0], force,
+                             'slot %d must fill actor=%d' % (slot, force))
+
+    def test_ui_refuses_wrong_seat(self):
+        log = run_payload(self.bin, cls='domestic', fields=b.fields_train(3, 0, 10, 0),
+                          ui=True, seat_force=8, expect_actor=3)
+        self.assertIsNone(log['error'])
+        self.assertEqual(log['ui_called'], 0, 'seat 8 must not send a command meant for force 3')
+
+    def test_ui_fires_after_settle(self):
+        # 2026-10-20 23:0x live bug: after Sleep(settle) the agent compared the
+        # phase against the *clobbered* eax and never fired. The stub Sleep
+        # returns 0 in eax, so this only passes when the wanted phase is reloaded.
+        log = run_payload(self.bin, cls='domestic', fields=b.fields_train(1, 0, 10, 0),
+                          ui=True, phase_req=1, phase=1, settle=3000, sleep_ret=0)
+        self.assertIsNone(log['error'])
+        self.assertEqual(log['ui_called'], 1)
+
+    def test_ui_respects_phase_gate(self):
+        log = run_payload(self.bin, cls='domestic', fields=b.fields_train(1, 0, 10, 0),
+                          ui=True, phase_req=2, phase=1)
+        self.assertEqual(log['ui_called'], 0)
 
 
 if __name__ == '__main__':

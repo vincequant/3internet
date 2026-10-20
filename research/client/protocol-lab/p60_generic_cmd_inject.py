@@ -108,6 +108,13 @@ def main():
     ap.add_argument('--receipt', required=True)
     ap.add_argument('--require-phase', type=int, default=0,
                     help='0 = fire in any phase; 1 = only in the command phase (stage gate)')
+    ap.add_argument('--expect-actor', type=int, default=None,
+                    help='UI mode: refuse to fire unless the seat force equals this '
+                         '(default: --actor)')
+    ap.add_argument('--ui-path', action='store_true',
+                    help='2026-10-20 P64: call the game button\'s own send entry 0x446482 '
+                         'and fill actor from the seat we currently occupy (0x44B83B), '
+                         'instead of the standalone 0x42A7D4 send')
     ap.add_argument('--state')
     ap.add_argument('--plan', action='store_true')
     ap.add_argument('--check', action='store_true')
@@ -155,15 +162,21 @@ def main():
         pointers['is_connected'] = koeinm_base + exports['_NetMsg_IsConnected@0']
         pointers['get_ip'] = koeinm_base + exports['_NetMsg_GetIPAddress@4']
         pointers['core_global'] = sanpk_base + build.RVA_CORE_GLOBAL
+        expect = args.actor if args.expect_actor is None else args.expect_actor
         blob = build.build_blob(pointers, cls=cls, fields=fields, sanpk_base=sanpk_base,
                                flag_path=args.flag, receipt_path=args.receipt,
-                               phase_req=args.require_phase)
+                               phase_req=args.require_phase, ui=args.ui_path,
+                               expect_actor=(expect if args.ui_path else 0))
         wire = expected_wire(cls, fields)
         plan = {'mode': 'generic_cmd', 'preset': args.preset, 'class': cls, 'pid': pid,
                 'sanpk': hex(sanpk_base), 'koeinm': hex(koeinm_base),
                 'class_check': {kk: (hex(v) if isinstance(v, int) else v)
                                 for kk, v in anchors.items()},
                 'send_prologue': send_prologue.hex() if send_prologue else None,
+                'ui_path': bool(args.ui_path),
+                'send_entry': ('0x446482 (button)' if args.ui_path else '0x42a7d4 (standalone)'),
+                'actor_source': ('seat (0x44b83b)' if args.ui_path else 'argv'),
+                'expect_actor': (expect if args.ui_path else 0),
                 'fields': [{'off': hex(o), 'val': v} for o, v in fields],
                 'require_phase': args.require_phase,
                 'expected_wire_len': len(wire), 'expected_wire_hex': wire.hex(),

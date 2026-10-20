@@ -44,11 +44,24 @@ RECEIPT_OFF = 0xC8
 RECEIPT_SIZE = 64
 TABLE_OFF = 0x150
 MAX_FIELDS = 16
+UI_MODE_OFF = 0x1D0        # 0x150 + 16*8 = 0x1D0: free tail of the 0x200 blob
+EXPECT_ACTOR_OFF = 0x1D4   # UI mode: only fire when the seat force == this (0 = any)
 
 BASE_PREFERRED = 0x400000
 RVA_CORE_GLOBAL = 0x13BB30
 RVA_SEND = 0x42A7D4 - BASE_PREFERRED
 RVA_SEND_THIS = 0x13B672
+# 2026-10-20 P64: the button's own last call.  0x4A3BA8 (the training dialog handler)
+# and every other per-command UI handler end in
+#     mov ecx, <world>; push &cmd; call 0x446482
+# 0x446482 clears world+0x80, calls 0x430ED2(world)+0x132 -> 0x42A7D4(&cmd), then
+# sets world+0x80 = 1.  Transport is 0x42A7D4; 0x446482 is what the game actually
+# does (it also maintains the "already issued a command this phase" flag).
+RVA_SEND_UI = 0x446482 - BASE_PREFERRED
+# 0x44B83B(this = world+0x912) == `force_of_slot[this[0x6c0]]`, i.e. the force id of
+# MY current seat.  The training button uses it to fill cmd+0x14 (actor); the agent
+# uses it too, so the actor always matches the seat we actually occupy.
+RVA_SEAT_FORCE = 0x44B83B - BASE_PREFERRED
 RVA_VTABLE = 0x5039F8 - BASE_PREFERRED
 RVA_CLASS = 0x5334B0 - BASE_PREFERRED
 RVA_NAME = 0x533554 - BASE_PREFERRED
@@ -117,6 +130,7 @@ g_loop:
     jz g_phase_ok
     push edx
     call dword ptr [esi+0x18]       ; Sleep(settle)
+    mov eax, [esi+0x148]            ; Sleep clobbers eax: reload the wanted phase
     movzx ecx, word ptr [ebx+0x4d8]
     cmp ecx, eax
     jne g_sleep_short
@@ -155,10 +169,29 @@ g_floop:
     dec ecx
     jnz g_floop
 g_fields_done:
+    cmp dword ptr [esi+0x1D0], 0    ; ui mode => call the game's own send entry
+    je g_send_legacy
+    mov ecx, [esp+0x100]            ; core (world+0x912)
+    call dword ptr [esi+0x38]       ; 0x44b83b: force id of MY current seat
+    mov [esp+0x14], eax             ; cmd+0x14 actor = the seat we really occupy
+    mov ecx, [esi+0x1D4]            ; expected actor (0 = fire for any seat)
+    test ecx, ecx
+    jz g_ui_send
+    cmp eax, ecx
+    jne g_sleep_short               ; seat is not the force we meant: never send
+g_ui_send:
+    mov ecx, [esp+0x100]
+    sub ecx, 0x912                  ; world (what every UI handler passes)
+    lea eax, [esp]
+    push eax
+    call dword ptr [esi+0x34]       ; 0x446482 ButtonSend(world,&obj), ret 4
+    jmp g_sent
+g_send_legacy:
     mov ecx, [esi+0x34]
     lea eax, [esp]
     push eax
     call dword ptr [esi+0x30]       ; 0x42a7d4 SendObject(this,&obj), ret 4
+g_sent:
     mov dword ptr [esi+4], 1
     mov dword ptr [esp+0x110], 0x53365243
     mov [esp+0x114], eax            ; rc
@@ -280,7 +313,7 @@ PRESETS = {
 
 
 def build_blob(pointers, *, cls, fields, sanpk_base, flag_path, receipt_path, class_tag=0,
-               phase_req=0, phase_settle=3000):
+               phase_req=0, phase_settle=3000, ui=False, expect_actor=0):
     if cls not in CLASSES:
         raise ValueError('unknown class: ' + cls)
     ctor_va, size, kind, _vtable = CLASSES[cls]
@@ -305,11 +338,15 @@ def build_blob(pointers, *, cls, fields, sanpk_base, flag_path, receipt_path, cl
         put32(off, pointers[name])
     put32(0x2C, sanpk_base + (ctor_va - BASE_PREFERRED))
     put32(0x30, sanpk_base + RVA_SEND)
-    put32(0x34, sanpk_base + RVA_SEND_THIS)
-    put32(0x38, size)
+    put32(0x34, sanpk_base + (RVA_SEND_UI if ui else RVA_SEND_THIS))
+    # slot 0x38 is obj_size for old blobs (unused by the agent); in UI mode it carries
+    # the seat->force getter so the agent can fill cmd+0x14 itself.
+    put32(0x38, (sanpk_base + RVA_SEAT_FORCE) if ui else size)
     put32(0x3C, len(fields))
     put32(0x40, TABLE_OFF)
     put32(0x44, class_tag if class_tag else kind)
+    put32(UI_MODE_OFF, 1 if ui else 0)
+    put32(EXPECT_ACTOR_OFF, (expect_actor & 0xFFFFFFFF) if ui else 0)
     put32(0x148, phase_req)
     put32(0x14C, phase_settle)
     put_path(FLAG_OFF, flag_path)
@@ -419,7 +456,13 @@ def assemble(asm_text, name, workdir):
 
 
 def disassemble(code):
-    from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+    """Capstone listing for the manifest.  Optional: the Mac lab box does not ship
+    capstone, and the listing is documentation, not a gate (the byte-level checks
+    below still run)."""
+    try:
+        from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+    except ImportError:
+        return None
     md = Cs(CS_ARCH_X86, CS_MODE_32)
     return [(i.address, i.mnemonic, i.op_str, i.size) for i in md.disasm(code, 0)]
 
@@ -439,17 +482,21 @@ def main():
     with tempfile.TemporaryDirectory() as tmp:
         code = assemble(AGENT_ASM, 'agent_generic', Path(tmp))
         listing = disassemble(code)
-        if not listing or listing[0][1] != 'push':
+        if listing:
+            if listing[0][1] != 'push':
+                raise SystemExit('agent entry does not start with push')
+            (outdir / 'agent_generic.listing.txt').write_text(
+                '\n'.join('%04x: %-7s %s' % (a, m, o) for a, m, o, _ in listing) + '\n',
+                encoding='utf-8')
+        elif code[:1] != b'\x56':
             raise SystemExit('agent entry does not start with push')
         if len(code) > 800:
             raise SystemExit('agent too large: %d' % len(code))
         (outdir / 'agent_generic.s').write_text(AGENT_ASM.replace('; ', '// '), encoding='utf-8')
         (outdir / 'agent_generic.bin').write_bytes(code)
-        (outdir / 'agent_generic.listing.txt').write_text(
-            '\n'.join('%04x: %-7s %s' % (a, m, o) for a, m, o, _ in listing) + '\n', encoding='utf-8')
         manifest['agent_generic'] = {'size': len(code),
                                      'sha256': hashlib.sha256(code).hexdigest(),
-                                     'instructions': len(listing)}
+                                     'instructions': len(listing) if listing else None}
     (outdir / 'manifest.json').write_text(json.dumps(manifest, ensure_ascii=False, indent=2),
                                           encoding='utf-8')
     print(json.dumps({'ok': True, 'size': manifest['agent_generic']['size'],

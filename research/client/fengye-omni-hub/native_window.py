@@ -1061,10 +1061,20 @@ class FengyeWindow(OmniWindow):
         self.room_register.pack(side='left')
         self.room_d8 = tk.Button(flow, text='讓風夜藏好', bg=BG, command=self.withdraw_ghost)
         self.room_d8.pack(side='left', padx=8)
-        self.room_retry = tk.Button(flow, text='↻ 重新來過', bg=BG, command=self.one_click_retry)
-        self.room_retry.pack(side='left')
         self.room_flow_label = tk.Label(flow, bg=DAMASK, fg=MUTED)
         self.room_flow_label.pack(side='left', padx=8)
+        pre = tk.Frame(box, bg=DAMASK)
+        pre.pack(fill='x', padx=12, pady=(6, 2))
+        tk.Label(pre, text='開局前上身（風夜席位）', bg=DAMASK, fg=INK,
+                 font=(self.face, 11, 'bold')).pack(side='left')
+        self.pre_seat_value = tk.StringVar(value='0')
+        self.pre_seat_hint = tk.Label(
+            pre, bg=DAMASK, fg=INK, anchor='w',
+            text='默認：一鍵完成後自動上身 slot 0 → 開局 8 秒後自動回無勢力')
+        self.pre_seat_hint.pack(side='left', padx=(10, 0))
+        self.pre_seat_label = tk.Label(pre, bg=DAMASK, fg=MUTED, anchor='w',
+                                       text='0–7 是「席位」不是勢力；每局勢力隨機，套用後這裡會顯示 0→勢力X。')
+        self.pre_seat_label.pack(side='left', padx=10, fill='x', expand=True)
         lab = tk.Frame(box, bg=DAMASK)
         lab.pack(fill='x', padx=12, pady=(2, 12))
         tk.Button(lab, text='讓風夜進房', bg='#cbe7e4', fg='#164d51', command=self.lab_arm,
@@ -1073,6 +1083,8 @@ class FengyeWindow(OmniWindow):
         tk.Button(lab, text='查看風夜狀態', bg=BG, command=self.lab_status).pack(side='left')
         tk.Button(lab, text='卡住了？強制結束', bg='#f7e5e5', fg=WARN,
                   command=self.lab_force_quit).pack(side='left', padx=8)
+        self.room_retry = tk.Button(lab, text='↻ 重新來過', bg=BG, command=self.one_click_retry)
+        self.room_retry.pack(side='left')
         self.probe_toggle = tk.Button(lab, text='手動進房設定', bg=BG, command=self._toggle_probe_layer)
         self.probe_toggle.pack(side='right')
         # 2026-10-19 半自動進房：搜索房間（借探針）→ 清單選房（單房自動）→ 用指定暱稱走完整武裝進房。
@@ -1375,6 +1387,95 @@ class FengyeWindow(OmniWindow):
     def fengye_slot_restore(self):
         self._fengye_slot_async('切回風夜上一位玩家',
                                 'cd ~/sgi-protocol-lab-20260915/shadow && bash shadow_force.sh restore')
+
+    def _maybe_auto_seat(self, state):
+        """進房並藏好後，自動把風夜坐到所選席位（開局前上身）。
+
+        2026-10-21 使用者要求：不要再手動按「套用」，把它當默認補丁。
+        """
+        if self.retry is not None or self.room_busy or self.room_pending:
+            return
+        if not (state.get('fresh') and state.get('connected')
+                and state.get('ghost_withdrawn')):
+            return
+        key = (state.get('room_name') or state.get('room') or state.get('room_id')
+               or state.get('started_at') or 'room')
+        if getattr(self, 'auto_seat_done', None) == key:
+            return
+        self.auto_seat_done = key
+        self._auto_seat_now()
+
+        def work():
+            try:
+                result = self.command_service.switch_ghost_seat(slot)
+            except Exception as error:  # noqa: BLE001
+                result = {'ok': False, 'error': str(error)}
+
+            def show():
+                if isinstance(result, dict) and result.get('ok'):
+                    self.pre_seat_label.configure(
+                        text='已自動上身 slot %d（開局前生效）；按遊戲的「開始」即可。' % slot)
+                else:
+                    self.pre_seat_label.configure(
+                        text='自動上身失敗：%s（可手動按套用）' %
+                             ((result or {}).get('error') if isinstance(result, dict) else result))
+            self.root.after(0, show)
+
+        threading.Thread(target=work, daemon=True, name='auto-seat').start()
+
+    def _auto_seat_now(self):
+        """立刻把風夜坐進所選席位（開局前上身）。"""
+        try:
+            slot = int(self.pre_seat_value.get())
+        except (TypeError, ValueError):
+            slot = 0
+        self.pre_seat_label.configure(
+            text='進房後自動上身：切到 slot %d…（約 10 秒）' % slot)
+
+        def work():
+            try:
+                result = self.command_service.switch_ghost_seat(slot)
+            except Exception as error:  # noqa: BLE001
+                result = {'ok': False, 'error': str(error)}
+
+            def show():
+                if isinstance(result, dict) and result.get('ok'):
+                    self.pre_seat_label.configure(
+                        text='已自動上身 slot %d（開局前生效）；按遊戲的「開始」即可。' % slot)
+                else:
+                    self.pre_seat_label.configure(
+                        text='自動上身失敗：%s（可手動按套用）' %
+                             ((result or {}).get('error') if isinstance(result, dict) else result))
+            self.root.after(0, show)
+
+        threading.Thread(target=work, daemon=True, name='auto-seat').start()
+
+    def _auto_seat_now(self):
+        """立刻把風夜坐進所選席位（開局前上身）。"""
+        try:
+            slot = int(self.pre_seat_value.get())
+        except (TypeError, ValueError):
+            slot = 0
+        self.pre_seat_label.configure(
+            text='進房後自動上身：切到 slot %d…（約 10 秒）' % slot)
+
+        def work():
+            try:
+                result = self.command_service.switch_ghost_seat(slot)
+            except Exception as error:  # noqa: BLE001
+                result = {'ok': False, 'error': str(error)}
+
+            def show():
+                if isinstance(result, dict) and result.get('ok'):
+                    self.pre_seat_label.configure(
+                        text='已自動上身 slot %d（開局前生效）；按遊戲的「開始」即可。' % slot)
+                else:
+                    self.pre_seat_label.configure(
+                        text='自動上身失敗：%s（可手動按套用）' %
+                             ((result or {}).get('error') if isinstance(result, dict) else result))
+            self.root.after(0, show)
+
+        threading.Thread(target=work, daemon=True, name='auto-seat').start()
 
     def _lab_async(self, label, script, timeout=360):
         def work():
@@ -1701,6 +1802,10 @@ class FengyeWindow(OmniWindow):
                  (self.room_register, fresh and state.get('connected') and not registered),
                  (self.room_d8, fresh and state.get('connected') and registered and not withdrawn
                   and native_state == 1))
+        try:
+            self._maybe_auto_seat(state)
+        except Exception:  # noqa: BLE001
+            pass
         retrying = self.retry is not None
         for button, allowed in modes:
             button.configure(state='normal' if writable and allowed and not retrying else 'disabled')
@@ -1845,6 +1950,7 @@ class FengyeWindow(OmniWindow):
         if not fresh_rooms:
             steps.append('search')
         steps.append('wait_rooms')
+        self.auto_seat_done = None
         self.retry = {'steps': steps, 'deadline': time.monotonic() + 180, 'start_retries': 0,
                       'label': '一鍵上場'}
         self.retry_next()
@@ -1864,6 +1970,7 @@ class FengyeWindow(OmniWindow):
         if state.get('alive') or state.get('fresh'):
             steps.append('stop')
         steps += ['wait_teardown', 'start', 'wait_lobby', 'search', 'wait_rooms']
+        self.auto_seat_done = None
         self.retry = {'steps': steps, 'deadline': time.monotonic() + 150, 'start_retries': 0,
                       'label': '重新來過'}
         self.room_receipt.configure(text='重新來過：開始收尾（若遊戲裡有等待畫面，請按掉取消）…')
@@ -1888,6 +1995,12 @@ class FengyeWindow(OmniWindow):
         if not steps:
             self.retry = None
             self.room_receipt.configure(text=tag + '：已進房並自動藏身——聽到「可以開始」提示音後再按「開始」。')
+            # 2026-10-21：一鍵完成的當下就自動上身（不等房間狀態輪詢，
+            # 否則常被一鍵自己的 slot 5 覆蓋、或狀態還來不及變 fresh）。
+            try:
+                self._auto_seat_now()
+            except Exception:  # noqa: BLE001
+                pass
             return
         step = steps[0]
         state = self.rooms.state
