@@ -176,6 +176,20 @@ class CommandService:
                 return data
         return {'ok': False, 'error': '沒有可讀的客戶端'}
 
+    def general_ids(self, prefix, limit=24):
+        """2026-10-20: 在野武將 id 清單（人事指令用下拉選，不讓使用者填數字）。"""
+        pid = self.pid(prefix)
+        if not pid:
+            return []
+        data = self._py(prefix, self.z + '\\tools\\_p60_generals.py', [str(pid)])
+        rows = data.get('wild_sample') or []
+        out = []
+        for row in rows:
+            gid = row.get('id')
+            if isinstance(gid, int) and gid > 0:
+                out.append(gid)
+        return out[:limit]
+
     def free_cells(self, prefix, city_xy, force):
         pid = self.pid(prefix)
         if not pid:

@@ -36,6 +36,45 @@ INK, GOLD, GOLD_HI = '#203440', '#286a72', '#f3fafb'
 MUTED, WARN, BG = '#657985', '#a13b42', '#e6eef2' 
 
 
+# 2026-10-20 使用者要求：地圖要回歸遊戲本身的地圖，而不是空白畫布。
+_MAP_ASSET = {'src': None, 'photo': None, 'size': None}
+
+
+def map_background():
+    if _MAP_ASSET['src'] is None:
+        try:
+            from PIL import Image
+            here = Path(__file__).resolve().parent
+            candidates = [here / 'app' / 'assets' / 'SanInet.lbm',
+                          here / 'assets' / 'SanInet.lbm']
+            path = next((c for c in candidates if c.exists()), candidates[0])
+            _MAP_ASSET['src'] = Image.open(path).convert('RGB')
+        except Exception:  # noqa: BLE001
+            _MAP_ASSET['src'] = False
+    return _MAP_ASSET['src']
+
+
+def map_photo(width, height, master):
+    src = map_background()
+    if not src:
+        return None
+    key = (int(width), int(height))
+    if _MAP_ASSET['size'] != key or _MAP_ASSET['photo'] is None:
+        from PIL import ImageTk
+        _MAP_ASSET['photo'] = ImageTk.PhotoImage(src.resize(key), master=master)
+        _MAP_ASSET['size'] = key
+    return _MAP_ASSET['photo']
+
+
+WORLD_X, WORLD_Y = 101.0, 202.0
+
+
+def map_project(xy, width, height):
+    x, y = xy
+    return (max(0.0, min(1.0, x / WORLD_X)) * width,
+            max(0.0, min(1.0, y / WORLD_Y)) * height)
+
+
 def wall_text(value):
     if not isinstance(value, (int, float)):
         return '—'
@@ -318,6 +357,10 @@ class FengyeWindow(OmniWindow):
     PRESET_LABELS = ('練兵（訓練度）', '施捨', '米交易', '建設', '人事（錄用）')
     PRESET_KEYS = {'練兵（訓練度）': 'train', '施捨': 'alms', '米交易': 'rice',
                    '建設': 'build', '人事（錄用）': 'personnel'}
+    CMD_FIXED = {'train': {'value': 75, 'extra': 0},
+                 'alms': {'value': 4, 'extra': 4},
+                 'rice': {'value': 1000, 'extra': 0},
+                 'build': {'extra': 2000}}
     TROOP_OPTS = ('0 步兵', '1 騎兵', '2 弓兵')
     BUILD_OPTS = ('4 火計', '5 落石', '6 陷阱', '7 練兵所', '8 牧場', '9 弓工坊')
     BUY_OPTS = ('1 買米', '0 賣米')
@@ -328,15 +371,15 @@ class FengyeWindow(OmniWindow):
         self.command_service = CommandService()
         box = self._box(self.command_page, '外部指令（不碰遊戲界面）')
         box.pack(fill='both', expand=True, padx=14, pady=14)
-        tk.Label(box, text='選勢力 → 選指令 → 填參數 → 送出。'
+        tk.Label(box, text='選勢力 → 選指令 → 按鈕送出。數值一律用固定值，不需要填。'
                            '若現在不是內政階段，agent 會留在客戶端裡排隊，等下一次內政階段才送。',
                  bg=DAMASK, fg=MUTED, anchor='w', justify='left', wraplength=1000).pack(
             fill='x', padx=14, pady=(10, 6))
         top = tk.Frame(box, bg=DAMASK)
         top.pack(fill='x', padx=12, pady=4)
         tk.Label(top, text='目標客戶端', bg=DAMASK, fg=INK).pack(side='left')
-        self.cmd_target = ttk.Combobox(top, width=16, state='readonly', values=())
-        self.cmd_target.pack(side='left', padx=(4, 14))
+        tk.Label(top, text='風夜（藏身，自動借席）', bg=DAMASK, fg=GOLD,
+                 font=(self.face, 12, 'bold')).pack(side='left', padx=(4, 14))
         tk.Label(top, text='勢力', bg=DAMASK, fg=INK).pack(side='left')
         self.cmd_force = ttk.Combobox(top, width=32, state='readonly', values=())
         self.cmd_force.pack(side='left', padx=(4, 10))
@@ -358,6 +401,7 @@ class FengyeWindow(OmniWindow):
                                  highlightbackground='#b9c2ad')
         self.cmd_map.pack(fill='x', padx=12, pady=(8, 2))
         self.cmd_map.bind('<Button-1>', self._cmd_map_click)
+        self.cmd_map.bind('<Configure>', lambda _e: self._cmd_draw_map())
         tk.Label(box, text='上圖：本局實際城池（世界座標，顏色=勢力）。點城池即選定，座標與城旁空地自動填。',
                  bg=DAMASK, fg=MUTED, anchor='w').pack(fill='x', padx=12)
         act = tk.Frame(box, bg=DAMASK)
@@ -403,59 +447,49 @@ class FengyeWindow(OmniWindow):
         return var
 
     def _cmd_preview(self):
-        """基礎值 × 乘數 的即時預覽（訓練公式已實測：+0.4×value、金=max(1000,5×value)）。"""
+        """固定值指令：只顯示這次會送出的真實參數。"""
+        preset = self._cmd_preset_key()
+        fixed = self.CMD_FIXED.get(preset) or {}
+        text = {'train': '送出：練兵 value=75（固定）→ 訓練 +30、金 1000',
+                'alms': '送出：施捨 value=4（固定）',
+                'rice': '送出：米交易 1000（固定）',
+                'build': '送出：建設（建築自選、城池點地圖）金 2000（固定）',
+                'personnel': '送出：人事（子類型與武將自選）'}.get(preset)
         try:
-            preset = self._cmd_preset_key()
-            if preset not in ('train', 'alms', 'rice') or 'base' not in self.cmd_vars:
-                return
-            base = int(self.cmd_vars['base'].get() or 0)
-            mult = max(1, int(self.cmd_vars['mult'].get() or 1))
-            value = base * mult
-            if preset == 'train':
-                text = '實際送出 value=%d（基礎 %d × 乘數 %d）→ 預估訓練 +%.0f，花費金 %d' % (
-                    value, base, mult, value * 0.4, max(1000, value * 5))
-            elif preset == 'alms':
-                text = '實際送出 value=%d（基礎 %d × 乘數 %d）' % (value, base, mult)
-            else:
-                text = '實際送出 value=%d（%s %d × 乘數 %d）' % (
-                    value, '買米' if self.cmd_vars['buy'].get().startswith('1') else '賣米', base, mult)
-            self.cmd_summary.configure(text=text)
-        except (KeyError, ValueError):
+            self.cmd_summary.configure(text=text or str(fixed))
+        except Exception:  # noqa: BLE001
             pass
 
     def _cmd_preset_key(self):
         return self.PRESET_KEYS.get(self.cmd_preset.get(), 'train')
 
+    def _cmd_const(self, label, text):
+        tk.Label(self.cmd_params, text=label, bg=DAMASK, fg=INK).pack(side='left')
+        tk.Label(self.cmd_params, text=text, bg=DAMASK, fg=MUTED).pack(side='left', padx=(4, 14))
+
     def _cmd_rebuild_params(self):
         for widget in self.cmd_params.winfo_children():
             widget.destroy()
         self.cmd_vars = {}
+        self.cmd_pick = {}
         preset = self._cmd_preset_key()
         if preset == 'train':
             self._cmd_field('兵種', 'troop', self.TROOP_OPTS[0], 8, self.TROOP_OPTS)
-            self._cmd_field('基礎值（界面一次的量）', 'base', 75, 8)
-            self._cmd_field('乘數', 'mult', 1, 5)
-            self._cmd_field('extra', 'extra', 0, 6)
+            self._cmd_const('送出值', '75（固定：訓練 +30、金 1000）')
         elif preset == 'alms':
-            self._cmd_field('基礎值', 'base', 4, 6)
-            self._cmd_field('乘數', 'mult', 1, 5)
-            self._cmd_field('extra', 'extra', 4, 6)
+            self._cmd_const('送出值', '4（固定）')
         elif preset == 'rice':
             self._cmd_field('方向', 'buy', self.BUY_OPTS[0], 8, self.BUY_OPTS)
-            self._cmd_field('數量', 'base', 1000, 8)
-            self._cmd_field('乘數', 'mult', 1, 5)
-            self._cmd_field('extra', 'extra', 0, 6)
+            self._cmd_const('數量', '1000（固定）')
         elif preset == 'build':
             self._cmd_field('建築', 'build_type', self.BUILD_OPTS[4], 9, self.BUILD_OPTS)
-            self._cmd_field('城池', 'city', '—', 26, ())
-            self._cmd_field('X', 'x', 0, 5)
-            self._cmd_field('Y', 'y', 0, 5)
-            self._cmd_field('花費金', 'extra', 2000, 7)
-            tk.Button(self.cmd_params, text='挑城旁空地', bg=BG, fg=INK,
-                      command=self._cmd_pick_cell).pack(side='left', padx=6)
+            self.cmd_city_label = tk.Label(self.cmd_params, text='城池：尚未選（點下方地圖）',
+                                           bg=DAMASK, fg=GOLD)
+            self.cmd_city_label.pack(side='left', padx=(4, 14))
+            self._cmd_const('花費金', '2000（固定）')
         elif preset == 'personnel':
             self._cmd_field('子類型', 'subtype', self.PERSON_OPTS[0], 10, self.PERSON_OPTS)
-            self._cmd_field('武將 id', 'target_id', 1, 7)
+            self._cmd_field('武將', 'target_id', '—', 22, ())
         self._cmd_preview()
 
     def _cmd_note(self, text):
@@ -478,10 +512,6 @@ class FengyeWindow(OmniWindow):
                     return
                 self.cmd_targets_data = data
                 targets = data.get('targets') or []
-                self.cmd_target.configure(values=[t['label'] + ('' if t['alive'] else '（離線）')
-                                                  for t in targets])
-                if targets:
-                    self.cmd_target.current(0)
                 forces = data.get('forces') or []
                 slots = data.get('player_slots') or []
                 owner_of = {}
@@ -491,21 +521,19 @@ class FengyeWindow(OmniWindow):
                 self.cmd_force.configure(values=[
                     '%s · %s（force %s，金 %s）' % (owner_of.get(f['force_id'], '—'), f['name'],
                                                    f['force_id'], f['gold']) for f in forces])
-                # 發送通道：預設用主機（同步名單成員）；風夜藏身、主機會丟，只留給研究。
-                labels = [t['label'] for t in targets]
-                self.cmd_target.configure(values=[lb + ('（藏身·主機會丟）' if '風夜' in lb else '')
-                                                  for lb in labels])
-                members = [i for i, t in enumerate(targets) if '風夜' not in t['label'] and t['alive']]
-                self.cmd_target.current(members[0] if members else (0 if targets else 0))
                 if forces:
                     self.cmd_force.current(0)
-                if self._cmd_preset_key() == 'build' and getattr(self, 'cmd_city_combo', None):
-                    cities = data.get('cities') or []
-                    self.cmd_city_combo.configure(
-                        values=['%s #%s @%s,%s' % (c['name'], c['city_id'], c['xy'][0], c['xy'][1])
-                                for c in cities])
-                    if cities:
-                        self.cmd_city_combo.current(0)
+                if self._cmd_preset_key() == 'build' and getattr(self, 'cmd_pick', None):
+                    pick = self.cmd_pick
+                    if pick.get('city') and getattr(self, 'cmd_city_label', None):
+                        self.cmd_city_label.configure(
+                            text='城池：%s #%s @%s,%s' % (pick.get('name'), pick['city'],
+                                                         pick.get('x'), pick.get('y')))
+                if self._cmd_preset_key() == 'personnel' and 'target_id' in self.cmd_vars:
+                    ids = self.command_service.general_ids(target['prefix']) if target else []
+                    if ids:
+                        self.cmd_vars['target_id'].set(str(ids[0]))
+                        self.cmd_params.winfo_children()[-1].configure(values=[str(i) for i in ids])
                 self.cmd_phase.configure(text='階段：%s（phase=%s）' % (data.get('phase_text'), data.get('phase')))
                 self._cmd_draw_map()
                 self._cmd_note('目標已就緒。' + ('現在就在內政階段，送出即發。'
@@ -518,9 +546,10 @@ class FengyeWindow(OmniWindow):
         data = getattr(self, 'cmd_targets_data', {}) or {}
         targets = data.get('targets') or []
         forces = data.get('forces') or []
-        idx_t = self.cmd_target.current()
         idx_f = self.cmd_force.current()
-        target = targets[idx_t] if 0 <= idx_t < len(targets) else (targets[0] if targets else None)
+        # 2026-10-20 使用者要求：外部指令固定由風夜（藏身）送，不提供選擇。
+        target = next((t for t in targets if '風夜' in str(t.get('label'))),
+                      targets[0] if targets else None)
         force = forces[idx_f] if 0 <= idx_f < len(forces) else (forces[0] if forces else None)
         return data, target, force
 
@@ -549,36 +578,31 @@ class FengyeWindow(OmniWindow):
         cities = data.get('cities') or []
         canvas.delete('all')
         width = max(320, canvas.winfo_width() or 640)
-        height = max(120, canvas.winfo_height() or 150)
+        height = max(120, canvas.winfo_height() or 170)
+        photo = map_photo(width, height, canvas)
+        if photo is not None:
+            canvas.create_image(0, 0, image=photo, anchor='nw')
         if not cities:
             canvas.create_text(width / 2, height / 2, text='尚未讀到城池（按「讀取目標與勢力」）',
-                               fill='#7a8570', font=(self.face, 11))
+                               fill='#ffffff', font=(self.face, 11, 'bold'))
             return
-        xs = [c['xy'][0] for c in cities if c.get('xy')]
-        ys = [c['xy'][1] for c in cities if c.get('xy')]
-        minx, maxx = min(xs), max(xs)
-        miny, maxy = min(ys), max(ys)
-        spanx = max(1, maxx - minx); spany = max(1, maxy - miny)
-        pad = 26
-        def project(xy):
-            px = pad + (xy[0] - minx) / spanx * (width - 2 * pad)
-            py = pad + (xy[1] - miny) / spany * (height - 2 * pad)
-            return px, py
-        palette = {1: '#b23a2e', 2: '#2b5fa8', 3: '#2f7a3f', 4: '#8a5a1f', 5: '#6b3fa0'}
+        palette = {1: '#c0392b', 2: '#2b5fa8', 3: '#2f7a3f', 4: '#8a5a1f', 5: '#6b3fa0',
+                   6: '#a0457a', 7: '#1f7a7a', 8: '#7a5c1f', 9: '#4a4a9a'}
         owners = {}
         for row in data.get('player_slots') or []:
             if row.get('nickname') and isinstance(row.get('force_id'), int):
                 owners[row['force_id']] = row['nickname']
         self._cmd_map_hits = []
         for city in cities:
-            if not city.get('xy'):
+            xy = city.get('xy') or []
+            if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
                 continue
-            px, py = project(city['xy'])
-            color = palette.get(city.get('owner'), '#555555')
-            canvas.create_oval(px - 6, py - 6, px + 6, py + 6, fill=color, outline='#ffffff', width=1)
+            px, py = map_project(xy, width, height)
+            color = palette.get(city.get('owner'), '#444444')
+            canvas.create_oval(px - 5, py - 5, px + 5, py + 5, fill=color, outline='#ffffff', width=1)
             label = '%s %s' % (city.get('name'), owners.get(city.get('owner'), ''))
-            canvas.create_text(px, py - 12, text=label.strip(), fill='#22303a',
-                               font=(self.face, 10, 'bold'))
+            canvas.create_text(px, py - 10, text=label.strip(), fill='#ffffff',
+                               font=(self.face, 9, 'bold'))
             self._cmd_map_hits.append((px, py, city))
 
     def _cmd_map_click(self, event):
@@ -604,13 +628,12 @@ class FengyeWindow(OmniWindow):
             xy = row.get('world_xy_raw') or [0, 0]
             city = {'city_id': city_id, 'name': row.get('name'), 'owner': row.get('owner_raw'),
                     'xy': [xy[0], xy[1]]}
-        text = '%s #%s @%s,%s' % (city['name'], city['city_id'], city['xy'][0], city['xy'][1])
-        if getattr(self, 'cmd_city_combo', None):
-            values = list(self.cmd_city_combo.cget('values') or ())
-            if text not in values:
-                values.append(text)
-            self.cmd_city_combo.configure(values=values)
-            self.cmd_city_combo.set(text)
+        self.cmd_pick = {'city': city['city_id'], 'name': city.get('name'),
+                         'cx': city['xy'][0], 'cy': city['xy'][1], 'x': 0, 'y': 0}
+        if getattr(self, 'cmd_city_label', None):
+            self.cmd_city_label.configure(text='城池：%s #%s @%s,%s（找空地中…）'
+                                          % (city.get('name'), city['city_id'],
+                                             city['xy'][0], city['xy'][1]))
         # 城主必須是本勢力，否則提示
         data2, target, force = self._cmd_selected()
         if force and city.get('owner') not in (None, force['force_id']):
@@ -629,24 +652,15 @@ class FengyeWindow(OmniWindow):
         if not target or not force:
             self._cmd_note('先讀取目標與勢力')
             return
-        try:
-            city_text = self.cmd_vars['city'].get()
-        except KeyError:
+        pick = getattr(self, 'cmd_pick', None) or {}
+        if not pick.get('city'):
+            self._cmd_note('請先在下方地圖點選城池')
             return
-        import re as _re
-        match = _re.search(r'#(\d+)', city_text)
         cities = data.get('cities') or []
-        city = None
-        if match:
-            cid = int(match.group(1))
-            city = next((c for c in cities if c['city_id'] == cid), None)
-            if city is None:
-                xy = _re.search(r'@(\d+),(\d+)', city_text)
-                if xy:
-                    city = {'city_id': cid, 'name': city_text.split(' ')[0],
-                            'xy': [int(xy.group(1)), int(xy.group(2))]}
-        else:
-            city = next((c for c in cities if city_text.startswith(str(c.get('name')))), None)
+        city = next((c for c in cities if c['city_id'] == pick['city']), None)
+        if city is None:
+            city = {'city_id': pick['city'], 'name': pick.get('name'),
+                    'xy': [pick.get('cx', 0), pick.get('cy', 0)]}
         if city is None:
             self._cmd_note('請先選城池')
             return
@@ -657,9 +671,13 @@ class FengyeWindow(OmniWindow):
 
             def show():
                 if cells:
-                    self.cmd_vars['x'].set(str(cells[0][0]))
-                    self.cmd_vars['y'].set(str(cells[0][1]))
-                    self._cmd_note('已挑空地 (%s,%s)' % tuple(cells[0]))
+                    pick['x'], pick['y'] = cells[0][0], cells[0][1]
+                    self.cmd_pick = pick
+                    if getattr(self, 'cmd_city_label', None):
+                        self.cmd_city_label.configure(text='城池：%s #%s @%s,%s'
+                                                      % (city.get('name'), city['city_id'],
+                                                         cells[0][0], cells[0][1]))
+                    self._cmd_note('已選 %s，空地 (%s,%s)' % (city.get('name'), cells[0][0], cells[0][1]))
                 else:
                     self._cmd_note('挑不到空地（或讀取失敗）')
             self.root.after(0, show)
@@ -670,44 +688,9 @@ class FengyeWindow(OmniWindow):
         if not target or not force:
             self._cmd_note('先讀取目標與勢力')
             return
-        preset = self._cmd_preset_key()
-        payload = {'prefix': target['prefix'], 'preset': preset, 'actor': force['force_id'],
-                   'auto_slot': bool(self.cmd_auto_slot.get())}
-        try:
-            mult = max(1, int(self.cmd_vars['mult'].get() or 1)) if 'mult' in self.cmd_vars else 1
-            base = int(self.cmd_vars['base'].get() or 0) if 'base' in self.cmd_vars else 0
-            value = base * mult
-            if preset == 'train':
-                payload['troop'] = int(self.cmd_vars['troop'].get().split()[0])
-                payload['value'] = value
-                payload['extra'] = int(self.cmd_vars['extra'].get())
-            elif preset == 'alms':
-                payload['value'] = value
-                payload['extra'] = int(self.cmd_vars['extra'].get())
-            elif preset == 'rice':
-                payload['buy'] = int(self.cmd_vars['buy'].get().split()[0])
-                payload['value'] = value
-                payload['extra'] = int(self.cmd_vars['extra'].get())
-            elif preset == 'build':
-                payload['build_type'] = int(self.cmd_vars['build_type'].get().split()[0])
-                city_text = self.cmd_vars['city'].get()
-                city_id = None
-                for c in data.get('cities') or []:
-                    if '#%s ' % c['city_id'] in city_text:
-                        city_id = c['city_id']
-                        break
-                if city_id is None:
-                    self._cmd_note('請先選城池')
-                    return
-                payload['city'] = city_id
-                payload['x'] = int(self.cmd_vars['x'].get())
-                payload['y'] = int(self.cmd_vars['y'].get())
-                payload['extra'] = int(self.cmd_vars['extra'].get())
-            elif preset == 'personnel':
-                payload['subtype'] = int(self.cmd_vars['subtype'].get().split()[0])
-                payload['target_id'] = int(self.cmd_vars['target_id'].get())
-        except (KeyError, ValueError) as exc:
-            self._cmd_note('參數不完整：%s' % exc)
+        payload, err = self._cmd_payload()
+        if err:
+            self._cmd_note(err)
             return
         self.cmd_send_btn.configure(state='disabled')
         self._cmd_note('送出中…%s' % payload)
@@ -740,35 +723,26 @@ class FengyeWindow(OmniWindow):
         preset = self._cmd_preset_key()
         payload = {'prefix': target['prefix'], 'preset': preset, 'actor': force['force_id'],
                    'auto_slot': bool(self.cmd_auto_slot.get())}
+        payload.update(self.CMD_FIXED.get(preset) or {})
         try:
             if preset == 'train':
-                mult = max(1, int(self.cmd_vars['mult'].get() or 1))
                 payload['troop'] = int(self.cmd_vars['troop'].get().split()[0])
-                payload['value'] = int(self.cmd_vars['base'].get() or 0) * mult
-                payload['extra'] = int(self.cmd_vars['extra'].get())
-            elif preset == 'alms':
-                mult = max(1, int(self.cmd_vars['mult'].get() or 1))
-                payload['value'] = int(self.cmd_vars['base'].get() or 0) * mult
-                payload['extra'] = int(self.cmd_vars['extra'].get())
             elif preset == 'rice':
-                mult = max(1, int(self.cmd_vars['mult'].get() or 1))
                 payload['buy'] = int(self.cmd_vars['buy'].get().split()[0])
-                payload['value'] = int(self.cmd_vars['base'].get() or 0) * mult
-                payload['extra'] = int(self.cmd_vars['extra'].get())
             elif preset == 'build':
                 payload['build_type'] = int(self.cmd_vars['build_type'].get().split()[0])
-                text = self.cmd_vars['city'].get()
-                import re as _re
-                match = _re.search(r'#(\d+)', text)
-                if not match:
-                    return None, '請先選城池'
-                payload['city'] = int(match.group(1))
-                payload['x'] = int(self.cmd_vars['x'].get())
-                payload['y'] = int(self.cmd_vars['y'].get())
-                payload['extra'] = int(self.cmd_vars['extra'].get())
+                pick = getattr(self, 'cmd_pick', None) or {}
+                if not pick.get('city'):
+                    return None, '請先在下方地圖點選要建設的城池'
+                if not pick.get('x') and not pick.get('y'):
+                    return None, '城池空地還沒挑好，請再點一次城池'
+                payload.update(city=pick['city'], x=pick['x'], y=pick['y'])
             elif preset == 'personnel':
                 payload['subtype'] = int(self.cmd_vars['subtype'].get().split()[0])
-                payload['target_id'] = int(self.cmd_vars['target_id'].get())
+                choice = str(self.cmd_vars['target_id'].get() or '').strip()
+                if not choice[:1].isdigit():
+                    return None, '請先選武將（先按「讀取目標與勢力」）'
+                payload['target_id'] = int(choice.split()[0])
         except (KeyError, ValueError) as exc:
             return None, '參數不完整：%s' % exc
         return payload, None
@@ -863,6 +837,7 @@ class FengyeWindow(OmniWindow):
         self.battle_map = tk.Canvas(box, height=230, bg='#dfe6d3', highlightthickness=1,
                                     highlightbackground='#b9c2ad')
         self.battle_map.pack(fill='x', padx=10, pady=(4, 8))
+        self.battle_map.bind('<Configure>', lambda _e: self._battle_redraw())
         panes = tk.PanedWindow(box, orient='horizontal', bg=DAMASK, sashwidth=8)
         panes.pack(fill='both', expand=True, padx=10, pady=(0, 8))
         left = self._box(panes, '勢力基礎情報')
@@ -924,36 +899,42 @@ class FengyeWindow(OmniWindow):
         threading.Thread(target=work, daemon=True, name='battle-refresh').start()
 
     def _battle_draw_map(self, cities, units, name_of):
+        self._battle_last = (list(cities or []), list(units or []), dict(name_of or {}))
         canvas = self.battle_map
         canvas.delete('all')
         width = max(360, canvas.winfo_width() or 720)
         height = max(160, canvas.winfo_height() or 230)
+        photo = map_photo(width, height, canvas)
+        if photo is not None:
+            canvas.create_image(0, 0, image=photo, anchor='nw')
         pts = [c['xy'] for c in cities if c.get('xy')] + [u['xy'] for u in units if u.get('xy')]
         if not pts:
-            canvas.create_text(width / 2, height / 2, text='沒有座標資料', fill='#7a8570')
+            canvas.create_text(width / 2, height / 2, text='沒有座標資料（尚未進圖？）',
+                               fill='#ffffff', font=(self.face, 11, 'bold'))
             return
-        xs = [p[0] for p in pts]; ys = [p[1] for p in pts]
-        minx, maxx, miny, maxy = min(xs), max(xs), min(ys), max(ys)
-        spanx = max(1, maxx - minx); spany = max(1, maxy - miny)
-        pad = 18
-        def project(p):
-            return (pad + (p[0] - minx) / spanx * (width - 2 * pad),
-                    pad + (p[1] - miny) / spany * (height - 2 * pad))
-        palette = {1: '#b23a2e', 2: '#2b5fa8', 3: '#2f7a3f', 4: '#8a5a1f', 5: '#6b3fa0'}
+        palette = {1: '#c0392b', 2: '#2b5fa8', 3: '#2f7a3f', 4: '#8a5a1f', 5: '#6b3fa0',
+                   6: '#a0457a', 7: '#1f7a7a', 8: '#7a5c1f', 9: '#4a4a9a'}
         for city in cities:
-            if not city.get('xy'):
+            xy = city.get('xy') or []
+            if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
                 continue
-            px, py = project(city['xy'])
-            canvas.create_rectangle(px - 5, py - 5, px + 5, py + 5,
-                                    fill=palette.get(city.get('owner'), '#777777'), outline='#ffffff')
-            canvas.create_text(px, py - 10, text=str(city.get('name')), fill='#22303a',
-                               font=(self.face, 9))
+            px, py = map_project(xy, width, height)
+            canvas.create_rectangle(px - 4, py - 4, px + 4, py + 4,
+                                    fill=palette.get(city.get('owner'), '#555555'), outline='#ffffff')
+            canvas.create_text(px, py - 9, text=str(city.get('name')), fill='#ffffff',
+                               font=(self.face, 9, 'bold'))
         for unit in units:
-            if not unit.get('xy'):
+            xy = unit.get('xy') or []
+            if len(xy) < 2 or (xy[0] < 0 and xy[1] < 0):
                 continue
-            px, py = project(unit['xy'])
-            canvas.create_oval(px - 4, py - 4, px + 4, py + 4,
-                               fill=palette.get(unit.get('owner'), '#444444'), outline='#ffffff')
+            px, py = map_project(xy, width, height)
+            canvas.create_oval(px - 3, py - 3, px + 3, py + 3,
+                               fill=palette.get(unit.get('owner'), '#333333'), outline='#ffe08a')
+
+    def _battle_redraw(self):
+        last = getattr(self, '_battle_last', None)
+        if last:
+            self._battle_draw_map(*last)
 
     def _build_room_controls(self):
         box = self._box(self.room_control_page, '風夜進房與準備')

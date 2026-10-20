@@ -1,0 +1,36 @@
+
+- **長局穩定第二次失敗＋修復（2026-10-17 14:07）**：內測多人局（13:33 開局）中風夜於 14:07:05 `viewer_heartbeat_expired` 自退（最後心跳 14:05:35；此前 14:06:58 遊戲方有成員離場事件＋ctrl8）。判定：觀眾心跳 90s 窗口太緊（長局中任何 SSH/輪詢打嗝即誤殺）。**已修**：`room_probe` 心跳寬限 90→300 秒（下次登入自動部署）；真斷開仍正常收尾。**局中接回=不可行**（風夜退出後無法中途接回，且本局 8 席已滿無空位）→ 續接研究須**結束本局→重新建房→重新進入**。
+
+- **0.2.13（2026-10-17 15:5x，用戶回報「看不到當前局勢」）**：根因＝風夜四個分頁藏在「風夜情報／操控台」外層分頁內的子分頁列、預設還停在「操控台」，旁邊整排原版「玩家視角」空頁（永久關閉）造成誤導。修正：風夜四分頁提升為主分頁列（**本局局勢**／風夜操控台／房間與來源記錄／風夜指令解讀），**預設開在「本局局勢」**；原版 15 個玩家視角分頁全部 `hide()` 收起；統計行新增「已見動作 N 條、對話 K 條」；run.py 驗證器同步改。30/30 測試、replay 驗證（render_error=null、selected=本局局勢、original_pages 全 hidden、席位 8 行、解碼 37 條）；dist `fengye-omni-hub-0.2.13.zip`；Hub 已重啟（PID 32171）。
+
+- **0.2.14（2026-10-17 16:0x，用戶問「沒以前豐富/清晰」＋「無法讀玩家內存值?」）**：①答覆：舊玩家 hub 的豐富＝讀玩家端內存重建（全地圖/部隊/武將/資源）；風夜 hub＝網路可見（席位/君主+指令+對話+節拍）為天花板；內存值在真實局結構性不可得（玩家機器不歸我們），內測技術上可得但屬用戶 10/17「永久排除玩家記憶體來源」定案 → 已呈 A/B/C 選項待用戶裁決（不主動改）。②清晰化落地：指令解讀頁發送者改「名字（勢力）」、CSanInetUnitNetCmdMove→**部隊移動**（+現位置 (x,y)，欄位對位已驗・座標為候選語義）、CSanInetPhaseEndCmd→**階段結束**、建造類顯示**城池名＋座標**（city_id_table）、出征兵種/兵力、接納仕官「對象#」；移除誤導欄「勢力 ID」；「unsupported class」噪音清零。③build_dist 補 `backend/city_id_table.json`（先前未入發行包）。④31/31 測試（+1 新測）；dist `fengye-omni-hub-0.2.14.zip`；Hub 重啟（PID 60313）；replay 驗證 render_error=null、本局 49 條指令全可讀。
+
+- **0.2.15（2026-10-18 12:5x，用戶要求「在風夜 Hub 上加建控制」）**：①**新分頁「風雲・本機控制」**（風夜操控台內）：登入大廳→進遊戲（直連、線路可選）／退出遊戲（溫和：STOP+SIGTERM helper）／強制關閉（wineserver -k）／重新整理狀態；**勢力切換（開局後・實驗）**：讀取目前狀態、切到 0–7、還原上一個——全部走本機 `backend/fengyun_local.py`（staging 自動就位：`~/sgi-direct-connect/collector-bridge`＋`fengyun_setforce.py`；wine＋`sgi-py32.exe`）。②**房間監控頁新增「實驗室新流程」按鈕列**：一鍵武裝並進房（`arm_now.sh`＝清場→登入→進房→20 補丁→藏身→守望＋Hub 記錄器）／實驗室收線（`stop_shadow.sh`）／查看狀態（進程、D8 回執、崩潰台帳、app.log 尾）——走新模組 `backend/lab_remote.py`（一發式 `ssh host bash -s`；**刻意不進 `backend/server.py`**，維持與 web hub 的逐位元組一致釘子）。③版本 0.2.14→**0.2.15**；**31/31 測試**；`build_app.py` 重建＋重啟（PID 87530）；dist `fengye-omni-hub-0.2.15.zip`（322 檔）。④原則不變：本機控制僅操作本機風雲客戶端（prefix-sikarugir10），**不讀玩家記憶體情報、不觸碰風夜隱身層**。
+
+- **0.2.16（2026-10-18 12:3x，用戶回報「沒看到風夜成功切換勢力」）**：根因＝0.2.15 的勢力切換按鈕是「**本機風雲**」的（用戶寫入 1＝風雲自己，故無可見變化；**風夜的切換在遠端**、且被 slotkeep 鎖定）。①新遠端助手 `shadow/shadow_force.sh`（`read`｜`switch N`｜`restore`；switch＝停 slotkeep→`shadow_setforce --slot N`→**以新席位重啟 slotkeep**）。②Hub 新 box「**風夜・遠端勢力切換**」（風雲・本機控制頁）：讀取風夜席位／切到 0–7／還原——走 `lab_remote` 一發式 ssh（`bash -s`），結果就地格式化為「席位＋勢力表」。③**實測**：風夜由席 1（風雲18）→**席 0（丁滿11）**（`written`／`now=0`、slotkeep(0) 執行中、roundprobe `my_slot=0` 兩採樣穩定）。④版本 0.2.15→**0.2.16**；**31/31 測試**；`build_app.py` 重建＋重啟（PID 1833）；dist `fengye-omni-hub-0.2.16.zip`。
+
+- **0.2.17（2026-10-18 12:5x，用戶要求「數值→該勢力名稱＋玩家名」）**：根因＝**現行 `shadow_session_rec.py` 只解到 class_name、未解 cmd7 席位**（舊 room_probe 流程有解，故 10/16-17 會話有席位；10/18 起的影子會話全缺）→ Hub 的「會話席位」與勢力表為空。修正：①錄製器接上 `p28_wire`（`inspect_object`＋`decode_snapshot`）：**CSanInetInitGameData 幀即時解出 `snapshot`**（8 席＋settings；consumed==length，尾差自動修剪）；②**回填當前局**（已捕獲的 754B cmd7 解碼後追加 received_packet 行，evidence_type=backfill_decoded_from_native_slot）；③端到端驗證：remote_snapshot 讀出 `snapshots.start`＝**丁满・宋(11)／风云・巴(18)／電腦 楚(4)中山(15)羌(21)吴(8)赵(1)南蛮(19)**；④Hub 勢力表格式化：`0→丁满・宋（id 11）`；電腦席位＝`2→電腦・楚（此席操控欄無值）`（局面快照 binding46 ↔ 運行欄 f4a 分開呈現）。版本 0.2.16→**0.2.17**；31/31 測試；build_app＋重啟（PID 35369）；dist `fengye-omni-hub-0.2.17.zip`。⑤錄製器本體 repo／遠端 tools 同步（新 sha 待記）；**p28_wire.py 已部署遠端實驗室根目錄**。
+
+- **0.2.18（2026-10-18 13:2x–13:4x，用戶指示：標籤收攏＋操控台精簡，開始逐項驗收）**：①**移除三分頁**——「本局局勢」「房間與來源記錄」「風夜指令解讀」（遊戲記錄顯示由全知情報來源承擔）；主視窗收攏為**唯一可見分頁「風夜操控台」**（原版 15 分頁維持 hidden）。②連帶刪除：情報流／會話席位快照／聊天日誌卡／回放按鈕／解碼表與其渲染路徑（`render_feed`／`select_feed`／`render_legacy`／`render_decoded`／`pick_replay`）＋`update_control_state` 的舊 `room_button` 引用；資料讀取錯誤訊息改集中到操控台底部新 `notice_label`。`native_window.py` 1272→1047 行。③`run.py` 驗證器改為：唯一可見分頁＋三個子分頁（房間監控／發言與回執／風雲・本機控制）逐個可視＋原版分頁全 hidden。④**驗證**：單元測試 31/31；回放 `--verify-json` 通過（render_error=null、selected＝風夜操控台、子分頁 viewable=[true,true,true]、原版分頁 15/15 hidden）；README 同步改寫；dist `fengye-omni-hub-0.2.18.zip`（322 檔，sha256 `2d2d2131…`）；.app 重啟（PID 11250）。⑤附註：13:28 曾出現一版並行操作的 0.2.18 打包（含尚未修正的舊 run.py）；本輪已以修正後源重打包覆蓋（同版本號、以新 sha 為準）。⑥下一步＝按分頁逐項功能驗收（驗收疊加）。
+
+- **0.2.18 補記（同輪，2026-10-18 14:1x）**：影子會話錄製器 `shadow_session_rec.py` **真修**——新增 **control cmd 7 直投物件**解包（開局名單 `CSanInetInitGameData` 即時解 `snapshot` 入 hub；此類幀不走 control5 批次，13:0x 版掛鉤不可達故此前未生效）；本局（run-20261018-134329-shadow）名單已回填，席位切換框即刻顯示「0→丁满・韩（id 2）／1→风云・吴（id 8）／電腦席（此席操控欄無值）」。驗證與佈局：`research/protocol-archive/evidence/p51-control7-object-carrier-20261018/NOTES.md`；兩端 md5 `86bf4ef5…`。
+
+- **0.2.19（2026-10-18 14:3x，用戶指示：電腦席隱去、只保留切換玩家席）**：①`_format_force` 席位表**只列可切換的玩家席**（運行欄 f4a 有效＝真人在座；-1／未知＝電腦或空席直接不列出）；無可切席位時顯示「沒有可切換的玩家席位——開局後自動出現；電腦／空席不列出」。②兩排席位按鈕（本機＋風夜遠端）改存引用，**讀取結果一到就只放行玩家席**（讀不到資料＝全部放行方便重試）。③新增模組函式 `force_payload()`＋`_update_slot_buttons()`；排行榜式顯示維持「名字・勢力（id）」。④測試 **32/32**（+1：席位過濾與按鈕放行）；回放驗證 render_error=null；README 新增「開局後控制」一節；dist `fengye-omni-hub-0.2.19.zip`；.app 重建＋重啟。⑤效果：開局後讀取顯示「0→丁满・韩（id 2）／1→风云・吴（id 8）」，電腦席不再出現。⑥驗收清單＝`ACCEPTANCE.md`（疊加式：已驗 0–4；待驗 5–13，含下一局「切換寫入」）。
+
+- **0.2.20（2026-10-18 14:4x，用戶指示：風夜增加偽名「待秋至」）**：`native_window.py` 進房暱稱預設值 `風夜`→**`待秋至`**；預設選項改為 `['待秋至','風夜','小白']`（編輯框仍可自填）。32/32 測試通過；`.app` 重建重啟（單實例）；dist `fengye-omni-hub-0.2.20.zip`。走「進入所選房間」路徑的進房／離開痕跡將顯示「待秋至」；實驗室客戶端路徑（影子 SANPK 顯示名）另行核實處理。
+
+- **0.2.21（2026-10-18 15:1x，用戶指示「一鍵化＋狀態明白化」）**：①房間監控新增**「▶ 一鍵上場」**（`one_click_enter`）——登入(如需)→更新房間→進入（自動報到→藏身）；複用既有重試狀態機（`retry['label']` 標籤化文案），完成自動收束、沿用提示音；已在房則拒重入；「進入所選房間」手動按鈕保留為單步。②**風雲明白狀態**：`fengyun_local.live_status()`＝**現行會話（helper.pid 對號）優先**，其次最新流程日誌結果；覆蓋 not_started／logging_in／holding（列房間）／already_logged（伺服器「已登入」友好化）／aborted／stopping／exited；`login()` 已在線短路回 `already_online`（不再送注定失敗的登入）；UI 加大字狀態行（每 ~10 秒自動刷新）。③37/37 測試（新增 5）；`.app` 重建重啟；dist `fengye-omni-hub-0.2.21.zip`；回放冒煙 render_error=null。未動主線同輪的實驗室按鈕文案改動（並存）。
+
+- **0.2.22（2026-10-18 15:2x，用戶指示：探針層收起、只要帶客戶端的）**：房間監控頁的探針層三行（▶ 一鍵上場／手動單步排／上場前準備）**默認收起**（`probe_box` 容器 + `pack_forget`；lab 行右側「顯示探針層（進階）」開關可展開），底部說明改述客戶端完整 SOP 用法；探針功能代碼與測試全部保留（37/37 通過）；`.app` 重建重啟、dist `fengye-omni-hub-0.2.22.zip`。
+
+- **0.2.24（2026-10-18，vkquant-com 同步）**：包含 0.2.23 玩家白話三頁介面；修正 venv 原生入口（base_prefix 標準庫＋purelib 套件）、本機控制沿用該台 Wine 的帳號／路徑／顯示名、情報台強制結束改呼叫 game-stop 保留大廳。遠端 Wine 1.22＋情報台 0.2.24 已安裝開啟；327 檔 SHA 核對、Wine 44/44、Hub 本機 50/50／遠端 49+1 比較來源缺失略過、原生三頁回放及即時來源確認。兩個現有遊戲實例 PID／啟動時間保持，未實按強退或操作遊戲。本機原生入口未重啟；日期落後維修尚未部署。詳見 `research/reports/vkquant-wine-fengye-sync-20261018/NOTES.md`。
+
+- **0.2.28（2026-10-20，用戶指示：外部指令去掉乘數與數值輸入、目標固定風夜、地圖回歸遊戲地圖）**：
+  ①`native_window.py` 外部指令面板：移除「乘數」與所有數字輸入（基礎值/extra/數量/花費金/X/Y/武將id），
+  改成固定值＋按鍵（練兵 value=75、施捨 4、米交易 1000、建設花費金 2000；兵種/建築/買賣/人事子類型用下拉；
+  人事武將改成下拉，來源 `command_service.general_ids()` → `_p60_generals.py` 的在野樣本）。
+  ②目標客戶端固定「風夜（藏身，自動借席）」，不再有下拉（`_cmd_selected` 一律挑 風夜）。
+  ③地圖改回遊戲本身的世界地圖：`assets/SanInet.lbm`（525×350）當底圖，城池/部隊按世界座標
+  （WORLD=101×202 線性投影）疊上去；戰場頁與外部指令頁都套用，`<Configure>` 會重畫。
+  ④驗收：`python3 -m unittest discover -s tests` 50/50；`--verify-json` 讀到新面板文字（無乘數、目標=風夜）；
+  以 `FENGYE_START_TAB=外部指令|戰場` 啟動截圖確認：真實地圖＋城池名（薊/宛…）、面板無數字欄位。
