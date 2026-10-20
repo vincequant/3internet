@@ -62,6 +62,7 @@ MAP_FILL = '#2b3527'          # 地圖外的留白（接近原作地面底色）
 WORLD = (101, 202)            # 世界格數（x, y）
 MAP_MIN_ZOOM = 1.0
 MAP_MAX_ZOOM = 10.0
+MAP_WHEEL_THROTTLE = 0.04   # 秒：觸控板一個手勢會送十幾個滾輪事件
 
 try:                          # app/ 在 sys.path 上（run.py 與 tests 都會加）
     from tactical_terrain import shared_terrain as _shared_terrain
@@ -133,15 +134,56 @@ def map_fit_scale(iw, ih, width, height):
     return min(width / float(iw), height / float(ih))
 
 
+def map_clamp_axis(value, span, total):
+    """相機中心 → 合法範圍（單一軸）。
+
+    舊版有兩套規則（可見範圍塞得下就夾在底圖內、塞不下就釘死中央），
+    這正是「一滾就下移」的根因：
+
+      畫布比底圖寬（3.2:1 vs 2:1）→ 1x~1.7x 之間「可見寬度」大於底圖寬度，
+      舊版把水平相機釘死在底圖中央 → **水平軸完全不吃游標錨點**，
+      游標底下的內容會橫向跳走（實測一格滾輪最多跳 108 px）；
+      而垂直軸那時已經可以自由移動，於是使用者看到的就是「地圖歪、往下移」。
+
+    現在只有一條規則：相機中心永遠落在底圖上。
+      * 可見範圍比較小（放大後）→ 相機夾在底圖裡，地圖不會滑出畫面。
+      * 可見範圍比較大（1x 整張看得到）→ 相機夾在底圖範圍內，地圖可以在
+        畫布裡左右滑動，游標錨點照樣成立。
+    兩種情況相機中心都是連續函式，縮放時不會突然跳版。
+    """
+    half = max(0.0, float(span) / 2.0)
+    total = float(total)
+    if span >= total:
+        if span - total <= 1e-6 * max(1.0, total):
+            # 底圖剛好塞滿畫布（1x 的垂直軸）：沒有可滑的空間，釘在中央，
+            # 否則按平移會露出一條綠邊（看起來像地圖壞掉）。
+            lo = hi = total / 2.0
+        else:
+            # 底圖比畫布小：相機中心留在底圖上（底圖可在畫布裡滑動，錨點成立）
+            lo, hi = 0.0, total
+    else:
+        lo, hi = half, total - half
+    if lo > hi:
+        lo = hi = (lo + hi) / 2.0
+    return min(max(float(value), lo), hi)
+
+
+def map_clamp_center(iw, ih, width, height, zoom, cx, cy):
+    """把相機中心夾到該倍率下的合法範圍（回傳 (cx, cy)）。"""
+    cam = map_camera(iw, ih, width, height, zoom, cx, cy)
+    return cam['cx'], cam['cy']
+
+
 def map_camera(iw, ih, width, height, zoom, cx=None, cy=None):
     """地圖相機（純函式，不改任何狀態）。
 
-    規則（0.2.29 修正後的單一模型，戰場頁與外部指令頁共用）：
+    規則（0.2.30 修正後的單一模型，戰場頁與外部指令頁共用）：
       * ``scale = contain 倍率 × zoom``：底圖永遠等比縮放 → 不會變形。
       * ``zoom=1``：整張底圖可見並置中（contain，兩側留邊）。
       * 畫布看到的底圖範圍 = 畫布範圍 ÷ scale（不再被畫布長寬比硬切），
         所以 1.0 → 1.2 → 1.44 … 倍率連續，不會突然跳版。
-      * 相機中心會被夾住：可見範圍塞得下時夾在底圖內，否則回到置中。
+      * 相機中心用 map_clamp_axis 夾：可見範圍塞得下就夾在底圖內，
+        塞不下就夾成「底圖完整可見」——兩種情況都能吃游標錨點。
 
     回傳 dict：fit/scale/zoom、cx/cy（實際相機中心，底圖像素）、
     want_cx/want_cy（使用者要求的中心，只夾在底圖範圍內）、
@@ -155,14 +197,8 @@ def map_camera(iw, ih, width, height, zoom, cx=None, cy=None):
     half_h = height / (2.0 * scale)
     want_x = iw / 2.0 if cx is None else min(max(float(cx), 0.0), float(iw))
     want_y = ih / 2.0 if cy is None else min(max(float(cy), 0.0), float(ih))
-    if half_w * 2.0 >= iw:
-        eff_x = iw / 2.0
-    else:
-        eff_x = min(max(want_x, half_w), iw - half_w)
-    if half_h * 2.0 >= ih:
-        eff_y = ih / 2.0
-    else:
-        eff_y = min(max(want_y, half_h), ih - half_h)
+    eff_x = map_clamp_axis(want_x, width / scale, iw)
+    eff_y = map_clamp_axis(want_y, height / scale, ih)
     left = max(0.0, eff_x - half_w)
     right = min(float(iw), eff_x + half_w)
     top = max(0.0, eff_y - half_h)
@@ -1081,7 +1117,9 @@ class FengyeWindow(OmniWindow):
         self.battle_map.bind('<Button-4>', lambda e: self._battle_set_zoom(1.2, anchor=(e.x, e.y)))
         self.battle_map.bind('<Button-5>', lambda e: self._battle_set_zoom(1 / 1.2, anchor=(e.x, e.y)))
         self.battle_map.bind('<Enter>', lambda _e: self.battle_map.focus_set())
-        self.battle_map.bind('<Button-1>', lambda _e: self.battle_map.focus_set())
+        self.battle_map.bind('<Button-1>', self._battle_drag_start)
+        self.battle_map.bind('<B1-Motion>', self._battle_drag_move)
+        self.battle_map.bind('<ButtonRelease-1>', self._battle_drag_end)
         self.battle_map.bind('<Double-Button-1>', lambda _e: self._battle_reset_view())
         self.battle_map.configure(takefocus=1)
         for key, dx, dy in (('w', 0, -1), ('W', 0, -1), ('s', 0, 1), ('S', 0, 1),
@@ -1190,7 +1228,20 @@ class FengyeWindow(OmniWindow):
                                fill='#ffffff', font=(self.face, 11, 'bold'))
             return
         photo, pos, project, cam = view
-        canvas.create_image(pos[0], pos[1], image=photo, anchor='nw')
+        img_item = canvas.create_image(pos[0], pos[1], image=photo, anchor='nw')
+        # 2026-10-20：畫面整張往下偏（內容被畫到畫布底部），先把畫布的捲動狀態
+        # 寫進 log，才能分辨是「相機算錯」還是「Tk 畫布自己捲了」。
+        try:
+            _map_debug('battle canvas geom=%sx%s scrollregion=%s xview=%s yview=%s '
+                       'img_item=%s coords=%s winfo_h=%s' % (
+                           canvas.winfo_width(), canvas.winfo_height(),
+                           tuple(round(float(v)) for v in canvas.cget('scrollregion')),
+                           tuple(round(float(v), 4) for v in canvas.xview()),
+                           tuple(round(float(v), 4) for v in canvas.yview()),
+                           img_item, tuple(round(float(v), 1) for v in canvas.coords(img_item)),
+                           canvas.winfo_height()))
+        except Exception as exc:  # noqa: BLE001
+            _map_debug('battle canvas geom FAILED: %s' % (exc,))
         # 1x 時地圖比畫布窄，加一圈邊框才不會像「貼歪的圖」
         canvas.create_rectangle(pos[0], pos[1], pos[0] + cam['draw'][2], pos[1] + cam['draw'][3],
                                 outline='#0f1710', width=1)
@@ -1233,7 +1284,7 @@ class FengyeWindow(OmniWindow):
         seen_x = min(100, round(cam['view'][0] / max(1.0, float(cam['iw'])) * 100))
         seen_y = min(100, round(cam['view'][1] / max(1.0, float(cam['ih'])) * 100))
         self._map_hint(canvas,
-                       '滾輪縮放 %.1fx（可見 %d%%×%d%%）· WASD 平移 · 雙擊復原' % (
+                       '滾輪縮放 %.1fx（可見 %d%%×%d%%）· 拖曳／WASD 平移 · 雙擊復原' % (
                            self.battle_zoom, seen_x, seen_y),
                        width, height)
 
@@ -1358,6 +1409,10 @@ class FengyeWindow(OmniWindow):
              使用者看到的就是「一滾地圖就往下移」。
         現在只有一條路徑：scale = contain 倍率 × zoom，而且縮放軸跟著游標
         （沒有游標座標時才用畫布中心）。
+
+        2026-10-20 補上相機夾邊界：縮放後把相機中心夾到「新倍率」的合法
+        範圍再存回去，舊的「想去的中心」不會留在地圖外，下一次縮放才不會
+        突然跳版。
         """
         try:
             factor = float(factor)
@@ -1377,23 +1432,34 @@ class FengyeWindow(OmniWindow):
             mx, my = map_unproject(ax, ay, cam, width, height)
             scale = cam['fit'] * after
             # 讓 (mx,my) 縮放後仍然落在游標那一點
-            self.battle_cx = min(max(mx - (ax - width / 2.0) / scale, 0.0), float(iw))
-            self.battle_cy = min(max(my - (ay - height / 2.0) / scale, 0.0), float(ih))
+            want_x = mx - (ax - width / 2.0) / scale
+            want_y = my - (ay - height / 2.0) / scale
+            self.battle_cx, self.battle_cy = map_clamp_center(
+                iw, ih, width, height, after, want_x, want_y)
         self.battle_zoom = after
         _map_debug('battle zoom %.3f -> %.3f (factor=%.3f anchor=%s) cam=(%.1f,%.1f)' % (
             before, after, factor, anchor, self.battle_cx or 0.0, self.battle_cy or 0.0))
         self._battle_redraw()
 
     def _battle_wheel(self, event):
-        """滾輪：把 delta 換成步數（1 步 = ×1.2），一個手勢不再連跳十幾格。"""
+        """滾輪：把 delta 換成步數（1 步 = ×1.2），一個手勢不再連跳十幾格。
+
+        另外加上 40 ms 的節流（跟 app/panorama_map.py 的全景地圖一致）：
+        觸控板一次滑動會送十幾個小事件，沒有節流的話倍率會直接衝到上限。
+        """
         steps = wheel_steps(getattr(event, 'delta', 0) or 0)
-        if steps:
-            self._battle_set_zoom(1.2 ** steps,
-                                  anchor=(getattr(event, 'x', 0), getattr(event, 'y', 0)))
+        if not steps:
+            return 'break'
+        now = time.monotonic()
+        if now - getattr(self, '_battle_wheel_at', 0.0) < MAP_WHEEL_THROTTLE:
+            return 'break'
+        self._battle_wheel_at = now
+        self._battle_set_zoom(1.2 ** steps,
+                              anchor=(getattr(event, 'x', 0), getattr(event, 'y', 0)))
         return 'break'
 
     def _battle_pan(self, dx, dy):
-        """WASD 平移：每次移動「可見範圍」的 10%，並夾在地圖邊界內。
+        """WASD 平移：每次移動「可見範圍」的 10%，並夾在合法範圍內。
 
         舊版用固定的 ``0.1 * 底圖高 / zoom``，在寬畫布上步幅跟畫面脫節；
         而且平移量沒有跟可見範圍綁定，越界時相機被硬夾 → 感覺「按了沒反應」。
@@ -1409,11 +1475,46 @@ class FengyeWindow(OmniWindow):
         step_y = 0.10 * cam['view'][1]
         base_x = self.battle_cx if self.battle_cx is not None else iw / 2.0
         base_y = self.battle_cy if self.battle_cy is not None else ih / 2.0
-        self.battle_cx = min(max(base_x + dx * step_x, 0.0), float(iw))
-        self.battle_cy = min(max(base_y + dy * step_y, 0.0), float(ih))
+        self.battle_cx, self.battle_cy = map_clamp_center(
+            iw, ih, width, height, self.battle_zoom,
+            base_x + dx * step_x, base_y + dy * step_y)
         _map_debug('battle pan dx=%s dy=%s step=(%.1f,%.1f) cam=(%.1f,%.1f) zoom=%.3f' % (
             dx, dy, step_x, step_y, self.battle_cx, self.battle_cy, self.battle_zoom))
         self._battle_redraw()
+
+    def _battle_drag_start(self, event):
+        """拖曳平移：按下滑鼠開始拖地圖（全景地圖也有這套）。"""
+        size = map_size()
+        iw, ih = size if size else (0, 0)
+        cx = self.battle_cx if self.battle_cx is not None else iw / 2.0
+        cy = self.battle_cy if self.battle_cy is not None else ih / 2.0
+        self._battle_drag = (float(event.x), float(event.y), cx, cy)
+
+    def _battle_drag_move(self, event):
+        """拖曳中：地圖跟著游標走（1 畫布像素 = 1/scale 個底圖像素）。"""
+        drag = getattr(self, '_battle_drag', None)
+        if not drag:
+            return
+        x0, y0, cx0, cy0 = drag
+        dx = float(event.x) - x0
+        dy = float(event.y) - y0
+        if abs(dx) + abs(dy) < 4:
+            return
+        size = map_size()
+        if size is None:
+            return
+        iw, ih = size
+        width, height = self._canvas_size(self.battle_map, 360, 160, (720, 230))
+        cam = map_camera(iw, ih, width, height, self.battle_zoom,
+                         self.battle_cx, self.battle_cy)
+        # 往右拖 → 地圖跟著往右走 → 相機中心往左移
+        self.battle_cx, self.battle_cy = map_clamp_center(
+            iw, ih, width, height, self.battle_zoom,
+            cx0 - dx / cam['scale'], cy0 - dy / cam['scale'])
+        self._battle_redraw()
+
+    def _battle_drag_end(self, event=None):
+        self._battle_drag = None
 
     def _battle_reset_view(self):
         """復原視角：1x 整張地圖置中（相機回到原作地面中心）。"""

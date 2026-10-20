@@ -109,6 +109,8 @@ def make_stub(width=W, height=H):
     stub.face = 'Helvetica'
     for name in ('_canvas_size', '_battle_geometry', '_battle_draw_map', '_battle_paint_map',
                  '_battle_set_zoom', '_battle_pan', '_battle_reset_view', '_battle_redraw',
+                 '_battle_wheel', '_battle_drag_start', '_battle_drag_move',
+                 '_battle_drag_end',
                  '_map_font', '_map_label_fits', '_map_label', '_map_hint'):
         setattr(stub, name, getattr(FengyeWindow, name).__get__(stub))
 
@@ -478,6 +480,172 @@ class BattleMapHandlerTests(unittest.TestCase):
         self.assertTrue(plates, '沒有提示底板')
         texts = [t for t in stub.battle_map.items if t[0] == 'text']
         self.assertTrue(any('滾輪' in (t[3] or '') for t in texts))
+
+
+class FakeEvent:
+    """假的 Tk 事件（只要 x / y / delta）。"""
+
+    def __init__(self, x=0, y=0, delta=0):
+        self.x = x
+        self.y = y
+        self.delta = delta
+
+
+class AnchorRegressionTests(unittest.TestCase):
+    """2026-10-20：「一滾就下移」的真正根因與修法。
+
+    根因不是算式，是**相機夾邊界**：
+      戰場畫布比底圖寬（1164×362 vs 9744×4872 → 3.2:1 vs 2:1），
+      1x~1.7x 之間「可見寬度」大於底圖寬度，舊版在這種情況把水平相機
+      **釘死在底圖中央** → 水平軸完全不吃游標錨點，游標底下的地圖會橫向
+      跳走（實測一格滾輪最多跳 108 px）；垂直軸那時已經可以自由移動，
+      兩邊行為不一致，使用者看到的就是「地圖歪掉、往下移」。
+
+    修法：相機中心永遠落在底圖上（底圖比畫布小時可以滑動），
+    游標錨點在每一格滾輪都成立。
+    """
+
+    def setUp(self):
+        if map_terrain() is None:
+            self.skipTest('缺少 app/assets/SanInet.mbm')
+        self.stub = make_stub()
+
+    def _world_under(self, stub, ax, ay):
+        cam = map_camera(IW, IH, W, H, stub.battle_zoom, stub.battle_cx, stub.battle_cy)
+        return map_unproject(ax, ay, cam, W, H)
+
+    def _screen_of(self, stub, world):
+        cam = map_camera(IW, IH, W, H, stub.battle_zoom, stub.battle_cx, stub.battle_cy)
+        return (W / 2.0 + (world[0] - cam['cx']) * cam['scale'],
+                H / 2.0 + (world[1] - cam['cy']) * cam['scale'])
+
+    def test_one_notch_keeps_the_point_under_the_pointer(self):
+        """第一格滾輪：游標底下的地圖不能橫向跳走（舊版最多跳 108 px）。"""
+        for ax, ay in ((300, 80), (450, 120), (582, 40), (700, 200), (900, 120)):
+            stub = make_stub()
+            stub.battle_zoom = 1.0
+            stub.battle_cx = None
+            stub.battle_cy = None
+            world = self._world_under(stub, ax, ay)
+            stub._battle_set_zoom(1.2, anchor=(ax, ay))
+            x, y = self._screen_of(stub, world)
+            self.assertAlmostEqual(x, ax, delta=0.5)
+            self.assertAlmostEqual(y, ay, delta=0.5)
+
+    def test_two_notches_keep_the_pointer_point(self):
+        """連滾兩格（1x → 1.44x）游標底下那一點還在原處。"""
+        for ax, ay in ((300, 80), (582, 120), (900, 120)):
+            stub = make_stub()
+            stub.battle_zoom = 1.0
+            stub.battle_cx = None
+            stub.battle_cy = None
+            world = self._world_under(stub, ax, ay)
+            stub._battle_set_zoom(1.2, anchor=(ax, ay))
+            stub._battle_set_zoom(1.2, anchor=(ax, ay))
+            x, y = self._screen_of(stub, world)
+            self.assertAlmostEqual(x, ax, delta=0.5)
+            self.assertAlmostEqual(y, ay, delta=0.5)
+
+    def test_camera_is_not_pinned_to_the_centre_when_the_map_is_smaller(self):
+        """底圖比畫布小時，水平相機必須能動（舊版釘死中央）。"""
+        cam = map_camera(IW, IH, W, H, 1.0, 4872.0, 2436.0)
+        self.assertGreater(cam['view'][0], IW)      # 可見寬度 > 底圖寬度
+        moved = map_camera(IW, IH, W, H, 1.0, 3000.0, 2436.0)
+        self.assertNotAlmostEqual(moved['cx'], 4872.0, places=1)
+
+    def test_exactly_fitting_axis_is_pinned_but_smaller_axis_may_slide(self):
+        """1x：地圖高度剛好塞滿畫布 → 垂直釘住（不會露出一條綠邊）；
+        寬度比畫布小 → 水平可以滑（游標錨點才成立）。"""
+        cam = map_camera(IW, IH, W, H, 1.0, 4872.0, 2436.0)
+        self.assertAlmostEqual(cam['view'][1], IH, places=6)     # 可見高度 == 底圖高度
+        self.assertGreater(cam['view'][0], IW)                  # 可見寬度 > 底圖寬度
+        vertical = map_camera(IW, IH, W, H, 1.0, 4872.0, 1000.0)
+        self.assertAlmostEqual(vertical['cy'], 2436.0, places=6)
+        horizontal = map_camera(IW, IH, W, H, 1.0, 3000.0, 2436.0)
+        self.assertNotAlmostEqual(horizontal['cx'], 4872.0, places=1)
+
+    def test_camera_center_always_stays_on_the_map(self):
+        """相機中心永遠在底圖上：地圖不會整個滑出畫布。"""
+        for zoom in (1.0, 1.2, 1.44, 1.728, 2.5, 5.0, 10.0):
+            for want in ((-5000, -5000), (0, 0), (50000, 50000), (IW, IH)):
+                cam = map_camera(IW, IH, W, H, zoom, want[0], want[1])
+                self.assertGreaterEqual(cam['cx'], -1e-6)
+                self.assertLessEqual(cam['cx'], IW + 1e-6)
+                self.assertGreaterEqual(cam['cy'], -1e-6)
+                self.assertLessEqual(cam['cy'], IH + 1e-6)
+
+    def test_sliding_the_map_does_not_stretch_it(self):
+        """底圖在畫布裡滑動時，等比關係不能壞掉。"""
+        cam = map_camera(IW, IH, W, H, 1.0, 3000.0, 2436.0)
+        left, top, right, bottom = cam['box']
+        self.assertAlmostEqual((right - left) * cam['scale'], cam['draw'][2], places=6)
+        self.assertAlmostEqual((bottom - top) * cam['scale'], cam['draw'][3], places=6)
+
+    def test_zoom_stores_a_center_that_is_valid_for_the_new_zoom(self):
+        """縮放後存回去的相機中心要已經是新倍率的合法值（否則下次縮放會跳版）。"""
+        stub = self.stub
+        stub.battle_zoom = 1.0
+        stub.battle_cx = None
+        stub.battle_cy = None
+        stub._battle_set_zoom(1.2, anchor=(300.0, 80.0))
+        cam = map_camera(IW, IH, W, H, stub.battle_zoom, stub.battle_cx, stub.battle_cy)
+        self.assertAlmostEqual(cam['cx'], stub.battle_cx, places=6)
+        self.assertAlmostEqual(cam['cy'], stub.battle_cy, places=6)
+        self.assertGreaterEqual(stub.battle_cx, 0.0)
+        self.assertLessEqual(stub.battle_cx, IW)
+        self.assertGreaterEqual(stub.battle_cy, 0.0)
+        self.assertLessEqual(stub.battle_cy, IH)
+
+    def test_wheel_burst_is_throttled(self):
+        """觸控板一個手勢會送十幾個事件，不能一口氣衝到上限。"""
+        stub = self.stub
+        stub.battle_zoom = 1.0
+        stub._battle_wheel_at = 0.0
+        for _ in range(20):
+            stub._battle_wheel(FakeEvent(300, 80, 1))
+        self.assertLess(stub.battle_zoom, 2.0)
+
+    def test_wheel_uses_the_pointer_as_the_anchor(self):
+        """滾輪事件要帶上游標座標（沒有座標就退化成置中縮放）。"""
+        stub = self.stub
+        stub.battle_zoom = 2.0
+        stub.battle_cx = IW / 2.0
+        stub.battle_cy = IH / 2.0
+        stub._battle_wheel_at = 0.0
+        stub._battle_wheel(FakeEvent(300, 80, 1))
+        self.assertNotAlmostEqual(stub.battle_cx, IW / 2.0, places=1)
+
+    def test_drag_moves_the_map_with_the_pointer(self):
+        """拖曳：往右拖 → 地圖跟著往右走（相機中心往左移）。"""
+        stub = self.stub
+        stub.battle_zoom = 3.0
+        stub.battle_cx = IW / 2.0
+        stub.battle_cy = IH / 2.0
+        before_x = stub.battle_cx
+        stub._battle_drag_start(FakeEvent(300, 150))
+        stub._battle_drag_move(FakeEvent(400, 150))
+        self.assertLess(stub.battle_cx, before_x)
+        stub._battle_drag_end(FakeEvent(400, 150))
+
+    def test_drag_without_movement_does_not_move_the_map(self):
+        stub = self.stub
+        stub.battle_zoom = 3.0
+        stub.battle_cx = IW / 2.0
+        stub.battle_cy = IH / 2.0
+        stub._battle_drag_start(FakeEvent(300, 150))
+        stub._battle_drag_move(FakeEvent(301, 151))
+        self.assertAlmostEqual(stub.battle_cx, IW / 2.0, places=6)
+
+    def test_drag_never_leaves_the_map(self):
+        stub = self.stub
+        stub.battle_zoom = 3.0
+        stub.battle_cx = IW / 2.0
+        stub.battle_cy = IH / 2.0
+        stub._battle_drag_start(FakeEvent(300, 150))
+        for dx in range(-2000, 2000, 50):
+            stub._battle_drag_move(FakeEvent(300 + dx, 150))
+            self.assertGreaterEqual(stub.battle_cx, -1e-6)
+            self.assertLessEqual(stub.battle_cx, IW + 1e-6)
 
 
 if __name__ == '__main__':
