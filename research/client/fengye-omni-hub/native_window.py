@@ -381,7 +381,7 @@ class FengyeWindow(OmniWindow):
         self.retry = None
         self.capture_status = CaptureStatus()
         super().__init__(root)
-        root.title('風夜情報台')
+        root.title('煉虛指揮部')
         root.minsize(1120, 700)
         try:
             _release = json.loads((Path(__file__).resolve().parent / 'RELEASE.json').read_text(encoding='utf-8'))
@@ -586,12 +586,16 @@ class FengyeWindow(OmniWindow):
         self.control_book.hide(self.chat_control_page)
         # 2026-10-21 使用者決定：不再從 Hub 下單，改在遊戲客戶端操作 → 這兩頁下架
         for tab in self.control_book.tabs():
-            if self.control_book.tab(tab, 'text') in ('外部指令', '戰場'):
+            if self.control_book.tab(tab, 'text') == '戰場':
                 self.control_book.hide(tab)
         for tab in self.control_book.tabs():
             if self.control_book.tab(tab, 'text') == '玩家與遊戲':
                 self.control_book.hide(tab)
         # 0.2.18：資料讀取等系統訊息集中在這一行（原「本局局勢」頁的提示已移除）。
+        try:
+            self.root.after(3000, self._autostart_quick_panel)
+        except Exception:  # noqa: BLE001
+            pass
         self.notice_label = tk.Label(self.console_page, text='', bg=DAMASK, fg=MUTED, anchor='w',
                                      justify='left', wraplength=1100)
         self.notice_label.pack(fill='x', padx=14, pady=(0, 8))
@@ -605,7 +609,69 @@ class FengyeWindow(OmniWindow):
         self.command_panel = CommandPanel(
             self.command_page, self.command_service,
             on_snapshot=self._command_snapshot, readonly=replay, on_error=self._capture_failed)
-        self.command_panel.pack(fill='both', expand=True)
+        try:
+            self._load_account()
+        except Exception:  # noqa: BLE001
+            pass
+        # 2026-10-21 使用者定案：這一頁只留「切換勢力 + 身份」＋快速軍令入口。
+        # CommandPanel 仍建立但不顯示，它的 3 秒讀取繼續供身份/勢力清單使用。
+        self.command_panel.pack_forget()
+        self._build_quick_bar()
+
+    def _build_quick_bar(self):
+        box = tk.Frame(self.command_page, bg=DAMASK)
+        box.pack(fill='both', expand=True, padx=14, pady=14)
+        tk.Label(box, text='快速軍令', bg=DAMASK, fg=GOLD,
+                 font=(self.face, 15, 'bold'), anchor='w').pack(fill='x')
+        row = tk.Frame(box, bg=DAMASK)
+        row.pack(fill='x', pady=(10, 4))
+        tk.Label(row, text='勢力', bg=DAMASK, fg=INK).pack(side='left')
+        self.quick_force = tk.StringVar()
+        self.quick_box = ttk.Combobox(row, textvariable=self.quick_force, width=26, state='readonly')
+        self.quick_box.pack(side='left', padx=8)
+        tk.Button(row, text='切換', bg=BG, command=self._quick_switch).pack(side='left')
+        self.quick_state = tk.Label(box, text='讀取中…', bg=DAMASK, fg=MUTED,
+                                    anchor='w', font=(self.face, 12, 'bold'))
+        self.quick_state.pack(fill='x', pady=(8, 12))
+        tk.Button(box, text='開啟快速軍令（獨立視窗）', bg=BG,
+                  command=self._open_quick_panel).pack(anchor='w')
+
+    def _quick_switch(self):
+        choice = (self.quick_force.get() or '').strip()
+        import re as _re
+        if choice.startswith('無勢力'):
+            self._switch_seat(5, '無勢力')
+            return
+        found = _re.search(r'slot\s*(\d)', choice)
+        if found:
+            self._switch_seat(int(found.group(1)), choice.split('（')[0])
+
+    def _autostart_quick_panel(self):
+        """啟動煉虛指揮部時，若快速軍令沒開就一起拉起來（使用者要求默認啟動）。"""
+        try:
+            import subprocess
+            running = subprocess.run(['pgrep', '-f', 'quick_control.py'],
+                                     capture_output=True, text=True).stdout.strip()
+            if running:
+                return
+            self._open_quick_panel(silent=True)
+        except Exception:  # noqa: BLE001
+            pass
+
+    def _open_quick_panel(self, silent=False):
+        import subprocess, sys
+        app = Path(__file__).resolve().parent.parent / 'SGI-Hub-CrossOver-M4-0.2' / 'app' / 'quick_control.py'
+        if not app.exists():
+            if not silent:
+                self.quick_state.configure(text='找不到快速軍令：%s' % app)
+            return
+        try:
+            subprocess.Popen([sys.executable, str(app)], cwd=str(app.parent.parent), close_fds=True)
+            if not silent:
+                self.quick_state.configure(text='已開啟快速軍令（獨立視窗）')
+        except Exception as error:  # noqa: BLE001
+            if not silent:
+                self.quick_state.configure(text='開啟失敗：%s' % error)
 
     def _cmd_refresh(self):
         return self.command_panel.refresh()
@@ -615,6 +681,31 @@ class FengyeWindow(OmniWindow):
         self.command_panel.render_jobs()
 
     # ------------------------------------------------------------ 戰場（唯讀）
+    def _render_quick_bar(self, data):
+        if not hasattr(self, 'quick_state'):
+            return
+        players = {s.get('force_id'): s.get('nickname') for s in data.get('player_slots') or []}
+        values = ['無勢力']
+        for force in data.get('forces') or []:
+            name = players.get(force.get('force_id')) or '未知玩家'
+            values.append('%s（slot %s）· %s' % (name, force.get('slot'),
+                                                force.get('name') or ''))
+        current = self.quick_force.get()
+        self.quick_box.configure(values=values)
+        if current not in values:
+            self.quick_force.set(values[0])
+        local = data.get('local') or {}
+        force = local.get('force_id')
+        if not isinstance(force, int) or force < 0:
+            text = '風夜目前：無勢力（旁聽）'
+            colour = MUTED
+        else:
+            name = next((f.get('name') for f in data.get('forces') or []
+                         if f.get('force_id') == force), None)
+            text = '風夜目前：%s（force %s，slot %s）' % (name or '?', force, local.get('slot'))
+            colour = ACCENT
+        self.quick_state.configure(text=text, fg=colour)
+
     def _build_battle_page(self):
         from fengye_battle_panel import BattlePanel
         self.battle_panel = BattlePanel(
@@ -629,6 +720,10 @@ class FengyeWindow(OmniWindow):
 
     def _command_snapshot(self, data):
         self.cmd_targets_data = data
+        try:
+            self._render_quick_bar(data)
+        except Exception:  # noqa: BLE001
+            pass
         if data.get('_battle_payload'):
             self._accept_shadow_snapshot(data['_battle_payload'])
 
@@ -1051,6 +1146,18 @@ class FengyeWindow(OmniWindow):
         self.room_nick_combo = ttk.Combobox(bar, textvariable=self.room_nickname, width=12,
                                           values=['待秋至', '風夜', '小白'], state='normal')
         self.room_nick_combo.pack(side='left')
+        acc = tk.Frame(box, bg=DAMASK)
+        acc.pack(fill='x', padx=12, pady=(4, 0))
+        tk.Label(acc, text='登入帳號', bg=DAMASK, fg=INK,
+                 font=(self.face, 11, 'bold')).pack(side='left')
+        self.account_user = tk.StringVar(value='')
+        self.account_pass = tk.StringVar(value='')
+        ttk.Entry(acc, textvariable=self.account_user, width=14).pack(side='left', padx=(6, 4))
+        tk.Label(acc, text='密碼', bg=DAMASK, fg=INK).pack(side='left')
+        ttk.Entry(acc, textvariable=self.account_pass, width=14, show='*').pack(side='left', padx=(6, 6))
+        tk.Button(acc, text='儲存帳號', bg=BG, command=self._save_account).pack(side='left')
+        self.account_hint = tk.Label(acc, text='', bg=DAMASK, fg=MUTED)
+        self.account_hint.pack(side='left', padx=8)
         self.room_join = tk.Button(bar, text='進入所選房間', bg=BG, command=self.join_selected_room)
         self.room_join.pack(side='left', padx=5)
         self.room_leave = tk.Button(bar, text='離開房間', bg=BG,
@@ -1077,6 +1184,7 @@ class FengyeWindow(OmniWindow):
             pre, textvariable=self.bind_choice, width=18, state='readonly',
             values=['無勢力（不綁定）'] + ['玩家 %d（slot %d）' % (i + 1, i) for i in range(8)])
         self.bind_box.pack(side='left', padx=(6, 0))
+        self.bind_box.bind('<<ComboboxSelected>>', lambda _event: self._sync_start_faction())
         self.pre_seat_hint = tk.Label(
             pre, bg=DAMASK, fg=INK, anchor='w',
             text='一鍵完成後自動綁定到這個玩家；選「無勢力」就不綁。')
@@ -1403,6 +1511,107 @@ class FengyeWindow(OmniWindow):
         self._fengye_slot_async('切回風夜上一位玩家',
                                 'cd ~/sgi-protocol-lab-20260915/shadow && bash shadow_force.sh restore')
 
+    def _sync_start_faction(self):
+        """把「開局綁定」同步成 start-faction.json——任何進房路徑（一鍵／重新來過／
+        手動進房）都會讀這個檔決定 7.5 步要占哪個席位。"""
+        try:
+            slot = self.bind_slot()
+        except Exception:  # noqa: BLE001
+            return
+        if not isinstance(slot, int):
+            return
+        if slot == getattr(self, '_start_faction_slot', None):
+            return
+        try:
+            self.command_service.write_start_faction(slot)
+            self._start_faction_slot = slot
+        except Exception:  # noqa: BLE001
+            pass
+
+    def _reconcile_seat(self, state):
+        """開局前如果風夜不在綁定的席位，自動拉回去（每 20 秒檢查一次）。
+
+        2026-10-21：實測「一鍵重啟」走的是實驗室腳本，Hub 的完成回呼不會被觸發，
+        所以改用週期性校正，不論哪條路徑進房都會被綁到指定玩家。
+        """
+        self._refresh_actual_slot()
+        ready = bool(state.get('connected') and state.get('ghost_withdrawn'))
+        if ready and not getattr(self, '_recon_ready', False):
+            self._recon_ready = True
+            self._recon_at = 0          # 剛就緒：立刻校正一次，不等節流
+        if not ready:
+            self._recon_ready = False
+        if time.time() - getattr(self, '_recon_at', 0) < 20 or getattr(self, '_recon_busy', False):
+            return
+        if not state.get('connected'):
+            return
+        if state.get('phase') == 'match':
+            return
+        if getattr(self, '_recon_busy', False) and time.time() - getattr(self, '_recon_busy_at', 0) > 60:
+            self._recon_busy = False          # 卡住的執行緒不要永久鎖住校正
+        slot = self.bind_slot()
+        if slot is None:
+            return
+        self._recon_at = time.time()
+        self._recon_busy = True
+        self._recon_busy_at = time.time()
+
+        def work():
+            try:
+                result = self.command_service.reconcile_seat(slot)
+            except Exception as error:  # noqa: BLE001
+                result = {'ok': False, 'error': str(error)}
+            self.root.after(0, lambda: self._recon_done(result, slot))
+
+        threading.Thread(target=work, daemon=True, name='seat-reconcile').start()
+
+    def _refresh_actual_slot(self):
+        """每 15 秒讀一次風夜真實席位（讀取很便宜），讓面板與閘門說真話。"""
+        if time.time() - getattr(self, '_slot_at', 0) < 15 or getattr(self, '_slot_busy', False):
+            return
+        self._slot_at = time.time()
+        self._slot_busy = True
+
+        def work():
+            try:
+                actual = self.command_service.current_slot()
+            except Exception:  # noqa: BLE001
+                actual = None
+
+            def show():
+                self._slot_busy = False
+                if isinstance(actual, int):
+                    self._actual_slot = actual
+                    self.after_actual_slot()
+            self.root.after(0, show)
+
+        threading.Thread(target=work, daemon=True, name='slot-read').start()
+
+    def after_actual_slot(self):
+        """真實席位變了就重畫狀態面板。"""
+        try:
+            self.status_signature = None
+            current = getattr(self.source, 'view', None)
+            if isinstance(current, dict):
+                self.render_status_panel(current)
+        except Exception:  # noqa: BLE001
+            pass
+
+    def _recon_done(self, result, slot):
+        self._recon_busy = False
+        if isinstance(result, dict):
+            actual = result.get('actual')
+            if isinstance(actual, int):
+                self._actual_slot = actual
+            elif result.get('ok'):
+                self._actual_slot = result.get('slot')
+        if isinstance(result, dict) and result.get('changed'):
+            if result.get('ok'):
+                self.pre_seat_label.configure(text='已自動綁定到 slot %d' % slot)
+            else:
+                self.pre_seat_label.configure(
+                    text='自動綁定失敗：%s' % (result.get('error') or result.get('note')))
+
     def _render_force_switch(self, players):
         """「切換速鍵」：無勢力 ＋ 每個玩家一家，按了立刻切風夜的席位。"""
         row = getattr(self, 'force_switch_row', None)
@@ -1442,11 +1651,32 @@ class FengyeWindow(OmniWindow):
 
         threading.Thread(target=work, daemon=True, name='seat-switch').start()
 
+    def _load_account(self):
+        try:
+            data = self.command_service.read_credentials()
+        except Exception:  # noqa: BLE001
+            data = {'ok': False}
+        if data.get('ok'):
+            self.account_user.set(data.get('username') or '')
+            self.account_pass.set(data.get('password') or '')
+            self.account_hint.configure(text='目前：%s' % data.get('username'))
+
+    def _save_account(self):
+        try:
+            result = self.command_service.write_credentials(
+                self.account_user.get(), self.account_pass.get())
+        except Exception as error:  # noqa: BLE001
+            result = {'ok': False, 'error': str(error)}
+        if result.get('ok'):
+            self.account_hint.configure(text='已儲存：%s（下次一鍵生效）' % result.get('username'))
+        else:
+            self.account_hint.configure(text='儲存失敗：%s' % (result.get('error') or '未知'))
+
     def _refresh_bind_choices(self, state):
         """把「開局綁定」的選項換成房間裡的玩家名字（每 15 秒一次）。"""
         if time.time() - getattr(self, '_bind_at', 0) < 15 or getattr(self, '_bind_busy', False):
             return
-        if not (state.get('fresh') and state.get('connected')):
+        if not (state.get('connected') or state.get('fresh')):
             return
         self._bind_at = time.time()
         self._bind_busy = True
@@ -1676,11 +1906,25 @@ class FengyeWindow(OmniWindow):
         return Path(cfg.get('lab_root') or (Path.home() / 'sgi-fengye-lab' / 'shadow')).expanduser()
 
     def _lab_arm(self, room_name=None, nickname=None):
+        try:
+            slot = self.bind_slot()
+            if isinstance(slot, int):
+                self.command_service.write_start_faction(slot)
+        except Exception:  # noqa: BLE001
+            pass
         env = ''
         if room_name:
             env += 'JOIN_NAME={} '.format(shlex.quote(room_name))
         if nickname:
             env += 'JOIN_NICKNAME={} '.format(shlex.quote(nickname))
+        # 2026-10-21：把「開局綁定」直接交給進房腳本，一鍵結束時就已經坐在該席位，
+        # 不用等 Hub 之後的校正（使用者常在腳本結束後幾秒就按開始）。
+        try:
+            slot = self.bind_slot()
+        except Exception:  # noqa: BLE001
+            slot = None
+        if isinstance(slot, int):
+            env += 'SEAT_SLOT={} SLOT={} '.format(slot, slot)
         lab = self._lab_root()
         self._lab_async('風夜進房準備',
                         'cd {} && {}bash arm_now.sh'.format(shlex.quote(str(lab)), env))
@@ -1923,6 +2167,14 @@ class FengyeWindow(OmniWindow):
             self._refresh_bind_choices(state)
         except Exception:  # noqa: BLE001
             pass
+        try:
+            self._sync_start_faction()
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            self._reconcile_seat(state)
+        except Exception:  # noqa: BLE001
+            pass
         retrying = self.retry is not None
         for button, allowed in modes:
             button.configure(state='normal' if writable and allowed and not retrying else 'disabled')
@@ -2048,6 +2300,12 @@ class FengyeWindow(OmniWindow):
 
     def one_click_enter(self):
         """0.2.21 一鍵上場：登入(如需)→更新房間→進入(自動報到→藏身)；完成後流程自動收束。"""
+        try:
+            slot = self.bind_slot()
+            if isinstance(slot, int):
+                self.command_service.write_start_faction(slot)
+        except Exception:  # noqa: BLE001
+            pass
         if self.source.sources.source_file:
             return
         if self.retry is not None or self.room_busy or self.room_pending or self.room_uncertain:
@@ -2305,8 +2563,56 @@ class FengyeWindow(OmniWindow):
         if not self.stop.is_set():
             self.root.after(250, self._tick_fengye)
 
+    def _bind_label(self):
+        """回傳 (名字, slot)；選「無勢力」或還沒讀到名字時回 None。"""
+        choice = (self.bind_choice.get() or '').strip()
+        if not choice or choice.startswith('無勢力'):
+            return None
+        import re as _re
+        found = _re.search(r'slot\s*(\d)', choice)
+        if not found:
+            return None
+        slot = int(found.group(1))
+        if choice.startswith('玩家'):        # 名冊還沒讀到，先用第幾位
+            return '第 %d 位玩家' % (slot + 1), slot
+        name = choice.split('（')[0].strip()
+        return (name, slot) if name else None
+
     def render_status_panel(self, view):
         items = status_items(view)
+        try:
+            bind = self._bind_label()
+        except Exception:  # noqa: BLE001
+            bind = None
+        if bind:
+            seat = (view or {}).get('seat') or {}
+            actual = getattr(self, '_actual_slot', None)
+            if not isinstance(actual, int):
+                actual = seat.get('slot')
+            # 只顯示「已綁定」如果風夜真的在那個席位；否則老實說還沒上身。
+            if isinstance(actual, int) and actual == bind[1]:
+                label = '已綁定 %s 的勢力' % bind[0]
+                detail = 'slot %d（已上身）' % bind[1]
+            elif isinstance(actual, int) and actual >= 0:
+                label = '還沒上身：綁定 %s，風夜目前在 slot %d' % (bind[0], actual)
+                detail = '按「切換速鍵」或等自動校正'
+            else:
+                label = '還沒上身：綁定 %s（slot %d）' % (bind[0], bind[1])
+                detail = '按「切換速鍵」立即切過去'
+            seats_ok = isinstance(actual, int) and actual == bind[1]
+            mapped = []
+            for item in items:
+                text = item.get('label') or ''
+                if text == '風夜沒有自己的勢力（純旁觀）':
+                    mapped.append(dict(item, label=label, detail=detail))
+                elif not seats_ok and text.startswith('可以按'):
+                    # 還沒坐進綁定席位前，不准說「可以按開始」
+                    mapped.append(dict(item, level='warn',
+                                       label='先別按開始：正在綁定 %s（slot %d）' % (bind[0], bind[1]),
+                                       detail='等這行變成「已綁定」再按'))
+                else:
+                    mapped.append(item)
+            items = mapped
         signature = json.dumps(items, ensure_ascii=False, sort_keys=True)
         if signature == getattr(self, 'status_signature', None):
             return

@@ -88,12 +88,12 @@ class Panel:
         self.extension_hint = tk.StringVar(value='加时：正在等待当前对局。')
         ttk.Label(box,textvariable=self.extension_hint,wraplength=510,style='Muted.TLabel').pack(anchor='w',pady=(5,0))
         self.automation = tk.BooleanVar(value=True)
-        self.automation_switch = ttk.Checkbutton(box,text='启用辅助：补60秒／指令×3／WASD视角',
+        self.automation_switch = ttk.Checkbutton(box,text='启用辅助：倒数砍半／指令×3／WASD视角',
                                                 variable=self.automation,command=self.settings)
         self.automation_switch.pack(anchor='w',pady=(6,2))
         self.auto_time_switch = self.automation_switch
         self.auto_time = tk.BooleanVar(value=False)
-        self.auto_time_status = tk.StringVar(value='等待连接；正常倒数剩1秒补60秒，指令完成即结束。')
+        self.auto_time_status = tk.StringVar(value='等待连接；正常倒数剩1秒把剩余时间砍半，指令完成即结束。')
         ttk.Label(box,textvariable=self.auto_time_status,wraplength=510,style='Muted.TLabel').pack(anchor='w')
         self.buttons['focus_unit'] = ttk.Button(box, text='定位当前行动部队  ·  Ctrl+Alt+F7',
                                                command=lambda:self.send('focus_unit'))

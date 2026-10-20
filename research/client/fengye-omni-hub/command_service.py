@@ -417,6 +417,63 @@ class CommandService:
                 players.append({'slot': slot, 'name': name})
         return {'ok': bool(players), 'players': players}
 
+    def write_start_faction(self, slot):
+        """把「開局綁定」寫成 start-faction.json——進房腳本的 7.5 步會讀它決定占哪個席位。"""
+        path = self.lab / 'start-faction.json'
+        try:
+            path.write_text(json.dumps({'slot': int(slot)}, ensure_ascii=False) + '\n', encoding='utf-8')
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'error': str(error)}
+        return {'ok': True, 'slot': int(slot)}
+
+    def read_credentials(self):
+        """讀登入帳號（fengye-credentials.json）。"""
+        try:
+            data = json.loads((self.lab / 'fengye-credentials.json').read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            return {'ok': False, 'username': '', 'password': ''}
+        return {'ok': True, 'username': data.get('username') or '',
+                'password': data.get('password') or ''}
+
+    def write_credentials(self, username, password):
+        """改登入帳號；寫回實驗室的 fengye-credentials.json（只在本機）。"""
+        username = (username or '').strip()
+        if not username:
+            return {'ok': False, 'error': '帳號不能空白'}
+        path = self.lab / 'fengye-credentials.json'
+        try:
+            path.write_text(json.dumps({'username': username, 'password': password or ''},
+                                       ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'error': str(error)}
+        return {'ok': True, 'username': username}
+
+    def current_slot(self):
+        """讀風夜目前席位（-1/None 表示讀不到或未入房）。"""
+        script = self.lab / 'shadow_force.sh'
+        if not script.exists():
+            return None
+        try:
+            res = self.runner(['bash', str(script), 'read'], capture_output=True,
+                              text=True, timeout=30, cwd=str(self.lab))
+            for line in reversed((res.stdout or '').splitlines()):
+                line = line.strip()
+                if line.startswith('{'):
+                    return json.loads(line).get('slot_now')
+        except Exception:  # noqa: BLE001
+            return None
+        return None
+
+    def reconcile_seat(self, slot):
+        """開局前把風夜拉回指定席位（不論之前用哪條路徑進房）。"""
+        now = self.current_slot()
+        if now == slot:
+            return {'ok': True, 'changed': False, 'slot': now}
+        result = self.switch_ghost_seat(slot)
+        return {'ok': bool(result.get('ok')), 'changed': True, 'slot': slot,
+                'actual': self.current_slot(),
+                'note': result.get('note'), 'error': result.get('error')}
+
     def battlefield(self, refresh=False):
         """One shared, read-only shadow snapshot; never fall back to players."""
         requested = time.monotonic()

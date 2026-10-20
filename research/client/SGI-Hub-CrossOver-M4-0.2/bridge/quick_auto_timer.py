@@ -43,7 +43,7 @@ class AutoTimer:
         self.enabled=wanted is True and allowed is True
         if self.enabled and self.storage_error:
             self.enabled=False;self.status('自动加时记录不可用，未开启：'+self.storage_error);return
-        self.status('自动加时已开启：先走正常倒数，剩最后1秒补60秒；指令完成按原版立即结束。'
+        self.status('自动加时已开启：先走正常倒数，剩最后1秒把剩餘倒數砍半；指令完成按原版立即结束。'
                     if self.enabled else '自动加时已关闭。')
 
     def stage_key(self,state):
@@ -81,7 +81,7 @@ class AutoTimer:
         basis=extension_basis(state)
         if basis!=self.prepared_basis:self.prepared=None;self.prepared_basis=None
         if remaining>5000:
-            self.status('先走正常倒数，剩最后1秒才补60秒。');return
+            self.status('先走正常倒数，剩最后1秒才把剩餘倒數砍半。');return
         if self.prepare and self.prepared is None:
             try:
                 prepared=self.prepare(state)
@@ -95,7 +95,7 @@ class AutoTimer:
             except (ValueError,OSError,KeyError,TypeError) as error:
                 self.status('自动加时保持开启，等待来源核对：'+str(error));return
         if remaining>1000:
-            self.status('先走正常倒数，剩最后1秒才补60秒。');return
+            self.status('先走正常倒数，剩最后1秒才把剩餘倒數砍半。');return
         try:extension_plan(state,True,True,60000)
         except (ValueError,KeyError,TypeError) as error:
             self.status('自动加时保持开启：'+str(error));return
@@ -107,7 +107,13 @@ class AutoTimer:
             with self.path.open('a',encoding='utf8') as log:
                 log.write(json.dumps(dict(binding_sha256=self.binding_sha,stage=stage))+'\n')
                 log.flush();os.fsync(log.fileno())
-            result=self.n.extend(state,True,True,self.prepared or self.emit,60000)
+            # 2026-10-21 使用者要求：不是加時，而是把剩餘倒數砍半。
+            try:
+                remaining=extension_remaining(state,True,True,10000)
+            except ValueError:
+                remaining=None
+            delta = -int(remaining/2) if remaining else 0
+            result=self.n.extend(state,True,True,self.prepared or self.emit,delta or 10000)
         except Exception as error:
             self.enabled=False;self.status('自动加时未完成，已停止；本阶段不重试：'+str(error));return
         if result.get('status')!='timer_field_verified':self.enabled=False
