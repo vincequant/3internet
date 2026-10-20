@@ -7,7 +7,7 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from command_effects import capture_effect_baseline, check_effect
+from fengye_command_effects import capture_effect_baseline, check_effect
 
 
 def snapshot(number=1, training=100):

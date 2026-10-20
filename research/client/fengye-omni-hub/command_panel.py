@@ -9,6 +9,7 @@ from tkinter import ttk
 from build_picker import EmbeddedConstructionMap
 from command_presentation import (BUILD_CHOICES, TRAIN_CHOICES, STATUS, action_text,
                                   actor_text, progress_text, job_detail)
+from fengye_diagnostics import report
 
 BG, INK, MUTED, ACCENT = '#f3f6fa', '#203440', '#657985', '#286a72'
 OTHER = {'cancelled', 'error', 'send_failed'}
@@ -21,9 +22,10 @@ def shown(value):
 class CommandPanel(tk.Frame):
     refresh_seconds = 3.0
 
-    def __init__(self, parent, service, on_snapshot=None, readonly=False, autostart=True):
+    def __init__(self, parent, service, on_snapshot=None, readonly=False, autostart=True, on_error=None):
         super().__init__(parent, bg=BG)
         self.service, self.on_snapshot, self.readonly = service, on_snapshot, readonly
+        self.on_read_error = on_error
         self.snapshot = {}
         self.forces = []
         self.city_id = None
@@ -53,7 +55,6 @@ class CommandPanel(tk.Frame):
         self.force_box.pack(side='left', padx=8)
         self.force_box.bind('<<ComboboxSelected>>', self._force_changed)
         self.refresh_button = ttk.Button(top, text='立即讀取', command=self.refresh)
-        self.refresh_button.pack(side='left')
         self.live = self._label(top, '正在讀取風夜資料…')
         self.live.pack(side='left', padx=12)
         rows = tk.Frame(self, bg=BG)
@@ -74,7 +75,7 @@ class CommandPanel(tk.Frame):
             button = ttk.Button(build, text=text, width=11, command=lambda k=kind: self.build(k))
             button.pack(side='left', padx=4)
             self.build_buttons[kind] = button
-        self._label(build, '選種類 → 地圖點綠框 → 確認入隊').pack(side='left', padx=14)
+        self._label(build, '選種類 → 地圖點淡藍高亮 → 確認入隊').pack(side='left', padx=14)
         self.map_view = EmbeddedConstructionMap(self, self._confirm_build)
         self.map_view.pack(fill='both', expand=True, padx=16, pady=(4, 6))
         self.note = self._label(self, '完成後顯示實際訓練值或新增建物；尚未確認生效的指令會保留進度。')
@@ -166,7 +167,7 @@ class CommandPanel(tk.Frame):
         self.build_type = kind
         self._set_queue_visible(False)
         self._render_map()
-        self.note.configure(text='建設%s：在大地圖點選綠框位置，再按「確認位置並加入隊列」。' %
+        self.note.configure(text='建設%s：在大地圖點選淡藍高亮位置，再按「確認位置並加入隊列」。' %
                             dict(BUILD_CHOICES)[kind])
 
     def _toggle_queue(self):
@@ -268,7 +269,11 @@ class CommandPanel(tk.Frame):
             status = job.get('status')
             key = 'completed' if status == 'completed' else ('other' if status in OTHER else 'active')
             wanted[key].append(job['id'])
-            vals = (datetime.fromtimestamp(job['created']).strftime('%H:%M:%S'),
+            try:
+                added_at = datetime.fromtimestamp(job['created']).strftime('%H:%M:%S')
+            except (ValueError, TypeError, KeyError, OSError, OverflowError):
+                added_at = '時間未知'
+            vals = (added_at,
                     actor_text(job, self.snapshot), action_text(job, self.snapshot),
                     STATUS.get(status, '狀態待確認'), progress_text(job, self.snapshot))
             tree = self.tables[key]
@@ -311,6 +316,7 @@ class CommandPanel(tk.Frame):
                         data['_battle_payload'] = battle
                         data['_busy_cells'] = list(self.service.busy_build_cells())
             except Exception as exc:
+                report('command-read', exc)
                 data = {'ok': False, 'error': str(exc)}
             self._results.put(data)
         threading.Thread(target=work, name='command-live-read', daemon=True).start()
@@ -338,20 +344,34 @@ class CommandPanel(tk.Frame):
     def _tick(self):
         if self._closed:
             return
-        while not self._results.empty():
-            data = self._results.get_nowait()
-            self._busy = False
-            self._next_read = time.monotonic() + self.refresh_seconds
-            self.refresh_button.configure(state='normal')
-            if data.get('ok'):
-                self._apply_snapshot(data)
-            else:
-                self.live.configure(text='資料暫未更新，保留上次畫面；讀取恢復後會自動更新。')
-                self.map_view.set_context(None, None, [], {})
-        self.render_jobs()
-        if self._auto and not self._busy and time.monotonic() >= self._next_read:
-            self.refresh()
-        self._after = self.after(250, self._tick)
+        try:
+            while not self._results.empty():
+                data = self._results.get_nowait()
+                self._busy = False
+                self._next_read = time.monotonic() + self.refresh_seconds
+                self.refresh_button.configure(state='normal')
+                if data.get('ok'):
+                    self._apply_snapshot(data)
+                else:
+                    self.live.configure(text='等待開局資料；正在自動讀取。')
+                    self.map_view.set_context(None, None, [], {})
+                    if self.on_read_error:
+                        self.on_read_error()
+            self.render_jobs()
+        except Exception as exc:
+            report('command-display', exc)
+            self.live.configure(text='資料更新暫時中斷，正在自動重試。')
+            if self.on_read_error:
+                self.on_read_error()
+        finally:
+            if not self._closed:
+                try:
+                    if self._auto and not self._busy and time.monotonic() >= self._next_read:
+                        self.refresh()
+                except Exception as exc:
+                    report('command-refresh-schedule', exc)
+                finally:
+                    self._after = self.after(250, self._tick)
 
     def _destroyed(self, event):
         if event.widget is not self:

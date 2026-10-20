@@ -3,6 +3,7 @@ import importlib.util
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
+import struct
 import sys
 import threading
 import time
@@ -17,13 +18,38 @@ from build_picker import (BuildPicker, EmbeddedConstructionMap, cell_at_pixel,
                           construction_candidates, cell_set, cell_vertices, crop_box,
                           hit_cell, nearby_cells, project, valid_candidates,
                           view_geometry, world_pixel)
+from _p60_construction_rules import native_distance, native_footprint, native_neighbors, native_trap_count
 
 HELPER_PATH = ROOT.parent/'protocol-lab'/'_p60_pick_cell_wide.py'
+if not HELPER_PATH.is_file():
+    HELPER_PATH = ROOT/'lab-tools'/'_p60_pick_cell_wide.py'
 helper = None
 if HELPER_PATH.is_file():
     spec = importlib.util.spec_from_file_location('construction_cell_helper', HELPER_PATH)
     helper = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(helper)
+
+
+def fake_native_grid(state):
+    """Construct explicit synthetic native fields for tests, never live data."""
+    grid = state.setdefault('terrain_grid', {'width': 101, 'height': 202,
+                                           'types': bytes([2]*101*202).hex()})
+    width, height = grid['width'], grid['height']
+    kinds = [-1]*(width*height)
+    mapping = {'city': 0, 'barrier': 2, 'parade_ground': 7, 'horse_farm': 8, 'bow_studio': 9}
+    for container in ('cities_and_barriers', 'production_buildings', 'traps'):
+        for row in state['entities'].get(container, []):
+            if container == 'cities_and_barriers':
+                row.setdefault('raw_hex', bytes(81).hex())
+            x, y = row['world_xy_raw']
+            kind = mapping.get(row.get('type'))
+            if row.get('type') == 'trap':
+                kind = {'火计': 4, '落石': 5, '陷阱': 6}[row['trap_kind']]
+            if kind is not None:
+                kinds[x*height+y] = kind
+    grid.update(layout='column-major', encoding='sanpk-terrain-u8-v2', object_kinds_s16le=struct.pack('<%dh' % len(kinds), *kinds).hex(),
+                control_forces_s16le=struct.pack('<%dh' % len(kinds), *([-1]*len(kinds))).hex())
+    return state
 
 
 class CellGeometryTests(unittest.TestCase):
@@ -57,21 +83,24 @@ class CellGeometryTests(unittest.TestCase):
         self.assertEqual(cell_set([[1.2, 2], [None, 2], [-1, 2], [101, 0], ['1', 2], [1, 2]]), {(1, 2)})
 
     @unittest.skipIf(helper is None, 'Collector helper is a separate lab deployment')
-    def test_helper_returns_all_verified_candidates_not_eight(self):
+    def test_helper_returns_native_mask_not_old_square_or_eight(self):
         terrain = bytearray([2]*101*202)
-        terrain[100*101+51] = 4
+        terrain[51*202+100] = 4
         snapshot = {'terrain_grid': {'width': 101, 'height': 202, 'types': terrain.hex()},
-                    'entities': {'production_buildings': [{'world_xy_raw': [49, 100]}],
-                                 'traps': [{'world_xy_raw': [50, 99]}],
-                                 'cities_and_barriers': [{'world_xy_raw': [50, 100]}]}}
+                    'entities': {'lords': [{'force_id': 3, 'gold': 3000}], 'field_units': [],
+                                 'production_buildings': [{'type': 'parade_ground', 'world_xy_raw': [49, 100], 'building_ui_amount': 2000}],
+                                 'traps': [{'type': 'trap', 'trap_kind': '陷阱', 'world_xy_raw': [50, 99], 'raw_16': 8}],
+                                 'cities_and_barriers': [{'type': 'city', 'city_id': 8, 'owner_raw': 3, 'world_xy_raw': [50, 100]}]}}
+        fake_native_grid(snapshot)
         result = helper.construction_cells(snapshot, 50, 100)
         cells = {tuple(row['xy']) for row in result['candidates']}
-        self.assertEqual(len(cells), 77)
+        self.assertEqual(len(cells), 18)
         for blocked in ((49, 100), (50, 99), (50, 100), (51, 100)):
             self.assertNotIn(blocked, cells)
-        self.assertEqual(result['radius'], 4)
-        self.assertEqual(result['schema_version'], 2)
-        self.assertIn((54, 104), cells)
+        self.assertEqual(result['radius'], 3)
+        self.assertEqual(result['schema_version'], 3)
+        self.assertIn((51, 102), cells)
+        self.assertNotIn((54, 104), cells)
         self.assertNotIn((55, 100), cells)
 
     @unittest.skipIf(helper is None, 'Collector helper is a separate lab deployment')
@@ -204,7 +233,7 @@ class BuildPickerTkTests(unittest.TestCase):
 
     @staticmethod
     def raw_payload():
-        return {'ok': True, 'source_prefix': 'prefix-fengye-shadow',
+        payload = {'ok': True, 'source_prefix': 'prefix-fengye-shadow',
                 'cells': [[51, 100], [52, 100]], 'busy': [[52, 100]],
                 'occupied': [[50, 100], [50, 102]],
                 'state': {'readonly': True, 'entities': {
@@ -220,6 +249,8 @@ class BuildPickerTkTests(unittest.TestCase):
                         'world_xy_raw': [50, 102], 'linked_city_id': 8,
                         'object_id_candidate': 9, 'building_ui_amount': 2000}],
                     'traps': [], 'generals': []}}}
+        fake_native_grid(payload['state'])
+        return payload
 
     def panorama_cell(self, picker, xy):
         from panorama_model import layer_for_zoom
@@ -316,39 +347,54 @@ class EmbeddedCandidateTests(unittest.TestCase):
         payload['state']['capture_end'] = datetime.now(timezone.utc).isoformat()
         payload['state']['terrain_grid'] = {'width': 101, 'height': 202, 'types': bytes([2]*101*202).hex()}
         payload['state']['entities']['cities_and_barriers'].extend([
-            {'type': 'city', 'city_id': 9, 'name': '黃縣', 'owner_raw': 3, 'world_xy_raw': [54, 100],
+            {'type': 'city', 'city_id': 9, 'name': '黃縣', 'owner_raw': 3, 'world_xy_raw': [52, 100],
              'city_art_variant_flag': 0, 'defense': [100, 100]},
             {'type': 'city', 'city_id': 10, 'name': '敵城', 'owner_raw': 4, 'world_xy_raw': [75, 100],
              'city_art_variant_flag': 0, 'defense': [100, 100]},
         ])
+        payload['state']['entities']['lords'].append({'force_id': 4, 'name': '敵方', 'gold': 3000})
+        fake_native_grid(payload['state'])
         return payload
 
-    def test_one_snapshot_all_owned_cities_and_stable_nearest_city(self):
+    def test_one_snapshot_all_owned_cities_and_native_container_order(self):
         payload = self.payload()
         result = construction_candidates(payload['state'], 3)
         self.assertTrue(result['ok'])
         cells = result['cells']
-        self.assertGreater(len(cells), 80)
-        self.assertIn((46, 96), cells)
-        self.assertIn((58, 104), cells)
+        self.assertGreater(len(cells), 15)
+        self.assertLess(len(cells), 40)
+        self.assertIn((49, 98), cells)
+        self.assertIn((53, 102), cells)
         self.assertNotIn((75, 99), cells)  # No candidate from an enemy city.
         self.assertNotIn((50, 100), cells)
-        self.assertNotIn((54, 100), cells)
+        self.assertNotIn((52, 100), cells)
         self.assertNotIn((50, 102), cells)  # Existing horse farm.
-        self.assertEqual(cells[(52, 100)]['city_id'], 8)  # Equal distance: lower ID.
-        self.assertEqual(cells[(53, 100)]['city_id'], 9)  # Closest city.
+        self.assertEqual(cells[(51, 100)]['city_id'], 8)  # First native container entry.
+        self.assertEqual(cells[(53, 100)]['city_id'], 9)
         payload['state']['entities']['cities_and_barriers'].reverse()
         reversed_result = construction_candidates(payload['state'], 3)
-        self.assertEqual(reversed_result['cells'][(52, 100)]['city_id'], 8)
+        self.assertEqual(reversed_result['cells'][(51, 100)]['city_id'], 9)
 
-    def test_busy_and_non_type2_excluded_without_per_city_reader(self):
+    def test_busy_and_non_native_facility_terrain_excluded_without_per_city_reader(self):
         payload = self.payload()
         raw = bytearray.fromhex(payload['state']['terrain_grid']['types'])
-        raw[99*101+49] = 4
+        raw[51*202+102] = 4
         payload['state']['terrain_grid']['types'] = raw.hex()
-        result = construction_candidates(payload['state'], 3, busy=[(49, 100)])
-        self.assertNotIn((49, 100), result['cells'])
-        self.assertNotIn((49, 99), result['cells'])
+        result = construction_candidates(payload['state'], 3, busy=[(51, 100)])
+        self.assertNotIn((51, 100), result['cells'])
+        self.assertNotIn((51, 102), result['cells'])
+
+    def test_native_column_major_terrain_is_not_transposed(self):
+        payload = self.payload()
+        raw = bytearray([4]*101*202)
+        raw[51*202+100] = 2
+        payload['state']['terrain_grid']['types'] = raw.hex()
+        result = construction_candidates(payload['state'], 3)
+        self.assertTrue(result['ok'])
+        self.assertEqual(set(result['cells']), {(51, 100)})
+        if helper is not None:
+            helper_result = helper.construction_cells(payload['state'], 50, 100)
+            self.assertEqual([r['xy'] for r in helper_result['candidates']], [[51, 100]])
 
     def test_compact_metadata_cannot_override_raw_city_ownership(self):
         payload = self.payload()
@@ -375,6 +421,176 @@ class EmbeddedCandidateTests(unittest.TestCase):
             self.assertEqual(cell_at_pixel(*world_pixel(*xy)), xy)
         self.assertIsNone(cell_at_pixel(-100, -100))
         self.assertIsNone(cell_at_pixel(99999, 99999))
+
+
+class NativeConstructionRuleTests(unittest.TestCase):
+    def setUp(self):
+        self.state = BuildPickerTkTests.raw_payload()['state']
+
+    def field(self, name, x, y, value):
+        grid = self.state['terrain_grid']
+        raw = bytearray.fromhex(grid[name])
+        index = x*grid['height']+y
+        if name == 'types':
+            raw[index] = value
+        else:
+            struct.pack_into('<h', raw, index*2, value)
+        grid[name] = raw.hex()
+
+    def city_raw(self, flags=0, pending=0):
+        city = self.state['entities']['cities_and_barriers'][0]
+        raw = bytearray.fromhex(city['raw_hex'])
+        struct.pack_into('<H', raw, 0x22, flags)
+        struct.pack_into('<i', raw, 0x3b, pending)
+        city['raw_hex'] = raw.hex()
+        return city
+
+    def result(self, kind=7):
+        return construction_candidates(self.state, 3, build_type=kind)
+
+    def test_exact_native_footprint_parity_and_limits(self):
+        footprint = set(native_footprint(50, 100, 101, 202))
+        self.assertEqual(len(footprint), 25)
+        self.assertIn((48, 99), footprint)
+        self.assertNotIn((52, 100), footprint)
+        self.assertNotIn((50, 104), footprint)
+        self.assertEqual(native_distance(48, 99, 50, 100), 3)
+        self.assertEqual(native_distance(52, 100, 50, 100), 4)
+        self.assertEqual(native_neighbors(50, 100), ((50, 99), (49, 99), (49, 101), (50, 101)))
+        self.assertEqual(native_neighbors(50, 101), ((51, 100), (50, 100), (50, 102), (51, 102)))
+
+    def test_facility_codes_zero_one_two_only(self):
+        for code in (0, 1, 2, 3, 4, 5, 6, 7, 18, 19, 20, 255):
+            self.field('types', 51, 100, code)
+            result = self.result()
+            self.assertTrue(result['ok'])
+            self.assertEqual((51, 100) in result['cells'], code in (0, 1, 2), code)
+
+    def test_trap_codes_include_native_roads_and_extended_land(self):
+        for code in (0, 1, 2, 3, 4, 5, 6, 7, 14, 15, 18, 19, 20, 255):
+            self.field('types', 51, 100, code)
+            result = self.result(6)
+            self.assertTrue(result['ok'])
+            self.assertEqual((51, 100) in result['cells'], code in (0, 1, 2) or 7 <= code <= 19, code)
+
+    def test_facility_excludes_four_edge_neighbors_of_any_city_trap_does_not(self):
+        self.assertNotIn((50, 99), self.result()['cells'])
+        self.assertIn((50, 99), self.result(6)['cells'])
+        self.field('object_kinds_s16le', 51, 99, 2)  # A barrier on a neighboring tile.
+        self.assertNotIn((51, 100), self.result()['cells'])
+        self.assertIn((51, 100), self.result(6)['cells'])
+
+    def test_unknown_native_neighbor_is_not_assumed_empty(self):
+        self.field('object_kinds_s16le', 51, 99, -32768)
+        result = self.result()
+        self.assertNotIn((51, 100), result['cells'])
+        self.assertGreater(result['unknown_cells'], 0)
+        self.assertFalse(result['complete'])
+
+    def test_city_flag_and_barriers_do_not_generate_a_construction_mask(self):
+        self.city_raw(flags=0x1000)
+        self.assertEqual(self.result()['cells'], {})
+        self.assertEqual(self.result(6)['cells'], {})
+        city = self.city_raw()
+        city['type'] = 'barrier'
+        fake_native_grid(self.state)
+        self.assertEqual(self.result()['cells'], {})
+
+    def test_unknown_city_flags_fail_closed_instead_of_becoming_zero(self):
+        self.state['entities']['cities_and_barriers'][0].pop('raw_hex')
+        result = self.result()
+        self.assertFalse(result['ok'])
+        self.assertIn('未知', result['error'])
+
+    def test_new_building_gold_gate_and_population_capacity_are_not_hard_masks(self):
+        lord = self.state['entities']['lords'][0]
+        lord['gold'] = 1999
+        self.assertEqual(self.result()['cells'], {})
+        lord['gold'] = 2000
+        self.state['entities']['cities_and_barriers'][0]['population'] = 1
+        self.state['entities']['production_buildings'][0]['building_ui_amount'] = 15000
+        self.assertIn((51, 100), self.result(8)['cells'])
+
+    def test_existing_same_kind_upgrade_explicitly_disabled_and_never_overlapped(self):
+        result = self.result(8)
+        self.assertNotIn((50, 102), result['cells'])
+        self.assertTrue(any(r['xy'] == [50, 102] for r in result['excluded_upgrades']))
+        self.assertIn('未驗證增建', result['upgrade_disabled_reason'])
+        self.assertEqual(self.result(7)['excluded_upgrades'], [])
+
+    def test_native_trap_city_count_includes_all_linked_types_and_pending_dword(self):
+        traps = self.state['entities']['traps']
+        for i, kind in enumerate(('火计', '落石', '陷阱', '火计')):
+            traps.append({'type': 'trap', 'trap_kind': kind, 'owner_raw': 4,
+                          'world_xy_raw': [10, 10+i], 'raw_16': 8})
+        fake_native_grid(self.state)
+        city = self.city_raw(pending=1)
+        self.assertEqual(native_trap_count(city, self.state), 5)
+        self.assertEqual(self.result(6)['cells'], {})
+        city = self.city_raw(pending=0)
+        self.assertEqual(native_trap_count(city, self.state), 4)
+        self.assertIn((51, 100), self.result(6)['cells'])
+
+    def test_unknown_trap_link_or_pending_is_not_an_empty_count(self):
+        self.state['entities']['traps'] = [{'type': 'trap', 'trap_kind': '陷阱', 'world_xy_raw': [10, 10]}]
+        fake_native_grid(self.state)
+        self.assertIsNone(native_trap_count(self.state['entities']['cities_and_barriers'][0], self.state))
+        self.assertFalse(self.result(6)['ok'])
+
+    def test_trap_global_pending_explicitly_unknown_without_erasing_known_positions(self):
+        result = self.result(6)
+        self.assertTrue(result['cells'])
+        self.assertIsNone(result['global_trap_quota']['local_ui_pending'])
+        self.assertEqual(result['global_trap_quota']['status'], 'unknown_local_ui_pending')
+        self.assertFalse(result['native_ui_full_equivalence'])
+
+    def test_adjacent_unit_war_uses_unit_lords_relation_to_tile_control(self):
+        self.field('control_forces_s16le', 50, 101, 3)
+        enemy = {'type': 'field_unit', 'owner_raw': 4, 'world_xy_raw': [51, 100]}
+        self.state['entities']['field_units'].append(enemy)
+        relations = [0]*22
+        relations[3] = 1
+        self.state['entities']['lords'].append({'force_id': 4, 'gold': 3000, 'diplomacy_relations': relations})
+        self.assertNotIn((50, 101), self.result(6)['cells'])
+        for relation in (0, 2, 3):
+            relations[3] = relation
+            self.assertIn((50, 101), self.result(6)['cells'])
+        relations[3] = None
+        result = self.result(6)
+        self.assertNotIn((50, 101), result['cells'])
+        self.assertGreater(result['unknown_cells'], 0)
+
+    def test_native_first_unit_lookup_is_preserved_for_stacked_neighbor_units(self):
+        self.field('control_forces_s16le', 50, 101, 3)
+        self.state['entities']['field_units'].extend([
+            {'owner_raw': 3, 'world_xy_raw': [51, 100]},
+            {'owner_raw': 4, 'world_xy_raw': [51, 100]},
+        ])
+        relations = [0]*22
+        relations[3] = 1
+        self.state['entities']['lords'].append({'force_id': 4, 'gold': 3000, 'diplomacy_relations': relations})
+        self.assertIn((50, 101), self.result(6)['cells'])
+        self.assertNotIn((51, 100), self.result(6)['cells'])  # Unit on the target itself.
+
+    def test_missing_dynamic_native_fields_never_fall_back_to_square_heuristic(self):
+        self.state['terrain_grid'].pop('object_kinds_s16le')
+        self.assertFalse(self.result()['ok'])
+        self.assertFalse(self.result(6)['ok'])
+
+    def test_old_collector_unknown_code15_is_not_a_known_trap_road(self):
+        self.field('types', 51, 100, 15)
+        self.state['terrain_grid'].pop('encoding')
+        result = self.result(6)
+        self.assertNotIn((51, 100), result['cells'])
+        self.assertGreater(result['unknown_cells'], 0)
+
+    def test_helper_and_hub_share_all_four_native_position_masks(self):
+        if helper is None:
+            self.skipTest('Collector helper is a separate lab deployment')
+        for kind in (6, 7, 8, 9):
+            result = self.result(kind)
+            from_helper = helper.construction_cells(self.state, 50, 100, 3, kind)
+            self.assertEqual(set(result['cells']), {tuple(r['xy']) for r in from_helper['candidates']})
 
 
 class EmbeddedMapTkTests(unittest.TestCase):
@@ -414,6 +630,8 @@ class EmbeddedMapTkTests(unittest.TestCase):
         self.assertEqual([w for w in self.root.winfo_children() if isinstance(w, tk.Toplevel)], [])
         sprites = [i for i in self.map.canvas.find_withtag('ov') if self.map.canvas.type(i) == 'image']
         self.assertGreaterEqual(len(sprites), 3)
+        self.assertTrue(self.map.canvas.find_withtag('build-tint'))
+        self.assertGreater(self.map._build_overlay_image.width(), 100)
         self.assertTrue(self.map.canvas.find_withtag('build-candidate'))
         self.assertTrue(all(self.map.canvas.itemcget(i, 'fill') == '' for i in self.map.canvas.find_withtag('build-candidate')))
         self.click((53, 100))
@@ -457,6 +675,16 @@ class EmbeddedMapTkTests(unittest.TestCase):
         self.map.confirm_button.invoke()
         self.assertEqual(self.calls, [])
 
+    def test_build_type_switch_uses_trap_native_mask_then_explicit_confirmation(self):
+        self.assertNotIn((50, 99), self.map.candidates)  # Facility: beside a city.
+        self.map.set_context('陷阱', 3, [], self.payload)
+        self.assertIn((50, 99), self.map.candidates)
+        self.click((50, 99))
+        self.assertEqual(self.map.selected, (50, 99))
+        self.assertEqual(self.calls, [])
+        self.map.confirm_button.invoke()
+        self.assertEqual(self.calls, [(8, 50, 99)])
+
     def test_callback_failure_keeps_selection_and_reentrant_confirmation_is_blocked(self):
         def denied(city, x, y):
             self.calls.append((city['city_id'], x, y))
@@ -492,7 +720,7 @@ class EmbeddedMapTkTests(unittest.TestCase):
         self.assertIsNone(self.map.selected)
         self.map.set_context('馬房', 4, [], changed)
         self.assertIsNone(self.map.selected)
-        self.assertIn((75, 99), self.map.candidates)
+        self.assertIn((76, 100), self.map.candidates)
         page = self.map.panorama
         camera = page.center, page.zoom
         state = page.state

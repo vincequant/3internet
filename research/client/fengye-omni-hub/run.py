@@ -25,7 +25,9 @@ def main():
     if args.archive or args.seq is not None:
         parser.error('玩家視角的全知來源已關閉；風夜記錄請使用 --replay')
     from local_runtime import configure as configure_runtime
-    configure_runtime(args.data_dir)
+    runtime_data = configure_runtime(args.data_dir)
+    from fengye_diagnostics import configure as configure_diagnostics
+    configure_diagnostics(runtime_data)
     import tkinter as tk
     from mac_light_theme import apply_light_defaults
     from display_layout import configure

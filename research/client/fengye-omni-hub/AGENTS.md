@@ -113,3 +113,20 @@
   ⑦最終測試及實際已對映畫面見docs/command-map-0.2.32.md；本輪Mock指令＋真唯讀地圖，
   **未實送新遊戲指令，不宣稱新版代送已實局端到端成功**。Windows原生GUI未實測。未改遊戲
   或存檔，不新增HANDOFF。
+
+- **0.2.33（2026-10-20，開局自動讀取／原版勢力頁／建設原生格位）**：
+  ①正式run路徑bridge優先，root command_effects撞名導致_binding ImportError。專用檔改名
+  fengye_command_effects，子程序回歸覆蓋真launch順序；兩頁3秒自動讀取，持續顯示例外也不堵讀取。
+  ②重掛原版勢力情報／對比widgets：手牌原圖、信望、庫存、訓練／城武將／內政等，依shadow
+  同源快照更新；pack(in_)後需lift/lower，否則雖mapped卻被console蓋白。topmost＋實際截圖已驗。
+  頂部是本次真觀測幀數，非回放落檔證明；原始全勢力內政輸入未完整捕獲，空白不代表未下令。
+  ③建設原錯是column-major地形誤用row-major，且radius4/type2不符原生。現在單一純規則
+  _p60_construction_rules供Hub與Winehelper共用：交錯距離3、設施0/1/2、陷阱另7..19、
+  動態佔用／控制勢力、鄰接城關／交戰兵、逐城旗標／陷阱數等。linkedcity照原容器首個符合。
+  _p60_construction_grid唯讀包裝Collector同capturepagecache讀tile+c/e兩張signed16表，不
+  寫遊戲、不將動態值留在staticcache。四helper白名單發行，本機已備份部署且SHA一致。
+  ④原地圖淡藍半透可選、hover白框、選取金框；點格→明確確認→入隊保留。未高亮不再逐格
+  顯示不可選/未知。既有同類設施原版可增建，但sender尚未驗證，先排除以免疊物件。原本機
+  全域待發陷阱context未完整捕，保留未知，不能用0或各城pending和代替，位置高亮非全額度證明。
+  ⑤最終287/287；真已對映原生screencapture-l與唯讀自動幀核對見docs/live-and-construction-0.2.33.md。
+  未實送新遊戲指令、未動遊戲/存檔；Windows原生GUI未實測。

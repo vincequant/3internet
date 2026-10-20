@@ -7,16 +7,27 @@ window for another city; old replies cannot replace the new city's state.
 """
 from copy import deepcopy
 from datetime import datetime, timezone
+from pathlib import Path
 import queue
+import sys
 import threading
 import time
 import tkinter as tk
 from tkinter import ttk
 
-from PIL import ImageTk
+from PIL import Image, ImageDraw, ImageTk
 from tactical_terrain import shared_terrain, world_pixel
 from fengye_battle_panel import ShadowPanorama, prepare_payload, capture_time
 from panorama_model import mbm_view, layer_for_zoom
+
+for _rules_dir in (Path(__file__).resolve().parent.parent / 'protocol-lab',
+                   Path(__file__).resolve().parent / 'lab-tools'):
+    if (_rules_dir / '_p60_construction_rules.py').is_file():
+        if str(_rules_dir) not in sys.path:
+            sys.path.append(str(_rules_dir))
+        break
+from _p60_construction_rules import (BUILD_LABELS, native_distance, native_footprint,
+    native_neighbors, native_trap_count, construction_candidates as _native_candidates)
 
 RADIUS = 4
 WORLD = (101, 202)
@@ -111,7 +122,8 @@ class ConstructionPanorama(ShadowPanorama):
         self.picker = picker
         super().__init__(parent, title='建設位置 · 原作全景地圖', detachable=False)
         self.canvas.bind('<Motion>', picker._hover, add='+')
-        self.canvas.bind('<Leave>', lambda _event: picker.hover_label.configure(text=''))
+        self.canvas.bind('<Leave>', lambda event: picker._leave(event) if hasattr(picker, '_leave')
+                         else picker.hover_label.configure(text=''))
         self.fit()
 
     def fit(self):
@@ -138,60 +150,9 @@ class ConstructionPanorama(ShadowPanorama):
         return 'break'
 
 
-def construction_candidates(state, actor, cities=(), busy=()):
-    """Established radius-4/type-2 rule, from one original Collector sample.
-
-    City ownership/coordinates and object occupancy come from this same raw
-    sample. ``cities`` supplies display metadata only; it cannot override raw
-    ownership. No Wine probe is launched here.
-    """
-    try:
-        if type(actor) is not int:
-            raise ValueError('目標勢力未知')
-        grid = state.get('terrain_grid') or {}
-        width, height = grid.get('width'), grid.get('height')
-        if type(width) is not int or type(height) is not int or width <= 0 or height <= 0:
-            raise ValueError('原始地形網格未知')
-        raw = bytes.fromhex(grid['types'])
-        if len(raw) < width*height:
-            raise ValueError('原始地形網格不完整')
-        entities = state.get('entities') or {}
-        occupied = set()
-        for kind in ('production_buildings', 'traps', 'cities_and_barriers'):
-            rows = entities.get(kind)
-            if not isinstance(rows, list):
-                raise ValueError('物件容器未知：'+kind)
-            for row in rows:
-                xy = row.get('world_xy_raw')
-                if not isinstance(xy, (list, tuple)) or len(xy) != 2 or any(type(v) is not int for v in xy):
-                    raise ValueError('物件位置未知')
-                if 0 <= xy[0] < width and 0 <= xy[1] < height:
-                    occupied.add(tuple(xy))
-        occupied.update(cell_set(busy))
-        supplied = {c.get('city_id'): c for c in cities or () if isinstance(c, dict)}
-        owned = [c for c in entities['cities_and_barriers'] if c.get('owner_raw') == actor]
-        candidates, ranks = {}, {}
-        for row in owned:
-            cid = row.get('city_id')
-            if type(cid) is not int or sum(c.get('city_id') == cid for c in entities['cities_and_barriers']) != 1:
-                continue
-            cx, cy = row['world_xy_raw']
-            if not (0 <= cx < width and 0 <= cy < height):
-                continue
-            city = dict(supplied.get(cid) or {}, **row)
-            city.update(owner=actor, xy=[cx, cy])
-            for y in range(max(0, cy-RADIUS), min(height, cy+RADIUS+1)):
-                for x in range(max(0, cx-RADIUS), min(width, cx+RADIUS+1)):
-                    xy = (x, y)
-                    if xy == (cx, cy) or xy in occupied or raw[y*width+x] != 2:
-                        continue
-                    rank = (abs(x-cx)+abs(y-cy), cid)
-                    if xy not in ranks or rank < ranks[xy]:
-                        ranks[xy], candidates[xy] = rank, city
-        return {'ok': True, 'cells': candidates, 'occupied': occupied,
-                'width': width, 'height': height}
-    except (TypeError, ValueError, KeyError, AttributeError) as exc:
-        return {'ok': False, 'cells': {}, 'occupied': set(), 'error': str(exc)}
+def construction_candidates(state, actor, cities=(), busy=(), build_type=7):
+    """Use the same SHA-bound native rule reconstruction as the Wine helper."""
+    return _native_candidates(state, actor, cities, busy, build_type=build_type)
 
 
 def cell_at_pixel(px, py, width=WORLD[0], height=WORLD[1]):
@@ -218,7 +179,7 @@ class EmbeddedConstructionPanorama(ShadowPanorama):
         super().__init__(parent, title='原作全景地圖', detachable=False)
         self.canvas.configure(height=250, width=800)
         self.canvas.bind('<Motion>', picker._hover, add='+')
-        self.canvas.bind('<Leave>', lambda _event: picker.hover_label.configure(text=''))
+        self.canvas.bind('<Leave>', picker._leave)
 
     def draw(self, refresh_view=True):
         if self.picker._closed:
@@ -260,6 +221,8 @@ class EmbeddedConstructionMap(tk.Frame):
         self._closed = False
         self._confirming = False
         self._known = False
+        self._hover_cell = None
+        self._build_overlay_image = None
         self._payload = {}
         self._game_scope = None
         self._context = None
@@ -279,7 +242,7 @@ class EmbeddedConstructionMap(tk.Frame):
         # visible rather than being packed outside the available height.
         self.panorama.pack_forget()
         self.panorama.pack(fill='both', expand=True)
-        self.selection_label = ttk.Label(footer, text='選建設種類後，在原地圖選綠框位置')
+        self.selection_label = ttk.Label(footer, text='選建設種類後，在原地圖點淡藍高亮位置')
         self.selection_label.pack(side='left')
         self.hover_label = ttk.Label(footer, text='')
         self.hover_label.pack(side='left', padx=14)
@@ -350,15 +313,15 @@ class EmbeddedConstructionMap(tk.Frame):
                         self._local_pending.discard(xy)
                         self._pending_samples.pop(xy, None)
                 computed = construction_candidates(payload['state'], actor, cities,
-                    observed_busy | self._local_pending)
+                    observed_busy | self._local_pending, build_type=BUILD_LABELS.get(self.build_label))
                 if not computed['ok']:
                     raise ValueError(computed['error'])
                 self._width, self._height = computed['width'], computed['height']
                 self.candidates = computed['cells']
                 self._known = True
-                text = '%s · 可選 %d 格 · 單擊只選位置，確認後才加入隊列' % (self.build_label, len(self.candidates))
+                text = computed.get('reason') or '%s · 淡藍可選 %d 格 · 點格後再確認入隊' % (self.build_label, len(self.candidates))
             else:
-                text = '選建設種類後，在原圖點綠框；滾輪縮放、拖曳／WASD 平移'
+                text = '淡藍高亮可建 · 點格只選位置，確認後才入隊'
             self.panorama.status.set(text)
         except Exception as exc:
             self.panorama.status.set('資料未知／過期 · '+str(exc))
@@ -376,12 +339,19 @@ class EmbeddedConstructionMap(tk.Frame):
 
     def _hover(self, event):
         xy = self._event_cell(event)
-        if not self.build_label or xy is None:
-            text = ''
-        else:
-            city = self.candidates.get(xy)
-            text = '%s,%s · %s' % (*xy, (city.get('name') or '己方城池') if city else '不可選／未知')
-        self.hover_label.configure(text=text)
+        city = self.candidates.get(xy) if self.build_label else None
+        highlighted = xy if city else None
+        self.hover_label.configure(text=('%s,%s · %s · 可建' %
+            (*xy, city.get('name') or '己方城池')) if city else '')
+        if highlighted != self._hover_cell:
+            self._hover_cell = highlighted
+            self._draw_overlay()
+
+    def _leave(self, _event):
+        self.hover_label.configure(text='')
+        if self._hover_cell is not None:
+            self._hover_cell = None
+            self._draw_overlay()
 
     def _click(self, event):
         if not self.build_label:
@@ -403,9 +373,9 @@ class EmbeddedConstructionMap(tk.Frame):
         if city:
             text = '%s · %s · 位置 %s,%s' % (self.build_label, city.get('name') or '己方城池', *self.selected)
         elif self.build_label:
-            text = '%s：滾輪放大後點綠框，再確認入隊' % self.build_label
+            text = '%s：點淡藍高亮後確認；資源與額度會再核對' % self.build_label
         else:
-            text = '選建設種類後，在原地圖選綠框位置'
+            text = '選建設種類後，在原地圖點淡藍高亮位置'
         self.selection_label.configure(text=text)
         self.confirm_button.configure(state='normal' if self._known and city and not self._confirming else 'disabled')
 
@@ -418,14 +388,26 @@ class EmbeddedConstructionMap(tk.Frame):
             return
         width, height = canvas.winfo_width(), canvas.winfo_height()
         layer = layer_for_zoom(page.zoom)
+        # Alpha tint preserves terrain and sprites. Only actual candidates get
+        # a visible fill; empty/unknown cells never look like selectable tiles.
+        overlay = Image.new('RGBA', (max(1, width), max(1, height)))
+        painter = ImageDraw.Draw(overlay)
+        visible = []
         for xy in self.candidates:
-            points = [coordinate for p in cell_vertices(*xy)
-                      for coordinate in page._project_mbm(*p, width, height, layer)]
+            vertices = [page._project_mbm(*p, width, height, layer) for p in cell_vertices(*xy)]
+            points = [coordinate for p in vertices for coordinate in p]
             if max(points[::2]) < 0 or min(points[::2]) > width or max(points[1::2]) < 0 or min(points[1::2]) > height:
                 continue
-            selected = xy == self.selected
-            canvas.create_polygon(points, fill='', outline='#ffe35c' if selected else '#65bd76',
-                                  width=3 if selected else 1, tags=('build-pick', 'build-selected' if selected else 'build-candidate'))
+            selected, hovered = xy == self.selected, xy == self._hover_cell
+            tint = (255, 218, 76, 100) if selected else (166, 225, 255, 110 if hovered else 65)
+            painter.polygon(vertices, fill=tint)
+            visible.append((points, selected, hovered))
+        self._build_overlay_image = ImageTk.PhotoImage(overlay, master=canvas)
+        canvas.create_image(0, 0, image=self._build_overlay_image, anchor='nw', tags=('build-pick', 'build-tint'))
+        for points, selected, hovered in visible:
+            canvas.create_polygon(points, fill='', outline='#ffe35c' if selected else ('#ffffff' if hovered else '#c0eaff'),
+                                  width=3 if selected or hovered else 1.5,
+                                  tags=('build-pick', 'build-selected' if selected else 'build-candidate'))
         if self.selected is not None:
             px, py = page._project(*self.selected, width, height, layer)
             label = '%s,%s' % self.selected

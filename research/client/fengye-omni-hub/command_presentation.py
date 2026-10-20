@@ -124,7 +124,7 @@ def job_detail(job, snapshot=None):
             continue
         try:
             stamp = datetime.fromtimestamp(event['at']).strftime('%H:%M:%S')
-        except (ValueError, TypeError, KeyError):
+        except (ValueError, TypeError, KeyError, OSError, OverflowError):
             continue
         lines.append('%s　%s' % (stamp, STATUS[event['status']]))
     return '\n'.join(lines)

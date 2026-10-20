@@ -20,6 +20,8 @@ from backend.room_protocol import nickname
 from backend import fengyun_local
 from backend.lab_remote import lab_remote
 from command_service import CommandService
+from fengye_capture_status import CaptureStatus
+from fengye_diagnostics import report
 from map_navigation import bind_pointer_wheel
 from player_text import (plain_error, room_summary, room_result, room_fresh,
                          operation_result, local_state, control_event,
@@ -377,6 +379,7 @@ class FengyeWindow(OmniWindow):
         self.room_rows = {}
         self.room_signature = None
         self.retry = None
+        self.capture_status = CaptureStatus()
         super().__init__(root)
         root.title('風夜情報台')
         root.minsize(1120, 700)
@@ -417,6 +420,8 @@ class FengyeWindow(OmniWindow):
                 self.workspace.hide(tab)
             except Exception:
                 pass
+        from fengye_force_views import mount_force_views
+        mount_force_views(self)
         self.workspace.select(self.console_page)
         self._style_player_shell()
         self.render_view(self.view)
@@ -589,7 +594,7 @@ class FengyeWindow(OmniWindow):
         self.command_service = CommandService(history_path=history)
         self.command_panel = CommandPanel(
             self.command_page, self.command_service,
-            on_snapshot=lambda data: setattr(self, 'cmd_targets_data', data), readonly=replay)
+            on_snapshot=self._command_snapshot, readonly=replay, on_error=self._capture_failed)
         self.command_panel.pack(fill='both', expand=True)
 
     def _cmd_refresh(self):
@@ -609,6 +614,31 @@ class FengyeWindow(OmniWindow):
         self.battle_map = self.battle_panel.panorama.canvas
         self.battle_forces = self.battle_panel.forces
         self.battle_units = self.battle_panel.units
+        self.battle_panel.on_state = self._accept_shadow_snapshot
+        self.battle_panel.on_error = self._capture_failed
+
+    def _command_snapshot(self, data):
+        self.cmd_targets_data = data
+        if data.get('_battle_payload'):
+            self._accept_shadow_snapshot(data['_battle_payload'])
+
+    def _accept_shadow_snapshot(self, payload):
+        changed = self.capture_status.observe(payload)
+        if changed:
+            from fengye_force_views import update_force_views
+            try:
+                if not update_force_views(self, payload) and getattr(self, 'force_views_error', None):
+                    report('force-views', RuntimeError(self.force_views_error))
+            except Exception as exc:
+                report('force-views', exc)
+        self._render_capture_status()
+
+    def _capture_failed(self):
+        self.capture_status.failed = True
+        self._render_capture_status()
+
+    def _render_capture_status(self):
+        self.status.configure(text=self.capture_status.text(replay=bool(self.source.sources.source_file)))
 
     def _battle_refresh(self):
         self.battle_panel.refresh()
@@ -1561,6 +1591,7 @@ class FengyeWindow(OmniWindow):
         self.room_busy = True
         self.room_receipt.configure(text='正在處理，請稍候；不用重複點擊。')
         self.update_room_controls()
+        self._render_capture_status()
 
     def update_room_controls(self):
         if not hasattr(self, 'room_start'):
@@ -1975,7 +2006,9 @@ class FengyeWindow(OmniWindow):
             row.pack(fill='x', pady=1)
             tk.Label(row, text=STATUS_ICONS.get(item.get('level'), '🔹'), bg=WELL, fg=INK,
                      width=3, anchor='w').pack(side='left')
-            tk.Label(row, text=item.get('label') or '', bg=WELL, fg=INK, anchor='w',
+            label = {'正在收遊戲資料': '正在接收同步封包',
+                     '遊戲資料停下來了': '同步封包暫無新記錄'}.get(item.get('label'), item.get('label') or '')
+            tk.Label(row, text=label, bg=WELL, fg=INK, anchor='w',
                      font=(self.face, 12)).pack(side='left')
             if item.get('detail'):
                 tk.Label(row, text='　' + str(item['detail']), bg=WELL, fg=MUTED,
@@ -1985,8 +2018,7 @@ class FengyeWindow(OmniWindow):
         p = view.get('p34') or {}
         session = view.get('session') or {}
         transport = (view.get('transport') or {}).get('status')
-        self.status.configure(text={'online': '正在更新本局資料', 'file': '正在查看保存的記錄',
-                                   'offline': '目前連不到風夜'}.get(transport, '正在確認風夜狀態'))
+        self._render_capture_status()
         self.render_status_panel(view)
         signature = json.dumps({k: view.get(k) for k in ('p34', 'host', 'members', 'events', 'directory', 'room_query', 'chain', 'source', 'ghost', 'collector')}, ensure_ascii=False, sort_keys=True)
         if signature != self.render_signature:

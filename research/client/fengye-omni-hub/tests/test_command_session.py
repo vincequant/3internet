@@ -4,6 +4,8 @@ from pathlib import Path
 import sys
 import tempfile
 import time
+import json
+import subprocess
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -70,6 +72,28 @@ class SessionService(CommandService):
 
 
 class CommandSessionTests(unittest.TestCase):
+    def test_actual_launch_import_order_keeps_bridge_effects_and_fengye_binding_separate(self):
+        # run.py inserts root, app, then bridge at index zero. A fresh process
+        # matters: the suite's root-first imports previously masked this bug.
+        program = '''
+import sys,json
+from pathlib import Path
+root=Path(sys.argv[1])
+for folder in (root,root/'app',root/'bridge'):
+    sys.path.insert(0,str(folder))
+import command_effects
+assert Path(command_effects.__file__).resolve().parent == root/'bridge'
+assert callable(command_effects.force_badges)
+from command_service import CommandService
+service=CommandService()
+assert service._adopt_game(json.load(sys.stdin))
+from fengye_command_effects import _binding, capture_effect_baseline, check_effect
+assert callable(_binding) and callable(capture_effect_baseline) and callable(check_effect)
+'''
+        result = subprocess.run([sys.executable, '-c', program, str(ROOT)],
+                                input=json.dumps(state()), text=True, capture_output=True, timeout=10)
+        self.assertEqual(result.returncode, 0, result.stderr)
+
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

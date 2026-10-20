@@ -8,7 +8,11 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'bridge'))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 from collector import Collector
+from _p60_construction_grid import with_construction_grid
+
+Collector = with_construction_grid(Collector)
 
 
 def snapshot(pid):

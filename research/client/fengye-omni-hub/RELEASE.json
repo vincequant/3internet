@@ -1,6 +1,6 @@
 {
   "name": "風夜情報台",
-  "version": "0.2.32",
+  "version": "0.2.33",
   "upstream": "1.1.336",
   "frontend": "native-tk",
   "data_source": "fengye-only"

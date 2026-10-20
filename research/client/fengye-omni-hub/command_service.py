@@ -184,7 +184,7 @@ class CommandService:
                 raise ValueError('missing readonly state')
             if (state.get('consistency') or {}).get('root_headers_and_clock_unchanged') is not True:
                 raise ValueError('unstable state')
-            from command_effects import _binding
+            from fengye_command_effects import _binding
             facts = self._identity_facts(_binding(state))
             identity_key = self._identity_digest(facts)
         except (ValueError, TypeError, KeyError):
@@ -313,17 +313,17 @@ class CommandService:
                 out.append(gid)
         return out[:limit]
 
-    def free_cells(self, prefix, city_xy, force, exclude_id=None):
+    def free_cells(self, prefix, city_xy, force, exclude_id=None, build_type=7):
         return self.build_sites(prefix, city_xy, force, exclude_id=exclude_id,
-                                with_state=False).get('cells') or []
+                                with_state=False, build_type=build_type).get('cells') or []
 
-    def build_sites(self, prefix, city_xy, force, exclude_id=None, with_state=True):
+    def build_sites(self, prefix, city_xy, force, exclude_id=None, with_state=True, build_type=7):
         """Strict read result for the picker: empty is distinct from unreadable."""
         pid = self.pid(prefix)
         if not pid:
             return {'ok': False, 'error': '風夜客戶端不在線'}
         data = self._py(prefix, self.z + '\\tools\\_p60_pick_cell_wide.py',
-                        [str(pid), str(city_xy[0]), str(city_xy[1]), str(force)])
+                        [str(pid), str(city_xy[0]), str(city_xy[1]), str(force), str(build_type)])
         if not data.get('ok'):
             return {'ok': False, 'error': data.get('error') or '無法讀取城周邊地形'}
         busy = self.busy_build_cells(exclude_id)
@@ -880,7 +880,8 @@ class CommandService:
             return None
         if payload['preset'] == 'build':
             city = next(c for c in info.get('cities', []) if c['city_id'] == payload['city'])
-            sites = self.build_sites(prefix, city['xy'], payload['actor'], exclude_id=job['id'])
+            sites = self.build_sites(prefix, city['xy'], payload['actor'], exclude_id=job['id'],
+                                     build_type=payload['build_type'])
             if not sites.get('ok') or (payload['x'], payload['y']) not in {
                     tuple(xy) for xy in sites.get('cells') or []}:
                 self._advance(job, 'error', '這個位置已不可建設或無法確認，請重新選址；未發送')
@@ -927,7 +928,7 @@ class CommandService:
         return state
 
     def _capture_baseline(self, job):
-        from command_effects import capture_effect_baseline
+        from fengye_command_effects import capture_effect_baseline
         return capture_effect_baseline(job, self._effect_snapshot())
 
     def _run_batch(self, batch):
@@ -1134,7 +1135,7 @@ class CommandService:
             threading.Thread(target=self._verification_loop, daemon=True, name='cmd-effects').start()
 
     def _verify_effect(self, job, baseline, state):
-        from command_effects import check_effect
+        from fengye_command_effects import check_effect
         return check_effect(job, baseline, state)
 
     def _verification_loop(self):

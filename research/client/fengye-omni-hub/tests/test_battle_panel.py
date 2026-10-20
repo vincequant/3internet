@@ -6,12 +6,16 @@ import sys
 import threading
 import time
 import tkinter as tk
+from tkinter import ttk
 import unittest
 from unittest import mock
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path[:0] = [str(ROOT), str(ROOT / 'app'), str(ROOT / 'bridge')]
-from fengye_battle_panel import BattlePanel, SHADOW_PREFIX, capture_time, prepare_payload
+from fengye_battle_panel import (BattlePanel, SHADOW_PREFIX, capture_time, prepare_payload,
+                                force_intel_values)
+from card_state import decode_hand
+from PIL import ImageTk
 from original_sprites import sprite_file
 from panorama_model import object_key
 
@@ -21,7 +25,8 @@ def sample():
             'state': {'readonly': True, 'capture_end': datetime.now(timezone.utc).isoformat(),
                       'entities': {
                           'lords': [{'force_id': 3, 'name': '齊', 'gold': 36972,
-                                     'rice': 95000, 'color_index_raw': 3}],
+                                     'rice': 95000, 'color_index_raw': 3, 'prestige': 64,
+                                     'hand_cards': decode_hand(bytes([1, 2, 0, 15, 255]))}],
                           'cities_and_barriers': [
                               {'type': 'city', 'city_id': 1, 'name': '臨淄', 'owner_raw': 3,
                                'world_xy_raw': [50, 100], 'city_art_variant_flag': 1,
@@ -56,6 +61,18 @@ class PayloadTests(unittest.TestCase):
         self.assertIsNone(capture_time({}))
         self.assertIsNone(capture_time({'captured_at': 'bad'}))
         self.assertIsNotNone(capture_time(sample()))
+
+    def test_force_totals_distinguish_observed_empty_partial_and_unknown(self):
+        state = sample()['state']
+        lord = state['entities']['lords'][0]
+        self.assertEqual(force_intel_values(state, lord)[1:4], ('64', '0', '0'))
+        state['entities']['field_units'] = [{'owner_raw': 3, 'native_attack_index': 255},
+                                            {'owner_raw': 3, 'native_attack_index': None}]
+        self.assertEqual(force_intel_values(state, lord)[2:4], ('2', '255（1/2已知）'))
+        del state['entities']['field_units']
+        self.assertEqual(force_intel_values(state, lord)[2:4], ('—', '—'))
+        lord['prestige'] = None
+        self.assertEqual(force_intel_values(state, lord)[1], '—')
 
 
 class BattlePanelMappedTests(unittest.TestCase):
@@ -122,7 +139,8 @@ class BattlePanelMappedTests(unittest.TestCase):
         self.assertIs(self.panel.raw_state, original)
         self.assertEqual(self.panel.last_capture_at, stamp)
         self.assertIn('資料已過期', self.panel.status_var.get())
-        self.assertIn('風夜未連線', self.panel.status_var.get())
+        self.assertIn('恢復後會自動更新', self.panel.status_var.get())
+        self.assertNotIn('ValueError', self.panel.status_var.get())
 
     def test_empty_state_and_unknown_values_render_without_fabrication(self):
         empty = sample()
@@ -139,8 +157,37 @@ class BattlePanelMappedTests(unittest.TestCase):
         self.panel.refresh()
         self.until(lambda: not self.panel._inflight)
         row = self.panel.forces.item(self.panel.forces.get_children()[0], 'values')
-        self.assertEqual(row[1], '—')
+        self.assertEqual(row[4], '—')
         self.assertIsNone(self.panel.raw_state['entities']['lords'][0]['gold'])
+
+    def test_force_intel_has_original_card_bitmaps_color_prestige_and_real_counts(self):
+        before = copy.deepcopy(self.service.battlefield.return_value)
+        self.load()
+        tree = self.panel.forces
+        key = tree.get_children()[0]
+        values = tree.item(key, 'values')
+        self.assertEqual(values, ('齊', '64', '0', '0', '36972', '95000', '1'))
+        self.assertEqual(tree.item(key, 'image'), (str(self.panel._force_photos[key]),))
+        bitmap = ImageTk.getimage(self.panel._force_photos[key]).convert('RGB')
+        self.assertEqual(bitmap.size, (286, 54))
+        # Check pixels from two different actual game card resource BMPs,
+        # rather than accepting a generated label or placeholder rectangle.
+        for slot, cid in ((0, 1), (1, 2), (3, 15)):
+            original = self.panel.force_art.icons[cid]
+            self.assertEqual(bitmap.getpixel((74+42*slot+10, 12)), original.getpixel((10, 10)))
+        from native_city_map import state_force_rgb
+        self.assertEqual(bitmap.getpixel((8, 12)), state_force_rgb(self.panel.display_state, 3))
+        ttk.Style(self.root).configure('Treeview', rowheight=36)
+        self.assertGreaterEqual(int(ttk.Style(self.root).lookup(tree.cget('style'), 'rowheight')), 54)
+        box = tree.bbox(key)
+        self.assertTrue(box)
+        tree.event_generate('<Motion>', x=100, y=box[1]+15)
+        self.root.update()
+        self.assertIn('宣告开战', self.panel.force_hint.get())
+        self.assertTrue(self.panel.force_hint_label.winfo_ismapped())
+        self.assertFalse(self.panel.refresh_button.winfo_ismapped())
+        self.assertEqual(self.panel.raw_state, before['state'])
+        self.assertEqual(self.service.battlefield.return_value, before)
 
     def test_refresh_preserves_camera_layers_and_original_city_detail(self):
         self.load()

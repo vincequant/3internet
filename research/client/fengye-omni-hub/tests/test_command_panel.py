@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 import sys
 import threading
+import struct
 import time
 import tkinter as tk
 from tkinter import ttk
@@ -30,12 +31,20 @@ def snapshot():
                        {'city_id': 13, 'name': '黃縣', 'owner': 3, 'xy': [75, 52]},
                        {'city_id': 14, 'name': '江州', 'owner': 4, 'xy': [20, 150]}]}
     raw = {'readonly': True, 'capture_end': datetime.now(timezone.utc).isoformat(),
-           'terrain_grid': {'width': 101, 'height': 202, 'types': '02'*(101*202)},
+           'terrain_grid': {'width': 101, 'height': 202, 'types': '02'*(101*202),
+                            'layout': 'column-major',
+                            'object_kinds_s16le': (struct.pack('<h', -1)*(101*202)).hex(),
+                            'control_forces_s16le': (struct.pack('<h', -1)*(101*202)).hex()},
            'entities': {'lords': copy.deepcopy(data['forces']), 'generals': [],
                         'field_units': [], 'traps': [], 'production_buildings': [],
                         'cities_and_barriers': [dict(c, type='city', owner_raw=c['owner'],
-                                                     world_xy_raw=c['xy'])
+                                                     world_xy_raw=c['xy'], raw_hex=('00'*81))
                                                for c in data['cities']]}}
+    kinds = bytearray.fromhex(raw['terrain_grid']['object_kinds_s16le'])
+    for city in raw['entities']['cities_and_barriers']:
+        x, y = city['world_xy_raw']
+        struct.pack_into('<h', kinds, 2*(x*202+y), 1)
+    raw['terrain_grid']['object_kinds_s16le'] = kinds.hex()
     data['_battle_payload'] = {'ok': True, 'source_prefix': 'prefix-fengye-shadow',
                                'game_key': GAME_KEY, 'state': raw,
                                'captured_at': raw['capture_end']}
@@ -339,6 +348,55 @@ class CommandPanelMappedTests(unittest.TestCase):
         self.until(lambda: len(self.service.read_threads) >= 2)
         self.panel._auto = False
         self.assertTrue(all(refresh for _tid, refresh in self.service.read_threads))
+
+    def test_waiting_for_start_recovers_and_shows_forces_without_manual_read(self):
+        self.panel.force_box.configure(values=())
+        self.panel.forces = []
+        self.service.data = {'ok': False, 'error': 'not started'}
+        self.panel.refresh_seconds = .05
+        self.panel._auto = True
+        self.until(lambda: len(self.service.read_threads) >= 2)
+        self.assertEqual(self.panel.force_box.cget('values'), '')
+        self.assertFalse(self.panel.refresh_button.winfo_ismapped())
+        self.service.data = snapshot()
+        self.until(lambda: self.panel.force_box.cget('values') == ('風雲・齊', '丁滿・巴'))
+        self.assertIn('自動讀取', self.panel.live.cget('text'))
+        self.panel._auto = False
+
+    def test_one_display_failure_does_not_stop_automatic_reader(self):
+        original = self.panel._apply_snapshot
+        calls = []
+        def once(data):
+            calls.append(True)
+            if len(calls) == 1:
+                raise ValueError('display failure /private/path')
+            return original(data)
+        self.panel._apply_snapshot = once
+        self.panel.refresh_seconds = .05
+        self.panel._auto = True
+        with mock.patch('command_panel.report') as report:
+            self.until(lambda: len(calls) >= 2)
+            report.assert_called_once()
+        self.assertNotIn('/private/path', self.panel.live.cget('text'))
+        self.assertIn('自動讀取', self.panel.live.cget('text'))
+        self.panel._auto = False
+
+    def test_unrepresentable_local_job_dates_are_unknown_and_do_not_break_queue(self):
+        self.panel.train_buttons[0].invoke()
+        self.service.jobs[0]['created'] = 1e30
+        self.service.jobs[0]['events'] = [{'at': 1e30, 'status': 'pending'}]
+        self.panel.render_jobs()
+        row = self.panel.tables['active'].item('job-1', 'values')
+        self.assertEqual(row[0], '時間未知')
+
+    def test_persistent_timeline_error_does_not_starve_background_reads(self):
+        self.panel.refresh_seconds = .05
+        self.panel._auto = True
+        with mock.patch.object(self.panel, 'render_jobs', side_effect=OverflowError('bad local date')):
+            with mock.patch('command_panel.report'):
+                self.until(lambda: len(self.service.read_threads) >= 2)
+        self.panel._auto = False
+        self.assertTrue(self.panel._after)
 
     def test_unknown_values_are_never_rendered_as_literal_none_or_live_numbers(self):
         data = snapshot()

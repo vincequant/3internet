@@ -1,0 +1,134 @@
+{
+  "schema": "fengye-construction-live-0.2.33",
+  "evidence_type": "read_only_snapshot_rule_reconstruction",
+  "snapshot_sha256": "06d1d28764dcdbce4548045be3f654af0699f1547e6cd88bff19d5ab3c1a953d",
+  "capture_end": "2026-10-20T07:02:35.929417+00:00",
+  "source_build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "layout": "column-major",
+  "dimensions": [
+    101,
+    202
+  ],
+  "native_field_coverage": {
+    "object_kinds_s16le": {
+      "cells": 20402,
+      "unknown_sentinel": -32768,
+      "unknown_count": 0
+    },
+    "control_forces_s16le": {
+      "cells": 20402,
+      "unknown_sentinel": -32768,
+      "unknown_count": 0
+    }
+  },
+  "forces": [
+    {
+      "force_id": 5,
+      "name": "燕",
+      "owned_cities_and_barriers": 4,
+      "types": [
+        {
+          "build_type": 6,
+          "ok": true,
+          "position_candidates": 87,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 0,
+          "per_city_helper_reads_simulated_from_same_snapshot": 4,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "unknown_local_ui_pending"
+        },
+        {
+          "build_type": 7,
+          "ok": true,
+          "position_candidates": 51,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 4,
+          "per_city_helper_reads_simulated_from_same_snapshot": 4,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "not_applicable"
+        },
+        {
+          "build_type": 8,
+          "ok": true,
+          "position_candidates": 51,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 4,
+          "per_city_helper_reads_simulated_from_same_snapshot": 4,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "not_applicable"
+        },
+        {
+          "build_type": 9,
+          "ok": true,
+          "position_candidates": 51,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 0,
+          "per_city_helper_reads_simulated_from_same_snapshot": 4,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "not_applicable"
+        }
+      ]
+    },
+    {
+      "force_id": 16,
+      "name": "代",
+      "owned_cities_and_barriers": 2,
+      "types": [
+        {
+          "build_type": 6,
+          "ok": true,
+          "position_candidates": 44,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 0,
+          "per_city_helper_reads_simulated_from_same_snapshot": 2,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "unknown_local_ui_pending"
+        },
+        {
+          "build_type": 7,
+          "ok": true,
+          "position_candidates": 24,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 2,
+          "per_city_helper_reads_simulated_from_same_snapshot": 2,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "not_applicable"
+        },
+        {
+          "build_type": 8,
+          "ok": true,
+          "position_candidates": 24,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 2,
+          "per_city_helper_reads_simulated_from_same_snapshot": 2,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "not_applicable"
+        },
+        {
+          "build_type": 9,
+          "ok": true,
+          "position_candidates": 24,
+          "unknown_cells": 0,
+          "unknown_cities": 0,
+          "excluded_upgrade_cells": 0,
+          "per_city_helper_reads_simulated_from_same_snapshot": 2,
+          "helper_union_matches": true,
+          "global_trap_pending_status": "not_applicable"
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No game input, command submission, process write, or GUI restart was performed.",
+    "Trap global local-UI pending count at doc+0x611+0x1f4 was not captured and remains unknown; these are position candidates, not proof of every local-UI quota.",
+    "Original same-kind facility upgrades are separately reported but disabled because the current sender has not verified upgrade behavior.",
+    "This compares two callers of one shared verified rule implementation; it is not an independently captured native UI mask."
+  ]
+}

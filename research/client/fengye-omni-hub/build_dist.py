@@ -15,7 +15,10 @@ FILES = ('player_text.py', 'backend/fengyun_local.py', 'backend/lab_remote.py',
          'config.example.json', 'room_client.py', 'backend/room_protocol.py',
          'backend/room_remote.py', 'backend/room_probe.py', 'tests/test_rooms.py',
          'command_service.py', 'tests/test_command_dedupe.py',
-         'command_panel.py', 'command_presentation.py', 'command_effects.py',
+         'command_panel.py', 'command_presentation.py', 'fengye_command_effects.py',
+         'fengye_diagnostics.py', 'fengye_capture_status.py', 'fengye_force_views.py',
+         'tests/test_capture_status.py', 'tests/test_force_views.py',
+         'tests/test_construction_grid.py',
          'build_picker.py', 'fengye_battle_panel.py', 'fengye_icon.py',
          'legacy_command_history.py',
          'tests/test_command_queue.py', 'tests/test_command_session.py',
@@ -27,12 +30,19 @@ FILES = ('player_text.py', 'backend/fengyun_local.py', 'backend/lab_remote.py',
          'docs/command-map-0.2.32.md', 'docs/verify_native_0_2_32.py',
          'docs/panel-0.2.32-battle.png', 'docs/panel-0.2.32-commands.png',
          'docs/panel-0.2.32-picker.png',
+         'docs/live-and-construction-0.2.33.md', 'docs/live-0.2.33-review.md',
+         'docs/construction-native-rule-0.2.33.md', 'docs/construction-live-0.2.33.json',
+         'docs/verify_native_0_2_33.py', 'docs/live-0.2.33-verification.json',
+         'docs/panel-0.2.33-forces.png', 'docs/panel-0.2.33-compare.png',
+         'docs/panel-0.2.33-commands.png', 'docs/panel-0.2.33-battle.png',
+         'docs/panel-0.2.33-picker.png',
          'tests/test_map_camera.py', 'tests/test_map_events.py',
          'docs/map-display-0.2.31.md',
          'docs/panel-20261020-mapfix-0.2.31-window.png',
          'docs/panel-20261020-mapfix-0.2.31-canvas.png',
          'docs/panel-20261020-mapfix-0.2.31-canvas.ps')
-LAB_TOOLS = ('_p60_battle.py', '_p60_pick_cell_wide.py')
+LAB_TOOLS = ('_p60_battle.py', '_p60_pick_cell_wide.py',
+             '_p60_construction_grid.py', '_p60_construction_rules.py')
 
 
 def main():
