@@ -40,3 +40,25 @@
 - 不改遊戲 EXE、不覆蓋存檔、不動主機（陌生人）端。
 - 收集器 `~/sgi-direct-connect`（direct_connect.py）與一鍵內測**不可同時跑**（搶同一個風夜客戶端）。
 - 修改任何腳本前先備份到 `/tmp`，改完跑語法檢查（`bash -n` / `py_compile`）。
+
+## 追加三項（2026-10-21 09:34 使用者要求）
+
+### 4) 補丁顯示 16/18「缺 開局守衛」是假警報
+化神指揮部狀態列讀到 `守衛 16/18·防崩 21/21·抑制 2/2·缺 開局守衛`。
+真相：16/18 缺的兩個就是 **`myforce-a` / `myforce-b`**，因為 `one_click_test.sh` 6c 對風夜帶了
+`--skip myforce-a,myforce-b`（`SKIP_MYFORCE` 預設 1）。
+要求：計數時把「依設定跳過」的站算成已裝（`ok = patched + skipped`），或顯示成
+「18/18（2 站依設定跳過）」，不要讓它顯示「還沒裝齊 / 還不能按開始」。
+
+### 5) 進度條
+化神指揮部狀態面板做一條一鍵進度條：讀 `~/sgi-fengye-lab/shadow/one_click_state.json`
+（欄位 `step` / `status` / `detail` / `at`）與 `logs/one_click-<ts>.log` 的行，
+把「啟動三鏈 → 等游戏选择 → 建房/進房 → 補丁 → 摘席 → 占席 → 完成」映射成 0–100%。
+`status=ok` 且 `step=done` → 100%。
+
+### 6) 速度優化（補丁與綁定）
+- 補丁：`patch_start_nulls.py` 目前每站都 read→write→readback；可一次 VirtualAllocEx 後連續寫入，
+  最後一次 flush + 統一回讀驗證（3 台 × 21 站可省掉大量 Wine 往返）。
+- 綁定：`switch_ghost_seat` 已是 1.6 秒；剩下的延遲來自 `shadow_setforce.py` 的 wine 啟動（約 1 秒）。
+  可把「設定席位」與「重啟 slotkeep」併成一次 wine 呼叫，或讓 slotkeep 自己輪詢 `setforce-now.json`
+  變更，避免每次切席都重啟進程。
