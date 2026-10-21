@@ -175,6 +175,57 @@ class CommandService:
                 'year': year if isinstance(year, int) else None,
                 'roster': tuple(roster) if isinstance(roster, list) else None}
 
+    def wire_health(self):
+        """風夜自己連線的收包指標（不需要任何其他機器，陌生人局也能用）。"""
+        base = Path.home() / 'sgi-fengye-lab' / 'fengye-hub-session'
+        best = None
+        try:
+            paths = sorted(base.glob('run-*/state.json'), key=lambda p: p.stat().st_mtime)[-3:]
+        except OSError:
+            return {'ok': False}
+        for path in paths:
+            try:
+                data = json.loads(path.read_text(encoding='utf-8'))
+                age = time.time() - path.stat().st_mtime
+            except Exception:  # noqa: BLE001
+                continue
+            entry = {'ok': True, 'age': age, 'run': path.parent.name,
+                     'connected': bool(data.get('connected')),
+                     'phase': data.get('phase'),
+                     'received': data.get('received') if isinstance(data.get('received'), int) else None,
+                     'tx_seq': data.get('native_tx_seq')}
+            if best is None or age < best['age']:
+                best = entry
+        return best or {'ok': False}
+
+    def shadow_state(self):
+        """風夜自己的回合座標（含年份/季節/phase）。"""
+        try:
+            phase, data = self.phase('prefix-fengye-shadow')
+        except Exception:  # noqa: BLE001
+            return None
+        return self._round_state(phase, data)
+
+    def sync_check(self):
+        """風夜 vs 本機真實玩家的回合落後偵測（只讀）。
+
+        回傳 {'ok', 'lag_seasons', 'shadow', 'reference', 'note'}；
+        roster 不同（不同局）時不比，避免誤判。
+        """
+        shadow = self.shadow_state()
+        reference = self.reference_state(prefix='prefix-fengye-shadow')
+        if not shadow or not reference:
+            return {'ok': None, 'note': '讀不到回合資料', 'shadow': shadow, 'reference': reference}
+        if shadow.get('roster') and reference.get('roster') and \
+                shadow['roster'] != reference['roster']:
+            return {'ok': None, 'note': '不同局，不比對', 'shadow': shadow, 'reference': reference}
+        a, b = shadow.get('season'), reference.get('season')
+        if not isinstance(a, int) or not isinstance(b, int):
+            return {'ok': None, 'note': '季節值不完整', 'shadow': shadow, 'reference': reference}
+        lag = b - a
+        return {'ok': lag <= 0, 'lag_seasons': lag, 'shadow': shadow,
+                'reference': reference, 'note': '' if lag <= 0 else '落後 %d 季' % lag}
+
     def reference_state(self, prefix=None):
         """Read a local real player's round tuple as a staleness reference.
 

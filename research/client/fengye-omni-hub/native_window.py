@@ -360,6 +360,10 @@ def notify_operator(title, message, sound='Glass'):
 
 
 class FengyeWindow(OmniWindow):
+    # 每回合 2 分鐘才推一次廣播 → 門檻必須大於 2 分鐘：
+    # 130 秒＝已經錯過一輪（黃）、260 秒＝連錯兩輪（紅，判定掉線）。
+    WIRE_WARN = 130
+    WIRE_SILENCE = 260
     def __init__(self, root, source=None):
         self.source = source or FengyeSource()
         self.messages = queue.Queue()
@@ -381,7 +385,7 @@ class FengyeWindow(OmniWindow):
         self.retry = None
         self.capture_status = CaptureStatus()
         super().__init__(root)
-        root.title('煉虛指揮部')
+        root.title('化神指揮部')
         root.minsize(1120, 700)
         try:
             _release = json.loads((Path(__file__).resolve().parent / 'RELEASE.json').read_text(encoding='utf-8'))
@@ -409,7 +413,7 @@ class FengyeWindow(OmniWindow):
             self.fengye_logo.pack(side='left', before=top.winfo_children()[0], padx=(12, 0))
         for w in top.winfo_children():
             if isinstance(w, tk.Label) and w.cget('text') == '全知情报':
-                w.configure(text='風夜情報台')
+                w.configure(text='化神指揮部')
         self.original_tabs = list(self.workspace.tabs())
         # 2026-10-18（0.2.18）：遊戲記錄顯示由全知情報來源承擔；本 Hub 收攏為單一
         # 「風夜操控台」——原「本局局勢／房間與來源記錄／風夜指令解讀」分頁移除。
@@ -528,7 +532,7 @@ class FengyeWindow(OmniWindow):
             disable(self.console_page)
 
     def _build_console(self):
-        self.console_page = self._page('風夜情報台', 1)
+        self.console_page = self._page('化神指揮部', 1)
         self.console_state = tk.Label(self.console_page, text='未就緒', bg=PANEL, fg=GOLD_HI,
                                       font=(self.face, 15, 'bold'), anchor='w', padx=16, pady=12)
         self.console_state.pack(fill='x', padx=12, pady=8)
@@ -592,10 +596,6 @@ class FengyeWindow(OmniWindow):
             if self.control_book.tab(tab, 'text') == '玩家與遊戲':
                 self.control_book.hide(tab)
         # 0.2.18：資料讀取等系統訊息集中在這一行（原「本局局勢」頁的提示已移除）。
-        try:
-            self.root.after(3000, self._autostart_quick_panel)
-        except Exception:  # noqa: BLE001
-            pass
         self.notice_label = tk.Label(self.console_page, text='', bg=DAMASK, fg=MUTED, anchor='w',
                                      justify='left', wraplength=1100)
         self.notice_label.pack(fill='x', padx=14, pady=(0, 8))
@@ -647,7 +647,7 @@ class FengyeWindow(OmniWindow):
             self._switch_seat(int(found.group(1)), choice.split('（')[0])
 
     def _autostart_quick_panel(self):
-        """啟動煉虛指揮部時，若快速軍令沒開就一起拉起來（使用者要求默認啟動）。"""
+        """（已停用）2026-10-21 使用者：快捷軍令先不要自動開，改用下面的手動按鈕。"""
         try:
             import subprocess
             running = subprocess.run(['pgrep', '-f', 'quick_control.py'],
@@ -1236,7 +1236,14 @@ class FengyeWindow(OmniWindow):
         tk.Label(self.state_panel, text='風夜現在的狀態', bg=WELL, fg=INK,
                  font=(self.face, 13, 'bold'), anchor='w').pack(fill='x', padx=14, pady=(10, 6))
         self.state_rows = tk.Frame(self.state_panel, bg=WELL)
-        self.state_rows.pack(fill='x', padx=14, pady=(0, 10))
+        self.state_rows.pack(fill='x', padx=14, pady=(0, 4))
+        # 2026-10-21：回合同步偵測（風夜 vs 本機真實玩家）——落後就等於主機無用。
+        self.sync_label = tk.Label(self.state_panel, text='回合同步：等待對局…', bg=WELL,
+                                   fg=MUTED, anchor='w', font=(self.face, 12, 'bold'))
+        self.sync_label.pack(fill='x', padx=14, pady=(0, 2))
+        self.wire_label = tk.Label(self.state_panel, text='', bg=WELL, fg=MUTED,
+                                   anchor='w', font=(self.face, 11))
+        self.wire_label.pack(fill='x', padx=14, pady=(0, 10))
         tk.Label(self.state_rows, text='還沒有風夜的即時狀態。', bg=WELL, fg=MUTED,
                  anchor='w').pack(fill='x')
         self.room_tree = self.tree(box, [('name', '房間名稱', 220), ('host', '房主', 180), ('count', '目前人數', 100)])
@@ -1535,6 +1542,8 @@ class FengyeWindow(OmniWindow):
         所以改用週期性校正，不論哪條路徑進房都會被綁到指定玩家。
         """
         self._refresh_actual_slot()
+        self._refresh_sync_check()
+        self._refresh_wire()
         ready = bool(state.get('connected') and state.get('ghost_withdrawn'))
         if ready and not getattr(self, '_recon_ready', False):
             self._recon_ready = True
@@ -1564,6 +1573,87 @@ class FengyeWindow(OmniWindow):
             self.root.after(0, lambda: self._recon_done(result, slot))
 
         threading.Thread(target=work, daemon=True, name='seat-reconcile').start()
+
+    def _refresh_sync_check(self):
+        """每 20 秒比對風夜與本機真實玩家的回合座標（只讀）。"""
+        if time.time() - getattr(self, '_sync_at', 0) < 20 or getattr(self, '_sync_busy', False):
+            return
+        self._sync_at = time.time()
+        self._sync_busy = True
+
+        def work():
+            try:
+                data = self.command_service.sync_check()
+            except Exception as error:  # noqa: BLE001
+                data = {'ok': None, 'note': str(error)}
+            self.root.after(0, lambda: self._sync_done(data))
+
+        threading.Thread(target=work, daemon=True, name='sync-check').start()
+
+    def _refresh_wire(self):
+        """風夜自己的收包心跳（陌生人局唯一的「有沒有在動」依據）。"""
+        try:
+            info = self.command_service.wire_health()
+        except Exception:  # noqa: BLE001
+            return
+        label = getattr(self, 'wire_label', None)
+        if label is None or not info.get('ok'):
+            return
+        now = time.time()
+        count = info.get('received')
+        prev = getattr(self, '_wire_prev', None)
+        self._wire_prev = (now, count)
+        if not info.get('connected'):
+            self._wire_last_at = None
+            label.configure(text='網線：風夜目前沒連線（%s）' % (info.get('run') or ''), fg=MUTED)
+            return
+        if not isinstance(count, int):
+            label.configure(text='網線：讀不到收包數（phase=%s）' % info.get('phase'), fg=MUTED)
+            return
+        if prev and isinstance(prev[1], int) and count > prev[1]:
+            self._wire_last_at = now
+            label.configure(text='網線：最近 %.0f 秒收到 %d 筆（累計 %d）'
+                                 % (now - prev[0], count - prev[1], count), fg=MUTED)
+            return
+        last = getattr(self, '_wire_last_at', None) or getattr(self, '_wire_started', now)
+        self._wire_started = last
+        silent = now - last
+        if silent >= self.WIRE_SILENCE:
+            label.configure(
+                text='⚠️ 風夜已 %.0f 秒沒收到回合資料（連錯兩輪）→ 判定掉線' % silent, fg=WARN)
+        elif silent >= self.WIRE_WARN:
+            label.configure(text='網線：已靜默 %.0f 秒（累計 %d，phase=%s）'
+                                 % (silent, count, info.get('phase')), fg=WARN)
+        else:
+            label.configure(text='網線：已連線，累計 %d 筆（phase=%s）'
+                                 % (count, info.get('phase')), fg=MUTED)
+
+    def _sync_done(self, data):
+        self._sync_busy = False
+        label = getattr(self, 'sync_label', None)
+        if label is None:
+            return
+        shadow = (data or {}).get('shadow') or {}
+        reference = (data or {}).get('reference') or {}
+        season_names = '春夏秋冬'
+
+        def when(state):
+            season = state.get('season')
+            year = state.get('year')
+            if not isinstance(season, int):
+                return '?'
+            name = season_names[season] if 0 <= season < 4 else '季%d' % season
+            return '%s年%s' % (year, name) if isinstance(year, int) else name
+
+        if data.get('ok') is True:
+            label.configure(text='回合同步：✓ 風夜與玩家同步（%s）' % when(shadow), fg='#2e7d32')
+        elif data.get('ok') is False:
+            label.configure(
+                text='回合同步：⚠️ 落後 %s 季（風夜 %s ｜ 玩家 %s）——主機可能已無用'
+                     % (data.get('lag_seasons'), when(shadow), when(reference)), fg=WARN)
+        else:
+            label.configure(text='回合同步：%s' % (data.get('note') or '讀不到'),
+                            fg=MUTED)
 
     def _refresh_actual_slot(self):
         """每 15 秒讀一次風夜真實席位（讀取很便宜），讓面板與閘門說真話。"""
@@ -2355,6 +2445,24 @@ class FengyeWindow(OmniWindow):
         """推進「一鍵重來」流程；每步只發一次操作，結果經 _maybe_retry 續行。"""
         tag = (self.retry or {}).get('label', '重新來過')
         if self.retry is None:
+            return
+        # 2026-10-21：使用者手動結束遊戲／關掉所有客戶端時，一鍵要自己恢復。
+        try:
+            due = time.time() - getattr(self, '_clients_at', 0) > 2
+        except Exception:  # noqa: BLE001 - 測試用 Mock 時間
+            due = False
+        if due:
+            self._clients_at = time.time()
+            try:
+                import subprocess
+                out = subprocess.run(['pgrep', '-f', 'SANPK.exe'], capture_output=True, text=True).stdout
+                self._client_count = len([x for x in out.split() if x.strip()])
+            except Exception:  # noqa: BLE001
+                self._client_count = None
+        if getattr(self, '_client_count', None) == 0:
+            self.retry = None
+            self.room_receipt.configure(
+                text=tag + '：偵測到客戶端都已關閉，已中止（可重新按一鍵）。')
             return
         if time.monotonic() > self.retry.get('deadline', 0):
             self.retry = None
