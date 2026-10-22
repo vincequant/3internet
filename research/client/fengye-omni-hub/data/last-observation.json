@@ -1,16 +1,16 @@
 {
-  "queried_at": 1792628683.932728,
+  "queried_at": 1792629357.938259,
   "source_kind": "local_lab",
   "host_watch": null,
   "activity": {},
   "member_names": {
-    "174136642": "丁满",
-    "179263568": "风云",
+    "174929713": "丁满",
+    "169433828": "彭彭",
     "181778666": "小白"
   },
   "chain": [
     {
-      "pid": 93432,
+      "pid": 21671,
       "parent_pid": 16818,
       "role": "driver",
       "line": "多线3"
@@ -19,12 +19,12 @@
   "ghost_log": {
     "mode": "hub_room_session",
     "registration": "unknown",
-    "last_log_at": 1792628683.322376,
-    "packet_count": 18,
+    "last_log_at": 1792629357.6574268,
+    "packet_count": 45,
     "release_calls": 0,
     "receiver_errors": 0,
-    "last_packet_at": 1792628670.398773,
-    "last_cmd": 26,
+    "last_packet_at": 1792629321.4956732,
+    "last_cmd": 17,
     "watchdog_started_at": null,
     "cmd23_attempts": null,
     "cmd23_returns": null,
@@ -37,62 +37,72 @@
   "events": [
     {
       "ev": "received_packet",
-      "wall": 1792628641.433101,
-      "cmd": 26
+      "wall": 1792629254.8387399,
+      "cmd": 18
     },
     {
       "ev": "received_packet",
-      "wall": 1792628643.853003,
-      "cmd": 26
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792628643.954242,
-      "cmd": 20
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792628643.954242,
-      "cmd": 16
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792628643.954242,
+      "wall": 1792629254.8387399,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792628643.954242,
-      "cmd": 16
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792628643.954242,
+      "wall": 1792629254.8387399,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792628643.954242,
+      "wall": 1792629254.8387399,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792628646.475869,
+      "wall": 1792629256.958996,
       "cmd": 26
     },
     {
       "ev": "received_packet",
-      "wall": 1792628647.083879,
+      "wall": 1792629258.671695,
+      "cmd": 21
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792629258.671695,
+      "cmd": 21
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792629258.671695,
+      "cmd": 21
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792629281.140142,
       "cmd": 26
     },
     {
       "ev": "received_packet",
-      "wall": 1792628670.398773,
+      "wall": 1792629321.3945339,
       "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792629321.4956732,
+      "cmd": 17
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792629321.4956732,
+      "cmd": 17
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792629321.4956732,
+      "cmd": 17
     }
   ],
   "p34": {
-    "run_name": "run-20261022-081721-game",
+    "run_name": "run-20261022-082738-game",
     "pointer_state": null,
     "pointer_source": "hub_session",
     "registration_verified": false,
@@ -122,22 +132,22 @@
     },
     "longrun": {},
     "counters": {
-      "received": 18,
+      "received": 45,
       "released": 0,
       "errors": 0,
-      "rounds": 3,
+      "rounds": 10,
       "received_after_d8": null,
-      "last_packet_wall": 1792628670.398773,
-      "last_packet_cmd": 26
+      "last_packet_wall": 1792629321.4956732,
+      "last_packet_cmd": 17
     },
     "snapshots": {
       "initial": {
-        "observed_at": 1792628293.008899,
+        "observed_at": 1792628958.5457752,
         "cmd": 3,
         "rows": [
           {
             "i": 0,
-            "id": 174136642,
+            "id": 174929713,
             "w4": 2,
             "name": "丁满",
             "state42": 0,
@@ -146,9 +156,9 @@
           },
           {
             "i": 1,
-            "id": 179263568,
+            "id": 169433828,
             "w4": 2,
-            "name": "风云",
+            "name": "彭彭",
             "state42": 0,
             "binding46": -1,
             "faction": ""
@@ -210,38 +220,29 @@
         ]
       },
       "start": {
-        "observed_at": 1792628603.7947462,
+        "observed_at": 1792629059.1789372,
         "cmd": 7,
         "rows": [
           {
             "i": 0,
-            "id": 174136642,
+            "id": 174929713,
             "w4": 2,
             "name": "丁满",
             "state42": 0,
-            "binding46": 14,
-            "faction": "西凉"
+            "binding46": 20,
+            "faction": "汉"
           },
           {
             "i": 1,
-            "id": 179263568,
+            "id": 169433828,
             "w4": 2,
-            "name": "风云",
+            "name": "彭彭",
             "state42": 0,
-            "binding46": 0,
-            "faction": "魏"
+            "binding46": 13,
+            "faction": "义渠"
           },
           {
             "i": 2,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 7,
-            "faction": "晋"
-          },
-          {
-            "i": 3,
             "id": 0,
             "w4": 0,
             "name": "",
@@ -250,25 +251,25 @@
             "faction": "赵"
           },
           {
+            "i": 3,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 15,
+            "faction": "中山"
+          },
+          {
             "i": 4,
             "id": 0,
             "w4": 0,
             "name": "",
             "state42": 2,
-            "binding46": 9,
-            "faction": "越"
+            "binding46": 7,
+            "faction": "晋"
           },
           {
             "i": 5,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 3,
-            "faction": "齐"
-          },
-          {
-            "i": 6,
             "id": 0,
             "w4": 0,
             "name": "",
@@ -277,28 +278,37 @@
             "faction": "楚"
           },
           {
+            "i": 6,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 2,
+            "faction": "韩"
+          },
+          {
             "i": 7,
             "id": 0,
             "w4": 0,
             "name": "",
             "state42": 2,
-            "binding46": 16,
-            "faction": "代"
+            "binding46": 14,
+            "faction": "西凉"
           }
         ]
       }
     },
     "frames": [
       {
-        "wall": 1792628293.008899,
+        "wall": 1792628958.5457752,
         "type": 4,
         "cmd": 3,
         "cls": "CSanInetInitGameData",
-        "len": 708,
-        "sha8": "cd32dcdb31f2"
+        "len": 716,
+        "sha8": "b9dd89354a65"
       },
       {
-        "wall": 1792628293.1180081,
+        "wall": 1792628958.654892,
         "type": 4,
         "cmd": null,
         "cls": "CSanInetPlayerNotifyData",
@@ -306,7 +316,7 @@
         "sha8": "db7446acfacf"
       },
       {
-        "wall": 1792628310.979841,
+        "wall": 1792628981.6789901,
         "type": 4,
         "cmd": 1,
         "cls": "CSanInetCmdObject",
@@ -314,7 +324,7 @@
         "sha8": "423e9242b138"
       },
       {
-        "wall": 1792628530.0221398,
+        "wall": 1792629057.26047,
         "type": 4,
         "cmd": 6,
         "cls": "CSanInetCmdObject",
@@ -322,23 +332,23 @@
         "sha8": "3152dcc4dbd8"
       },
       {
-        "wall": 1792628603.7947462,
+        "wall": 1792629058.975687,
+        "type": 4,
+        "cmd": 14,
+        "cls": "CSanInetRandomLordSettingNotifyData",
+        "len": 144,
+        "sha8": "58111082cc20"
+      },
+      {
+        "wall": 1792629059.1789372,
         "type": 4,
         "cmd": 7,
         "cls": "CSanInetInitGameData",
-        "len": 715,
-        "sha8": "b50524aa23a9"
+        "len": 727,
+        "sha8": "fec9261f85df"
       },
       {
-        "wall": 1792628603.8997052,
-        "type": 4,
-        "cmd": 10,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "1d205205b616"
-      },
-      {
-        "wall": 1792628604.909757,
+        "wall": 1792629060.285897,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -346,7 +356,7 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792628606.3204072,
+        "wall": 1792629102.160699,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -354,7 +364,7 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792628641.433101,
+        "wall": 1792629105.38731,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -362,7 +372,55 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792628643.853003,
+        "wall": 1792629105.487762,
+        "type": 4,
+        "cmd": 16,
+        "cls": "CSanInetUnitNetCmdCreate",
+        "len": 71,
+        "sha8": "18ae3713d361"
+      },
+      {
+        "wall": 1792629105.487762,
+        "type": 4,
+        "cmd": 16,
+        "cls": "CSanInetUnitNetCmdCreate",
+        "len": 71,
+        "sha8": "1b6788b8ef3f"
+      },
+      {
+        "wall": 1792629105.487762,
+        "type": 4,
+        "cmd": 16,
+        "cls": "CSanInetUnitNetCmdCreate",
+        "len": 71,
+        "sha8": "fbf5fcec921c"
+      },
+      {
+        "wall": 1792629105.487762,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "4ae281c8ba63"
+      },
+      {
+        "wall": 1792629105.487762,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "dd1f7e4a42ce"
+      },
+      {
+        "wall": 1792629105.487762,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "d03632e47ee6"
+      },
+      {
+        "wall": 1792629109.0138109,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -370,55 +428,391 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792628643.954242,
+        "wall": 1792629109.218018,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629109.521312,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "e58a7c1eeae3"
+      },
+      {
+        "wall": 1792629109.521312,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "b8ed94c11fc8"
+      },
+      {
+        "wall": 1792629109.521312,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "b77f05c26c21"
+      },
+      {
+        "wall": 1792629129.709762,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629132.2281952,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "228244a90abc"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "04802f2c1486"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "2c3b4f56b0b8"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "80479086f3bf"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "9c03ac869f20"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "2213ec6433b3"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "49d628077989"
+      },
+      {
+        "wall": 1792629132.32901,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "bc29cff72b80"
+      },
+      {
+        "wall": 1792629147.81293,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629154.287489,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "3522b24b4dee"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "47eb50acd139"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "3d6384df3c20"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "ee4ed8d369ee"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "9c03ac869f20"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "2213ec6433b3"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "49d628077989"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "8a469963bf69"
+      },
+      {
+        "wall": 1792629154.38858,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "b09888170da6"
+      },
+      {
+        "wall": 1792629173.561206,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629175.778233,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "7c9da9b7da27"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "ab6352a5ff2b"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "2038e1e7e3f0"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "ef6c850cb42d"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "9c03ac869f20"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "2213ec6433b3"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "49d628077989"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "83607bd52e40"
+      },
+      {
+        "wall": 1792629175.883002,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "47db4f8add13"
+      },
+      {
+        "wall": 1792629176.68886,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629179.308552,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629247.983093,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629254.432287,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629254.8387399,
         "type": 4,
         "cmd": 20,
         "cls": "CSanInetPersonnelCmd",
         "len": 47,
-        "sha8": "8a86a131e37d"
+        "sha8": "ec8663fc25fe"
       },
       {
-        "wall": 1792628643.954242,
+        "wall": 1792629254.8387399,
         "type": 4,
-        "cmd": 16,
-        "cls": "CSanInetUnitNetCmdCreate",
-        "len": 71,
-        "sha8": "d538bef0f218"
+        "cmd": 18,
+        "cls": "CSanInetDomesticCmd",
+        "len": 54,
+        "sha8": "4b8322c195a7"
       },
       {
-        "wall": 1792628643.954242,
+        "wall": 1792629254.8387399,
+        "type": 4,
+        "cmd": 18,
+        "cls": "CSanInetDomesticCmd",
+        "len": 54,
+        "sha8": "a77d4ddea71c"
+      },
+      {
+        "wall": 1792629254.8387399,
+        "type": 4,
+        "cmd": 18,
+        "cls": "CSanInetDomesticCmd",
+        "len": 54,
+        "sha8": "b80c455e9304"
+      },
+      {
+        "wall": 1792629254.8387399,
+        "type": 4,
+        "cmd": 18,
+        "cls": "CSanInetDomesticCmd",
+        "len": 54,
+        "sha8": "e3aae3f26c97"
+      },
+      {
+        "wall": 1792629254.8387399,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "89ca33909d8a"
+        "sha8": "8ba20223d612"
       },
       {
-        "wall": 1792628643.954242,
-        "type": 4,
-        "cmd": 16,
-        "cls": "CSanInetUnitNetCmdCreate",
-        "len": 71,
-        "sha8": "c6494134c050"
-      },
-      {
-        "wall": 1792628643.954242,
+        "wall": 1792629254.8387399,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "cdaa8ed945e6"
+        "sha8": "a76f019e6864"
       },
       {
-        "wall": 1792628643.954242,
+        "wall": 1792629254.8387399,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "6d313c70213c"
+        "sha8": "c1d4d70ec8a3"
       },
       {
-        "wall": 1792628646.475869,
+        "wall": 1792629256.958996,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -426,7 +820,31 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792628647.083879,
+        "wall": 1792629258.671695,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "a5c54c3f6f07"
+      },
+      {
+        "wall": 1792629258.671695,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "b8ed94c11fc8"
+      },
+      {
+        "wall": 1792629258.671695,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "2c1604129594"
+      },
+      {
+        "wall": 1792629281.140142,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -434,56 +852,380 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792628670.398773,
+        "wall": 1792629321.3945339,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
         "len": 36,
         "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792629321.4956732,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "9c03ac869f20"
+      },
+      {
+        "wall": 1792629321.4956732,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "2213ec6433b3"
+      },
+      {
+        "wall": 1792629321.4956732,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "49d628077989"
       }
     ],
     "sync": {
-      "rounds": 3,
+      "rounds": 10,
       "nonempty": [
         {
-          "wall": 1792628643.954242,
+          "wall": 1792629105.487762,
           "round": 16,
           "records": [
             {
-              "sender": 179263568,
+              "sender": 181778666,
+              "len": 71,
+              "sha8": "18ae3713d361",
+              "raw": "ffff010018004353616e496e6574556e69744e6574436d6443726561746510000000000000000000000000010014008100ffffffffa00f0000a00f00002b000000ffffffffffff"
+            },
+            {
+              "sender": 174929713,
+              "len": 71,
+              "sha8": "1b6788b8ef3f",
+              "raw": "ffff010018004353616e496e6574556e69744e6574436d644372656174651000000000000000000000000001001400a900ffffffffac0d0000ac0d00002b000300ffffffffffff"
+            },
+            {
+              "sender": 174929713,
+              "len": 71,
+              "sha8": "fbf5fcec921c",
+              "raw": "ffff010018004353616e496e6574556e69744e6574436d6443726561746510000000000000000000000000000014008c02ffffffffe02e0000e02e00002b000100ffffffffffff"
+            },
+            {
+              "sender": 181778666,
+              "len": 38,
+              "sha8": "4ae281c8ba63",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000055e4000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "dd1f7e4a42ce",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000006dd000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "d03632e47ee6",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000a7d6000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792629109.521312,
+          "round": 20,
+          "records": [
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "e58a7c1eeae3",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000007a9a000000"
+            },
+            {
+              "sender": 181778666,
+              "len": 38,
+              "sha8": "b8ed94c11fc8",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000007b9a000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "b77f05c26c21",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000799a000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792629132.32901,
+          "round": 24,
+          "records": [
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "228244a90abc",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f766511000000000000000000000000020039000000bf000000010000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "04802f2c1486",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003d000000c0000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "2c3b4f56b0b8",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003d000000c3000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 38,
+              "sha8": "80479086f3bf",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000012b4000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "9c03ac869f20",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "2213ec6433b3",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "49d628077989",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "bc29cff72b80",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000000ba5000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792629154.38858,
+          "round": 28,
+          "records": [
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "3522b24b4dee",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003d000000c0000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "47eb50acd139",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003d000000c2000000030000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "3d6384df3c20",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003d000000c4000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "ee4ed8d369ee",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000017b8000000"
+            },
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "9c03ac869f20",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "2213ec6433b3",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "49d628077989",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 38,
+              "sha8": "8a469963bf69",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000c0ab000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "b09888170da6",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000b803000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792629175.883002,
+          "round": 32,
+          "records": [
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "7c9da9b7da27",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c3000000030000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "ab6352a5ff2b",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003b000000c3000000020000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 63,
+              "sha8": "2038e1e7e3f0",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003b000000c3000000010000000000ffffffff0000"
+            },
+            {
+              "sender": 181778666,
+              "len": 38,
+              "sha8": "ef6c850cb42d",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000001cb5000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "9c03ac869f20",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "2213ec6433b3",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "49d628077989",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "83607bd52e40",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000096a4000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "47db4f8add13",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000008a05000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792629254.8387399,
+          "round": 44,
+          "records": [
+            {
+              "sender": 181778666,
               "len": 47,
-              "sha8": "8a86a131e37d",
-              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000000000000047000000"
+              "sha8": "ec8663fc25fe",
+              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000001400000079000000"
             },
             {
               "sender": 181778666,
-              "len": 71,
-              "sha8": "d538bef0f218",
-              "raw": "ffff010018004353616e496e6574556e69744e6574436d644372656174651000000000000000000000000001000e004e02ffffffffe02e0000e02e000015000000ffffffff0700"
+              "len": 54,
+              "sha8": "4b8322c195a7",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d641200000002000000000000000014000000000000000000000003000000"
+            },
+            {
+              "sender": 181778666,
+              "len": 54,
+              "sha8": "a77d4ddea71c",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d641200000000000000000000000014000000010000005e00000000000000"
+            },
+            {
+              "sender": 181778666,
+              "len": 54,
+              "sha8": "b80c455e9304",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d6412000000040000003d00c0000014000000060000002b000000d0070000"
+            },
+            {
+              "sender": 181778666,
+              "len": 54,
+              "sha8": "e3aae3f26c97",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d641200000002000000000000000014000000000000000000000002000000"
             },
             {
               "sender": 181778666,
               "len": 38,
-              "sha8": "89ca33909d8a",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000004d2d010000"
+              "sha8": "8ba20223d612",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000009eb1000000"
             },
             {
-              "sender": 174136642,
-              "len": 71,
-              "sha8": "c6494134c050",
-              "raw": "ffff010018004353616e496e6574556e69744e6574436d644372656174651000000000000000000000000001000e004e02ffffffffe02e0000e02e000015000300ffffffff0700"
-            },
-            {
-              "sender": 174136642,
+              "sender": 174929713,
               "len": 38,
-              "sha8": "cdaa8ed945e6",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000e0fe000000"
+              "sha8": "a76f019e6864",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000033a1000000"
             },
             {
-              "sender": 179263568,
+              "sender": 169433828,
               "len": 38,
-              "sha8": "6d313c70213c",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000100000093ea000000"
+              "sha8": "c1d4d70ec8a3",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000d187000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792629258.671695,
+          "round": 48,
+          "records": [
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "a5c54c3f6f07",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000007b9a000000"
+            },
+            {
+              "sender": 181778666,
+              "len": 38,
+              "sha8": "b8ed94c11fc8",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000007b9a000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "2c1604129594",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000007a9a000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792629321.4956732,
+          "round": 52,
+          "records": [
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "9c03ac869f20",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "2213ec6433b3",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 174929713,
+              "len": 63,
+              "sha8": "49d628077989",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
             }
           ]
         }
@@ -519,32 +1261,32 @@
     "ghost_withdrawn": false,
     "host_init_wait": false,
     "exit_seen_wall": null,
-    "observed_at": 1792628683.322376,
-    "started_at": 1792628241.956817,
-    "driver_pid": 93423,
+    "observed_at": 1792629357.6574268,
+    "started_at": 1792628858.4230342,
+    "driver_pid": 21660,
     "line": "多线3",
     "error": null
   },
   "status": {
     "schema": "fengye-status-1",
-    "wall": 1792628682.034,
-    "pid": 620,
+    "wall": 1792629356.676,
+    "pid": 1284,
     "present": true,
     "link": {
       "connected": true,
       "sync": 4,
-      "tx": 10,
+      "tx": 38,
       "rx_backlog": 0
     },
     "scene": {
-      "in_map": false,
-      "mode": 2,
-      "phase": 3
+      "in_map": true,
+      "mode": 3,
+      "phase": 4
     },
     "fog_original": true,
     "seat": {
       "slot": 0,
-      "force": 14
+      "force": 20
     },
     "patches": {
       "opening": {
@@ -570,13 +1312,13 @@
       "pid": null
     },
     "rx": {
-      "received": 18,
-      "last_wall": 1792628670.398773,
-      "last_age": 12.1
+      "received": 45,
+      "last_wall": 1792629321.4956732,
+      "last_age": 35.6
     },
     "hide": {
       "verified": true,
-      "at": 1792628312.3758268,
+      "at": 1792628982.105776,
       "by": "local_app_table+d8_receipt",
       "note": "D8 送出一發；應用層名冊已無 小白，DLL 成員保留（廣播仍可達）"
     },
@@ -594,18 +1336,18 @@
       "started": false
     },
     "world": null,
-    "disk_free_gb": 767.2,
-    "uptime_s": 439.1,
-    "age": 1.9
+    "disk_free_gb": 767.15,
+    "uptime_s": 498.2,
+    "age": 1.3
   },
   "host": {
     "virtual_ip": "",
     "session": "",
     "source": "hub_session",
-    "observed_at": 1792628683.322376
+    "observed_at": 1792629357.6574268
   },
   "line": "多线3",
-  "run_name": "run-20261022-081721-game",
+  "run_name": "run-20261022-082738-game",
   "source_sha256": {},
   "room_query": null
 }

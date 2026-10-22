@@ -3287,3 +3287,17 @@ Traceback (most recent call last):
   File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/fengye_battle_panel.py", line 73, in prepare_payload
     raise ValueError(str(payload.get('error') or '讀取未完成'))
 ValueError: 風夜客戶端不在線；保留上次畫面
+2026-10-22 08:27:32,030 battle-read: ValueError: RuntimeError: Ambiguous/missing GameCore: 0
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/fengye_battle_panel.py", line 247, in work
+    display = prepare_payload(payload)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/fengye_battle_panel.py", line 73, in prepare_payload
+    raise ValueError(str(payload.get('error') or '讀取未完成'))
+ValueError: RuntimeError: Ambiguous/missing GameCore: 0
+2026-10-22 08:27:35,395 battle-read: ValueError: 風夜客戶端不在線；保留上次畫面
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/fengye_battle_panel.py", line 247, in work
+    display = prepare_payload(payload)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/fengye-omni-hub/fengye_battle_panel.py", line 73, in prepare_payload
+    raise ValueError(str(payload.get('error') or '讀取未完成'))
+ValueError: 風夜客戶端不在線；保留上次畫面

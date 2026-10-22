@@ -308,8 +308,11 @@ def status_items(view, now=None):
     # 開局標準線：連線 → 進房 → 報到 → 藏身 → 補丁。五項齊了才算「可以按開始」。
     # 上帝視角、回合跟隨不列入硬門檻。
     hide_now_ok = isinstance(hide, dict) and hide.get('verified')
-    standard = [('連線', connected_ok), ('進房', bool(session.get('room_name'))),
-                ('報到', bool(session.get('ghost_registered'))), ('藏身', hide_now_ok),
+    # 2026-10-22：D8 藏身之後應用層那一行本來就會消失，所以「進房／報到」讀不到是預期結果。
+    in_room_ok = bool(session.get('room_name')) or hide_now_ok
+    reported_ok = bool(session.get('ghost_registered')) or hide_now_ok
+    standard = [('連線', connected_ok), ('進房', in_room_ok),
+                ('報到', reported_ok), ('藏身', hide_now_ok),
                 ('補丁', patch_ok)]
     done = sum(1 for _name, ok in standard if ok)
     missing = [name for name, ok in standard if not ok]
@@ -319,6 +322,10 @@ def status_items(view, now=None):
             if rounds_now:
                 detail += ' · 已跟到第 %d 回合' % rounds_now
             items.insert(0, {'level': 'ok', 'label': '已開局：風夜正在旁聽', 'detail': detail})
+        elif hide_now_ok:
+            items.insert(0, {'level': 'ok', 'label': '已藏身：房主可以直接按「開始」',
+                             'detail': '開局標準 %d/%d（藏身模式下主機不會等我們、也不會分勢力）'
+                                       % (done, len(standard))})
         else:
             items.insert(0, {'level': 'ok', 'label': '可以按「開始」了',
                              'detail': '開局標準 %d/%d：%s' % (done, len(standard), ' · '.join(n for n, _ in standard))})

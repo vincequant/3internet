@@ -1,19 +1,19 @@
 {
   "format_version": 2,
   "open": true,
-  "match_id": "cae2844e-8ca7-49d7-b495-47d75d4aec63",
+  "match_id": "32ecaaa4-4e08-4da1-82cf-f4e08a0a4aa9",
   "collector_version": "1.1.336",
   "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
   "schema": "astra-sgi-core-2",
   "source_id": "VKQUANT",
   "runtime_id": "wine-sikarugir10",
   "process": {
-    "pid": 620,
+    "pid": 1284,
     "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
-    "creation_filetime": 134371018400323230
+    "creation_filetime": 134371024563428860
   },
-  "player_session_id_at_open": "e03b75125fb9454385157c67a19f4574",
-  "started_utc": "2026-10-22T00:23:25.427000+00:00",
+  "player_session_id_at_open": "900601a1f2384e5bb3f87c1f4fae84ee",
+  "started_utc": "2026-10-22T00:31:00.494385+00:00",
   "ended_utc": null,
   "end_reason": null,
   "completeness": "recording",
@@ -33,11 +33,13 @@
       "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
     }
   ],
-  "related_match_ids": [],
+  "related_match_ids": [
+    "cae2844e-8ca7-49d7-b495-47d75d4aec63"
+  ],
   "simulated": false,
-  "frame_count": 30,
-  "last_seq": 30,
-  "last_snapshot_id": "20261022T002412950429Z",
+  "frame_count": 210,
+  "last_seq": 210,
+  "last_snapshot_id": "20261022T003551680919Z",
   "dropped_frames": 0,
   "write_error": null,
   "training_capture_contract": {
@@ -47,8 +49,8 @@
     "state_difference_is_action_label": false,
     "formal_evaluation_eligible": false
   },
-  "last_capture_end": "2026-10-22T00:24:13.021074+00:00",
-  "title": "玩家局 1v1 魏 vs 西凉",
+  "last_capture_end": "2026-10-22T00:35:51.701604+00:00",
+  "title": "玩家局 1v1 义渠 vs 汉",
   "match_kind": "player",
   "format": "1v1",
   "opening_locked": true,
