@@ -631,12 +631,12 @@ class FengyeWindow(OmniWindow):
         # self._build_drop_box(column)
         head = tk.Frame(column, bg=DAMASK)
         head.pack(fill='x')
+        # 2026-10-22 使用者定案：不需要「中途換視角」→ 移除席位下拉與切換鈕，只留唯讀顯示。
+        # 要指定跟哪一家，請在「進房與準備」的「開局前上身（幽靈席位）」選好，再按一鍵。
         tk.Label(head, text='風夜席位', bg=DAMASK, fg=GOLD,
                  font=(self.face, 13, 'bold')).pack(side='left')
         self.quick_force = tk.StringVar()
-        self.quick_box = ttk.Combobox(head, textvariable=self.quick_force, width=26, state='readonly')
-        self.quick_box.pack(side='left', padx=8)
-        tk.Button(head, text='切換', bg=BG, command=self._quick_switch).pack(side='left')
+        self.quick_box = None                       # 不再建立下拉（保留屬性給舊程式碼判斷）
         self.quick_state = tk.Label(head, text='讀取中…', bg=DAMASK, fg=MUTED,
                                     anchor='w', font=(self.face, 11, 'bold'))
         self.quick_state.pack(side='left', padx=12)
@@ -873,7 +873,8 @@ class FengyeWindow(OmniWindow):
             values.append('%s（slot %s）· %s' % (name, force.get('slot'),
                                                 force.get('name') or ''))
         current = self.quick_force.get()
-        self.quick_box.configure(values=values)
+        if self.quick_box is not None:
+            self.quick_box.configure(values=values)
         if current not in values:
             self.quick_force.set(values[0])
         local = data.get('local') or {}
