@@ -1,0 +1,14 @@
+{
+  "updated": [
+    "app/unit_combat.py",
+    "bridge/unit_combat.py",
+    "app/omni_window.py",
+    "bridge/state_extensions.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/unit-combat-20260912-193420",
+  "restart_required": [
+    "collector bridge",
+    "Hub"
+  ],
+  "scope": "unit fields and derived combat only; player identity/map/theme preserved"
+}

@@ -1,0 +1,10 @@
+{
+  "updated": [
+    "app/rules_panel.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/diplomacy-card-art-20260913-001506",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Native card art in diplomacy comparison; presentation and selection only"
+}

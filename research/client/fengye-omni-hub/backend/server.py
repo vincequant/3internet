@@ -271,7 +271,7 @@ def present(raw, transport, room_query, directory, now=None):
         # 由呈現層翻成玩家說法；缺的鍵保持 None，不補造。
         status = {key: status_raw.get(key) for key in (
             'wall', 'age', 'present', 'link', 'scene', 'seat', 'hide', 'godview',
-            'driver', 'rx', 'world', 'disk_free_gb', 'pid', 'patches')}
+            'driver', 'rx', 'world', 'disk_free_gb', 'pid', 'patches', 'hall')}
         status['line'] = status_raw.get('line') or raw.get('line')
     return {'now': now, 'transport': transport,
             'session': session, 'status': status,

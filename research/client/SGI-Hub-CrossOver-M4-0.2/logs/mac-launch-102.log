@@ -1,0 +1,24 @@
+采集桥：started
+Fatal Python error: PyEval_RestoreThread: the function must be called with the GIL held, after Python initialization and before Python finalization, but the GIL is released (the current Python thread state is NULL)
+Python runtime state: initialized
+
+Thread 0x000000016eb37000 [native-hub-api-reader] (most recent call first):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 373 in wait
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 670 in wait
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/portable_client.py", line 49 in poll
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 327 in fetch
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024 in run
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082 in _bootstrap_inner
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1044 in _bootstrap
+
+Current thread 0x00000001f679d7c0 (most recent call first):
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 585 in <genexpr>
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 585 in render_detail
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 424 in render
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 339 in tick
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 876 in callit
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2093 in __call__
+  File "/opt/homebrew/Cellar/python@3.14/3.14.3_1/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 1613 in mainloop
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 30 in <module>
+
+Extension modules: PIL._imaging, PIL._imagingft, PIL._imagingmath, PIL._imagingtk (total: 4)

@@ -1,0 +1,12 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/native_city_map.py",
+    "app/unit_proximity.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/unit-proximity-20260912-193847",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Own first; light red <=5; light yellow 6..10; remaining units. Chebyshev coordinate distance, not attack range."
+}

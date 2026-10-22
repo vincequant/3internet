@@ -182,6 +182,32 @@ def restore_select_if_modal_hidden(hwnd, pid):
         u.EnableWindow(hwnd, True)
     return True
 
+
+def drain_search_dialogs(pid, rounds=24, pause=.12):
+    """Clear the whole stack of 搜寻服务器 boxes.
+
+    Every accepted 刷新列表 opens one MODAL box and the game stacks them:
+    closing the visible one reveals the next.  A single leftover keeps
+    游戏选择 disabled, so the client looks frozen (2026-10-21: 6 stacked
+    boxes, 游戏选择 enabled=False).  Answer every box, then let
+    restore_select_if_modal_hidden re-enable the select window.
+    """
+    drained=0
+    for _ in range(rounds):
+        live=[h for h in windows(pid, visible_only=False)
+              if label(h)==CONFIRM and u.IsWindowVisible(h)]
+        if not live:
+            break
+        for dlg in live:
+            hide_window(dlg, offscreen=True)
+            try:
+                click(dlg, pid, CONFIRM, 1, '确定', allow_hidden=True)
+            except RuntimeError:
+                continue
+            drained+=1
+        time.sleep(pause)
+    return drained
+
 def refresh(hwnd,pid,quiet=False):
     extras=[h for h in windows(pid) if label(h,True)=='#32770' and h!=hwnd]
     if extras and not quiet:
@@ -229,7 +255,13 @@ def refresh(hwnd,pid,quiet=False):
             time.sleep(2)
             if label(hwnd)!=TITLE or not u.IsWindow(hwnd):
                 raise RuntimeError('已离开游戏选择，观察已暂停')
-            return {'confirm_first_visible': confirm_first_visible}
+            drained=0
+            if quiet:
+                # A queued 刷新列表 would pop one more box per accepted click;
+                # drain the stack so the client is not left frozen.
+                drained=drain_search_dialogs(pid)
+                restore_select_if_modal_hidden(hwnd, pid)
+            return {'confirm_first_visible': confirm_first_visible, 'drained': drained}
         if quiet:
             hide_window(dialog, offscreen=True)
             hide_wait_windows(pid, offscreen=True)

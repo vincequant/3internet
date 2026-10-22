@@ -1,0 +1,10 @@
+{
+  "chip": "Apple M4 arm64",
+  "macos": "26.4 (25E5223i)",
+  "crossover": "26.3.0.39832",
+  "bottle": "SanguoInternet",
+  "template": "win10_64",
+  "game_exe": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+  "platform_exe": "C:\\sgi\\run-3.5\\SANGUO.exe",
+  "policy": "query/read only; no debugger attach; fresh discovery each start"
+}

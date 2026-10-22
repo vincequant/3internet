@@ -1,0 +1,44 @@
+{"at": "2026-10-21T12:03:10.527004+00:00", "kind": "bound", "bound": {"pid": 1964, "created": 134370576090728870, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:03:12.025458+00:00", "kind": "modification_label", "bound": {"pid": 1964, "created": 134370576090728870, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}, "note": "修改标记状态等待确认：无法确认本局我方势力，未执行修改"}
+{"at": "2026-10-21T12:03:12.282974+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 1}
+{"at": "2026-10-21T12:03:12.283427+00:00", "kind": "exit", "code": 2, "helper_epoch": 1}
+{"at": "2026-10-21T12:03:18.116489+00:00", "kind": "connect_error", "note": "当前尚未进入游戏，等待本机采集桥发现新对局", "helper_epoch": 2}
+{"at": "2026-10-21T12:03:24.107136+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:03:25.458643+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 3}
+{"at": "2026-10-21T12:03:25.555546+00:00", "kind": "exit", "code": 2, "helper_epoch": 3}
+{"at": "2026-10-21T12:03:32.104837+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:03:33.291726+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 4}
+{"at": "2026-10-21T12:03:33.292080+00:00", "kind": "exit", "code": 2, "helper_epoch": 4}
+{"at": "2026-10-21T12:03:40.129909+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:03:41.140167+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 5}
+{"at": "2026-10-21T12:03:41.140545+00:00", "kind": "exit", "code": 2, "helper_epoch": 5}
+{"at": "2026-10-21T12:03:48.120882+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:03:49.456890+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 6}
+{"at": "2026-10-21T12:03:49.457231+00:00", "kind": "exit", "code": 2, "helper_epoch": 6}
+{"at": "2026-10-21T12:03:56.413348+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:03:57.749292+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 7}
+{"at": "2026-10-21T12:03:57.835904+00:00", "kind": "exit", "code": 2, "helper_epoch": 7}
+{"at": "2026-10-21T12:04:04.392966+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:04:06.160337+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 8}
+{"at": "2026-10-21T12:04:06.160737+00:00", "kind": "exit", "code": 2, "helper_epoch": 8}
+{"at": "2026-10-21T12:04:12.544804+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:04:14.521692+00:00", "kind": "modification_label", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}, "note": "修改标记状态等待确认：无法确认本局我方势力，未执行修改"}
+{"at": "2026-10-21T12:04:15.787752+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 9}
+{"at": "2026-10-21T12:04:15.869762+00:00", "kind": "exit", "code": 2, "helper_epoch": 9}
+{"at": "2026-10-21T12:04:22.566110+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:04:24.308520+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 10}
+{"at": "2026-10-21T12:04:24.308982+00:00", "kind": "exit", "code": 2, "helper_epoch": 10}
+{"at": "2026-10-21T12:04:30.552222+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:04:32.320092+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 11}
+{"at": "2026-10-21T12:04:32.424551+00:00", "kind": "exit", "code": 2, "helper_epoch": 11}
+{"at": "2026-10-21T12:04:38.649020+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:04:39.672266+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 12}
+{"at": "2026-10-21T12:04:39.672685+00:00", "kind": "exit", "code": 2, "helper_epoch": 12}
+{"at": "2026-10-21T12:04:46.630283+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:04:47.871853+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 13}
+{"at": "2026-10-21T12:04:47.872248+00:00", "kind": "exit", "code": 2, "helper_epoch": 13}
+{"at": "2026-10-21T12:04:54.684257+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:04:56.523989+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 14}
+{"at": "2026-10-21T12:04:56.524397+00:00", "kind": "exit", "code": 2, "helper_epoch": 14}
+{"at": "2026-10-21T12:05:02.677598+00:00", "kind": "bound", "bound": {"pid": 508, "created": 134370577996952190, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T12:05:03.187812+00:00", "kind": "panel_closed"}

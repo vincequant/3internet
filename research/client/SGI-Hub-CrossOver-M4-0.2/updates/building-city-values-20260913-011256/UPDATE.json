@@ -1,0 +1,12 @@
+{
+  "updated": [
+    "bridge/collector.py",
+    "app/world_cities.py",
+    "app/native_city_map.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/building-city-values-20260913-011256",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Building values and officer map unit filter"
+}

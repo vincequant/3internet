@@ -1,0 +1,67 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "59e048b8-39eb-488b-87bb-96d1d1b41008",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 856,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134369647610736550
+  },
+  "player_session_id_at_open": "f9e3e4eb98b2459d80aef83b276393f7",
+  "started_utc": "2026-10-20T10:24:19.841783+00:00",
+  "ended_utc": "2026-10-20T10:28:18.234840+00:00",
+  "end_reason": "process_gone",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "442e2599-307a-48e8-aadb-776b910d2f7a"
+  ],
+  "simulated": false,
+  "frame_count": 151,
+  "last_seq": 151,
+  "last_snapshot_id": "20261020T102816895590Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-20T10:28:16.921414+00:00",
+  "title": "玩家局 3人 中山/代/汉",
+  "match_kind": "player",
+  "format": "3人",
+  "opening_locked": true,
+  "opening_force_count": 3,
+  "opening_alliances": []
+}

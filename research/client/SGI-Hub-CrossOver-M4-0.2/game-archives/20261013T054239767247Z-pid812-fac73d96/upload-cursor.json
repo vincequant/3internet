@@ -1,0 +1,9 @@
+{
+  "match_id": "fac73d96-b192-490d-be06-fb762df45afe",
+  "acked_seq": 0,
+  "gaps": [],
+  "lost_gaps": [],
+  "queue_full_waits": 0,
+  "last_error": "HTTP Error 500: Internal Server Error",
+  "last_flush_utc": null
+}

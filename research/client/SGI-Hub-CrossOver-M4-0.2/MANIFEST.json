@@ -1,0 +1,382 @@
+{
+  "app/assets/res/248.bmp": {
+    "sha256": "423300946848369baf3ed03b74177fbbed13722aa847a6094298e407b10599f5",
+    "bytes": 4056
+  },
+  "app/assets/res/249.bmp": {
+    "sha256": "e684bd4be8294d45fe098f71749605d894401f2d39ed58d92e2965405816cbc9",
+    "bytes": 4056
+  },
+  "app/assets/res/250.bmp": {
+    "sha256": "f5e6078c189222675c25abfaf34c5b799ad9e7aefae189ac3fe8feb3e36c5e97",
+    "bytes": 4056
+  },
+  "app/assets/res/251.bmp": {
+    "sha256": "014be665973a8bdfcf1b593a96a54290c09a785ea8b2c2162bab03b49c8c0272",
+    "bytes": 4056
+  },
+  "app/assets/res/252.bmp": {
+    "sha256": "023bedb3a2a1b12060ff3a0e4a8defb419c24992b8ec521040e333e172449b07",
+    "bytes": 4056
+  },
+  "app/assets/res/253.bmp": {
+    "sha256": "5c06afc8da532a66e15f1d7d4aee36fffbda399a50e75e009006ebf67a53175c",
+    "bytes": 4056
+  },
+  "app/assets/res/254.bmp": {
+    "sha256": "cbea892e3ed4503c21391f82a4384345b5f7ad68d0dd2e2e32caa88862daf4f7",
+    "bytes": 4056
+  },
+  "app/assets/res/255.bmp": {
+    "sha256": "9d8b2ca06d552fb5180013678dc628c94e183cf6b8fb98e1458c84abc9383452",
+    "bytes": 4056
+  },
+  "app/assets/res/256.bmp": {
+    "sha256": "6ed3d6707dd485b280e157a30561200f5bceb6fd35c91c75bff201e8bb59740e",
+    "bytes": 4056
+  },
+  "app/assets/res/257.bmp": {
+    "sha256": "08fc1732d0de425adc22d1850d8d999b3723a3084617183da712c9b0ffe9b561",
+    "bytes": 4056
+  },
+  "app/assets/res/258.bmp": {
+    "sha256": "ced95dd908d70ab1147681fb8a44468a1a64b45f65e582337f172d0f67d0cc3c",
+    "bytes": 4056
+  },
+  "app/assets/res/259.bmp": {
+    "sha256": "f89a147293386f2fdff750b2bc6bbe8ead74b0266ab275172407307e06b45076",
+    "bytes": 4056
+  },
+  "app/assets/res/260.bmp": {
+    "sha256": "ec5fae2ec05e8dead1eef7ea9eccb9ade303d8f2f5221cb1bf0a0cdb633195b7",
+    "bytes": 4056
+  },
+  "app/assets/res/261.bmp": {
+    "sha256": "f099891d4cb9cbc7e8d9f006f393ebadd35ace481fd09675a60b0e15d59cb22a",
+    "bytes": 4056
+  },
+  "app/assets/res/262.bmp": {
+    "sha256": "42f61f46ffeac65d16edf670141b9b597d94302cd1fb94e2e3a1d0b4d68b9e67",
+    "bytes": 4056
+  },
+  "app/assets/res/263.bmp": {
+    "sha256": "f46611a1ff76b1319fdbcaa82186a52ccf51d440852c0ddf6015637f04f5457d",
+    "bytes": 4056
+  },
+  "app/assets/res/264.bmp": {
+    "sha256": "82bf5b75ff537378119a3a18a44f5568dbb30906f8ac58bd81278bdf7f17a589",
+    "bytes": 4056
+  },
+  "app/assets/res/265.bmp": {
+    "sha256": "f56cd2bcd973ed98b8f574adc33411407afb869a27ea4106954dd02b7585989e",
+    "bytes": 4056
+  },
+  "app/assets/res/266.bmp": {
+    "sha256": "0c80d73899533028964b727664ed1a65adcd98c945666582ebef87d04e3b333d",
+    "bytes": 4056
+  },
+  "app/assets/res/267.bmp": {
+    "sha256": "318fa6c9e84e98478cbb950c8a2cc3aa55a5dddcf18bac52741589a4de2b73e1",
+    "bytes": 4056
+  },
+  "app/assets/res/268.bmp": {
+    "sha256": "978500827eca1ba4a2c63a2082c6a8a185bda9d57fbea27a71dc24b6c2efcd9a",
+    "bytes": 4056
+  },
+  "app/assets/res/269.bmp": {
+    "sha256": "2d75ba76f23d8a56b7eab64e7de650fb42a502a3cd61c299cc89ce8a6c8cce3f",
+    "bytes": 4056
+  },
+  "app/assets/res/270.bmp": {
+    "sha256": "976ce67d1d4b72b350458c5fd8879ddc35400cf8fc328dbc2da55392482469ef",
+    "bytes": 4056
+  },
+  "app/assets/res/271.bmp": {
+    "sha256": "8f84b15edf637e020696a2d1df636c3b4339f465ec45641a5689726975070989",
+    "bytes": 4056
+  },
+  "app/assets/res/272.bmp": {
+    "sha256": "a232ca818e2d8ff2cc85a938127269832016bd2d06872ad0ffbda6f3b5a3980b",
+    "bytes": 4056
+  },
+  "app/assets/res/273.bmp": {
+    "sha256": "6ddfa965badd40940fa8959b04e4031f2cb08fb001484c60821e83bc8e7316c4",
+    "bytes": 4056
+  },
+  "app/assets/res/274.bmp": {
+    "sha256": "a3335e941d17c2bac1f2ec4aaf5b037f42c66686b993cc79b8ebdb5880bc8793",
+    "bytes": 4056
+  },
+  "app/assets/res/275.bmp": {
+    "sha256": "a3e569ce62177cf194566d490eac84d7cf6cd7a683a08a37c5eadda7ea5fd38c",
+    "bytes": 4056
+  },
+  "app/assets/SanInet.lbm": {
+    "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e",
+    "bytes": 185880
+  },
+  "app/assets/SanInet.rbm": {
+    "sha256": "9e4f4ce05ce6a810553f25dcdb154ce456ffe3a41f3d82fe60839d2efe95d426",
+    "bytes": 185878
+  },
+  "app/card_catalog.json": {
+    "sha256": "db1e3182ad63b6418783d6125f36733c9294d9397290ef9a399c22611521b096",
+    "bytes": 1354
+  },
+  "app/decision_panel.py": {
+    "sha256": "b833b37ee1722c9558b3a188a24d4ec8374eb93732e4e9feced0a265bcfbe43c",
+    "bytes": 4276
+  },
+  "app/decision_support.py": {
+    "sha256": "20fe9e31bda315c2a3e0ab3a07201ad9be0b6b694188bc2c361fd9c2b595b594",
+    "bytes": 2375
+  },
+  "app/force_card_art.py": {
+    "sha256": "cf331042e627b8d28cf79ffd4e995f1e5949a543664fddcfba3efa2934480707",
+    "bytes": 1993
+  },
+  "app/game_palette.json": {
+    "sha256": "5af14e0ea017ba25d19c36f869b1a2458bf40f1d0e9f212e5c3c56e30e043c63",
+    "bytes": 42603
+  },
+  "app/mac_main.py": {
+    "sha256": "8bdb66eda1b1d01cd85d1f9b4ae9f47bd390e3c52b82de4fe590bcd28ce96601",
+    "bytes": 580
+  },
+  "app/map.json": {
+    "sha256": "b402855112e48ca91dd224a71c2c5a345d378557a0898973415ac24c3d2d6273",
+    "bytes": 47
+  },
+  "app/military_summary.py": {
+    "sha256": "9e026aab73231de71623b003b888415fb5d53fe756fdee74a217729613f14e1c",
+    "bytes": 2958
+  },
+  "app/native_city_map.py": {
+    "sha256": "836c955a001747afa92eb6ecddac189938cd6a653e5fdb57352c17dd6e9efc9f",
+    "bytes": 13744
+  },
+  "app/omni_window.py": {
+    "sha256": "1d4e5b13b78b724fdf769e09dce0f6d19991cff2b5e6126db33e011d26b7ae16",
+    "bytes": 29401
+  },
+  "app/portable_client.py": {
+    "sha256": "16c9b67f75cd9fb0071ff1a94387de6545cda2ebf54098f89c19c3e2c8aab8d9",
+    "bytes": 531
+  },
+  "app/state_extensions.py": {
+    "sha256": "74bf7bcae7981783f8d79cc152d14c0cb25cb739878224a608ac49d8192a3bc9",
+    "bytes": 2830
+  },
+  "app/training_prediction.py": {
+    "sha256": "59aaa6a7f80863480f1a73643ee04f4b12d24f880759d43bb71b9fd1bf910ccd",
+    "bytes": 3130
+  },
+  "bridge/card_catalog.json": {
+    "sha256": "db1e3182ad63b6418783d6125f36733c9294d9397290ef9a399c22611521b096",
+    "bytes": 1354
+  },
+  "bridge/card_state.py": {
+    "sha256": "1c1905e0c9a9b2ec77b3811794bd57389bf2c2e9aaa53d9785df2159152ec0c4",
+    "bytes": 2598
+  },
+  "bridge/collector.py": {
+    "sha256": "f3435fb3fc06bfbada7cce175cca120fb3329ec2b61e0ab49138567bbf9a6bb9",
+    "bytes": 10695
+  },
+  "bridge/objects.py": {
+    "sha256": "bf03bea6e194f6b53ef88adc848d26660eed177b012b25791b9cf7973da7e7c7",
+    "bytes": 1756
+  },
+  "bridge/probe.py": {
+    "sha256": "172d0539b0d59084079cf72e0e3f8f1bb611c04c9e678cef143cef81038fc2e7",
+    "bytes": 6078
+  },
+  "bridge/python/_asyncio.pyd": {
+    "sha256": "c77de90cad749087a0c5dc5e19d78d24f6ef44e7e5ac19b8420cfc0cea62395d",
+    "bytes": 74096
+  },
+  "bridge/python/_bz2.pyd": {
+    "sha256": "65f610646d10d5babea080e060d244b546ec52c54012e5e937dc72dcc2e2e7bc",
+    "bytes": 86896
+  },
+  "bridge/python/_ctypes.pyd": {
+    "sha256": "0e56107a891100535f2da79d85a5ae65ff1227b4765bd108f8593ac1a1110d81",
+    "bytes": 127480
+  },
+  "bridge/python/_decimal.pyd": {
+    "sha256": "aeacfead2befcc0768063a037bb64bd32109ae09cb144e5f571b04dd7965db9d",
+    "bytes": 262000
+  },
+  "bridge/python/_elementtree.pyd": {
+    "sha256": "5009a9a53c03ef8387443b5cf6ce08e5c3a79727466a0b931c5bbca915bf89ca",
+    "bytes": 135160
+  },
+  "bridge/python/_hashlib.pyd": {
+    "sha256": "03d233dbace599168eaffec823de6ed7beec8c2a4ebfe9b8a3d8e042a59af3ba",
+    "bytes": 68976
+  },
+  "bridge/python/_lzma.pyd": {
+    "sha256": "e3deecc1f59a3b811c608861decd84de1e8df8bafd5e2b39188861318c5a38cf",
+    "bytes": 161136
+  },
+  "bridge/python/_msi.pyd": {
+    "sha256": "b49332bae154ebdd8c3d5e7ddfdde336d9c47f91ba028dc67bafb2420b3dbb5c",
+    "bytes": 46584
+  },
+  "bridge/python/_multiprocessing.pyd": {
+    "sha256": "2c636df7059cb0dd7e978dd735c7c5c8ddb09cf94754cf9e232296b96c5c545a",
+    "bytes": 37368
+  },
+  "bridge/python/_overlapped.pyd": {
+    "sha256": "662126ff80c3a1b4cedf74074029c12ae4743e6d3b37376e39ac70aacb7d4d3c",
+    "bytes": 57336
+  },
+  "bridge/python/_queue.pyd": {
+    "sha256": "48e76e0ad63f6932b4a77b5819f41c1e7595636ca8d9e824f0943a14b8bb5035",
+    "bytes": 33784
+  },
+  "bridge/python/_socket.pyd": {
+    "sha256": "3efa4636cf9e350856f6927d67a4c2564bf9bd2758a00bbf17d3aece5b60016d",
+    "bytes": 85496
+  },
+  "bridge/python/_sqlite3.pyd": {
+    "sha256": "64b51df2805c58b023a875e8ae3be7ac7f61ef664f32ca6c90f6315da47ef0bc",
+    "bytes": 126184
+  },
+  "bridge/python/_ssl.pyd": {
+    "sha256": "0bc527d2dbc50009f43b2ed5d5982c4f63f4b647647ffa9eda612dcda80f6040",
+    "bytes": 179432
+  },
+  "bridge/python/_uuid.pyd": {
+    "sha256": "acce4f281d7ffb2dec0997527faf25b1df62ad7bd3032c568ddcf65c90edc867",
+    "bytes": 27128
+  },
+  "bridge/python/_wmi.pyd": {
+    "sha256": "a980f1e7a29842bd946863fc2693fbeb555a9dc0f9e1630dfed9a2fcdef3ece2",
+    "bytes": 40304
+  },
+  "bridge/python/_zoneinfo.pyd": {
+    "sha256": "76f1439cda82ab6976df6ba505c4079444703f6d44d8b0259ce59c0ff4279fb4",
+    "bytes": 49656
+  },
+  "bridge/python/libcrypto-3.dll": {
+    "sha256": "ccfffddcd3defb8d899026298af9af43bc186130f8483d77e97c93233d5f27d7",
+    "bytes": 5231472
+  },
+  "bridge/python/libffi-8.dll": {
+    "sha256": "eff52743773eb550fcc6ce3efc37c85724502233b6b002a35496d828bd7b280a",
+    "bytes": 39696
+  },
+  "bridge/python/libssl-3.dll": {
+    "sha256": "007142039f04d04e0ed607bda53de095e5bc6a8a10d26ecedde94ea7d2d7eefe",
+    "bytes": 794992
+  },
+  "bridge/python/LICENSE.txt": {
+    "sha256": "e502c6b880ff58d614901495a9009c136539cd0b1e2a2abb8fc00b934c203419",
+    "bytes": 36874
+  },
+  "bridge/python/pyexpat.pyd": {
+    "sha256": "d615e193d1affcdbfe504e90d3621cbdcff94bf72b79d899126534507fd6d27a",
+    "bytes": 205304
+  },
+  "bridge/python/python.cat": {
+    "sha256": "5d85439736ae088d9680b391e2bca55ca7e9cc5b41a12ebe8e2f554506c7e72e",
+    "bytes": 574231
+  },
+  "bridge/python/python.exe": {
+    "sha256": "4d6f5f81a4bca11191c4c7c6b43632694d0a4ce74e068619d8fdc161d469859a",
+    "bytes": 104952
+  },
+  "bridge/python/python3.dll": {
+    "sha256": "fb975a606e7fbf74f64260e3f60c3490b4f74a183c0926fd6ed1ac4c52ac7b1c",
+    "bytes": 70376
+  },
+  "bridge/python/python312._pth": {
+    "sha256": "1efe8cdca01b0ad0468e5a1db5bafa53b421250bb5003ac0a7d35b65bc6f185d",
+    "bytes": 22
+  },
+  "bridge/python/python312.dll": {
+    "sha256": "9a0e3435aaa680d868150f87ab3e388ad2eebc22f87e036155c7b4eda8cd2120",
+    "bytes": 6945272
+  },
+  "bridge/python/python312.zip": {
+    "sha256": "fb131c0ef7e35cc5250a74c8cd18744bf4115fb8163710711f3758d7df3d1f88",
+    "bytes": 3835482
+  },
+  "bridge/python/pythonw.exe": {
+    "sha256": "d72294fb338bc2fc8896d25a7395a4db466425427e1559e77185d5135a830681",
+    "bytes": 104304
+  },
+  "bridge/python/select.pyd": {
+    "sha256": "d4d7181b11db0bd22a6cd5cda6f8583d1f5c77615fd0a6ca33350619d6e0438a",
+    "bytes": 33136
+  },
+  "bridge/python/sqlite3.dll": {
+    "sha256": "8daa45684bf6688fca28d956b2e8942f2fa98f656675ce68e6d61dd869848a7a",
+    "bytes": 1583608
+  },
+  "bridge/python/unicodedata.pyd": {
+    "sha256": "208ee1cd3cbad0828433ca7246b05be2b1ff5569983d27d296c0b38888585488",
+    "bytes": 1140592
+  },
+  "bridge/python/vcruntime140.dll": {
+    "sha256": "052ad6a20d375957e82aa6a3c441ea548d89be0981516ca7eb306e063d5027f4",
+    "bytes": 120400
+  },
+  "bridge/python/vcruntime140_1.dll": {
+    "sha256": "6a99bc0128e0c7d6cbbf615fcc26909565e17d4ca3451b97f8987f9c6acbc6c8",
+    "bytes": 49776
+  },
+  "bridge/python/winsound.pyd": {
+    "sha256": "100e8d676777603c7258daf9b2f23ef001f09f1596d8708de359326fff72bddd",
+    "bytes": 31736
+  },
+  "bridge/runtime_image.py": {
+    "sha256": "b5ee1c7abbb9740d17e37368b877b23445e40c3a3382a9abb617cb2e91059987",
+    "bytes": 2228
+  },
+  "bridge/Start-Bridge.bat": {
+    "sha256": "69299601fcbaeac781687f981852ba48c266f47a0f2717376f7da47d60e791e1",
+    "bytes": 70
+  },
+  "bridge/state_extensions.py": {
+    "sha256": "74bf7bcae7981783f8d79cc152d14c0cb25cb739878224a608ac49d8192a3bc9",
+    "bytes": 2830
+  },
+  "bridge/windows_bridge.py": {
+    "sha256": "5dfa7c7e0fefbc9e178289fdb7dad7331ff2c3711cab8a886cdd7cf680a84f48",
+    "bytes": 4297
+  },
+  "Build-App-on-Mac.command": {
+    "sha256": "869679a106c371c48d0d2f9037ae7bc4a55aa9be2c0ccda4537db52cd4e6ab1e",
+    "bytes": 581
+  },
+  "profile.json": {
+    "sha256": "947a19cf23348c17b9a943d6199598b2019c52a3d1647d9fdac68e005df2ea00",
+    "bytes": 334
+  },
+  "README-先读.md": {
+    "sha256": "6321112c69afcb45366dad23694d119067541e35a264e0af1e0f124cf6e54aa5",
+    "bytes": 5590
+  },
+  "requirements.txt": {
+    "sha256": "c83903a8da0efa8b22b6ce1acb5af619b1944f0aec0cb2e53367c36a60c0734f",
+    "bytes": 16
+  },
+  "Start-Bridge-Mac.command": {
+    "sha256": "941479750ce52eb58972a718840fc2fe46c2067b253b40337b07a7301e482ad5",
+    "bytes": 890
+  },
+  "Start-Mac.command": {
+    "sha256": "f201c62cf522527d5ff5cc162e134869ccd65cb85ed06cce48700728159285b8",
+    "bytes": 745
+  },
+  "VALIDATION.json": {
+    "sha256": "27011a9053e9cda222be45753046a57af57644a17ae1fa9840182b46b9af61e9",
+    "bytes": 516
+  },
+  "WINDOWS_RUNTIME.json": {
+    "sha256": "04a55e1c7c51a534201508ae9ae3baa0470db2a19673f8e56b59aa2bb5a91dbe",
+    "bytes": 245
+  }
+}

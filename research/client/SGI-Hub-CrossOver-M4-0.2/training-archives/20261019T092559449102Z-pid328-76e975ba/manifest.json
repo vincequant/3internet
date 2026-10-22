@@ -1,0 +1,67 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "76e975ba-424d-4181-98ca-5b9b63bea544",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "FENGYE-LOCAL",
+  "runtime_id": "default",
+  "process": {
+    "pid": 328,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134368754458850350
+  },
+  "player_session_id_at_open": "0781beb6c8d24c288d1ca4e364722012",
+  "started_utc": "2026-10-19T09:25:59.449204+00:00",
+  "ended_utc": "2026-10-19T09:28:02.195723+00:00",
+  "end_reason": "process_gone",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "b2ddca8a-5cbc-4315-ba72-04ed9a98c184"
+  ],
+  "simulated": false,
+  "frame_count": 29,
+  "last_seq": 29,
+  "last_snapshot_id": "20261019T092800328983Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-19T09:28:00.395879+00:00",
+  "title": "玩家局 1v1 晋 vs 南蛮",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

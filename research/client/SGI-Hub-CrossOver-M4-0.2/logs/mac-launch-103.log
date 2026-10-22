@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 16, in <module>
+    bridge_start=ensure_bridge(Path(__file__).resolve().parent.parent)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/bridge_autostart.py", line 20, in ensure_bridge
+    return ensure_service(URL,SERVICE,[str(wine),'--bottle',bottle,str(python),'-B','-c',code],root,root/'logs/crossover-bridge-auto.log')
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/service_startup.py", line 49, in ensure_service
+    raise RuntimeError('采集桥尚未就绪；请查看 '+str(log_path)+'，不要重复启动')
+RuntimeError: 采集桥尚未就绪；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/crossover-bridge-auto.log，不要重复启动

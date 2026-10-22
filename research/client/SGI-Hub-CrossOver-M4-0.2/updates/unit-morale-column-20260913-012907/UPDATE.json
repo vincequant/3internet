@@ -1,0 +1,10 @@
+{
+  "updated": [
+    "app/omni_window.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/unit-morale-column-20260913-012907",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Current morale column in all-units table"
+}

@@ -1,0 +1,11 @@
+{
+  "label": "synthetic 923 generals / 48 units / 80 frames",
+  "simulated": true,
+  "write_seconds": 0.1615,
+  "bytes": 324410,
+  "latest_snapshot_seconds": 0.006,
+  "historical_snapshot_seconds": 0.0036,
+  "events_seconds": 0.1964,
+  "track_seconds": 0.0022,
+  "view_last_seconds": 0.0011
+}

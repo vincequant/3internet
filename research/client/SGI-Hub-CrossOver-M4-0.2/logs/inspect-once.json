@@ -1,0 +1,198 @@
+{
+  "status": "inspect",
+  "rooms": [],
+  "observed_at": 1789319237.258558,
+  "exe": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+  "scheme": "sanpk_background",
+  "windows": [
+    {
+      "hwnd": 1245486,
+      "title": "游戏选择",
+      "class": "#32770",
+      "visible": true,
+      "children": [
+        {
+          "hwnd": 1441958,
+          "id": 1024,
+          "title": "加入游戏(&I)",
+          "class": "Button",
+          "visible": true,
+          "enabled": true
+        },
+        {
+          "hwnd": 2360010,
+          "id": 1005,
+          "title": "创建游戏(&L)",
+          "class": "Button",
+          "visible": true,
+          "enabled": true
+        },
+        {
+          "hwnd": 1114446,
+          "id": 2,
+          "title": "取消(&Q)",
+          "class": "Button",
+          "visible": true,
+          "enabled": true
+        },
+        {
+          "hwnd": 2294346,
+          "id": 1007,
+          "title": "",
+          "class": "ListBox",
+          "visible": true,
+          "enabled": true
+        },
+        {
+          "hwnd": 983212,
+          "id": 1006,
+          "title": "刷新列表(&S)",
+          "class": "Button",
+          "visible": true,
+          "enabled": true
+        },
+        {
+          "hwnd": 6357772,
+          "id": 0,
+          "title": "★看不到主机，刷新一下。游戏内【鼠标右键】可以看到快捷菜单",
+          "class": "Static",
+          "visible": true,
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "hwnd": 1769702,
+      "title": "三国志Internet联机版3.5",
+      "class": "三国志 Internet 网际网络威力加强版",
+      "visible": true,
+      "children": [
+        {
+          "hwnd": 1835204,
+          "id": 59648,
+          "title": "",
+          "class": "Afx:400000:0:1c008c:1900024:0",
+          "visible": true,
+          "enabled": true
+        },
+        {
+          "hwnd": 1179798,
+          "id": 59392,
+          "title": "",
+          "class": "Afx:400000:0",
+          "visible": false,
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "hwnd": 1179842,
+      "title": "",
+      "class": "#32770",
+      "visible": false,
+      "children": [
+        {
+          "hwnd": 1179838,
+          "id": 1000,
+          "title": "",
+          "class": "Edit",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 2752698,
+          "id": 1038,
+          "title": "所有人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 1114276,
+          "id": 1039,
+          "title": "第一个人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 983134,
+          "id": 1040,
+          "title": "第一个人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 1441938,
+          "id": 1042,
+          "title": "第一个人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 1507496,
+          "id": 1043,
+          "title": "第一个人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 1376660,
+          "id": 1044,
+          "title": "第一个人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 1310890,
+          "id": 1046,
+          "title": "第一个人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        },
+        {
+          "hwnd": 1114254,
+          "id": 1047,
+          "title": "第一个人",
+          "class": "Button",
+          "visible": false,
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "hwnd": 917604,
+      "title": "",
+      "class": "Wine IME",
+      "visible": false,
+      "children": []
+    },
+    {
+      "hwnd": 852174,
+      "title": "Default IME",
+      "class": "IME",
+      "visible": false,
+      "children": []
+    },
+    {
+      "hwnd": 1114224,
+      "title": "NetHookCoreWindow2012",
+      "class": "NetHookCoreWindow2012",
+      "visible": false,
+      "children": []
+    },
+    {
+      "hwnd": 2228608,
+      "title": "Default IME",
+      "class": "IME",
+      "visible": false,
+      "children": []
+    }
+  ],
+  "message": "只列出本进程窗口，未点击、未改声音"
+}

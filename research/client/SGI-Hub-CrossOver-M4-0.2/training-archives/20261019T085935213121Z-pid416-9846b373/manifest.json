@@ -1,0 +1,67 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "9846b373-7a70-4f08-8ab3-ee33b84c3f03",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "FENGYE-LOCAL",
+  "runtime_id": "default",
+  "process": {
+    "pid": 416,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134368736986623300
+  },
+  "player_session_id_at_open": "7264e1bda4a54307bdee8719029ee45f",
+  "started_utc": "2026-10-19T08:59:35.213317+00:00",
+  "ended_utc": "2026-10-19T08:59:41.876882+00:00",
+  "end_reason": "source_or_process_changed",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "fe44dbe2-f6f5-45d5-85e3-f7714f7087e9"
+  ],
+  "simulated": false,
+  "frame_count": 1,
+  "last_seq": 1,
+  "last_snapshot_id": "20261019T085926526252Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-19T08:59:26.552909+00:00",
+  "title": "玩家局 1v1 楚王 vs 汉王",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

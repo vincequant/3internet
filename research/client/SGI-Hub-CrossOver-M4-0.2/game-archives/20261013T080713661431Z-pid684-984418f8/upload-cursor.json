@@ -1,0 +1,9 @@
+{
+  "match_id": null,
+  "acked_seq": 0,
+  "gaps": [],
+  "lost_gaps": [],
+  "queue_full_waits": 0,
+  "last_error": "HTTP Error 500: Internal Server Error",
+  "last_flush_utc": null
+}

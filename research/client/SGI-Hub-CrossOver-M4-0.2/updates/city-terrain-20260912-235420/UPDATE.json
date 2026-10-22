@@ -1,0 +1,12 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/city_tactical.py",
+    "app/tactical_terrain.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/city-terrain-20260912-235420",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Original local terrain and read-only city trap/unit overlay; no game commands"
+}

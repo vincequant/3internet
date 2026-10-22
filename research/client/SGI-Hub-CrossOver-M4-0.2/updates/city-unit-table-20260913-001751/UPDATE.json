@@ -1,0 +1,10 @@
+{
+  "updated": [
+    "app/city_tactical.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/city-unit-table-20260913-001751",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "City nearby units detailed table and map selection; read-only display"
+}

@@ -1,0 +1,8 @@
+{
+  "enabled": true,
+  "observation_mode": "omniscient",
+  "scenario": null,
+  "computer": "unknown",
+  "ruleset_id": null,
+  "ruleset_confirmed": false
+}

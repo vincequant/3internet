@@ -1,0 +1,10 @@
+{
+  "profile": "M4/CrossOver26.3/SanguoInternet",
+  "portable_ui": "previous v0.1 Windows smoke test passed; UI unchanged",
+  "bridge_fresh_discovery": "source checked; no binding cache reads/writes",
+  "runtime_base": "Windows live enumeration blocked: WinError 5 Access denied; Mac NOT_RUN",
+  "Mac_CrossOver": "NOT_RUN",
+  "e2e_v02": "NOT_PASSED; requires CrossOver live test",
+  "source_syntax": "PASS: 17 Python modules",
+  "package_hygiene": "PASS: no save files or cached binding; shell scripts LF"
+}

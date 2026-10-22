@@ -1,0 +1,67 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "7630f42d-0562-4445-8427-486576fe007f",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 684,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134363515116586210
+  },
+  "player_session_id_at_open": "af20916af5794fe29987c44178916da3",
+  "started_utc": "2026-10-13T08:21:49.626257+00:00",
+  "ended_utc": "2026-10-13T08:35:11.098866+00:00",
+  "end_reason": "idle_timeout",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "42686dfb-d3c9-4b2f-932d-548145680e53"
+  ],
+  "simulated": false,
+  "frame_count": 471,
+  "last_seq": 471,
+  "last_snapshot_id": "20261013T083509738474Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-13T08:35:09.759707+00:00",
+  "title": "玩家局 1v1 魏 vs 宋",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

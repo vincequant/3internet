@@ -1,0 +1,11 @@
+{
+  "updated": [
+    "decision_support.py",
+    "decision_panel.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/website-formulas-20260912-191117",
+  "bridge_changed": false,
+  "game_changed": false,
+  "ui_restart_required": true,
+  "validation": "AST passed; Windows 5 tests passed; Mac UI not restarted"
+}

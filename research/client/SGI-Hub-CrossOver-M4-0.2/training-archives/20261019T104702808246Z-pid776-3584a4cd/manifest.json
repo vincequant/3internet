@@ -1,0 +1,67 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "3584a4cd-1cc7-4e49-bfea-9847ea39a603",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "FENGYE-LOCAL",
+  "runtime_id": "default",
+  "process": {
+    "pid": 776,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134368803706473670
+  },
+  "player_session_id_at_open": "e93063b93c294e809b901048b61fdf5e",
+  "started_utc": "2026-10-19T10:47:02.808325+00:00",
+  "ended_utc": "2026-10-19T10:47:36.719382+00:00",
+  "end_reason": "process_gone",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "e11f8203-0b0d-452a-aafd-bc34ee85014e"
+  ],
+  "simulated": false,
+  "frame_count": 21,
+  "last_seq": 21,
+  "last_snapshot_id": "20261019T104734538615Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-19T10:47:34.765033+00:00",
+  "title": "玩家局 1v1 赵 vs 西凉",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

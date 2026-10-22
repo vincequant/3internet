@@ -1,0 +1,57 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "c98ee54a-6b00-49c8-9286-01477d43f2d1",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 720,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134367314122197250
+  },
+  "player_session_id_at_open": "5337f805042f4adbae3cccb94a67b186",
+  "started_utc": "2026-10-17T17:26:09.479957+00:00",
+  "ended_utc": "2026-10-17T17:49:53.289418+00:00",
+  "end_reason": "idle_timeout",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [],
+  "simulated": false,
+  "frame_count": 1084,
+  "last_seq": 1084,
+  "last_snapshot_id": "20261017T174952024510Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-17T17:49:52.052700+00:00",
+  "title": "玩家局 1v1 越 vs 巴",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

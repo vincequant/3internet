@@ -185,6 +185,141 @@ def control_ready(view, now=None):
 
 STATUS_ICONS = {'ok': '✅', 'warn': '⚠️', 'off': '⚪', 'info': '🔹'}
 
+PATCH_POLICY = Path.home() / 'sgi-fengye-lab/shadow/patch-policy.json'
+ONE_CLICK_STATE = Path.home() / 'sgi-fengye-lab/shadow/one_click_state.json'
+ONE_CLICK_LOGS = Path.home() / 'sgi-fengye-lab/shadow/logs'
+
+
+def opening_skip_names(path=None):
+    path = Path(path) if path is not None else PATCH_POLICY
+    try:
+        data = json.loads(Path(path).read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return []
+    names = data.get('opening_skip') or []
+    if not isinstance(names, list):
+        return []
+    return [str(name) for name in names]
+
+
+def recount_patches(patches, skip_names):
+    """Count configured skips as installed. ok = patched + skipped.
+
+    A status file written before the skip was recorded still lists those
+    sites under missing. Adding them twice is avoided when skipped is set.
+    """
+    if not isinstance(patches, dict):
+        return patches
+    skip = set(skip_names or [])
+    opening = dict(patches.get('opening') or {})
+    already = {str(name) for name in (opening.get('skipped') or [])}
+    missing = [str(name) for name in (opening.get('missing') or [])]
+    extra = [name for name in missing if name in skip and name not in already]
+    if not extra:
+        return patches
+    real = [name for name in missing if name not in skip]
+    opening['ok'] = int(opening.get('ok') or 0) + len(extra)
+    opening['missing'] = real
+    opening['skipped'] = sorted(already | set(extra))
+    updated = dict(patches)
+    updated['opening'] = opening
+    guard = updated.get('guard') or {}
+    suppress = updated.get('suppress') or {}
+    if (not real and not guard.get('missing') and not suppress.get('missing')
+            and opening.get('total') and guard.get('total') and suppress.get('total')):
+        updated['ready'] = True
+    return updated
+
+
+def _part_count(part):
+    text = '%s/%s' % (part.get('ok', 0), part.get('total', 0))
+    skipped = part.get('skipped') or []
+    if skipped:
+        text += '（%d 站依設定跳過）' % len(skipped)
+    return text
+
+
+def one_click_progress(state, log_text=''):
+    """Map one-click state + log lines onto 0–100.
+
+    status=ok and step=done is 100. A failed run keeps the furthest stage
+    it actually reached.
+    """
+    state = state or {}
+    step = str(state.get('step') or '')
+    status = str(state.get('status') or '')
+    log = log_text or ''
+    if status == 'ok' and step == 'done':
+        return {'percent': 100, 'label': '完成', 'failed': False}
+    percent, label = 0, '尚未開始'
+    if step in ('launcher', 'room', 'stealth', 'done') or '启动三条链' in log or '清场' in log:
+        percent, label = 8, '啟動三鏈'
+    if '等待三个' in log or '等待三个『游戏选择』' in log or '已拉起' in log:
+        percent, label = 22, '等遊戲選擇'
+    if '三台都到' in log:
+        percent, label = 38, '遊戲選擇到齊'
+    if step == 'room' or '丁满建房' in log or '风云进房' in log or '风夜进房' in log:
+        percent, label = 52, '建房／進房'
+    if step == 'stealth' or 'nullguard' in log or '开局守卫' in log or '6c)' in log:
+        percent, label = 68, '補丁'
+    if '风夜摘席' in log:
+        percent, label = 82, '摘席'
+    if '先占空席' in log or '占席' in log or status == 'seated':
+        percent, label = 92, '占席'
+    if not step and not log.strip():
+        percent, label = 0, '尚未開始'
+    return {'percent': percent, 'label': label, 'failed': status == 'failed'}
+
+
+# 一鍵狀態超過這麼久就當成「上次的紀錄」，不再當成進行中的進度。
+ONE_CLICK_STALE = 300
+
+
+def load_one_click_progress(state_path=None, log_dir=None, now=None):
+    """讀一鍵進度；只有「還在跑」才算進度，跑完／停掉的一律標成歷史。
+
+    2026-10-21 使用者指出：明明什麼都沒在跑，面板還掛著上一次的 92%。
+    狀態檔或日誌超過 ONE_CLICK_STALE 秒就不再當成現在進行中。
+    """
+    now = time.time() if now is None else now
+    state_path = Path(state_path) if state_path is not None else ONE_CLICK_STATE
+    log_dir = Path(log_dir) if log_dir is not None else ONE_CLICK_LOGS
+    state = {}
+    try:
+        state = json.loads(state_path.read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        state = {}
+    log_text = ''
+    log_mtime = None
+    try:
+        logs = [p for p in log_dir.glob('one_click-*.log') if len(p.name.split('-')) == 3]
+        if logs:
+            latest = max(logs, key=lambda item: item.stat().st_mtime)
+            log_mtime = latest.stat().st_mtime
+            raw = latest.read_bytes()[-200000:]
+            log_text = raw.decode('utf-8', 'replace')
+    except OSError:
+        log_text = ''
+    result = one_click_progress(state, log_text)
+    at = state.get('at') if isinstance(state.get('at'), (int, float)) else None
+    fresh = False
+    for stamp in (at, log_mtime):
+        if isinstance(stamp, (int, float)) and 0 <= now - stamp <= ONE_CLICK_STALE:
+            fresh = True
+    result['at'] = at
+    result['stale'] = not fresh
+    if not fresh:
+        if at or result['percent']:
+            when = time.strftime('%H:%M', time.localtime(at)) if at else ''
+            stage = result.get('label') or '未完成'
+            note = '失敗' if result.get('failed') else '已結束'
+            result['label'] = ('上次一鍵 %s · %s（%s）' % (when, stage, note)).strip()
+            result['percent'] = 0
+            result['failed'] = False
+        else:
+            result['label'] = '目前沒有進行中的一鍵'
+    return result
+
 
 def status_items(view, now=None):
     """風夜狀態清單——玩家看得懂的大白話，不出現欄位名、代碼或協議術語。
@@ -204,7 +339,8 @@ def status_items(view, now=None):
     present = s.get('present')
     age = s.get('age')
     link = s.get('link') or {}
-    fresh = isinstance(age, (int, float)) and age <= 15
+    # 2026-10-21：狀態寫入器在「遊戲選擇」一個循環約 20–40 秒，15 秒門檻會一直被說成卡住。
+    fresh = isinstance(age, (int, float)) and age <= 90
     connected_ok = bool(s and present and fresh and link.get('connected'))
     scene = s.get('scene') or {}
     in_map = bool(scene.get('in_map'))
@@ -217,7 +353,10 @@ def status_items(view, now=None):
         else:
             add('warn', '風夜遊戲在跑，但連線不穩')
     elif s and present:
-        add('warn', '風夜狀態停住了', '最後更新在 %.0f 秒前' % (age or 0))
+        add('warn', '風夜的狀態回報慢了', '最後一筆在 %.0f 秒前（採集器可能卡住）' % (age or 0))
+    elif (s.get('hall') or {}).get('present'):
+        # 官方大廳登入、遊戲還沒開：這不是「不在線上」，是大廳裡待著。
+        add('info', '風夜在大廳（還沒開遊戲）', '在大廳按「啟動遊戲」；大廳不要重啟、不要重登')
     elif session.get('alive'):
         add('warn', '風夜程式在跑，遊戲還沒起來')
     else:
@@ -227,8 +366,10 @@ def status_items(view, now=None):
     if room:
         detail = '房間位址 %s' % session.get('virtual_ip') if session.get('virtual_ip') else None
         add('ok', '已在房間：%s' % room, detail)
+    elif s and present:
+        add('info', '風夜在「遊戲選擇」，還沒進房', '等房主開房，或按「重新整理／再進房」')
     elif session.get('alive'):
-        add('info', '還在大廳，尚未進房')
+        add('info', '風夜在登入中（還沒進房）')
 
     if session.get('ghost_registered'):
         add('ok', '已在房東的玩家名單報到')
@@ -246,15 +387,18 @@ def status_items(view, now=None):
         add('ok', '上帝視角已打開', '全圖可見、沒有迷霧、部隊與城池圖示外露')
 
     patches = s.get('patches') if isinstance(s.get('patches'), dict) else {}
+    if patches:
+        skip_names = view.get('opening_skip')
+        if skip_names is None:
+            skip_names = opening_skip_names()
+        patches = recount_patches(patches, skip_names)
     patch_ok = bool(patches.get('ready'))
     if patches:
         opening = patches.get('opening') or {}
         guard = patches.get('guard') or {}
         suppress = patches.get('suppress') or {}
-        detail = '守衛 %s/%s · 防崩 %s/%s · 抑制 %s/%s' % (
-            opening.get('ok', 0), opening.get('total', 0),
-            guard.get('ok', 0), guard.get('total', 0),
-            suppress.get('ok', 0), suppress.get('total', 0))
+        detail = '守衛 %s · 防崩 %s · 抑制 %s' % (
+            _part_count(opening), _part_count(guard), _part_count(suppress))
         if patch_ok:
             add('ok', '補丁已裝好', detail)
         else:
@@ -308,12 +452,12 @@ def status_items(view, now=None):
     # 開局標準線：連線 → 進房 → 報到 → 藏身 → 補丁。五項齊了才算「可以按開始」。
     # 上帝視角、回合跟隨不列入硬門檻。
     hide_now_ok = isinstance(hide, dict) and hide.get('verified')
-    # 2026-10-22：D8 藏身之後應用層那一行本來就會消失，所以「進房／報到」讀不到是預期結果。
+    # 2026-10-21：新流程是「清單進房 → 補丁 → D8 藏身」。D8 之後應用層那一行本來就會消失，
+    # 所以藏身成功時「進房／報到」一定讀不到——那是預期結果，不該算缺項。
     in_room_ok = bool(session.get('room_name')) or hide_now_ok
     reported_ok = bool(session.get('ghost_registered')) or hide_now_ok
     standard = [('連線', connected_ok), ('進房', in_room_ok),
-                ('報到', reported_ok), ('藏身', hide_now_ok),
-                ('補丁', patch_ok)]
+                ('報到', reported_ok), ('藏身', hide_now_ok), ('補丁', patch_ok)]
     done = sum(1 for _name, ok in standard if ok)
     missing = [name for name, ok in standard if not ok]
     if done == len(standard):
@@ -327,8 +471,9 @@ def status_items(view, now=None):
                              'detail': '開局標準 %d/%d（藏身模式下主機不會等我們、也不會分勢力）'
                                        % (done, len(standard))})
         else:
-            items.insert(0, {'level': 'ok', 'label': '可以按「開始」了',
-                             'detail': '開局標準 %d/%d：%s' % (done, len(standard), ' · '.join(n for n, _ in standard))})
+            items.insert(0, {'level': 'ok', 'label': '可以按「開始」了（這一局會有勢力）',
+                             'detail': '開局標準 %d/%d：%s（未藏身＝房主名單看得見，開局會分到勢力）'
+                                       % (done, len(standard), ' · '.join(n for n, _ in standard))})
     else:
         items.insert(0, {'level': 'warn', 'label': '還不能按「開始」',
                          'detail': '開局標準 %d/%d，還缺：%s' % (done, len(standard), '、'.join(missing))})

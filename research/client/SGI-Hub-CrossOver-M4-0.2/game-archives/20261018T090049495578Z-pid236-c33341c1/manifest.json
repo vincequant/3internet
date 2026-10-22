@@ -1,0 +1,57 @@
+{
+  "format_version": 2,
+  "open": true,
+  "match_id": "c33341c1-e7e1-4f69-bbe5-52d226e31c16",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 236,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134367875551932420
+  },
+  "player_session_id_at_open": "e02fa99ccb6d4a18beff6d8314f4c5cd",
+  "started_utc": "2026-10-18T09:00:49.495796+00:00",
+  "ended_utc": null,
+  "end_reason": null,
+  "completeness": "recording",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [],
+  "simulated": false,
+  "frame_count": 240,
+  "last_seq": 240,
+  "last_snapshot_id": "20261018T090603719256Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-18T09:06:03.738220+00:00",
+  "title": "玩家局 1v1 韩 vs 宋",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

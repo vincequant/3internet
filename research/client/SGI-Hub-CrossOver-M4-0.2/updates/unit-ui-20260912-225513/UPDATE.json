@@ -1,0 +1,12 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/decision_panel.py",
+    "app/service_startup.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/unit-ui-20260912-225513",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Actual deployed-unit formula display; no game commands"
+}

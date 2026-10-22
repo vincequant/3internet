@@ -1,0 +1,3798 @@
+{
+  "provenance": {
+    "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+    "source_sha256": "3e4c6e6b8ec692b00dc75dd280a190d701b3d353d72ac11968a29ff7dd2090f3",
+    "readonly": true
+  },
+  "state": {
+    "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+    "movement_rules": {
+      "mountain_enabled_raw": 1
+    },
+    "entities": {
+      "generals": [
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 0,
+          "general_id_raw": 597,
+          "portrait_id": 5,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "袁",
+          "given_name": "绍",
+          "courtesy_name": "本初",
+          "birth_year_candidate": 185,
+          "soldiers": 3500,
+          "attributes": {
+            "lead": 80,
+            "war": 75,
+            "intel": 79,
+            "pol": 77,
+            "cha": 90
+          },
+          "name": "袁绍",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 101,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 50,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 11,
+          "location_city_name": "平阳",
+          "location_city_owner": 7,
+          "raw_hex": "f0565000ffffffff00005502ac824403bc824403cc824403ec8244030500b900020200ac0d504b4f4d5a5180000065060c03040032000000c800c700ffff5502ffffffff00000000000000003cf4500000000000000000000000000000000000"
+        },
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 2,
+          "general_id_raw": 180,
+          "portrait_id": 352,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "蒋",
+          "given_name": "舒",
+          "courtesy_name": "",
+          "birth_year_candidate": 184,
+          "soldiers": 3500,
+          "attributes": {
+            "lead": 69,
+            "war": 80,
+            "intel": 23,
+            "pol": 13,
+            "cha": 3
+          },
+          "name": "蒋舒",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 66,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 82,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 180,
+          "location_city_name": "临江",
+          "location_city_owner": 18,
+          "raw_hex": "f0565000ffffffff0200b4006c3c44037c3c44033c605300dc3c44036001b800040200ac0d4550170d030100000042050903020052000000c800c700ffffb400ffffffff00000000000001023cf4500000000000000000000000000000000000"
+        },
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 0,
+          "general_id_raw": 238,
+          "portrait_id": 844,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "魏",
+          "given_name": "王",
+          "courtesy_name": "",
+          "birth_year_candidate": 185,
+          "soldiers": 12000,
+          "attributes": {
+            "lead": 99,
+            "war": 77,
+            "intel": 92,
+            "pol": 97,
+            "cha": 96
+          },
+          "name": "魏王",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 25,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 49,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 527,
+          "location_city_name": "鲁县",
+          "location_city_owner": 12,
+          "raw_hex": "f0565000ffffffff0000ee000c0246031c0246033c6053002c0246034c03b900070200e02e634d5c61607b870100190a0f07070031000000c600c800ffffee00ffffffff00000000000000003cf4500000000000000000000000000000000000"
+        },
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 0,
+          "general_id_raw": 824,
+          "portrait_id": 953,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "秋",
+          "given_name": "佬",
+          "courtesy_name": "",
+          "birth_year_candidate": 185,
+          "soldiers": 9000,
+          "attributes": {
+            "lead": 125,
+            "war": 55,
+            "intel": 108,
+            "pol": 85,
+            "cha": 99
+          },
+          "name": "秋佬",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 25,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 76,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 799,
+          "location_city_name": "壶关",
+          "location_city_owner": 1,
+          "raw_hex": "f0565000ffffffff000038030cd246031cd246033c6053002cd24603b903b90007020028237d376c5563a10b030019080c0704004c000000c800c700ffff3803ffffffff00000000000000003cf4500000000000000000000000000000000000"
+        }
+      ],
+      "field_units": [
+        {
+          "type": "field_unit",
+          "unit_kind": "重装步兵",
+          "unit_id": 27,
+          "owner_raw": 0,
+          "world_xy_raw": [
+            56,
+            86
+          ],
+          "general_ids": [
+            238,
+            824,
+            null
+          ],
+          "soldiers_candidate": 21000,
+          "rice_candidate": 21000,
+          "armament_degree_raw": 36,
+          "raw_1d": 85,
+          "raw_1e": 0,
+          "training_degree": 36,
+          "basic_combat_power": 89,
+          "verification": "static_layout_only_pending_live_unit_sample",
+          "source_layer": "game_core",
+          "terrain_type_raw": 8,
+          "on_water": false,
+          "terrain_verification": "static_map_lookup_0x469f6f",
+          "container_index": 9,
+          "morale": 85,
+          "morale_verification": "unit+0x1d; 3.5 setter clamps 0..100; live Wei unit 3 UI 13755/89/4 aligned; other units not individually UI checked",
+          "website_attack_power": 180,
+          "combat_inputs": [
+            {
+              "id": 238,
+              "name": "魏王",
+              "lead_effective": 99,
+              "war_effective": 77,
+              "flags": 0
+            },
+            {
+              "id": 824,
+              "name": "秋佬",
+              "lead_effective": 125,
+              "war_effective": 55,
+              "flags": 0
+            }
+          ],
+          "combat_missing": [],
+          "training_verification": "unit+0x29; setter cap100 and attack consumers; GUI alignment pending",
+          "size_index": 1,
+          "size_label": "中队",
+          "combat_verification": "static reproduction 0x477b4f/0x477c24/0x477cd0; actual GUI comparison pending",
+          "attack_verification": "website formula; W=unit+0x29 assumed; not engine damage or victory probability",
+          "target_attack_unit": "180",
+          "target_attack_building": "178",
+          "target_attack_melee": "—",
+          "target_attack_note": "对部队：网站计算器，真实战斗能力×（基础＋规模＋武装加成）÷150；部队本级武装值36。攻城另按客户端静态参考；步兵常规情景；均非实际扣血。",
+          "unit_skills_reference": "伪兵 / 反计 / 埋伏 / 奇袭 / 弓箭 / 引诱 / 提案 / 收拾 / 攻城 / 无双 / 火攻 / 火计 / 落石 / 谍报 / 骑马",
+          "skill_points_display": "",
+          "target_attack_components": {
+            "unit": [
+              304
+            ],
+            "building": [
+              300
+            ],
+            "training": 36,
+            "size": 1,
+            "skill_scenario": null,
+            "source": "unit=website calculator; building=SANPK 3.5 static"
+          },
+          "raw_hex": "488c50003800560000001b00020000ee003803ffff08520000085200005500000a5500ffffffffffff24010000001c000c00330000005f0000006088500050d861033cd861031200000064d86103c0d761030a00000001000000ffffffff01000000370000005700000002000000380000005600000000000000ffffffff00006088500000000000000000000000000000000000000000000a000000000000000000000008520000"
+        },
+        {
+          "type": "field_unit",
+          "unit_kind": "强弓兵",
+          "unit_id": 32,
+          "owner_raw": 2,
+          "world_xy_raw": [
+            54,
+            90
+          ],
+          "general_ids": [
+            180,
+            null,
+            null
+          ],
+          "soldiers_candidate": 3500,
+          "rice_candidate": 3220,
+          "armament_degree_raw": 39,
+          "raw_1d": 75,
+          "raw_1e": 0,
+          "training_degree": 39,
+          "basic_combat_power": 74,
+          "verification": "static_layout_only_pending_live_unit_sample",
+          "source_layer": "game_core",
+          "terrain_type_raw": 11,
+          "on_water": false,
+          "terrain_verification": "static_map_lookup_0x469f6f",
+          "container_index": 22,
+          "morale": 75,
+          "morale_verification": "unit+0x1d; 3.5 setter clamps 0..100; live Wei unit 3 UI 13755/89/4 aligned; other units not individually UI checked",
+          "website_attack_power": null,
+          "combat_inputs": [
+            {
+              "id": 180,
+              "name": "蒋舒",
+              "lead_effective": 69,
+              "war_effective": 80,
+              "flags": 0
+            }
+          ],
+          "combat_missing": [
+            "弓兵远射/攻城参考见目标攻击列"
+          ],
+          "training_verification": "unit+0x29; setter cap100 and attack consumers; GUI alignment pending",
+          "size_index": 0,
+          "size_label": "小队",
+          "combat_verification": "static reproduction 0x477b4f/0x477c24/0x477cd0; actual GUI comparison pending",
+          "attack_verification": "website formula; W=unit+0x29 assumed; not engine damage or victory probability",
+          "target_attack_unit": "82",
+          "target_attack_building": "27–55",
+          "target_attack_melee": "—",
+          "target_attack_note": "对部队：弓兵无网站参数，用攻略原表远射+客户端训练项；部队本级武装值39。该兵种无网站参数，已改回原表远射。攻城另按客户端静态参考；弓箭状态未核定，范围为无/有技能两种情景；均非实际扣血。",
+          "unit_skills_reference": "骑马",
+          "skill_points_display": "",
+          "target_attack_components": {
+            "unit": [
+              167
+            ],
+            "building": [
+              55,
+              111
+            ],
+            "training": 39,
+            "size": 0,
+            "skill_scenario": "弓箭",
+            "source": "unit=SANPK 3.5 table; building=SANPK 3.5 static"
+          },
+          "raw_hex": "d095500036005a0002002000000000b400ffffffffac0d0000940c00004b00000c4b00ffffffffffff27010000000c001c0039000000590000006088500004e96103dce161030d000000f0e16103b0e161030a00000001000000ffffffff01000000360000005900000000000000360000005a00000000000000ffffffff00006088500000000000000000000000000000000000000000000a0000000000000000000000940c0000"
+        },
+        {
+          "type": "field_unit",
+          "unit_kind": "强化骑兵",
+          "unit_id": 28,
+          "owner_raw": 0,
+          "world_xy_raw": [
+            55,
+            88
+          ],
+          "general_ids": [
+            597,
+            null,
+            null
+          ],
+          "soldiers_candidate": 3500,
+          "rice_candidate": 3220,
+          "armament_degree_raw": 56,
+          "raw_1d": 75,
+          "raw_1e": 0,
+          "training_degree": 56,
+          "basic_combat_power": 77,
+          "verification": "static_layout_only_pending_live_unit_sample",
+          "source_layer": "game_core",
+          "terrain_type_raw": 1,
+          "on_water": false,
+          "terrain_verification": "static_map_lookup_0x469f6f",
+          "container_index": 23,
+          "morale": 75,
+          "morale_verification": "unit+0x1d; 3.5 setter clamps 0..100; live Wei unit 3 UI 13755/89/4 aligned; other units not individually UI checked",
+          "website_attack_power": 91,
+          "combat_inputs": [
+            {
+              "id": 597,
+              "name": "袁绍",
+              "lead_effective": 80,
+              "war_effective": 75,
+              "flags": 0
+            }
+          ],
+          "combat_missing": [],
+          "training_verification": "unit+0x29; setter cap100 and attack consumers; GUI alignment pending",
+          "size_index": 0,
+          "size_label": "小队",
+          "combat_verification": "static reproduction 0x477b4f/0x477c24/0x477cd0; actual GUI comparison pending",
+          "attack_verification": "website formula; W=unit+0x29 assumed; not engine damage or victory probability",
+          "target_attack_unit": "91",
+          "target_attack_building": "44",
+          "target_attack_melee": "—",
+          "target_attack_note": "对部队：网站计算器，真实战斗能力×（基础＋规模＋武装加成）÷150；部队本级武装值56。攻城另按客户端静态参考；按资料技能骑马；均非实际扣血。",
+          "unit_skills_reference": "奇袭 / 引诱 / 攻城 / 骑马",
+          "skill_points_display": "",
+          "target_attack_components": {
+            "unit": [
+              178
+            ],
+            "building": [
+              86
+            ],
+            "training": 56,
+            "size": 0,
+            "skill_scenario": "骑马",
+            "source": "unit=website calculator; building=SANPK 3.5 static"
+          },
+          "raw_hex": "189050003700580000001c000200005502ffffffffac0d0000940c00004b0000124b00ffffffffffff38010000001c000c00330000005f0000006088500070e861035ce861030e00000084e8610330e861030a00000001000000ffffffff01000000360000005900000002000000370000005800000000000000ffffffff00006088500000000000000000000000000000000000000000000a0000000000000000000000940c0000"
+        }
+      ],
+      "lords": [],
+      "cities_and_barriers": []
+    }
+  },
+  "terrain": [
+    {
+      "xy": [
+        48,
+        78
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        79
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        80
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        81
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        48,
+        82
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        48,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        48,
+        84
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        48,
+        85
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        86
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        48,
+        88
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        89
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        48,
+        90
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        48,
+        91
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        48,
+        92
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        48,
+        93
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        94
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        48,
+        95
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        48,
+        96
+      ],
+      "code": 9
+    },
+    {
+      "xy": [
+        48,
+        97
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        48,
+        98
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        48,
+        99
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        48,
+        100
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        48,
+        101
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        48,
+        102
+      ],
+      "code": 10
+    },
+    {
+      "xy": [
+        49,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        49,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        49,
+        78
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        79
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        49,
+        80
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        49,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        84
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        49,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        86
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        87
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        49,
+        88
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        49,
+        89
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        49,
+        90
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        49,
+        91
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        49,
+        92
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        49,
+        93
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        49,
+        94
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        49,
+        95
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        49,
+        96
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        97
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        98
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        49,
+        99
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        49,
+        100
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        49,
+        101
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        49,
+        102
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        50,
+        74
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        50,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        50,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        50,
+        77
+      ],
+      "code": 18
+    },
+    {
+      "xy": [
+        50,
+        78
+      ],
+      "code": 14
+    },
+    {
+      "xy": [
+        50,
+        79
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        50,
+        80
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        86
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        87
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        50,
+        88
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        50,
+        89
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        50,
+        90
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        50,
+        91
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        50,
+        92
+      ],
+      "code": 12
+    },
+    {
+      "xy": [
+        50,
+        93
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        50,
+        94
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        50,
+        95
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        50,
+        96
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        97
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        50,
+        98
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        50,
+        99
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        100
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        50,
+        101
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        50,
+        102
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        51,
+        74
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        75
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        51,
+        76
+      ],
+      "code": 18
+    },
+    {
+      "xy": [
+        51,
+        77
+      ],
+      "code": 6
+    },
+    {
+      "xy": [
+        51,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        51,
+        79
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        51,
+        80
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        51,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        85
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        51,
+        86
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        51,
+        87
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        51,
+        88
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        51,
+        89
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        51,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        91
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        51,
+        92
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        51,
+        93
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        94
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        51,
+        95
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        96
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        51,
+        97
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        98
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        99
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        100
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        101
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        51,
+        102
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        52,
+        74
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        52,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        52,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        52,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        52,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        52,
+        79
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        80
+      ],
+      "code": 12
+    },
+    {
+      "xy": [
+        52,
+        81
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        52,
+        82
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        52,
+        83
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        52,
+        84
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        52,
+        85
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        52,
+        86
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        52,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        88
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        52,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        91
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        92
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        52,
+        93
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        52,
+        94
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        52,
+        95
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        96
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        52,
+        97
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        52,
+        98
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        99
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        52,
+        100
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        52,
+        101
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        52,
+        102
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        53,
+        74
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        53,
+        75
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        53,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        53,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        53,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        53,
+        79
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        53,
+        80
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        53,
+        81
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        53,
+        82
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        53,
+        83
+      ],
+      "code": 9
+    },
+    {
+      "xy": [
+        53,
+        84
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        53,
+        85
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        53,
+        86
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        53,
+        87
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        53,
+        88
+      ],
+      "code": 10
+    },
+    {
+      "xy": [
+        53,
+        89
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        53,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        53,
+        91
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        53,
+        92
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        53,
+        93
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        53,
+        94
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        53,
+        95
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        53,
+        96
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        53,
+        97
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        53,
+        98
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        53,
+        99
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        53,
+        100
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        53,
+        101
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        53,
+        102
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        74
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        54,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        54,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        54,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        54,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        54,
+        79
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        54,
+        80
+      ],
+      "code": 2
+    },
+    {
+      "xy": [
+        54,
+        81
+      ],
+      "code": 12
+    },
+    {
+      "xy": [
+        54,
+        82
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        54,
+        83
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        54,
+        84
+      ],
+      "code": 3
+    },
+    {
+      "xy": [
+        54,
+        85
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        54,
+        86
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        54,
+        87
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        88
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        89
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        90
+      ],
+      "code": 11
+    },
+    {
+      "xy": [
+        54,
+        91
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        92
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        93
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        94
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        95
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        96
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        97
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        98
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        99
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        54,
+        100
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        54,
+        101
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        54,
+        102
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        74
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        55,
+        75
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        55,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        55,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        55,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        55,
+        79
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        55,
+        80
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        55,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        55,
+        82
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        55,
+        83
+      ],
+      "code": 11
+    },
+    {
+      "xy": [
+        55,
+        84
+      ],
+      "code": 14
+    },
+    {
+      "xy": [
+        55,
+        85
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        55,
+        86
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        55,
+        88
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        89
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        90
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        91
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        92
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        93
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        94
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        95
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        96
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        97
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        98
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        99
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        100
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        101
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        55,
+        102
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        56,
+        74
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        56,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        56,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        56,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        56,
+        79
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        80
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        86
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        56,
+        87
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        56,
+        88
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        91
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        92
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        93
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        94
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        95
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        96
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        97
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        98
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        99
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        100
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        56,
+        101
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        56,
+        102
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        57,
+        74
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        57,
+        75
+      ],
+      "code": 9
+    },
+    {
+      "xy": [
+        57,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        57,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        57,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        57,
+        79
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        57,
+        80
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        86
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        88
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        57,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        91
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        92
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        93
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        94
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        95
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        96
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        97
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        98
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        99
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        100
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        57,
+        101
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        57,
+        102
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        58,
+        74
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        58,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        58,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        58,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        58,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        58,
+        79
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        80
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        86
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        87
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        58,
+        88
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        58,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        90
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        58,
+        91
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        58,
+        92
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        93
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        94
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        95
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        96
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        97
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        98
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        99
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        100
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        101
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        58,
+        102
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        59,
+        74
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        59,
+        75
+      ],
+      "code": 9
+    },
+    {
+      "xy": [
+        59,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        59,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        59,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        59,
+        79
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        59,
+        80
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        81
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        59,
+        82
+      ],
+      "code": 10
+    },
+    {
+      "xy": [
+        59,
+        83
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        59,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        85
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        59,
+        86
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        59,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        88
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        91
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        92
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        59,
+        93
+      ],
+      "code": 11
+    },
+    {
+      "xy": [
+        59,
+        94
+      ],
+      "code": 10
+    },
+    {
+      "xy": [
+        59,
+        95
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        59,
+        96
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        59,
+        97
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        59,
+        98
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        59,
+        99
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        59,
+        100
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        101
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        59,
+        102
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        74
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        60,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        60,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        60,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        60,
+        78
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        60,
+        79
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        80
+      ],
+      "code": 7
+    },
+    {
+      "xy": [
+        60,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        84
+      ],
+      "code": 11
+    },
+    {
+      "xy": [
+        60,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        86
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        88
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        91
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        92
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        60,
+        93
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        60,
+        94
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        60,
+        95
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        60,
+        96
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        60,
+        97
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        60,
+        98
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        60,
+        99
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        60,
+        100
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        60,
+        101
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        60,
+        102
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        74
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        61,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        61,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        61,
+        77
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        78
+      ],
+      "code": 12
+    },
+    {
+      "xy": [
+        61,
+        79
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        61,
+        80
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        81
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        86
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        88
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        91
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        61,
+        92
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        61,
+        93
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        61,
+        94
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        61,
+        95
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        61,
+        96
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        61,
+        97
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        61,
+        98
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        61,
+        99
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        61,
+        100
+      ],
+      "code": 1
+    },
+    {
+      "xy": [
+        62,
+        74
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        62,
+        75
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        62,
+        76
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        62,
+        77
+      ],
+      "code": 4
+    },
+    {
+      "xy": [
+        62,
+        78
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        79
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        80
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        62,
+        81
+      ],
+      "code": 8
+    },
+    {
+      "xy": [
+        62,
+        82
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        83
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        84
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        85
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        86
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        87
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        88
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        89
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        90
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        91
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        92
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        93
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        94
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        95
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        96
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        97
+      ],
+      "code": 0
+    },
+    {
+      "xy": [
+        62,
+        98
+      ],
+      "code": 0
+    }
+  ],
+  "expected_units": [
+    {
+      "unit_id": 27,
+      "name": "魏王",
+      "kind": "重装步兵",
+      "hub_label": "魏王(攻:180) - 重装步兵 · 士气:85",
+      "hub_factor": 304,
+      "client_land_factor_before_skill": 300,
+      "native_skill_union": "0x38ffb",
+      "required_skill_present": true,
+      "client_land_factor_after_skill": 300,
+      "hub_scale_applied_to_client_factor": 178,
+      "basic_combat_power": 89,
+      "morale": 85,
+      "composition_scale": 91,
+      "morale_scale": 127,
+      "engine_consumer_pre_random_component": 867,
+      "component_is_final_damage": false,
+      "remaining_move_raw": 10,
+      "hub_full_move": 10
+    },
+    {
+      "unit_id": 28,
+      "name": "袁绍",
+      "kind": "强化骑兵",
+      "hub_label": "袁绍(攻:91) - 强化骑兵 · 士气:75",
+      "hub_factor": 178,
+      "client_land_factor_before_skill": 164,
+      "native_skill_union": "0x8051",
+      "required_skill_present": true,
+      "client_land_factor_after_skill": 164,
+      "hub_scale_applied_to_client_factor": 84,
+      "basic_combat_power": 77,
+      "morale": 75,
+      "composition_scale": 81,
+      "morale_scale": 112,
+      "engine_consumer_pre_random_component": 372,
+      "component_is_final_damage": false,
+      "remaining_move_raw": 18,
+      "hub_full_move": 18
+    },
+    {
+      "unit_id": 32,
+      "name": "蒋舒",
+      "kind": "强弓兵",
+      "hub_label": "蒋舒(攻:82) - 强弓兵 · 士气:75",
+      "hub_factor": 167,
+      "client_land_factor_before_skill": 167,
+      "native_skill_union": "0x1",
+      "required_skill_present": false,
+      "client_land_factor_after_skill": 83,
+      "hub_scale_applied_to_client_factor": 41,
+      "basic_combat_power": 74,
+      "morale": 75,
+      "composition_scale": 79,
+      "morale_scale": 112,
+      "engine_consumer_pre_random_component": 184,
+      "component_is_final_damage": false,
+      "remaining_move_raw": 12,
+      "hub_full_move": 12
+    }
+  ],
+  "native_cost_cases": [
+    {
+      "unit_id": 27,
+      "cell": [
+        50,
+        87
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        50,
+        88
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        50,
+        89
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        50,
+        90
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        50,
+        91
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        51,
+        85
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        51,
+        86
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        51,
+        87
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        51,
+        88
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        51,
+        89
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        51,
+        92
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        52,
+        82
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        52,
+        83
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        52,
+        84
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        52,
+        85
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        52,
+        86
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        53,
+        80
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        53,
+        81
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        53,
+        84
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        53,
+        85
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        53,
+        86
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        54,
+        80
+      ],
+      "engine_code": 2,
+      "hub_kind": "道路",
+      "hub_entry_cost": 2,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        54,
+        83
+      ],
+      "engine_code": 3,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        54,
+        84
+      ],
+      "engine_code": 3,
+      "hub_kind": "山岳",
+      "hub_entry_cost": null,
+      "engine_entry_cost_component": 6
+    },
+    {
+      "unit_id": 27,
+      "cell": [
+        56,
+        80
+      ],
+      "engine_code": 0,
+      "hub_kind": "道路",
+      "hub_entry_cost": 2,
+      "engine_entry_cost_component": 3
+    },
+    {
+      "unit_id": 28,
+      "cell": [
+        50,
+        91
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 28,
+      "cell": [
+        51,
+        89
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 28,
+      "cell": [
+        51,
+        92
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 28,
+      "cell": [
+        52,
+        82
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 28,
+      "cell": [
+        54,
+        83
+      ],
+      "engine_code": 3,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": null
+    },
+    {
+      "unit_id": 32,
+      "cell": [
+        48,
+        86
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 32,
+      "cell": [
+        49,
+        95
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 32,
+      "cell": [
+        50,
+        91
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 32,
+      "cell": [
+        51,
+        89
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    },
+    {
+      "unit_id": 32,
+      "cell": [
+        51,
+        92
+      ],
+      "engine_code": 2,
+      "hub_kind": "平地",
+      "hub_entry_cost": 3,
+      "engine_entry_cost_component": 5
+    }
+  ]
+}

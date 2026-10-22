@@ -1,0 +1,26 @@
+{
+  "status": "inspect",
+  "observed_at": 1789326353.422987,
+  "rooms": [],
+  "rooms_error": null,
+  "ui_list": "empty_agree",
+  "ui_listbox": "empty_agree",
+  "ui_listbox_items": [],
+  "ui_listbox_count": 0,
+  "ui_listbox_style": 1342243073,
+  "ui_listbox_unicode": false,
+  "ui_listbox_error": null,
+  "ui_hints": [
+    "★看不到主机，刷新一下。游戏内【鼠标右键】可以看到快捷菜单"
+  ],
+  "ui_layout": {
+    "select_visible": true,
+    "join_visible": true,
+    "create_visible": true,
+    "refresh_visible": true,
+    "confirm_visible": false,
+    "nethook_visible": false
+  },
+  "message": "只列出本进程窗口，未点击、未改声音",
+  "scheme": "sanpk_background"
+}

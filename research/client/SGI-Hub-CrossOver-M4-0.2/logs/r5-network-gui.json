@@ -1,0 +1,159 @@
+{
+  "title": "三国志全知情报 1.1.22 · VKQUANT",
+  "window_viewable": true,
+  "status": "本机 · VKQUANT · 等待游戏 · 旧快照 334秒 · 游戏进程不在线，等待重新进入",
+  "identity_label": "我方：未确认 · 未确认 · 识别不足时可手动确认",
+  "snapshot_id": "20260913T132655298729Z",
+  "wild_rows": [],
+  "wild_filter_note": "",
+  "hidden_barrier_wild": 0,
+  "player_force_id": null,
+  "player_context": {
+    "force_id": null,
+    "slot": -1,
+    "status": "unknown",
+    "source": "game_player_context",
+    "getter": "0x44b83b",
+    "stable": true,
+    "build_sha256": "2d9a5635eba3ea515aac43af3a00f136eba0ece19e86272a033bdbb545078743"
+  },
+  "talent_columns": [
+    "城池",
+    "势力",
+    "在野总数",
+    ">450人数",
+    "占本城%",
+    ">400人数",
+    "占本城%",
+    ">350人数",
+    "占本城%",
+    "最高五维",
+    "属性缺失"
+  ],
+  "war_unit_text": {
+    "color": "#c32620",
+    "global": [],
+    "nearby": []
+  },
+  "city_columns": [
+    "城关",
+    "周边陷阱",
+    "势力",
+    "可产步兵（人）",
+    "可产骑兵（人）",
+    "可产弓兵（人）",
+    "人口",
+    "春金毛收入≈",
+    "秋粮毛收入≈",
+    "防御",
+    "开发",
+    "商业",
+    "坐标"
+  ],
+  "city_rows": [],
+  "officer_columns": [
+    "将 ID",
+    "姓名",
+    "技能（资料）",
+    "兵力",
+    "统",
+    "武",
+    "智",
+    "政",
+    "魅"
+  ],
+  "officer_rows": [],
+  "selected_force_id": null,
+  "nearby_defaults": {
+    "radius": "15",
+    "origins": "城池＋部队",
+    "filters": {
+      "field_units": true,
+      "cities_and_barriers": false,
+      "production_buildings": false,
+      "traps": true
+    }
+  },
+  "war_force_ids": [],
+  "war_background": "#f8d9d9",
+  "force_unit_columns": [
+    "部队 ID",
+    "兵种",
+    "坐标",
+    "编成将",
+    "兵数候选",
+    "当前士气",
+    "本级武装值",
+    "编组战力*",
+    "攻击力（计算器）",
+    "攻城攻击参考*",
+    "弓系肉搏：部队/城关",
+    "计谋状态",
+    "编成将技能（资料）",
+    "规模",
+    "势力",
+    "距我方最近部队",
+    "依据 / 缺项",
+    "对部队基值 / 远射",
+    "对建筑基值 / 远射",
+    "弓系肉搏对部队",
+    "弓系肉搏对建筑",
+    "行动 / 士气参考",
+    "携带粮食候选"
+  ],
+  "force_unit_rows": [],
+  "force_unit_tab": "部队",
+  "force_columns": [
+    "信望值",
+    "部将数",
+    "部队数"
+  ],
+  "original_art_tab": "原版素材图鉴",
+  "original_portraits": 967,
+  "color_tables": 17,
+  "battle_tab": "战役",
+  "battle_rows": [],
+  "military_rows": {
+    "infantry": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "cavalry": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "bow": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ]
+  },
+  "preparation_tab": "备战部队推荐",
+  "preparation_status": "",
+  "training_record_tab": "训练采集",
+  "training_record_note": "尚未记下行动前。待确认写入：/Users/vk/Library/Application Support/SGI-Hub/training-records/pending.jsonl",
+  "preparation_rows": [],
+  "card_effect_rows": [],
+  "strategy_topics": [
+    "总览与判定",
+    "火计",
+    "落石",
+    "混乱",
+    "落雷",
+    "引诱",
+    "反计",
+    "收拾",
+    "天变",
+    "计谋技能与宝物",
+    "怎样配合验证"
+  ],
+  "force_rows": []
+}

@@ -1,0 +1,57 @@
+{
+  "version": "1.1.138",
+  "simulated_demo": true,
+  "live_hook_enabled": false,
+  "note": "演示档案一致性与本地私有接口；运行中桥未切本版，不能当连续分析可靠。",
+  "cli_exit": [
+    0,
+    0,
+    0
+  ],
+  "local": {
+    "match_id": "a10c65aa-46b1-49ad-ab4b-318cd661ce3a",
+    "seq": 14,
+    "snapshot_id": "DEMO20010013",
+    "capture_end": "2026-09-16T01:00:13+00:00",
+    "omniscient": true,
+    "visual_interpolation": false,
+    "player_identity": {
+      "status": "verified",
+      "force_id": 0,
+      "confirmed": true,
+      "guessed": false,
+      "note": null
+    },
+    "force_count": 2,
+    "event_total": 31,
+    "track_found": true,
+    "track_samples": 14,
+    "latest_seconds": 0.0009,
+    "summary_seconds": 0.0001,
+    "events_seconds": 0.0293,
+    "track_seconds": 0.0001
+  },
+  "cli_matches_query": {
+    "summary_match_id": true,
+    "summary_seq": true,
+    "latest_snapshot_id": true,
+    "track_found": true,
+    "guessed_false": true
+  },
+  "remote": {
+    "match_id": "a10c65aa-46b1-49ad-ab4b-318cd661ce3a",
+    "seq": 14,
+    "snapshot_id": "DEMO20010013",
+    "same_match": true,
+    "same_seq": true,
+    "same_snapshot": true,
+    "same_state_snapshot": true,
+    "flush_ok": true,
+    "bytes_sent": 26660,
+    "uploads": 2,
+    "upload_seconds": 0.0085,
+    "remote_latest_seconds": 0.0008,
+    "remote_event_count": 31,
+    "unauthorized_read": 401
+  }
+}

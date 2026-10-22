@@ -1,0 +1,9 @@
+{
+  "match_id": "a10c65aa-46b1-49ad-ab4b-318cd661ce3a",
+  "acked_seq": 14,
+  "gaps": [],
+  "lost_gaps": [],
+  "queue_full_waits": 0,
+  "last_error": null,
+  "last_flush_utc": "2026-09-16T00:07:54Z"
+}

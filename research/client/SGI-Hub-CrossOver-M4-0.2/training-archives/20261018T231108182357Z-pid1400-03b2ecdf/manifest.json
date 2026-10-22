@@ -1,0 +1,67 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "03b2ecdf-d9c7-422b-9d4f-671b46773919",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 1400,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134368386578974450
+  },
+  "player_session_id_at_open": "9ffec6572d5f42dd87f7f3ed6eb5b95e",
+  "started_utc": "2026-10-18T23:11:08.182427+00:00",
+  "ended_utc": "2026-10-18T23:18:49.179537+00:00",
+  "end_reason": "idle_timeout",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "dbb37729-e62c-4eeb-9ee7-64caaab4858f"
+  ],
+  "simulated": false,
+  "frame_count": 355,
+  "last_seq": 355,
+  "last_snapshot_id": "20261018T231847935973Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-18T23:18:47.955839+00:00",
+  "title": "电脑局 22势力",
+  "match_kind": "computer",
+  "format": "22势力",
+  "opening_locked": true,
+  "opening_force_count": 22,
+  "opening_alliances": []
+}

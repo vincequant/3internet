@@ -1,0 +1,37 @@
+import tkinter as tk
+from tkinter import ttk
+from decision_support import recommend_officers
+class DecisionPanel(tk.Frame):
+ def __init__(self,parent,app):
+  super().__init__(parent,bg='#f7f4ea');self.app=app;self.rows={}
+  tk.Label(self,text='实际出征部队 · 自动攻击力判断',bg='#f7f4ea',fg='#302c22',font=('Microsoft YaHei',13,'bold')).pack(anchor='w',padx=10,pady=(10,3))
+  self.result=tk.Label(self,bg='#eee9d9',fg='#6c5128',anchor='w',justify='left',font=('Microsoft YaHei',10));self.result.pack(fill='x',padx=10,pady=6)
+  tk.Button(self,text='查看我军与其他势力的实际部队攻击力 →',command=self.open_units,bg='#eee9d9',fg='#302c22').pack(anchor='w',padx=10,pady=6)
+  tk.Label(self,text='逐队读取兵种、兵数、编成将和武装字段，自动代入公式。无需手填，也不使用示例能力100。\n公式攻击力用于同条件比较；不是实际扣血或胜率。缺少参数的部队在列表说明原因。',bg='#f7f4ea',fg='#80745a',justify='left').pack(anchor='w',padx=10)
+  bar=tk.Frame(self,bg='#f7f4ea');bar.pack(fill='x',padx=10,pady=8)
+  tk.Label(bar,text='在野人才任务推荐',bg='#f7f4ea',font=('Microsoft YaHei',12,'bold')).pack(side='left')
+  self.task=tk.StringVar(value='战斗');combo=ttk.Combobox(bar,textvariable=self.task,values=['战斗','训练 / 内政','计略'],state='readonly',width=13);combo.pack(side='left',padx=12);combo.bind('<<ComboboxSelected>>',lambda _:self.refresh())
+  tk.Label(self,text='按当前属性排序；技能未匹配不参与评分。单击推荐武将跳到在野地图定位。',bg='#f7f4ea',fg='#80745a').pack(anchor='w',padx=10)
+  self.tree=app.tree(self,[('name','武将',75),('city','所在城',75),('score','候选指标',65),('why','推荐依据与限制',400)])
+  self.tree.bind('<<TreeviewSelect>>',self.locate)
+ def refresh(self):
+  state=self.app.doc
+  if not state:return
+  from unit_combat import enrich_unit_combat
+  enrich_unit_combat(state)
+  units=state.get('entities',{}).get('field_units',[])
+  ready=sum(u.get('website_attack_power') is not None for u in units)
+  self.result.config(text=f'当前已采集 {len(units)} 支出征部队，其中 {ready} 支可计算公式攻击力。\n在「全图部队」直接比较攻击力、编组战力、训练与规模；点击部队定位地图。')
+  rows=recommend_officers(state,self.task.get(),self.app.global_filter.get(),self.app.city_filter.get())
+  self.rows={str(i):r for i,r in enumerate(rows)};self.tree.delete(*self.tree.get_children())
+  for iid,r in self.rows.items():
+   g=r['officer'];self.tree.insert('','end',iid=iid,values=(g.get('name','?'),g.get('location_city_name') or '未解析',f"{r['score']:g}",r['why']))
+ def open_units(self):
+  self.app.workspace.select(self.app.force_page)
+  self.app.book.select(self.app.frames['field_units'])
+ def locate(self,_=None):
+  selection=self.tree.selection()
+  if not selection:return
+  r=self.rows.get(selection[0])
+  if not r:return
+  self.app.global_book.select(self.app.frames['wild']);self.app.city_locator.focus_officer(r['officer'])

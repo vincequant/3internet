@@ -1,0 +1,9 @@
+{
+  "match_id": "6fb295e2-656e-4a76-a475-324622661eec",
+  "acked_seq": 0,
+  "gaps": [],
+  "lost_gaps": [],
+  "queue_full_waits": 0,
+  "last_error": "<urlopen error The write operation timed out>",
+  "last_flush_utc": null
+}

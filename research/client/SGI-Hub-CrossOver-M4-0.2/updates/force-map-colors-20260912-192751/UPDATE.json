@@ -1,0 +1,9 @@
+{
+  "updated": [
+    "native_city_map.py",
+    "omni_window.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/force-map-colors-20260912-192751",
+  "scope": "Named reference palette for live-owned map markers/legend/sidebar; no boundary ownership reuse; no identity/collector changes",
+  "restart": "Hub only"
+}

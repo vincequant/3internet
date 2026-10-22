@@ -1,0 +1,65 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "04bb2a98-dce1-4eff-85c1-f4f29b3a1b3d",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 1896,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134370610929002220
+  },
+  "player_session_id_at_open": "da88beb62cf249adb18ddc1a17a50382",
+  "started_utc": "2026-10-21T13:41:43.365102+00:00",
+  "ended_utc": "2026-10-21T13:52:01.882872+00:00",
+  "end_reason": "superseded",
+  "completeness": "interrupted",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [],
+  "simulated": false,
+  "frame_count": 1,
+  "last_seq": 1,
+  "last_snapshot_id": "20261021T134142954217Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-21T13:41:43.002980+00:00",
+  "title": "电脑局 22势力",
+  "match_kind": "computer",
+  "format": "22势力",
+  "opening_locked": true,
+  "opening_force_count": 22,
+  "opening_alliances": []
+}

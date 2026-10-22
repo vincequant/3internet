@@ -39,22 +39,16 @@ def init(self,root,*args,**kwargs):
   record['first_header']=self.status.cget('text')
   record['frames_before']=self.capture_status.frames
   record['forces']=self.command_panel.force_box.cget('values')
-  steps=['勢力情報','勢力對比','外部指令','戰場','建設']
+  steps=['勢力情報','勢力對比','指令','建設']
   def one():
    if not steps:
     record['last_header']=self.status.cget('text');record['frames_after']=self.capture_status.frames
     record['force_view_error']=self.force_views_error
     finish();return
    title=steps.pop(0)
-   tab_title = '外部指令' if title == '建設' else title
+   tab_title = '指令' if title == '建設' else title
    tid=next(t for t in self.control_book.tabs() if self.control_book.tab(t,'text')==tab_title)
    self.control_book.select(tid);root.update()
-   if title == '戰場':
-    cities=self.command_panel._owned_cities()
-    if cities:
-     self.battle_panel.panorama.center=tuple(cities[0]['xy'])
-     self.battle_panel.panorama.zoom=3.8
-     self.battle_panel.panorama.draw(refresh_view=False)
    if title == '建設':
     self.command_panel.build(7)
     picker=self.command_panel.map_view
@@ -75,7 +69,7 @@ def init(self,root,*args,**kwargs):
       record['confirm_enabled']=str(picker.confirm_button.cget('state'))
       record['confirmation_invoked']=False
    def snap():
-    names={'勢力情報':'forces','勢力對比':'compare','外部指令':'commands','戰場':'battle','建設':'picker'}
+    names={'勢力情報':'forces','勢力對比':'compare','指令':'commands','建設':'picker'}
     name=names[title]
     if name=='compare':record['compare_rows']=[self.force_compare.tree.item(i,'values') for i in self.force_compare.tree.get_children()]
     if name=='forces':record['force_rows']=[self.force_tree.item(i,'values') for i in self.force_tree.get_children()]
@@ -86,7 +80,7 @@ def init(self,root,*args,**kwargs):
   one()
  def finish():
   (ROOT/'docs'/'live-0.2.33-verification.json').write_text(json.dumps(record,ensure_ascii=False,indent=2))
-  self.stop.set();self.battle_panel.dispose();root.destroy()
+  self.stop.set();root.destroy()
  root.after(500,ready)
 nw.FengyeWindow.__init__=init
 sys.argv=[str(ROOT/'run.py')]

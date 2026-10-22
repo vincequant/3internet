@@ -1,0 +1,4 @@
+#!/bin/sh
+export SGI_ROOM_MONITOR_HOME="__DATA__"
+export PYTHONPATH="__DEST__${PYTHONPATH:+:$PYTHONPATH}"
+exec /usr/bin/python3 -B -m sgi_room_monitor "$@"

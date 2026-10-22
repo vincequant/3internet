@@ -1,0 +1,4 @@
+{"at": "2026-10-04T05:19:23.847425+00:00", "kind": "bound", "bound": {"pid": 1328, "created": 134355600975853370, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "1cc8bb686f63d32eb1f2a4107374a0a60927d1ea7f9a7b0652245ef7e7bd35a2"}}
+{"at": "2026-10-04T05:19:28.042508+00:00", "kind": "fatal", "note": "当前尚未进入游戏"}
+{"at": "2026-10-04T05:19:28.043396+00:00", "kind": "exit", "code": 2}
+{"at": "2026-10-04T05:21:02.112889+00:00", "kind": "panel_closed"}

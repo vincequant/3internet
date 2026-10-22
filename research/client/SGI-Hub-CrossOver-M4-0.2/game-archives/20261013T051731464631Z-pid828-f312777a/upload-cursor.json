@@ -1,0 +1,9 @@
+{
+  "match_id": "f312777a-9890-4fff-b898-94eaa042ac0c",
+  "acked_seq": 0,
+  "gaps": [],
+  "lost_gaps": [],
+  "queue_full_waits": 0,
+  "last_error": "HTTP Error 413: Payload Too Large",
+  "last_flush_utc": null
+}

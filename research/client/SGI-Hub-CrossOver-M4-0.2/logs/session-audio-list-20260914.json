@@ -1,0 +1,12 @@
+{
+  "ok": true,
+  "status": "ok",
+  "count": 0,
+  "sessions": [],
+  "step": null,
+  "hr": null,
+  "changed": null,
+  "action": null,
+  "mixer_devices": 4,
+  "wave_out_devices": 2
+}

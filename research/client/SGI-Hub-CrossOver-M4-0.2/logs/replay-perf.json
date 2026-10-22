@@ -1,0 +1,11 @@
+{
+  "frames": 2400,
+  "bytes": 4558880,
+  "bytes_per_hour_at_1hz": 6838320,
+  "first_view_last_frame_seconds": 0.2022,
+  "hot_view_prev_frame_seconds": 0.0012,
+  "seek_back_to_first_seconds": 0.0002,
+  "play_50_frames_seconds": 0.0117,
+  "max_rss": 597999616,
+  "note": "ReplayCursor.view on compact demo entities; not a 923-general live capture"
+}

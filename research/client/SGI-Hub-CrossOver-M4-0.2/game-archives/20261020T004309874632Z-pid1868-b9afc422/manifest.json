@@ -1,0 +1,59 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "b9afc422-ee8e-4900-a345-60d1a36e8b47",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 1868,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134369305441322620
+  },
+  "player_session_id_at_open": "2d0dc044672c4c29a987b5425d53401f",
+  "started_utc": "2026-10-20T00:43:09.874733+00:00",
+  "ended_utc": "2026-10-20T02:42:29.601105+00:00",
+  "end_reason": "process_gone",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "a897f724-c012-4262-a3ed-b0a1771b1fae"
+  ],
+  "simulated": false,
+  "frame_count": 4420,
+  "last_seq": 4420,
+  "last_snapshot_id": "20261020T024227707975Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-20T02:42:27.849527+00:00",
+  "title": "玩家局 1v1 燕 vs 鲁",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

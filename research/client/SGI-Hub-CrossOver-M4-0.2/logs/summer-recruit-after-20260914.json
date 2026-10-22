@@ -1,0 +1,52 @@
+{
+  "clock": {
+    "raw_hex": "06000000c800c800ffff0100010000ffff3c",
+    "year_u16": 200,
+    "season_u16": 1,
+    "verification": "candidate_not_validated_by_transition"
+  },
+  "lords": [
+    {
+      "name": "魏",
+      "force_id": 0,
+      "gold": 25490,
+      "rice": 100000,
+      "troop_stock": {
+        "infantry": 71890,
+        "cavalry": 16500,
+        "bow": 21500
+      },
+      "armament_raw": {
+        "infantry": 145,
+        "cavalry": 109,
+        "bow": 126
+      },
+      "training_progress": {
+        "infantry": 45,
+        "cavalry": 9,
+        "bow": 26
+      }
+    },
+    {
+      "name": "宋",
+      "force_id": 11,
+      "gold": 22149,
+      "rice": 100000,
+      "troop_stock": {
+        "infantry": 53190,
+        "cavalry": 11000,
+        "bow": 32870
+      },
+      "armament_raw": {
+        "infantry": 165,
+        "cavalry": 96,
+        "bow": 151
+      },
+      "training_progress": {
+        "infantry": 65,
+        "cavalry": 96,
+        "bow": 51
+      }
+    }
+  ]
+}

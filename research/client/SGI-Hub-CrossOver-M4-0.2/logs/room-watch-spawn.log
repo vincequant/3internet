@@ -1,0 +1,1062 @@
+本机已有一个观察窗口，请使用原窗口。
+本机已有一个观察窗口，请使用原窗口。
+本机已有一个观察窗口，请使用原窗口。
+本机已有一个观察窗口，请使用原窗口。
+本机已有一个观察窗口，请使用原窗口。
+本机已有一个观察窗口，请使用原窗口。
+本机已有一个观察窗口，请使用原窗口。
+本机已有一个观察窗口，请使用原窗口。
+已在启动前关闭 PlayBGM。从大厅进入游戏后应无背景乐；警报仍走观察器。这不是仅大厅查询。
+本机已有一个观察窗口，请使用原窗口。
+2026-09-14 12:19:33.482 Python[68537:11382295] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-09-16 14:33:47.610 Python[6937:1164162] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-09-16 15:16:11.485 Python[35615:1229634] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-09-16 15:34:46.689 Python[68963:1310718] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+Fatal Python error: PyEval_RestoreThread: the function must be called with the GIL held, after Python initialization and before Python finalization, but the GIL is released (the current Python thread state is NULL)
+Python runtime state: initialized
+
+Current thread 0x00000001f58397c0 (most recent call first):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 201 in _deepcopy_dict
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 131 in deepcopy
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 177 in _deepcopy_list
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 131 in deepcopy
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 202 in _deepcopy_dict
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 131 in deepcopy
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 202 in _deepcopy_dict
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/copy.py", line 131 in deepcopy
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/game_archive.py", line 613 in load_frame
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/replay_view.py", line 649 in _consume
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/replay_view.py", line 711 in _ensure
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/replay_view.py", line 717 in view
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_replay.py", line 439 in render
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_replay.py", line 404 in _step_quarter
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_replay.py", line 152 in <lambda>
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114 in __call__
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 1625 in mainloop
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_replay.py", line 654 in main
+  File "/Users/vk/Documents/Coding/\u4e09\u56fd\u5fd7internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_replay.py", line 660 in <module>
+
+Extension modules: PIL._imaging, PIL._imagingft, PIL._imagingmath, PIL._imagingtk (total: 4)
+2026-09-16 16:53:36.001 Python[21311:1445462] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 44, in <module>
+    app=OmniWindow(root)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 219, in __init__
+    from training_record_panel import TrainingRecordPanel
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_record_panel.py", line 3, in <module>
+    from force_troop_totals import KINDS, KIND_CN, append_troop_series, samples_for_force, troop_series_point
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/force_troop_totals.py", line 2, in <module>
+    from state_history import phase_fields, phase_label, troop_text, training_progress
+ModuleNotFoundError: No module named 'state_history'
+采集桥：reused
+2026-09-16 17:38:25.850 Python[8415:1647346] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 885, in callit
+    func(*args, **kw)
+    ~~~~^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 540, in tick
+    if sig!=self.last_sig:self.last_sig=sig;self.render()
+                                            ~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 634, in render
+    self.render_detail()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 761, in render_detail
+    self.quarter_ops.update_force(f,self.doc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 19, in update_force
+    self._fill_ops(state, (force or {}).get('force_id'))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 68, in _fill_ops
+    from officer_reference import hire_command_text, officer_event_text
+ImportError: cannot import name 'hire_command_text' from 'officer_reference' (/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/officer_reference.py)
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 564, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 761, in render_detail
+    self.quarter_ops.update_force(f,self.doc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 19, in update_force
+    self._fill_ops(state, (force or {}).get('force_id'))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 68, in _fill_ops
+    from officer_reference import hire_command_text, officer_event_text
+ImportError: cannot import name 'hire_command_text' from 'officer_reference' (/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/officer_reference.py)
+采集桥：reused
+采集桥：reused
+采集桥：reused
+采集桥：reused
+2026-09-16 19:38:23.653 Python[68831:1917768] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：started
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-16 21:05:04.276 Python[54578:2131502] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-16 22:54:18.123 Python[63967:2188119] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥看守：采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 967, in _on_workspace_tab
+    self.refresh_panorama(force=True)
+    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 979, in refresh_panorama
+    self.panorama.update_state(self.doc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_map.py", line 261, in update_state
+    self._fill_force_ops_from_state()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_map.py", line 295, in _fill_force_ops_from_state
+    from replay_view import force_command_ledger, history_command_events
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/replay_view.py", line 5, in <module>
+    from state_history import (
+    ...<4 lines>...
+    )
+ImportError: cannot import name 'city_names_for_ids' from 'state_history' (/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/state_history.py)
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 885, in callit
+    func(*args, **kw)
+    ~~~~^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 551, in tick
+    if sig!=self.last_sig:self.last_sig=sig;self.render()
+                                            ~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 645, in render
+    self.render_detail()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 959, in render_detail
+    self.refresh_panorama()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 979, in refresh_panorama
+    self.panorama.update_state(self.doc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_map.py", line 261, in update_state
+    self._fill_force_ops_from_state()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_map.py", line 295, in _fill_force_ops_from_state
+    from replay_view import force_command_ledger, history_command_events
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/replay_view.py", line 5, in <module>
+    from state_history import (
+    ...<4 lines>...
+    )
+ImportError: cannot import name 'city_names_for_ids' from 'state_history' (/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/bridge/state_history.py)
+采集桥：reused
+采集桥：reused
+采集桥：reused
+2026-09-17 10:39:30.025 Python[77545:4189761] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥看守：采集服务响应异常；不重复拉起
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+2026-09-17 12:08:05.495 Python[54185:4484606] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-17 18:59:00.834 Python[70286:5985626] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-17 21:14:22.538 Python[36030:6549010] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-17 22:33:00.300 Python[17296:6873672] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+采集桥看守：采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+采集桥：reused
+采集桥：reused
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 885, in callit
+    func(*args, **kw)
+    ~~~~^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 635, in tick
+    if sig!=self.last_sig:self.last_sig=sig;self.render()
+                                            ~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 729, in render
+    self.render_detail()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 868, in render_detail
+    self.quarter_ops.update_force(f,self.doc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 19, in update_force
+    self._fill_ops(state, (force or {}).get('force_id'))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 96, in _fill_ops
+    self._officer_chip(civil, item)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 121, in _officer_chip
+    text = officer_event_text(record, city, '主动加入')
+           ^^^^^^^^^^^^^^^^^^
+NameError: name 'officer_event_text' is not defined
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 659, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 868, in render_detail
+    self.quarter_ops.update_force(f,self.doc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 19, in update_force
+    self._fill_ops(state, (force or {}).get('force_id'))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 96, in _fill_ops
+    self._officer_chip(civil, item)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quarter_ops_panel.py", line 121, in _officer_chip
+    text = officer_event_text(record, city, '主动加入')
+           ^^^^^^^^^^^^^^^^^^
+NameError: name 'officer_event_text' is not defined
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：started
+采集桥：reused
+2026-09-20 09:15:51.751 Python[83459:9293001] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+2026-09-20 10:26:29.956 Python[24846:9544196] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥：reused
+采集桥看守：采集服务响应异常；不重复拉起
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 48, in <module>
+    app=OmniWindow(root)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 337, in __init__
+    self.rules_panel=RulesPanel(self.workspace,self,legacy_id=None);self.workspace.add(self.rules_panel,text='攻略预判')
+                     ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/rules_panel.py", line 18, in __init__
+    self.training_sim=TrainingSimPanel(self.tabs,app);self.tabs.add(self.training_sim,text='盖营练兵模拟')
+                      ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_sim_panel.py", line 67, in __init__
+    self._table = format_best_table()
+    ^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_sim_panel.py", line 113, in refresh
+    kind = 'bow'
+       ^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_sim.py", line 303, in project_goal
+    'build': row['build'],
+      ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_sim.py", line 279, in min_commands
+    state = opening_state(force_id=force_id, name=name)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_sim.py", line 228, in _do_trains
+    return stock >= GOAL_STOCK and raw >= need
+                         ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_sim.py", line 90, in train_gain
+    stock = min(stock, 2000000)
+           ~~~~^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/training_prediction.py", line 10, in muldiv
+    if c<=0 or min(a,b)<0:raise ValueError('nonnegative domain only')
+               ~~~^^^^^
+TypeError: '<' not supported between instances of 'int' and 'NoneType'
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+2026-09-20 11:41:52.282 Python[88986:9778530] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-20 11:46:15.635 Python[88986:9793090] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+采集桥：reused
+2026-09-20 20:55:47.056 Python[10832:10592068] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-20 23:51:38.394 Python[13500:12083029] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+采集桥：reused
+采集桥看守：采集桥尚未就绪；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log，不要重复启动
+2026-09-21 14:33:46.019 Python[7021:13208454] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+采集桥：reused
+2026-09-21 17:12:42.337 Python[63386:13898413] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+2026-09-21 21:13:18.070 Python[2329:14797184] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-21 21:47:18.032 Python[38572:14935232] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-22 00:20:42.069 Python[80673:15444371] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+采集桥：reused
+2026-09-22 09:16:21.190 Python[93965:16980562] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 09:20:28.744 Python[93965:16980562] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-22 09:20:30.766 Python[93965:16994626] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 09:24:33.642 Python[93965:17008281] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 09:44:01.765 Python[93965:17071577] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 09:47:11.204 Python[93965:17082675] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 09:54:04.421 Python[93965:17106712] Task policy set failed: 4 ((os/kern) invalid argument)
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 547, in pick_history_archive
+    self.render()
+    ~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 812, in render
+    self.render_detail()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/force_compare.py", line 237, in choose
+    self.app.render_detail()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/force_compare.py", line 237, in choose
+    self.app.render_detail()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/force_compare.py", line 237, in choose
+    self.app.render_detail()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/force_compare.py", line 237, in choose
+    self.app.render_detail()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/force_compare.py", line 237, in choose
+    self.app.render_detail()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 547, in pick_history_archive
+    self.render()
+    ~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 812, in render
+    self.render_detail()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/force_compare.py", line 237, in choose
+    self.app.render_detail()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 29, in <lambda>
+    b=tk.Button(self.icon_bar,text=name,command=lambda n=name:self.toggle(n),bg='#dde8df',fg='#294636',activebackground='#bdcfc0',relief='flat',bd=1,padx=5,pady=3,font=(app.face,9));self.buttons[name]=b
+                                                              ~~~~~~~~~~~^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 40, in toggle
+    self.apply()
+    ~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 44, in apply
+    self.app.render_detail()
+    ~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    else:tree.heading('ref_diplomacy',text='外交力')
+         ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 547, in pick_history_archive
+    self.render()
+    ~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 812, in render
+    self.render_detail()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    return self.selected<=skills if self.mode.get()=='同时具备' else bool(self.selected&skills)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    return self.selected<=skills if self.mode.get()=='同时具备' else bool(self.selected&skills)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 742, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 1210, in render_detail
+    self.decision_panel.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/talent_filters.py", line 69, in refresh
+    return self.selected<=skills if self.mode.get()=='同时具备' else bool(self.selected&skills)
+       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 1299, in heading
+    return _val_or_dict(self.tk, kw, self._w, 'heading', column)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/ttk.py", line 288, in _val_or_dict
+    res = tk.call(*(args + options))
+_tkinter.TclError: Invalid column index "ref_diplomacy"
+采集桥：reused
+2026-09-22 10:00:44.496 Python[93965:17129330] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:05:33.827 Python[93965:17145844] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 10:05:51.568 Python[93965:17145844] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-22 10:09:50.769 Python[93965:17159387] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:14:43.306 Python[93965:17176035] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:18:27.537 Python[93965:17189175] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:31:11.813 Python[93965:17228026] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:35:13.006 Python[93965:17241385] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:37:45.460 Python[93965:17249708] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:42:01.748 Python[93965:17263534] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 10:44:26.807 Python[93965:17263534] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-22 10:44:29.556 Python[93965:17271620] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 10:47:22.226 Python[93965:17271620] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 10:47:37.232 Python[93965:17271620] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 10:47:37.236 Python[93965:17271620] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-22 10:47:40.104 Python[93965:17282699] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:51:20.452 Python[93965:17294672] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 10:52:17.803 Python[93965:17298028] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 12:29:54.313 Python[93965:17298028] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 12:37:21.734 Python[93965:17298028] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 12:37:24.337 Python[93965:17607410] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 12:43:50.549 Python[93965:17607410] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 12:45:13.959 Python[93965:17607410] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 12:45:14.032 Python[93965:17607410] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+采集桥：reused
+2026-09-22 13:04:01.670 Python[95154:17689563] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+采集桥：reused
+2026-09-22 13:40:27.613 Python[27570:17823228] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 13:49:20.576 Python[27570:17823228] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 13:49:35.829 Python[27570:17823228] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 14:18:24.020 Python[27570:17965824] Task policy set failed: 4 ((os/kern) invalid argument)
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-22 14:29:50.143 Python[78154:18009234] Task policy set failed: 4 ((os/kern) invalid argument)
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-22 14:35:29.365 Python[78154:18030674] Task policy set failed: 4 ((os/kern) invalid argument)
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-22 14:40:20.132 Python[78154:18048841] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 14:42:15.045 Python[27570:18056058] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 14:43:54.550 Python[27570:18056058] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-09-22 14:44:50.772 Python[27570:18056058] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 14:48:18.153 Python[27570:18056058] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 14:49:51.488 Python[27570:18085618] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 14:58:04.072 Python[27570:18085618] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥：reused
+2026-09-22 15:06:46.435 Python[27570:18145956] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-22 18:15:04.609 Python[27570:18697010] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 18:34:56.048 Python[27570:18697010] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 18:42:21.985 Python[27570:18697010] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-22 18:48:44.854 Python[27570:18697010] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-09-22 19:01:08.713 Python[27570:18850031] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+采集桥：reused
+2026-09-23 00:07:10.644 Python[54033:19736460] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 00:17:09.943 Python[54033:19736460] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 00:18:29.798 Python[54033:19736460] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 00:19:39.948 Python[54033:19736460] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 00:27:00.329 Python[54033:19736460] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+2026-09-23 00:27:03.326 Python[54033:19808688] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥：reused
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+TypeError: QuarterOpsPanel._bind_wheel.<locals>.<lambda>() missing 1 required positional argument: 'event'
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+TypeError: QuarterOpsPanel._bind_wheel.<locals>.<lambda>() missing 1 required positional argument: 'event'
+采集桥：reused
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+TypeError: QuarterOpsPanel._bind_wheel.<locals>.<lambda>() missing 1 required positional argument: 'event'
+采集桥：reused
+采集桥：reused
+2026-09-23 09:23:31.011 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 09:23:57.574 Python[9909:89686] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-09-23 11:46:39.260 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 12:33:18.263 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 13:25:57.760 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 14:46:14.481 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 14:51:42.282 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 15:20:17.318 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 15:29:14.834 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 17:47:51.593 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 17:48:46.245 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 17:55:36.545 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 18:20:04.451 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 19:33:44.662 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 19:45:38.369 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 19:47:11.441 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 20:02:10.607 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 20:03:14.909 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 20:15:43.857 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+2026-09-23 20:18:18.795 Python[9909:89686] Task policy set failed: 4 ((os/kern) invalid argument)
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+2026-09-24 12:01:31.874 Python[50896:1032453] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-09-26 09:51:59.136 Python[82558:7114589] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_map.py", line 13, in <module>
+    from city_tactical import fmt
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/city_tactical.py", line 8, in <module>
+    from native_city_map import state_force_rgb
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/native_city_map.py", line 5, in <module>
+    from map_unit_labels import unit_label,label_box,unit_label_ink
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/map_unit_labels.py", line 2, in <module>
+    from officer_sortie import AMBUSH_INK, unit_has_ambush
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/officer_sortie.py", line 2, in <module>
+    from preparation_model import combat_power, size_index, skills_for, training_bases
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 14, in <module>
+    from state_history import kind_label
+ModuleNotFoundError: No module named 'state_history'
+采集桥：reused
+采集桥：reused
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥：reused
+2026-10-05 15:29:13.342 Python[85391:17364008] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-05 15:31:27.370 Python[96656:17410730] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-05 18:54:32.975 Python[39543:17971455] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+已唤回现有快捷修改面板。
+已唤回现有快捷修改面板。
+已唤回现有快捷修改面板。
+2026-10-06 20:12:53.485 Python[28100:23555509] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-06 22:17:19.995 Python[92836:27573319] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 38, in <module>
+    bridge_start=ensure_bridge(hub_root)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/bridge_autostart.py", line 108, in ensure_bridge
+    return ensure_service(URL,SERVICE,command,root,root/'logs'/log)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/service_startup.py", line 47, in ensure_service
+    if child.poll() is not None:raise RuntimeError('采集桥启动退出；请查看 '+str(log_path))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: 采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 38, in <module>
+    bridge_start=ensure_bridge(hub_root)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/bridge_autostart.py", line 108, in ensure_bridge
+    return ensure_service(URL,SERVICE,command,root,root/'logs'/log)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/service_startup.py", line 47, in ensure_service
+    if child.poll() is not None:raise RuntimeError('采集桥启动退出；请查看 '+str(log_path))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: 采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 38, in <module>
+    bridge_start=ensure_bridge(hub_root)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/bridge_autostart.py", line 108, in ensure_bridge
+    return ensure_service(URL,SERVICE,command,root,root/'logs'/log)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/service_startup.py", line 47, in ensure_service
+    if child.poll() is not None:raise RuntimeError('采集桥启动退出；请查看 '+str(log_path))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: 采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 38, in <module>
+    bridge_start=ensure_bridge(hub_root)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/bridge_autostart.py", line 108, in ensure_bridge
+    return ensure_service(URL,SERVICE,command,root,root/'logs'/log)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/service_startup.py", line 47, in ensure_service
+    if child.poll() is not None:raise RuntimeError('采集桥启动退出；请查看 '+str(log_path))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: 采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+采集桥：reused
+采集桥看守：采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+已唤回现有快捷修改面板。
+已唤回现有快捷修改面板。
+2026-10-08 06:14:53.848 Python[8566:32470486] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+已唤回现有快捷修改面板。
+2026-10-08 23:43:31.304 Python[58879:36766488] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+已唤回现有快捷修改面板。
+采集桥：reused
+采集桥：reused
+已唤回现有快捷修改面板。
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-10-10 22:43:04.929 Python[48800:6361995] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+2026-10-11 18:11:53.145 Python[53864:11881088] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-11 22:18:09.782 Python[73683:14196096] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-10-12 00:29:35.470 Python[31027:15539191] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-12 01:49:32.223 Python[34592:16342734] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-10-12 04:23:09.912 Python[12544:17385784] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+2026-10-12 05:06:00.402 Python[48227:17743551] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥看守：采集桥启动退出；请查看 /Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/logs/wine-bridge-auto.log
+已唤回现有快捷修改面板。
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+2026-10-12 21:16:41.936 Python[58328:2907237] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-12 21:57:40.279 Python[86227:3366936] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥：reused
+采集桥：reused
+采集桥看守：采集服务无响应，请查看启动日志；不重复拉起
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+采集桥：reused
+采集桥：reused
+采集桥：reused
+采集桥：reused
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-10-20 11:07:26.048 Python[24698:42571301] Task policy set failed: 4 ((os/kern) invalid argument)
+原窗口没切上来，再开一个全知情报。
+采集桥：reused
+2026-10-20 11:07:28.554 Python[60542:42571736] Task policy set failed: 4 ((os/kern) invalid argument)
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥：reused
+采集桥看守：采集服务响应异常；不重复拉起
+2026-10-20 14:38:53.189 Python[36191:44021188] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥：reused
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+采集桥看守：采集服务响应异常；不重复拉起
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_replay.py", line 11, in <module>
+    from panorama_map import PanoramaMap, maximize, ui_font
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/panorama_map.py", line 13, in <module>
+    from city_tactical import fmt
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/city_tactical.py", line 8, in <module>
+    from native_city_map import state_force_rgb
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/native_city_map.py", line 5, in <module>
+    from map_unit_labels import unit_label,label_box,unit_label_ink
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/map_unit_labels.py", line 2, in <module>
+    from officer_sortie import AMBUSH_INK, unit_has_ambush
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/officer_sortie.py", line 2, in <module>
+    from preparation_model import combat_power, size_index, skills_for, training_bases
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 14, in <module>
+    from state_history import kind_label
+ModuleNotFoundError: No module named 'state_history'

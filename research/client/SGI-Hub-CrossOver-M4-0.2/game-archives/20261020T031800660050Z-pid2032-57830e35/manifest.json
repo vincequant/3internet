@@ -1,0 +1,59 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "57830e35-869b-40e0-b676-39394482cc28",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 2032,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134369382702722260
+  },
+  "player_session_id_at_open": "02369d4f8e8b4aceb618511d72f157fc",
+  "started_utc": "2026-10-20T03:18:00.660244+00:00",
+  "ended_utc": "2026-10-20T03:52:28.795260+00:00",
+  "end_reason": "idle_timeout",
+  "completeness": "mid_start",
+  "started_mid_match": true,
+  "first_frame_note": "从此处开始记录",
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "f981f4f6-1ec8-4c7e-9840-e1889a91e773"
+  ],
+  "simulated": false,
+  "frame_count": 1161,
+  "last_seq": 1161,
+  "last_snapshot_id": "20261020T035228197436Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-20T03:52:28.247606+00:00",
+  "title": "玩家局 1v1 齐 vs 巴",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

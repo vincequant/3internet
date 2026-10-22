@@ -1,0 +1,11 @@
+{
+  "updated": [
+    "app/map_unit_labels.py",
+    "app/city_tactical.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/unit-label-color-20260913-005015",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Talent roles, text skill filters, world cities and faction unit map labels"
+}

@@ -1,0 +1,24 @@
+{
+  "version": "0.1.1",
+  "instance_id": "monitor-1",
+  "display_name": "小号监控",
+  "host_role": "both",
+  "platform_line": "多线2（主线）",
+  "platform_room": "三国对战房",
+  "refresh_interval_sec": 15,
+  "alert_threshold": 4,
+  "alert_cooldown_sec": 180,
+  "missing_cycles": 2,
+  "hub_root": "",
+  "monitor_prefix": "",
+  "main_prefix": "",
+  "account_username": "",
+  "credentials_file": "",
+  "bind": "127.0.0.1",
+  "port": 18771,
+  "grokbot": {
+    "backend": "openclaw-telegram",
+    "to": "owner",
+    "allow_groups": false
+  }
+}

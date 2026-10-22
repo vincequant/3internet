@@ -1,16 +1,21 @@
 {
-  "queried_at": 1792629357.938259,
+  "queried_at": 1792633258.812715,
   "source_kind": "local_lab",
   "host_watch": null,
   "activity": {},
   "member_names": {
     "174929713": "丁满",
     "169433828": "彭彭",
-    "181778666": "小白"
+    "177420223": "xiaolight"
   },
   "chain": [
     {
-      "pid": 21671,
+      "pid": 68219,
+      "parent_pid": 16818,
+      "role": "driver"
+    },
+    {
+      "pid": 68229,
       "parent_pid": 16818,
       "role": "driver",
       "line": "多线3"
@@ -19,12 +24,12 @@
   "ghost_log": {
     "mode": "hub_room_session",
     "registration": "unknown",
-    "last_log_at": 1792629357.6574268,
-    "packet_count": 45,
+    "last_log_at": 1792633258.648748,
+    "packet_count": 18,
     "release_calls": 0,
     "receiver_errors": 0,
-    "last_packet_at": 1792629321.4956732,
-    "last_cmd": 17,
+    "last_packet_at": 1792633191.407676,
+    "last_cmd": 26,
     "watchdog_started_at": null,
     "cmd23_attempts": null,
     "cmd23_returns": null,
@@ -37,72 +42,72 @@
   "events": [
     {
       "ev": "received_packet",
-      "wall": 1792629254.8387399,
+      "wall": 1792633161.84693,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792633163.96898,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792633164.0699992,
+      "cmd": 20
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792633164.0699992,
       "cmd": 18
     },
     {
       "ev": "received_packet",
-      "wall": 1792629254.8387399,
+      "wall": 1792633164.0699992,
+      "cmd": 16
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792633164.0699992,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792629254.8387399,
+      "wall": 1792633164.0699992,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792629254.8387399,
+      "wall": 1792633164.0699992,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792629256.958996,
+      "wall": 1792633167.1974988,
       "cmd": 26
     },
     {
       "ev": "received_packet",
-      "wall": 1792629258.671695,
+      "wall": 1792633168.109458,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792629258.671695,
+      "wall": 1792633168.109458,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792629258.671695,
+      "wall": 1792633168.109458,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792629281.140142,
+      "wall": 1792633191.407676,
       "cmd": 26
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792629321.3945339,
-      "cmd": 26
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792629321.4956732,
-      "cmd": 17
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792629321.4956732,
-      "cmd": 17
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792629321.4956732,
-      "cmd": 17
     }
   ],
   "p34": {
-    "run_name": "run-20261022-082738-game",
+    "run_name": "run-20261022-093142-game",
     "pointer_state": null,
     "pointer_source": "hub_session",
     "registration_verified": false,
@@ -132,17 +137,17 @@
     },
     "longrun": {},
     "counters": {
-      "received": 45,
+      "received": 18,
       "released": 0,
       "errors": 0,
-      "rounds": 10,
+      "rounds": 3,
       "received_after_d8": null,
-      "last_packet_wall": 1792629321.4956732,
-      "last_packet_cmd": 17
+      "last_packet_wall": 1792633191.407676,
+      "last_packet_cmd": 26
     },
     "snapshots": {
       "initial": {
-        "observed_at": 1792628958.5457752,
+        "observed_at": 1792632856.7938728,
         "cmd": 3,
         "rows": [
           {
@@ -165,9 +170,9 @@
           },
           {
             "i": 2,
-            "id": 181778666,
+            "id": 177420223,
             "w4": 2,
-            "name": "小白",
+            "name": "xiaolight",
             "state42": 0,
             "binding46": -1,
             "faction": ""
@@ -219,112 +224,35 @@
           }
         ]
       },
-      "start": {
-        "observed_at": 1792629059.1789372,
-        "cmd": 7,
-        "rows": [
-          {
-            "i": 0,
-            "id": 174929713,
-            "w4": 2,
-            "name": "丁满",
-            "state42": 0,
-            "binding46": 20,
-            "faction": "汉"
-          },
-          {
-            "i": 1,
-            "id": 169433828,
-            "w4": 2,
-            "name": "彭彭",
-            "state42": 0,
-            "binding46": 13,
-            "faction": "义渠"
-          },
-          {
-            "i": 2,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 1,
-            "faction": "赵"
-          },
-          {
-            "i": 3,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 15,
-            "faction": "中山"
-          },
-          {
-            "i": 4,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 7,
-            "faction": "晋"
-          },
-          {
-            "i": 5,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 4,
-            "faction": "楚"
-          },
-          {
-            "i": 6,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 2,
-            "faction": "韩"
-          },
-          {
-            "i": 7,
-            "id": 0,
-            "w4": 0,
-            "name": "",
-            "state42": 2,
-            "binding46": 14,
-            "faction": "西凉"
-          }
-        ]
-      }
+      "start": null
     },
     "frames": [
       {
-        "wall": 1792628958.5457752,
+        "wall": 1792632856.7938728,
         "type": 4,
         "cmd": 3,
         "cls": "CSanInetInitGameData",
-        "len": 716,
-        "sha8": "b9dd89354a65"
+        "len": 721,
+        "sha8": "d1cb94a9ae73"
       },
       {
-        "wall": 1792628958.654892,
+        "wall": 1792632856.910126,
         "type": 4,
         "cmd": null,
         "cls": "CSanInetPlayerNotifyData",
-        "len": 122,
-        "sha8": "db7446acfacf"
+        "len": 127,
+        "sha8": "a7e52a01bf27"
       },
       {
-        "wall": 1792628981.6789901,
+        "wall": 1792633027.721108,
         "type": 4,
         "cmd": 1,
         "cls": "CSanInetCmdObject",
         "len": 36,
-        "sha8": "423e9242b138"
+        "sha8": "8618229d922b"
       },
       {
-        "wall": 1792629057.26047,
+        "wall": 1792633111.16705,
         "type": 4,
         "cmd": 6,
         "cls": "CSanInetCmdObject",
@@ -332,7 +260,15 @@
         "sha8": "3152dcc4dbd8"
       },
       {
-        "wall": 1792629058.975687,
+        "wall": 1792633115.7101471,
+        "type": 4,
+        "cmd": 12,
+        "cls": "CSanInetGameEnvSettingNotifyData",
+        "len": 109,
+        "sha8": "39448023aee6"
+      },
+      {
+        "wall": 1792633117.424397,
         "type": 4,
         "cmd": 14,
         "cls": "CSanInetRandomLordSettingNotifyData",
@@ -340,15 +276,7 @@
         "sha8": "58111082cc20"
       },
       {
-        "wall": 1792629059.1789372,
-        "type": 4,
-        "cmd": 7,
-        "cls": "CSanInetInitGameData",
-        "len": 727,
-        "sha8": "fec9261f85df"
-      },
-      {
-        "wall": 1792629060.285897,
+        "wall": 1792633120.139955,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -356,7 +284,7 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792629102.160699,
+        "wall": 1792633120.2412732,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -364,7 +292,7 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792629105.38731,
+        "wall": 1792633161.84693,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -372,55 +300,7 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792629105.487762,
-        "type": 4,
-        "cmd": 16,
-        "cls": "CSanInetUnitNetCmdCreate",
-        "len": 71,
-        "sha8": "18ae3713d361"
-      },
-      {
-        "wall": 1792629105.487762,
-        "type": 4,
-        "cmd": 16,
-        "cls": "CSanInetUnitNetCmdCreate",
-        "len": 71,
-        "sha8": "1b6788b8ef3f"
-      },
-      {
-        "wall": 1792629105.487762,
-        "type": 4,
-        "cmd": 16,
-        "cls": "CSanInetUnitNetCmdCreate",
-        "len": 71,
-        "sha8": "fbf5fcec921c"
-      },
-      {
-        "wall": 1792629105.487762,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "4ae281c8ba63"
-      },
-      {
-        "wall": 1792629105.487762,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "dd1f7e4a42ce"
-      },
-      {
-        "wall": 1792629105.487762,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "d03632e47ee6"
-      },
-      {
-        "wall": 1792629109.0138109,
+        "wall": 1792633163.96898,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -428,391 +308,55 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792629109.218018,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629109.521312,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "e58a7c1eeae3"
-      },
-      {
-        "wall": 1792629109.521312,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "b8ed94c11fc8"
-      },
-      {
-        "wall": 1792629109.521312,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "b77f05c26c21"
-      },
-      {
-        "wall": 1792629129.709762,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629132.2281952,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "228244a90abc"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "04802f2c1486"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "2c3b4f56b0b8"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "80479086f3bf"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "9c03ac869f20"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "2213ec6433b3"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "49d628077989"
-      },
-      {
-        "wall": 1792629132.32901,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "bc29cff72b80"
-      },
-      {
-        "wall": 1792629147.81293,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629154.287489,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "3522b24b4dee"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "47eb50acd139"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "3d6384df3c20"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "ee4ed8d369ee"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "9c03ac869f20"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "2213ec6433b3"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "49d628077989"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "8a469963bf69"
-      },
-      {
-        "wall": 1792629154.38858,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "b09888170da6"
-      },
-      {
-        "wall": 1792629173.561206,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629175.778233,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "7c9da9b7da27"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "ab6352a5ff2b"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "2038e1e7e3f0"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "ef6c850cb42d"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "9c03ac869f20"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "2213ec6433b3"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "49d628077989"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "83607bd52e40"
-      },
-      {
-        "wall": 1792629175.883002,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "47db4f8add13"
-      },
-      {
-        "wall": 1792629176.68886,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629179.308552,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629247.983093,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629254.432287,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629254.8387399,
+        "wall": 1792633164.0699992,
         "type": 4,
         "cmd": 20,
         "cls": "CSanInetPersonnelCmd",
         "len": 47,
-        "sha8": "ec8663fc25fe"
+        "sha8": "72307462db36"
       },
       {
-        "wall": 1792629254.8387399,
+        "wall": 1792633164.0699992,
         "type": 4,
         "cmd": 18,
         "cls": "CSanInetDomesticCmd",
         "len": 54,
-        "sha8": "4b8322c195a7"
+        "sha8": "b42efb1d7a6f"
       },
       {
-        "wall": 1792629254.8387399,
+        "wall": 1792633164.0699992,
         "type": 4,
-        "cmd": 18,
-        "cls": "CSanInetDomesticCmd",
-        "len": 54,
-        "sha8": "a77d4ddea71c"
+        "cmd": 16,
+        "cls": "CSanInetUnitNetCmdCreate",
+        "len": 71,
+        "sha8": "f051ccabfb30"
       },
       {
-        "wall": 1792629254.8387399,
-        "type": 4,
-        "cmd": 18,
-        "cls": "CSanInetDomesticCmd",
-        "len": 54,
-        "sha8": "b80c455e9304"
-      },
-      {
-        "wall": 1792629254.8387399,
-        "type": 4,
-        "cmd": 18,
-        "cls": "CSanInetDomesticCmd",
-        "len": 54,
-        "sha8": "e3aae3f26c97"
-      },
-      {
-        "wall": 1792629254.8387399,
+        "wall": 1792633164.0699992,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "8ba20223d612"
+        "sha8": "851e7e27a080"
       },
       {
-        "wall": 1792629254.8387399,
+        "wall": 1792633164.0699992,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "a76f019e6864"
+        "sha8": "af61444b05b8"
       },
       {
-        "wall": 1792629254.8387399,
+        "wall": 1792633164.0699992,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "c1d4d70ec8a3"
+        "sha8": "d97a0af56116"
       },
       {
-        "wall": 1792629256.958996,
+        "wall": 1792633167.1974988,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -820,412 +364,104 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792629258.671695,
+        "wall": 1792633168.109458,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "a5c54c3f6f07"
+        "sha8": "503e236f68c8"
       },
       {
-        "wall": 1792629258.671695,
+        "wall": 1792633168.109458,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "b8ed94c11fc8"
+        "sha8": "5d5cec1b1f29"
       },
       {
-        "wall": 1792629258.671695,
+        "wall": 1792633168.109458,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "2c1604129594"
+        "sha8": "e543c861e243"
       },
       {
-        "wall": 1792629281.140142,
+        "wall": 1792633191.407676,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
         "len": 36,
         "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629321.3945339,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792629321.4956732,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "9c03ac869f20"
-      },
-      {
-        "wall": 1792629321.4956732,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "2213ec6433b3"
-      },
-      {
-        "wall": 1792629321.4956732,
-        "type": 4,
-        "cmd": 17,
-        "cls": "CSanInetUnitNetCmdMove",
-        "len": 63,
-        "sha8": "49d628077989"
       }
     ],
     "sync": {
-      "rounds": 10,
+      "rounds": 3,
       "nonempty": [
         {
-          "wall": 1792629105.487762,
-          "round": 16,
-          "records": [
-            {
-              "sender": 181778666,
-              "len": 71,
-              "sha8": "18ae3713d361",
-              "raw": "ffff010018004353616e496e6574556e69744e6574436d6443726561746510000000000000000000000000010014008100ffffffffa00f0000a00f00002b000000ffffffffffff"
-            },
-            {
-              "sender": 174929713,
-              "len": 71,
-              "sha8": "1b6788b8ef3f",
-              "raw": "ffff010018004353616e496e6574556e69744e6574436d644372656174651000000000000000000000000001001400a900ffffffffac0d0000ac0d00002b000300ffffffffffff"
-            },
-            {
-              "sender": 174929713,
-              "len": 71,
-              "sha8": "fbf5fcec921c",
-              "raw": "ffff010018004353616e496e6574556e69744e6574436d6443726561746510000000000000000000000000000014008c02ffffffffe02e0000e02e00002b000100ffffffffffff"
-            },
-            {
-              "sender": 181778666,
-              "len": 38,
-              "sha8": "4ae281c8ba63",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000055e4000000"
-            },
-            {
-              "sender": 174929713,
-              "len": 38,
-              "sha8": "dd1f7e4a42ce",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000006dd000000"
-            },
-            {
-              "sender": 169433828,
-              "len": 38,
-              "sha8": "d03632e47ee6",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000a7d6000000"
-            }
-          ]
-        },
-        {
-          "wall": 1792629109.521312,
-          "round": 20,
+          "wall": 1792633164.0699992,
+          "round": 17,
           "records": [
             {
               "sender": 169433828,
-              "len": 38,
-              "sha8": "e58a7c1eeae3",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000007a9a000000"
-            },
-            {
-              "sender": 181778666,
-              "len": 38,
-              "sha8": "b8ed94c11fc8",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000007b9a000000"
-            },
-            {
-              "sender": 174929713,
-              "len": 38,
-              "sha8": "b77f05c26c21",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000799a000000"
-            }
-          ]
-        },
-        {
-          "wall": 1792629132.32901,
-          "round": 24,
-          "records": [
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "228244a90abc",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f766511000000000000000000000000020039000000bf000000010000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "04802f2c1486",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003d000000c0000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "2c3b4f56b0b8",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003d000000c3000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 38,
-              "sha8": "80479086f3bf",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000012b4000000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "9c03ac869f20",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "2213ec6433b3",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "49d628077989",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 38,
-              "sha8": "bc29cff72b80",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000000ba5000000"
-            }
-          ]
-        },
-        {
-          "wall": 1792629154.38858,
-          "round": 28,
-          "records": [
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "3522b24b4dee",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003d000000c0000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "47eb50acd139",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003d000000c2000000030000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "3d6384df3c20",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003d000000c4000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 38,
-              "sha8": "ee4ed8d369ee",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000017b8000000"
-            },
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "9c03ac869f20",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "2213ec6433b3",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "49d628077989",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 38,
-              "sha8": "8a469963bf69",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000c0ab000000"
-            },
-            {
-              "sender": 169433828,
-              "len": 38,
-              "sha8": "b09888170da6",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000b803000000"
-            }
-          ]
-        },
-        {
-          "wall": 1792629175.883002,
-          "round": 32,
-          "records": [
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "7c9da9b7da27",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c3000000030000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "ab6352a5ff2b",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003b000000c3000000020000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 63,
-              "sha8": "2038e1e7e3f0",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003b000000c3000000010000000000ffffffff0000"
-            },
-            {
-              "sender": 181778666,
-              "len": 38,
-              "sha8": "ef6c850cb42d",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000001cb5000000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "9c03ac869f20",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "2213ec6433b3",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "49d628077989",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 38,
-              "sha8": "83607bd52e40",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000096a4000000"
-            },
-            {
-              "sender": 169433828,
-              "len": 38,
-              "sha8": "47db4f8add13",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000008a05000000"
-            }
-          ]
-        },
-        {
-          "wall": 1792629254.8387399,
-          "round": 44,
-          "records": [
-            {
-              "sender": 181778666,
               "len": 47,
-              "sha8": "ec8663fc25fe",
-              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000001400000079000000"
+              "sha8": "72307462db36",
+              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d6414000000010000000000000000110000008e000000"
             },
             {
-              "sender": 181778666,
+              "sender": 177420223,
               "len": 54,
-              "sha8": "4b8322c195a7",
-              "raw": "ffff010013004353616e496e6574446f6d6573746963436d641200000002000000000000000014000000000000000000000003000000"
+              "sha8": "b42efb1d7a6f",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d6412000000040000000b00360000150000000600000045000000d0070000"
             },
             {
-              "sender": 181778666,
-              "len": 54,
-              "sha8": "a77d4ddea71c",
-              "raw": "ffff010013004353616e496e6574446f6d6573746963436d641200000000000000000000000014000000010000005e00000000000000"
+              "sender": 177420223,
+              "len": 71,
+              "sha8": "f051ccabfb30",
+              "raw": "ffff010018004353616e496e6574556e69744e6574436d6443726561746510000000000000000000000000010015005802ffffffffe02e0000e02e000045000000ffffffffffff"
             },
             {
-              "sender": 181778666,
-              "len": 54,
-              "sha8": "b80c455e9304",
-              "raw": "ffff010013004353616e496e6574446f6d6573746963436d6412000000040000003d00c0000014000000060000002b000000d0070000"
-            },
-            {
-              "sender": 181778666,
-              "len": 54,
-              "sha8": "e3aae3f26c97",
-              "raw": "ffff010013004353616e496e6574446f6d6573746963436d641200000002000000000000000014000000000000000000000002000000"
-            },
-            {
-              "sender": 181778666,
+              "sender": 177420223,
               "len": 38,
-              "sha8": "8ba20223d612",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000009eb1000000"
+              "sha8": "851e7e27a080",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000009661010000"
             },
             {
               "sender": 174929713,
               "len": 38,
-              "sha8": "a76f019e6864",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000033a1000000"
+              "sha8": "af61444b05b8",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000f157010000"
             },
             {
               "sender": 169433828,
               "len": 38,
-              "sha8": "c1d4d70ec8a3",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000d187000000"
+              "sha8": "d97a0af56116",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000005044010000"
             }
           ]
         },
         {
-          "wall": 1792629258.671695,
-          "round": 48,
+          "wall": 1792633168.109458,
+          "round": 21,
           "records": [
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "503e236f68c8",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000099e8000000"
+            },
             {
               "sender": 169433828,
               "len": 38,
-              "sha8": "a5c54c3f6f07",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000007b9a000000"
-            },
-            {
-              "sender": 181778666,
-              "len": 38,
-              "sha8": "b8ed94c11fc8",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000007b9a000000"
+              "sha8": "5d5cec1b1f29",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000009ae8000000"
             },
             {
               "sender": 174929713,
               "len": 38,
-              "sha8": "2c1604129594",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000007a9a000000"
-            }
-          ]
-        },
-        {
-          "wall": 1792629321.4956732,
-          "round": 52,
-          "records": [
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "9c03ac869f20",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000002003b000000c2000000010000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "2213ec6433b3",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003c000000c2000000000000000000ffffffff0000"
-            },
-            {
-              "sender": 174929713,
-              "len": 63,
-              "sha8": "49d628077989",
-              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000001003c000000c4000000030000000000ffffffff0000"
+              "sha8": "e543c861e243",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000098e8000000"
             }
           ]
         }
@@ -1249,8 +485,8 @@
     "live_probe": false
   },
   "session": {
-    "alive": false,
-    "fresh": false,
+    "alive": true,
+    "fresh": true,
     "phase": "room",
     "connected": true,
     "nickname": "待秋至",
@@ -1261,32 +497,32 @@
     "ghost_withdrawn": false,
     "host_init_wait": false,
     "exit_seen_wall": null,
-    "observed_at": 1792629357.6574268,
-    "started_at": 1792628858.4230342,
-    "driver_pid": 21660,
+    "observed_at": 1792633258.648748,
+    "started_at": 1792632702.549815,
+    "driver_pid": 68219,
     "line": "多线3",
     "error": null
   },
   "status": {
     "schema": "fengye-status-1",
-    "wall": 1792629356.676,
-    "pid": 1284,
+    "wall": 1792633256.367,
+    "pid": 860,
     "present": true,
     "link": {
       "connected": true,
-      "sync": 4,
-      "tx": 38,
+      "sync": 1,
+      "tx": 12,
       "rx_backlog": 0
     },
     "scene": {
-      "in_map": true,
-      "mode": 3,
-      "phase": 4
+      "in_map": false,
+      "mode": 2,
+      "phase": 3
     },
     "fog_original": true,
     "seat": {
       "slot": 0,
-      "force": 20
+      "force": 21
     },
     "patches": {
       "opening": {
@@ -1312,42 +548,48 @@
       "pid": null
     },
     "rx": {
-      "received": 45,
-      "last_wall": 1792629321.4956732,
-      "last_age": 35.6
+      "received": 18,
+      "last_wall": 1792633191.407676,
+      "last_age": 65.5
     },
     "hide": {
       "verified": true,
-      "at": 1792628982.105776,
+      "at": 1792633028.8831491,
       "by": "local_app_table+d8_receipt",
-      "note": "D8 送出一發；應用層名冊已無 小白，DLL 成員保留（廣播仍可達）"
+      "note": "D8 送出一發；應用層名冊已無 xiaolight，DLL 成員保留（廣播仍可達）"
     },
     "godview": {
       "installed": false
     },
     "driver": {
-      "rows": 0,
-      "rounds": 0,
-      "last_event": null,
-      "last_tick": null,
+      "rows": 81,
+      "rounds": 40,
+      "last_event": 0,
+      "last_tick": 67104920,
       "faults": 0,
-      "age": null,
+      "age": 599.1,
       "hooks": false,
       "started": false
     },
-    "world": null,
-    "disk_free_gb": 767.15,
-    "uptime_s": 498.2,
-    "age": 1.3
+    "world": {
+      "units": 1,
+      "cities": 92,
+      "generals": 923,
+      "lords": 2,
+      "at": 1792633249.218896
+    },
+    "disk_free_gb": 753.85,
+    "uptime_s": 553.7,
+    "age": 2.4
   },
   "host": {
     "virtual_ip": "",
     "session": "",
     "source": "hub_session",
-    "observed_at": 1792629357.6574268
+    "observed_at": 1792633258.648748
   },
   "line": "多线3",
-  "run_name": "run-20261022-082738-game",
+  "run_name": "run-20261022-093142-game",
   "source_sha256": {},
   "room_query": null
 }

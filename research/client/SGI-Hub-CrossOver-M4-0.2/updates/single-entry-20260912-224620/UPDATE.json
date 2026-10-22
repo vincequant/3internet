@@ -1,0 +1,13 @@
+{
+  "updated": [
+    "app/mac_main.py",
+    "Start-Mac.command",
+    "app/service_startup.py",
+    "app/bridge_autostart.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/single-entry-20260912-224620",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Single Hub entry auto-reuses or starts CrossOver bridge; game not launched or stopped"
+}

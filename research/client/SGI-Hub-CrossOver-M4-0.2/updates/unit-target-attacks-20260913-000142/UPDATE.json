@@ -1,0 +1,13 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/city_tactical.py",
+    "app/unit_combat.py",
+    "app/unit_target_attack.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/unit-target-attacks-20260913-000142",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Per-unit land attack reference by target and matched officer skill display; read-only"
+}

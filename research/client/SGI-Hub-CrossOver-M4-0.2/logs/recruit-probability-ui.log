@@ -1,0 +1,15 @@
+采集桥：reused
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 885, in callit
+    func(*args, **kw)
+    ~~~~^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/verify_gui.py", line 58, in capture
+    'military_rows': {k:[cell.cget('text') for cell in cells] for k,cells in app.military.tiles.items()},
+                         ^^^^^^^^^
+AttributeError: 'dict' object has no attribute 'cget'. Did you mean: 'get'?
+原窗口没切上来，再开一个全知情报。
+采集桥：reused

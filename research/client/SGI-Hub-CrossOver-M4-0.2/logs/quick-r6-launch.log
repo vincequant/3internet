@@ -1,0 +1,20 @@
+2026-10-05 22:12:39.904 Python[6750:18664848] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+Exception in thread Thread-989 (worker):
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1082, in _bootstrap_inner
+    self._context.run(self.run)
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/threading.py", line 1024, in run
+    self._target(*self._args, **self._kwargs)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/quick_control.py", line 208, in worker
+    with urllib.request.urlopen(STATE_URL,timeout=8) as response:payload=json.load(response)
+                                                                         ~~~~~~~~~^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/json/__init__.py", line 298, in load
+    return loads(fp.read(),
+                 ~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 510, in read
+    s = self._safe_read(self.length)
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/http/client.py", line 684, in _safe_read
+    raise IncompleteRead(data.getvalue(), amt - data.tell())
+http.client.IncompleteRead: IncompleteRead(1875384 bytes read, 82534 more expected)

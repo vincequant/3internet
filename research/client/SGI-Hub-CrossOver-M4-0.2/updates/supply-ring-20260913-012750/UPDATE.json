@@ -1,0 +1,10 @@
+{
+  "updated": [
+    "app/city_tactical.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/supply-ring-20260913-012750",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Yellow identification ring for supply units"
+}

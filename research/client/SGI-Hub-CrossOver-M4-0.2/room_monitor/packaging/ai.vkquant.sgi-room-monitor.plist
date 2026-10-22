@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>ai.vkquant.sgi-room-monitor</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>__BIN__</string>
+    <string>start</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>__DEST__</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>SGI_ROOM_MONITOR_HOME</key>
+    <string>__DATA__</string>
+    <key>PYTHONPATH</key>
+    <string>__DEST__</string>
+  </dict>
+  <key>RunAtLoad</key>
+  <false/>
+  <key>KeepAlive</key>
+  <false/>
+  <key>StandardOutPath</key>
+  <string>__DATA__/service.out.log</string>
+  <key>StandardErrorPath</key>
+  <string>__DATA__/service.err.log</string>
+</dict>
+</plist>

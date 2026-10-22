@@ -1,0 +1,59 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "08b26b2b-8d43-4f9d-9e5d-64ada4de1a36",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "FENGYE-LOCAL",
+  "runtime_id": "default",
+  "process": {
+    "pid": 2028,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134368993909388190
+  },
+  "player_session_id_at_open": "ac6e2e6a0c3c4b11bb06682d1efb0038",
+  "started_utc": "2026-10-19T16:04:19.103638+00:00",
+  "ended_utc": "2026-10-19T16:54:05.108904+00:00",
+  "end_reason": "idle_timeout",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "bee7e653-a763-4777-9563-82e9d932251e"
+  ],
+  "simulated": false,
+  "frame_count": 2163,
+  "last_seq": 2163,
+  "last_snapshot_id": "20261019T165404316623Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-19T16:54:04.342690+00:00",
+  "title": "玩家局 1v1 劉備 vs 孫堅",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

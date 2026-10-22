@@ -1,0 +1,496 @@
+{
+  "provenance": {
+    "archive": "20261011T115528704575Z-pid788-8b348c5f",
+    "seq": 2340,
+    "snapshot_id": "20261011T125346367783Z",
+    "collector_version": "1.1.320",
+    "frames_sha256": "156c54260ec396bfa4aea8e7ceef6a9c7e5b57b85853e26758412c06ffdff541"
+  },
+  "state": {
+    "schema": "astra-sgi-core-2",
+    "snapshot_id": "20261011T125346367783Z",
+    "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+    "phase_candidate": {
+      "year_u16": 201,
+      "season_u16": 3,
+      "turn_u16": 5,
+      "round_u8": 2
+    },
+    "entities": {
+      "generals": [
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 8,
+          "general_id_raw": 25,
+          "portrait_id": 141,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "吕",
+          "given_name": "岱",
+          "courtesy_name": "",
+          "birth_year_candidate": 185,
+          "soldiers": 4000,
+          "attributes": {
+            "lead": 76,
+            "war": 72,
+            "intel": 68,
+            "pol": 73,
+            "cha": 73
+          },
+          "name": "吕岱",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 130,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 36,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 25,
+          "location_city_name": "江夏",
+          "location_city_owner": 20
+        },
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 8,
+          "general_id_raw": 121,
+          "portrait_id": 268,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "高",
+          "given_name": "顺",
+          "courtesy_name": "",
+          "birth_year_candidate": 185,
+          "soldiers": 5000,
+          "attributes": {
+            "lead": 89,
+            "war": 86,
+            "intel": 68,
+            "pol": 33,
+            "cha": 59
+          },
+          "name": "高顺",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 14,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 41,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 121,
+          "location_city_name": "庐江",
+          "location_city_owner": 8
+        },
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 8,
+          "general_id_raw": 512,
+          "portrait_id": 533,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "李",
+          "given_name": "冰",
+          "courtesy_name": "",
+          "birth_year_candidate": 185,
+          "soldiers": 5000,
+          "attributes": {
+            "lead": 81,
+            "war": 92,
+            "intel": 92,
+            "pol": 91,
+            "cha": 82
+          },
+          "name": "李冰",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 136,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 13,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 512,
+          "location_city_name": "商丘",
+          "location_city_owner": 3
+        },
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 8,
+          "general_id_raw": 520,
+          "portrait_id": 757,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "赵",
+          "given_name": "胜",
+          "courtesy_name": "",
+          "birth_year_candidate": 185,
+          "soldiers": 4000,
+          "attributes": {
+            "lead": 81,
+            "war": 79,
+            "intel": 78,
+            "pol": 73,
+            "cha": 80
+          },
+          "name": "赵胜",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 50,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 73,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 520,
+          "location_city_name": "临贺",
+          "location_city_owner": 20
+        },
+        {
+          "type": "general",
+          "source_layer": "game_core",
+          "verification": "typed_container_structural",
+          "world_xy_raw": [
+            -1,
+            -1
+          ],
+          "owner_raw": 8,
+          "general_id_raw": 255,
+          "portrait_id": 576,
+          "portrait_verification": "image_accessor_0x45c002",
+          "surname": "吴",
+          "given_name": "王",
+          "courtesy_name": "",
+          "birth_year_candidate": 185,
+          "soldiers": 14000,
+          "attributes": {
+            "lead": 89,
+            "war": 91,
+            "intel": 77,
+            "pol": 78,
+            "cha": 86
+          },
+          "name": "吴王",
+          "activity_status": "not_decoded",
+          "relation_byte_2e": 125,
+          "excluded_ruler_word_42": 65535,
+          "recruitment_input_verification": "native_recruit_4687df_4688cf_v1",
+          "combat_modifier_flags": 0,
+          "status_code": 2,
+          "status_label": "出阵",
+          "location_city_id": 2,
+          "status_verification": "static_enum_table_and_behavior; GUI_not_crosschecked",
+          "location_verification": "static_city_lookup_0x44fff4; not_screen_coordinates",
+          "container_index": 571,
+          "location_city_name": "蓟",
+          "location_city_owner": 65535
+        }
+      ],
+      "field_units": [
+        {
+          "type": "field_unit",
+          "unit_kind": "强化步兵",
+          "unit_id": 25,
+          "owner_raw": 8,
+          "world_xy_raw": [
+            47,
+            109
+          ],
+          "general_ids": [
+            512,
+            null,
+            null
+          ],
+          "soldiers_candidate": 4207,
+          "rice_candidate": 2860,
+          "armament_degree_raw": 7,
+          "raw_1d": 100,
+          "raw_1e": 0,
+          "training_degree": 7,
+          "basic_combat_power": 86,
+          "verification": "static_layout_only_pending_live_unit_sample",
+          "source_layer": "game_core",
+          "terrain_type_raw": 8,
+          "on_water": false,
+          "terrain_verification": "static_map_lookup_0x469f6f",
+          "container_index": 0,
+          "morale": 100,
+          "morale_verification": "unit+0x1d; 3.5 setter clamps 0..100; live Wei unit 3 UI 13755/89/4 aligned; other units not individually UI checked",
+          "website_attack_power": 88,
+          "combat_inputs": [
+            {
+              "id": 512,
+              "name": "李冰",
+              "lead_effective": 81,
+              "war_effective": 92,
+              "flags": 0
+            }
+          ],
+          "combat_missing": [],
+          "training_verification": "unit+0x29; setter cap100 and attack consumers; GUI alignment pending",
+          "size_index": 0,
+          "size_label": "小队",
+          "combat_verification": "static reproduction 0x477b4f/0x477c24/0x477cd0; actual GUI comparison pending",
+          "attack_verification": "website formula; W=unit+0x29 assumed; not engine damage or victory probability",
+          "target_attack_unit": "88",
+          "target_attack_building": "87",
+          "target_attack_melee": "—",
+          "target_attack_note": "对部队：网站计算器，真实战斗能力×（基础＋规模＋武装加成）÷150；部队本级武装值7。攻城另按客户端静态参考；步兵常规情景；均非实际扣血。",
+          "unit_skills_reference": "反计 / 埋伏 / 天雷 / 提案 / 收拾 / 无双 / 水军 / 火攻 / 落石 / 谍报",
+          "skill_points_display": "",
+          "target_attack_components": {
+            "unit": [
+              153
+            ],
+            "building": [
+              151
+            ],
+            "training": 7,
+            "size": 0,
+            "skill_scenario": null,
+            "source": "unit=website calculator; building=SANPK 3.5 static"
+          }
+        },
+        {
+          "type": "field_unit",
+          "unit_kind": "强弓兵",
+          "unit_id": 13,
+          "owner_raw": 8,
+          "world_xy_raw": [
+            48,
+            105
+          ],
+          "general_ids": [
+            255,
+            null,
+            null
+          ],
+          "soldiers_candidate": 12000,
+          "rice_candidate": 6240,
+          "armament_degree_raw": 80,
+          "raw_1d": 100,
+          "raw_1e": 0,
+          "training_degree": 80,
+          "basic_combat_power": 90,
+          "verification": "static_layout_only_pending_live_unit_sample",
+          "source_layer": "game_core",
+          "terrain_type_raw": 0,
+          "on_water": false,
+          "terrain_verification": "static_map_lookup_0x469f6f",
+          "container_index": 2,
+          "morale": 100,
+          "morale_verification": "unit+0x1d; 3.5 setter clamps 0..100; live Wei unit 3 UI 13755/89/4 aligned; other units not individually UI checked",
+          "website_attack_power": null,
+          "combat_inputs": [
+            {
+              "id": 255,
+              "name": "吴王",
+              "lead_effective": 89,
+              "war_effective": 91,
+              "flags": 0
+            }
+          ],
+          "combat_missing": [
+            "弓兵远射/攻城参考见目标攻击列"
+          ],
+          "training_verification": "unit+0x29; setter cap100 and attack consumers; GUI alignment pending",
+          "size_index": 0,
+          "size_label": "小队",
+          "combat_verification": "static reproduction 0x477b4f/0x477c24/0x477cd0; actual GUI comparison pending",
+          "attack_verification": "website formula; W=unit+0x29 assumed; not engine damage or victory probability",
+          "target_attack_unit": "130",
+          "target_attack_building": "86",
+          "target_attack_melee": "—",
+          "target_attack_note": "对部队：弓兵无网站参数，用攻略原表远射+客户端训练项；部队本级武装值80。该兵种无网站参数，已改回原表远射。攻城另按客户端静态参考；按资料技能弓箭；均非实际扣血。",
+          "unit_skills_reference": "埋伏 / 奇袭 / 弓箭 / 攻城 / 无双 / 水军 / 骑马",
+          "skill_points_display": "",
+          "target_attack_components": {
+            "unit": [
+              216
+            ],
+            "building": [
+              144
+            ],
+            "training": 80,
+            "size": 0,
+            "skill_scenario": "弓箭",
+            "source": "unit=SANPK 3.5 table; building=SANPK 3.5 static"
+          }
+        },
+        {
+          "type": "field_unit",
+          "unit_kind": "强弓兵",
+          "unit_id": 27,
+          "owner_raw": 8,
+          "world_xy_raw": [
+            47,
+            108
+          ],
+          "general_ids": [
+            121,
+            25,
+            null
+          ],
+          "soldiers_candidate": 8000,
+          "rice_candidate": 5440,
+          "armament_degree_raw": 93,
+          "raw_1d": 100,
+          "raw_1e": 0,
+          "training_degree": 93,
+          "basic_combat_power": 80,
+          "verification": "static_layout_only_pending_live_unit_sample",
+          "source_layer": "game_core",
+          "terrain_type_raw": 8,
+          "on_water": false,
+          "terrain_verification": "static_map_lookup_0x469f6f",
+          "container_index": 5,
+          "morale": 100,
+          "morale_verification": "unit+0x1d; 3.5 setter clamps 0..100; live Wei unit 3 UI 13755/89/4 aligned; other units not individually UI checked",
+          "website_attack_power": null,
+          "combat_inputs": [
+            {
+              "id": 121,
+              "name": "高顺",
+              "lead_effective": 89,
+              "war_effective": 86,
+              "flags": 0
+            },
+            {
+              "id": 25,
+              "name": "吕岱",
+              "lead_effective": 76,
+              "war_effective": 72,
+              "flags": 0
+            }
+          ],
+          "combat_missing": [
+            "弓兵远射/攻城参考见目标攻击列"
+          ],
+          "training_verification": "unit+0x29; setter cap100 and attack consumers; GUI alignment pending",
+          "size_index": 0,
+          "size_label": "小队",
+          "combat_verification": "static reproduction 0x477b4f/0x477c24/0x477cd0; actual GUI comparison pending",
+          "attack_verification": "website formula; W=unit+0x29 assumed; not engine damage or victory probability",
+          "target_attack_unit": "124",
+          "target_attack_building": "82",
+          "target_attack_melee": "—",
+          "target_attack_note": "对部队：弓兵无网站参数，用攻略原表远射+客户端训练项；部队本级武装值93。该兵种无网站参数，已改回原表远射。攻城另按客户端静态参考；按资料技能弓箭；均非实际扣血。",
+          "unit_skills_reference": "埋伏 / 奇袭 / 弓箭 / 引诱 / 攻城 / 无双 / 水军 / 骑马",
+          "skill_points_display": "",
+          "target_attack_components": {
+            "unit": [
+              232
+            ],
+            "building": [
+              154
+            ],
+            "training": 93,
+            "size": 0,
+            "skill_scenario": "弓箭",
+            "source": "unit=SANPK 3.5 table; building=SANPK 3.5 static"
+          }
+        },
+        {
+          "type": "field_unit",
+          "unit_kind": "强弓兵",
+          "unit_id": 26,
+          "owner_raw": 8,
+          "world_xy_raw": [
+            49,
+            100
+          ],
+          "general_ids": [
+            520,
+            null,
+            null
+          ],
+          "soldiers_candidate": 1253,
+          "rice_candidate": 1053,
+          "armament_degree_raw": 93,
+          "raw_1d": 100,
+          "raw_1e": 0,
+          "training_degree": 93,
+          "basic_combat_power": 80,
+          "verification": "static_layout_only_pending_live_unit_sample",
+          "source_layer": "game_core",
+          "terrain_type_raw": 7,
+          "on_water": false,
+          "terrain_verification": "static_map_lookup_0x469f6f",
+          "container_index": 7,
+          "morale": 100,
+          "morale_verification": "unit+0x1d; 3.5 setter clamps 0..100; live Wei unit 3 UI 13755/89/4 aligned; other units not individually UI checked",
+          "website_attack_power": null,
+          "combat_inputs": [
+            {
+              "id": 520,
+              "name": "赵胜",
+              "lead_effective": 81,
+              "war_effective": 79,
+              "flags": 0
+            }
+          ],
+          "combat_missing": [
+            "弓兵远射/攻城参考见目标攻击列"
+          ],
+          "training_verification": "unit+0x29; setter cap100 and attack consumers; GUI alignment pending",
+          "size_index": 0,
+          "size_label": "小队",
+          "combat_verification": "static reproduction 0x477b4f/0x477c24/0x477cd0; actual GUI comparison pending",
+          "attack_verification": "website formula; W=unit+0x29 assumed; not engine damage or victory probability",
+          "target_attack_unit": "124",
+          "target_attack_building": "82",
+          "target_attack_melee": "—",
+          "target_attack_note": "对部队：弓兵无网站参数，用攻略原表远射+客户端训练项；部队本级武装值93。该兵种无网站参数，已改回原表远射。攻城另按客户端静态参考；按资料技能弓箭；均非实际扣血。",
+          "unit_skills_reference": "埋伏 / 弓箭 / 无双 / 骑马",
+          "skill_points_display": "",
+          "target_attack_components": {
+            "unit": [
+              232
+            ],
+            "building": [
+              154
+            ],
+            "training": 93,
+            "size": 0,
+            "skill_scenario": "弓箭",
+            "source": "unit=SANPK 3.5 table; building=SANPK 3.5 static"
+          }
+        }
+      ]
+    }
+  },
+  "expected": {
+    "13": "旧参考130·技能未存",
+    "26": "旧参考124·技能未存",
+    "27": "旧参考124·技能未存",
+    "25": "[498/498]"
+  }
+}

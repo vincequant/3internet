@@ -1,0 +1,72 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "eccdbe77-2b37-4c64-9134-4e9cd7b3a04f",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 616,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134368124840399790
+  },
+  "player_session_id_at_open": "38f417a6af54410b95f8c02573351999",
+  "started_utc": "2026-10-18T15:54:56.258497+00:00",
+  "ended_utc": "2026-10-18T16:09:51.389422+00:00",
+  "end_reason": "process_gone",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "6d38e4b5-07d9-46c9-aa9e-1c282ea922ad"
+  ],
+  "simulated": false,
+  "frame_count": 699,
+  "last_seq": 699,
+  "last_snapshot_id": "20261018T160950070567Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_context": {
+    "observation_mode": "omniscient",
+    "ruleset_id": null,
+    "ruleset_confirmed": false,
+    "scenario": null,
+    "computer": "unknown"
+  },
+  "recording_purpose": "training_research",
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-18T16:09:50.090962+00:00",
+  "title": "玩家局 2 周/宋",
+  "match_kind": "player",
+  "format": "2",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": [
+    [
+      "周",
+      "宋"
+    ]
+  ]
+}

@@ -1,0 +1,8 @@
+{"at": "2026-10-20T18:08:56.818594+00:00", "kind": "bound", "bound": {"pid": 1164, "created": 134369930947877470, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 54602506, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-20T18:08:57.709253+00:00", "kind": "fatal", "note": "[WinError 87] 无效参数。", "helper_epoch": 1}
+{"at": "2026-10-20T18:08:57.709704+00:00", "kind": "exit", "code": 2, "helper_epoch": 1}
+{"at": "2026-10-20T18:09:04.583634+00:00", "kind": "bound", "bound": {"pid": 1164, "created": 134369930947877470, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 54602506, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-20T18:09:05.310740+00:00", "kind": "fatal", "note": "[WinError 87] 无效参数。", "helper_epoch": 2}
+{"at": "2026-10-20T18:09:05.311090+00:00", "kind": "exit", "code": 2, "helper_epoch": 2}
+{"at": "2026-10-20T18:09:10.572242+00:00", "kind": "bound", "bound": {"pid": 1164, "created": 134369930947877470, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 54602506, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-20T18:09:11.123219+00:00", "kind": "panel_closed"}

@@ -1,0 +1,700 @@
+{
+  "status": "lobby_titles",
+  "observed_at": 1789327651.469816,
+  "windows": [
+    {
+      "pid": 476,
+      "class": "tooltips_class32",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "tooltips_class32",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TForm",
+      "title": "",
+      "visible": true,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TMainForm",
+      "title": "三国志Internet对战平台 6.2 [当前用户: VK(筑基期)]",
+      "visible": true,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": [
+        {
+          "class": "TLoadingForm",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TsProgressBar",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MDIClient",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TPageControl",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TTabSheet",
+          "title": "房间用户(1)",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TListView",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "SysHeader32",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TTabSheet",
+          "title": "我的好友",
+          "visible": false
+        },
+        {
+          "class": "TFrameFriendList",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TTreeView",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TPageControl",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TTabSheet",
+          "title": "游戏房间",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TGroupBox",
+          "title": " 聊天信息 ",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TCheckBox",
+          "title": "自动滚屏",
+          "visible": true
+        },
+        {
+          "class": "TRichViewEdit",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TsBitBtn",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TsBitBtn",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TsBitBtn",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TCheckBox",
+          "title": "悄悄话",
+          "visible": true
+        },
+        {
+          "class": "TComboBox",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TButton",
+          "title": "发送",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TRichViewEdit",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TRichViewEdit",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TGroupBox",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TButton",
+          "title": "游戏设置",
+          "visible": true
+        },
+        {
+          "class": "TButton",
+          "title": "启动游戏",
+          "visible": true
+        },
+        {
+          "class": "TTabSheet",
+          "title": "游戏公告",
+          "visible": false
+        },
+        {
+          "class": "TsPanel",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "Shell Embedding",
+          "title": "Shell Embedding",
+          "visible": false
+        },
+        {
+          "class": "Shell DocObject View",
+          "title": "Shell DocObject View",
+          "visible": false
+        },
+        {
+          "class": "Internet Explorer_Server",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "NsContainer",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TTabSheet",
+          "title": "三国·防闪退指南",
+          "visible": false
+        },
+        {
+          "class": "TTabSheet",
+          "title": "三国·武将查询",
+          "visible": false
+        },
+        {
+          "class": "TTabSheet",
+          "title": "新手教程",
+          "visible": false
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": true
+        },
+        {
+          "class": "TPanel",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TsFrameBar",
+          "title": " ",
+          "visible": false
+        },
+        {
+          "class": "TFrameGameList",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "TTreeView",
+          "title": "",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "Internet Explorer_Hidden",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "nsAppShell:EventWindowClass",
+      "title": "nsAppShell:EventWindow",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "Shell Embedding",
+      "title": "Shell Embedding",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": [
+        {
+          "class": "Shell DocObject View",
+          "title": "Shell DocObject View",
+          "visible": false
+        },
+        {
+          "class": "Internet Explorer_Server",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "NsContainer",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "pid": 476,
+      "class": "Shell Embedding",
+      "title": "Shell Embedding",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": [
+        {
+          "class": "Shell DocObject View",
+          "title": "Shell DocObject View",
+          "visible": false
+        },
+        {
+          "class": "Internet Explorer_Server",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "NsContainer",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "pid": 476,
+      "class": "Shell Embedding",
+      "title": "Shell Embedding",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": [
+        {
+          "class": "Shell DocObject View",
+          "title": "Shell DocObject View",
+          "visible": false
+        },
+        {
+          "class": "Internet Explorer_Server",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "NsContainer",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        },
+        {
+          "class": "MozillaWindowClass",
+          "title": "",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "pid": 476,
+      "class": "ComboLBox",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "Shell Embedding",
+      "title": "Shell Embedding",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": [
+        {
+          "class": "Shell DocObject View",
+          "title": "Shell DocObject View",
+          "visible": false
+        }
+      ]
+    },
+    {
+      "pid": 476,
+      "class": "Wine IME",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TBackMainForm",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TSelectMotionForm",
+      "title": "SelectMotionForm",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TApplication",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "TPUtilWindow",
+      "title": "",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    },
+    {
+      "pid": 476,
+      "class": "IME",
+      "title": "Default IME",
+      "visible": false,
+      "path": "C:\\sgi\\run-3.5\\SANGUO.exe",
+      "children": []
+    }
+  ],
+  "titles": [
+    "三国志Internet对战平台 6.2 [当前用户: VK(筑基期)]",
+    "房间用户(1)",
+    "我的好友",
+    "游戏房间",
+    " 聊天信息 ",
+    "自动滚屏",
+    "悄悄话",
+    "发送",
+    "游戏设置",
+    "启动游戏",
+    "游戏公告",
+    "Shell Embedding",
+    "Shell DocObject View",
+    "三国·防闪退指南",
+    "三国·武将查询",
+    "新手教程",
+    " ",
+    "nsAppShell:EventWindow",
+    "Shell Embedding",
+    "Shell DocObject View",
+    "Shell Embedding",
+    "Shell DocObject View",
+    "Shell Embedding",
+    "Shell DocObject View",
+    "Shell Embedding",
+    "Shell DocObject View",
+    "SelectMotionForm",
+    "Default IME"
+  ],
+  "classes": {
+    "tooltips_class32": 2,
+    "TForm": 1,
+    "TMainForm": 1,
+    "TLoadingForm": 1,
+    "TPanel": 13,
+    "TsProgressBar": 1,
+    "MDIClient": 1,
+    "TPageControl": 2,
+    "TTabSheet": 7,
+    "TListView": 1,
+    "SysHeader32": 1,
+    "TFrameFriendList": 1,
+    "TTreeView": 2,
+    "TGroupBox": 2,
+    "TCheckBox": 2,
+    "TRichViewEdit": 3,
+    "TsBitBtn": 3,
+    "TComboBox": 1,
+    "TButton": 3,
+    "TsPanel": 1,
+    "Shell Embedding": 5,
+    "Shell DocObject View": 5,
+    "Internet Explorer_Server": 4,
+    "NsContainer": 4,
+    "MozillaWindowClass": 8,
+    "TsFrameBar": 1,
+    "TFrameGameList": 1,
+    "TPUtilWindow": 18,
+    "Internet Explorer_Hidden": 1,
+    "nsAppShell:EventWindowClass": 1,
+    "ComboLBox": 1,
+    "Wine IME": 1,
+    "TBackMainForm": 1,
+    "TSelectMotionForm": 1,
+    "TApplication": 1,
+    "IME": 1
+  },
+  "has_sgzwlb": false,
+  "has_game_select": false,
+  "has_listview": true,
+  "message": "只读大厅窗口标题；未取 ListView 项、未点击、未改内存"
+}

@@ -1,0 +1,13 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/decision_panel.py",
+    "app/decision_support.py",
+    "app/officer_reference.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/skill-filter-20260912-231732",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Wild officer diplomacy coverage and skill filters; no game commands"
+}

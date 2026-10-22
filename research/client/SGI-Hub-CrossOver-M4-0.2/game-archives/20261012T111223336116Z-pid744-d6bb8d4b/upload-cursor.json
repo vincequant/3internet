@@ -1,0 +1,9 @@
+{
+  "match_id": "d6bb8d4b-ed27-4229-8a11-7877bbf76037",
+  "acked_seq": 2,
+  "gaps": [],
+  "lost_gaps": [],
+  "queue_full_waits": 0,
+  "last_error": "HTTP Error 500: Internal Server Error",
+  "last_flush_utc": "2026-10-12T11:12:41Z"
+}

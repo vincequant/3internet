@@ -1,0 +1,10 @@
+{
+  "updated": [
+    "app/city_tactical.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/city-details-20260913-001018",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "City surroundings buildings and city facts; read-only display"
+}

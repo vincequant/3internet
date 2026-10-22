@@ -1,0 +1,181 @@
+{
+  "source_sha256": {
+    "mapobjpk": "758842ee8cf8554d2c2f3bfff6ede2f94bd38078c8cfca8baf9536dcf1c143c2",
+    "bldobjpk": "95c5ffb4308d4d4155a28af68252b4530a4ce3f33523ff6969522ca147df8cba"
+  },
+  "units": {
+    "步兵": {
+      "file": "unit-0.png",
+      "frame": 14
+    },
+    "强化步兵": {
+      "file": "unit-1.png",
+      "frame": 218
+    },
+    "重装步兵": {
+      "file": "unit-2.png",
+      "frame": 422
+    },
+    "骑兵": {
+      "file": "unit-3.png",
+      "frame": 658
+    },
+    "强化骑兵": {
+      "file": "unit-4.png",
+      "frame": 826
+    },
+    "重装骑兵": {
+      "file": "unit-5.png",
+      "frame": 994
+    },
+    "铁骑兵": {
+      "file": "unit-5.png",
+      "frame": 994
+    },
+    "弓兵": {
+      "file": "unit-6.png",
+      "frame": 1162
+    },
+    "强弓兵": {
+      "file": "unit-7.png",
+      "frame": 1386
+    },
+    "重装弓兵": {
+      "file": "unit-8.png",
+      "frame": 1610
+    }
+  },
+  "buildings": {
+    "parade_ground": [
+      {
+        "file": "parade_ground-0.png",
+        "frame": 43
+      },
+      {
+        "file": "parade_ground-1.png",
+        "frame": 44
+      },
+      {
+        "file": "parade_ground-2.png",
+        "frame": 45
+      }
+    ],
+    "horse_farm": [
+      {
+        "file": "horse_farm-0.png",
+        "frame": 46
+      },
+      {
+        "file": "horse_farm-1.png",
+        "frame": 47
+      },
+      {
+        "file": "horse_farm-2.png",
+        "frame": 48
+      }
+    ],
+    "bow_studio": [
+      {
+        "file": "bow_studio-0.png",
+        "frame": 49
+      },
+      {
+        "file": "bow_studio-1.png",
+        "frame": 50
+      },
+      {
+        "file": "bow_studio-2.png",
+        "frame": 51
+      }
+    ]
+  },
+  "note": "原版静态代表帧；按已解析部队类型匹配，不表示实时朝向或攻击动作。建筑帧基址/产能分级经对应虚表方法核对。",
+  "extras": {
+    "transport": {
+      "file": "transport.png",
+      "source": "mapobjpk",
+      "frame": 1824
+    },
+    "boat": {
+      "file": "boat.png",
+      "source": "mapobjpk",
+      "frame": 1968
+    },
+    "warship": {
+      "file": "warship.png",
+      "source": "mapobjpk",
+      "frame": 2088
+    },
+    "fire": {
+      "file": "fire.png",
+      "source": "bldobjpk",
+      "frame": 5
+    },
+    "rock": {
+      "file": "rock.png",
+      "source": "bldobjpk",
+      "frame": 6
+    },
+    "pit": {
+      "file": "pit.png",
+      "source": "bldobjpk",
+      "frame": 7
+    },
+    "lightning": {
+      "file": "lightning.png",
+      "source": "mapobjpk",
+      "frame": 2736
+    },
+    "arrow": {
+      "file": "arrow.png",
+      "source": "mapobjpk",
+      "frame": 2640
+    },
+    "smoke": {
+      "file": "smoke.png",
+      "source": "bldobjpk",
+      "frame": 288
+    },
+    "wall": {
+      "file": "wall.png",
+      "source": "bldobjpk",
+      "frame": 37
+    }
+  },
+  "portraits": {
+    "count": 967,
+    "width": 96,
+    "height": 120,
+    "columns": 32,
+    "sha256": "f9a1a3a326e10a5c7a9ceb60d58ed3b4953ffb517cb339255ac34ceb0e845f87"
+  },
+  "city_frames": {
+    "city": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "barrier": [
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36
+    ]
+  },
+  "flags": {
+    "source": "mapobjpk.slw",
+    "base": 2261,
+    "stride": 16,
+    "indices": "1..22",
+    "accessor": "0x4771d5 -> lord+0x0e"
+  }
+}

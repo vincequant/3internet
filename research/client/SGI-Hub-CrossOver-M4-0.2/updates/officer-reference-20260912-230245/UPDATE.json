@@ -1,0 +1,10 @@
+{
+  "updated": [
+    "app/omni_window.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/officer-reference-20260912-230245",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Actual deployed-unit formula display; no game commands"
+}

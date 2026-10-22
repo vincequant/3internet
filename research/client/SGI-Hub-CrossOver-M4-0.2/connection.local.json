@@ -1,0 +1,71 @@
+{
+ "mode": "local",
+ "label": "VKQUANT",
+ "port": 8769,
+ "expected_source": "VKQUANT",
+ "wine_runtime": {
+  "wine": "/Users/vk/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+  "prefix": "/Users/vk/Library/Application Support/SGI-Wine/prefix-fengye-shadow",
+  "version": "WineSikarugir10.0_6",
+  "runtime_id": "wine-sikarugir10",
+  "dependency_lib": "/Users/vk/Library/Application Support/SGI-Wine/runtime/Wine Stable.app/Contents/Resources/wine/lib"
+ },
+ "sources": {
+  "Mac · VKQUANT": {
+   "mode": "local",
+   "label": "VKQUANT",
+   "port": 8769,
+   "expected_source": "VKQUANT",
+   "wine_runtime": {
+    "wine": "/Users/vk/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+    "prefix": "/Users/vk/Library/Application Support/SGI-Wine/prefix-fengye-shadow",
+    "version": "WineSikarugir10.0_6",
+    "runtime_id": "wine-sikarugir10",
+    "dependency_lib": "/Users/vk/Library/Application Support/SGI-Wine/runtime/Wine Stable.app/Contents/Resources/wine/lib"
+   },
+   "primary": true
+  },
+  "Mac · VKQUANT-COM": {
+   "mode": "remote",
+   "label": "VKQUANT-COM",
+   "expected_source": "VKQUANT-COM",
+   "port": 18769,
+   "ssh_host": "fd7a:115c:a1e0::f930:8943",
+   "ssh_user": "vkquant",
+   "ssh_port": 22,
+   "identity_file": "/Users/vk/.ssh/sgi_hub_ed25519",
+   "known_hosts": "/Users/vk/.ssh/sgi_hub_known_hosts"
+  },
+  "Windows · BF-202303071128": {
+   "mode": "remote",
+   "label": "BF-202303071128",
+   "expected_source": "BF-202303071128",
+   "port": 18769,
+   "ssh_host": "fd7a:115c:a1e0::4d30:1138",
+   "ssh_user": "Administrator",
+   "ssh_port": 2222,
+   "identity_file": "/Users/vk/.ssh/sgi_hub_ed25519",
+   "known_hosts": "/Users/vk/.ssh/sgi_hub_known_hosts"
+  },
+  "Mac · 风夜（影子）": {
+   "mode": "remote",
+   "label": "FENGYE",
+   "expected_source": "FENGYE",
+   "port": 18770,
+   "remote_port": 8792,
+   "ssh_host": "fd7a:115c:a1e0::f930:8943",
+   "ssh_user": "vkquant",
+   "ssh_port": 22,
+   "identity_file": "/Users/vk/.ssh/sgi_hub_ed25519",
+   "known_hosts": "/Users/vk/.ssh/sgi_hub_known_hosts"
+  },
+  "Mac · 风夜（本机影子）": {
+   "mode": "local",
+   "label": "FENGYE-LOCAL",
+   "port": 8771,
+   "note": "本机 prefix-fengye-shadow 的第二座采集桥（SGI_BRIDGE_PORT=8771）；只读风夜客户端",
+   "expected_source": "FENGYE-LOCAL"
+  }
+ },
+ "selected_source": "Mac · VKQUANT"
+}

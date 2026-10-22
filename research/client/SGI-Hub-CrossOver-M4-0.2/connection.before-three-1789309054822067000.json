@@ -1,0 +1,13 @@
+{
+  "mode": "local",
+  "label": "VKQUANT",
+  "port": 8769,
+  "expected_source": "VKQUANT",
+  "wine_runtime": {
+    "wine": "/Users/vk/Library/Application Support/SGI-Wine/runtime-sikarugir10/wswine.bundle/bin/wine",
+    "prefix": "/Users/vk/Library/Application Support/SGI-Wine/prefix-sikarugir10",
+    "version": "WineSikarugir10.0_6",
+    "runtime_id": "wine-sikarugir10",
+    "dependency_lib": "/Users/vk/Library/Application Support/SGI-Wine/runtime/Wine Stable.app/Contents/Resources/wine/lib"
+  }
+}

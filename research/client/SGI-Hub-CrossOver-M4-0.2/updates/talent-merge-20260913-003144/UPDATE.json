@@ -1,0 +1,12 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/talent_filters.py",
+    "app/skill_icons.bmp"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/talent-merge-20260913-003144",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Unified wild talent ranking and native skill filters; compact columns"
+}

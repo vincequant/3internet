@@ -1,0 +1,11 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/tutorial_rules.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/tutorial-rules-20260912-232701",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Seven tutorial rule integration; local display only, no game commands"
+}

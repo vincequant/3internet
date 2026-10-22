@@ -1,0 +1,65 @@
+{
+  "fetched": null,
+  "identity": {
+    "force_id": 0,
+    "source": "game_player_context",
+    "status": "confirmed",
+    "session_id": "dc60007b191e449d8c605f8f772490d5",
+    "reason": "随每次采集重新读取游戏玩家上下文",
+    "candidate_force_ids": [],
+    "context_offset_verified": true,
+    "same_address_reload_detection": "player_context_rechecked_each_capture; identical_state_reload_not_observable"
+  },
+  "player_force_id": 0,
+  "force": {
+    "name": "魏",
+    "force_id": 0,
+    "prestige": 134,
+    "gold": 31490,
+    "rice": 100000,
+    "troop_stock": {
+      "infantry": 30000,
+      "cavalry": 10000,
+      "bow": 20000
+    },
+    "armament_raw": {
+      "infantry": 190,
+      "cavalry": 130,
+      "bow": 130
+    },
+    "training_progress": {
+      "infantry": 90,
+      "cavalry": 30,
+      "bow": 30
+    },
+    "temporal_status": "core_observed_now_effective_phase_unverified"
+  },
+  "state_keys": [
+    "build_sha256",
+    "capture_end",
+    "capture_start",
+    "clock_candidates",
+    "consistency",
+    "core_address",
+    "core_projection_divergence",
+    "coverage",
+    "current_local_projection",
+    "decode_warnings",
+    "duplicate_general_ids",
+    "entities",
+    "extension_schema",
+    "history",
+    "identity",
+    "limits",
+    "omniscient_layer_ready",
+    "player_context",
+    "player_force_id",
+    "player_identity",
+    "readonly",
+    "schema",
+    "snapshot_id",
+    "timing",
+    "unit_observation"
+  ],
+  "world": {}
+}

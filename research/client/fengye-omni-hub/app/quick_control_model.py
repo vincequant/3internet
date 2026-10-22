@@ -463,8 +463,9 @@ def require_menu(state, action, enabled):
 
 
 def extension_remaining(state, enabled, allow_write, added_ms=10000):
-    if type(added_ms) is not int or added_ms not in (10000,60000):
-        raise ValueError('仅支持手动加10秒或自动加60秒')
+    if type(added_ms) is not int or added_ms == 0:
+        raise ValueError('加时秒数必须是整数')
+    # 任意非零 delta 都是調整量（拉長或縮短）。0 表示已在目標上，不寫入。
     require_test_session(state, enabled)
     if not allow_write:
         raise ValueError('加时尚未启用：需要允许修改本局倒计时')
@@ -485,6 +486,8 @@ def extension_remaining(state, enabled, allow_write, added_ms=10000):
 
 
 def extension_plan(state, enabled, allow_write, added_ms=10000):
+    """Accept any non-zero delta. The two gates below are only the old
+    +60s / +10s buttons, not the round-percent slider."""
     remaining = extension_remaining(state, enabled, allow_write, added_ms)
     if added_ms == 60000 and remaining > 1000:
         raise ValueError('先走原版倒计时，剩最后1秒才自动加时')

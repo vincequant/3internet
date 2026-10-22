@@ -1,0 +1,2208 @@
+{
+  "schema": "screenshot-force-palette-1",
+  "identity": null,
+  "source": "Original user Windows screenshot; mapping not validated for new CrossOver session",
+  "source_sha256": "bda8690f8bd5d32f50d8acd52b9646c7102b76bc650b9a62db66e42ce4953fc8",
+  "method": "game screenshot city square interior RGB, joined to current match city owner; not extracted engine palette",
+  "registration": "x=15.55+5.19476*world_x; y=40.146+1.72305*world_y; screenshot-specific",
+  "colors": {
+    "0": {
+      "name": "魏",
+      "rgb": [
+        16,
+        16,
+        231
+      ],
+      "samples": [
+        {
+          "city_id": 11,
+          "city_name": "陈留",
+          "world_xy": [
+            60,
+            79
+          ],
+          "screen_xy": [
+            330.5,
+            178.5
+          ],
+          "rgb": [
+            16,
+            16,
+            231
+          ],
+          "registration_error_px": 3.955
+        },
+        {
+          "city_id": 14,
+          "city_name": "汝南",
+          "world_xy": [
+            62,
+            101
+          ],
+          "screen_xy": [
+            337.5,
+            213.5
+          ],
+          "rgb": [
+            16,
+            16,
+            231
+          ],
+          "registration_error_px": 0.686
+        },
+        {
+          "city_id": 12,
+          "city_name": "许昌",
+          "world_xy": [
+            57,
+            89
+          ],
+          "screen_xy": [
+            312.5,
+            194.5
+          ],
+          "rgb": [
+            16,
+            16,
+            231
+          ],
+          "registration_error_px": 1.314
+        }
+      ]
+    },
+    "1": {
+      "name": "赵",
+      "rgb": [
+        255,
+        132,
+        0
+      ],
+      "samples": [
+        {
+          "city_id": 15,
+          "city_name": "河内",
+          "world_xy": [
+            55,
+            71
+          ],
+          "screen_xy": [
+            304.5,
+            161.5
+          ],
+          "rgb": [
+            255,
+            132,
+            0
+          ],
+          "registration_error_px": 3.384
+        },
+        {
+          "city_id": 4,
+          "city_name": "邯郸",
+          "world_xy": [
+            58,
+            56
+          ],
+          "screen_xy": [
+            314.5,
+            135.5
+          ],
+          "rgb": [
+            255,
+            132,
+            0
+          ],
+          "registration_error_px": 2.607
+        }
+      ]
+    },
+    "2": {
+      "name": "韩",
+      "rgb": [
+        99,
+        49,
+        189
+      ],
+      "samples": [
+        {
+          "city_id": 28,
+          "city_name": "南阳",
+          "world_xy": [
+            51,
+            95
+          ],
+          "screen_xy": [
+            281.5,
+            204.5
+          ],
+          "rgb": [
+            99,
+            49,
+            189
+          ],
+          "registration_error_px": 1.215
+        },
+        {
+          "city_id": 30,
+          "city_name": "襄阳",
+          "world_xy": [
+            48,
+            110
+          ],
+          "screen_xy": [
+            262.5,
+            228.5
+          ],
+          "rgb": [
+            99,
+            49,
+            189
+          ],
+          "registration_error_px": 2.674
+        }
+      ]
+    },
+    "3": {
+      "name": "齐",
+      "rgb": [
+        165,
+        132,
+        222
+      ],
+      "samples": [
+        {
+          "city_id": 49,
+          "city_name": "鲁县",
+          "world_xy": [
+            74,
+            63
+          ],
+          "screen_xy": [
+            400.5,
+            148.5
+          ],
+          "rgb": [
+            165,
+            132,
+            222
+          ],
+          "registration_error_px": 0.573
+        },
+        {
+          "city_id": 6,
+          "city_name": "临淄",
+          "world_xy": [
+            79,
+            51
+          ],
+          "screen_xy": [
+            426.5,
+            127.5
+          ],
+          "rgb": [
+            165,
+            132,
+            222
+          ],
+          "registration_error_px": 0.768
+        }
+      ]
+    },
+    "4": {
+      "name": "楚",
+      "rgb": [
+        222,
+        107,
+        115
+      ],
+      "samples": [
+        {
+          "city_id": 36,
+          "city_name": "江夏",
+          "world_xy": [
+            59,
+            119
+          ],
+          "screen_xy": [
+            323.5,
+            244.5
+          ],
+          "rgb": [
+            222,
+            107,
+            115
+          ],
+          "registration_error_px": 1.614
+        },
+        {
+          "city_id": 31,
+          "city_name": "江陵",
+          "world_xy": [
+            52,
+            124
+          ],
+          "screen_xy": [
+            283.5,
+            254.5
+          ],
+          "rgb": [
+            222,
+            107,
+            115
+          ],
+          "registration_error_px": 2.286
+        },
+        {
+          "city_id": 34,
+          "city_name": "武陵",
+          "world_xy": [
+            48,
+            140
+          ],
+          "screen_xy": [
+            263.5,
+            283.5
+          ],
+          "rgb": [
+            222,
+            107,
+            115
+          ],
+          "registration_error_px": 2.546
+        }
+      ]
+    },
+    "5": {
+      "name": "燕",
+      "rgb": [
+        0,
+        115,
+        231
+      ],
+      "samples": [
+        {
+          "city_id": 65,
+          "city_name": "昌黎",
+          "world_xy": [
+            81,
+            6
+          ],
+          "screen_xy": [
+            433.5,
+            49.5
+          ],
+          "rgb": [
+            0,
+            115,
+            231
+          ],
+          "registration_error_px": 2.992
+        },
+        {
+          "city_id": 1,
+          "city_name": "渔阳",
+          "world_xy": [
+            74,
+            20
+          ],
+          "screen_xy": [
+            398.5,
+            74.5
+          ],
+          "rgb": [
+            0,
+            115,
+            231
+          ],
+          "registration_error_px": 1.466
+        },
+        {
+          "city_id": 2,
+          "city_name": "蓟",
+          "world_xy": [
+            66,
+            21
+          ],
+          "screen_xy": [
+            358.5,
+            76.5
+          ],
+          "rgb": [
+            0,
+            115,
+            231
+          ],
+          "registration_error_px": 0.195
+        },
+        {
+          "city_id": 0,
+          "city_name": "襄平",
+          "world_xy": [
+            92,
+            3
+          ],
+          "screen_xy": [
+            494.5,
+            46.5
+          ],
+          "rgb": [
+            0,
+            115,
+            231
+          ],
+          "registration_error_px": 1.571
+        }
+      ]
+    },
+    "6": {
+      "name": "秦",
+      "rgb": [
+        82,
+        0,
+        66
+      ],
+      "samples": [
+        {
+          "city_id": 52,
+          "city_name": "临晋",
+          "world_xy": [
+            39,
+            74
+          ],
+          "screen_xy": [
+            215.5,
+            167.5
+          ],
+          "rgb": [
+            82,
+            0,
+            66
+          ],
+          "registration_error_px": 2.65
+        },
+        {
+          "city_id": 51,
+          "city_name": "弘农",
+          "world_xy": [
+            43,
+            84
+          ],
+          "screen_xy": [
+            235.5,
+            184.5
+          ],
+          "rgb": [
+            82,
+            0,
+            66
+          ],
+          "registration_error_px": 3.446
+        },
+        {
+          "city_id": 68,
+          "city_name": "北地",
+          "world_xy": [
+            31,
+            75
+          ],
+          "screen_xy": [
+            177.5,
+            168.5
+          ],
+          "rgb": [
+            82,
+            0,
+            66
+          ],
+          "registration_error_px": 1.264
+        },
+        {
+          "city_id": 17,
+          "city_name": "咸阳",
+          "world_xy": [
+            34,
+            85
+          ],
+          "screen_xy": [
+            194.5,
+            187.5
+          ],
+          "rgb": [
+            82,
+            0,
+            66
+          ],
+          "registration_error_px": 2.494
+        }
+      ]
+    },
+    "7": {
+      "name": "晋",
+      "rgb": [
+        247,
+        239,
+        107
+      ],
+      "samples": [
+        {
+          "city_id": 50,
+          "city_name": "平阳",
+          "world_xy": [
+            45,
+            64
+          ],
+          "screen_xy": [
+            248.5,
+            151.5
+          ],
+          "rgb": [
+            247,
+            239,
+            107
+          ],
+          "registration_error_px": 1.352
+        },
+        {
+          "city_id": 7,
+          "city_name": "晋阳",
+          "world_xy": [
+            49,
+            47
+          ],
+          "screen_xy": [
+            270.5,
+            121.5
+          ],
+          "rgb": [
+            247,
+            239,
+            107
+          ],
+          "registration_error_px": 0.55
+        }
+      ]
+    },
+    "8": {
+      "name": "吴",
+      "rgb": [
+        214,
+        0,
+        8
+      ],
+      "samples": [
+        {
+          "city_id": 60,
+          "city_name": "始新",
+          "world_xy": [
+            84,
+            126
+          ],
+          "screen_xy": [
+            450.5,
+            256.5
+          ],
+          "rgb": [
+            214,
+            0,
+            8
+          ],
+          "registration_error_px": 1.597
+        },
+        {
+          "city_id": 38,
+          "city_name": "吴县",
+          "world_xy": [
+            92,
+            108
+          ],
+          "screen_xy": [
+            490.5,
+            225.5
+          ],
+          "rgb": [
+            214,
+            0,
+            8
+          ],
+          "registration_error_px": 3.058
+        },
+        {
+          "city_id": 37,
+          "city_name": "建业",
+          "world_xy": [
+            83,
+            103
+          ],
+          "screen_xy": [
+            447.5,
+            218.5
+          ],
+          "rgb": [
+            214,
+            0,
+            8
+          ],
+          "registration_error_px": 1.179
+        }
+      ]
+    },
+    "9": {
+      "name": "越",
+      "rgb": [
+        156,
+        214,
+        33
+      ],
+      "samples": [
+        {
+          "city_id": 62,
+          "city_name": "建安",
+          "world_xy": [
+            85,
+            155
+          ],
+          "screen_xy": [
+            457.5,
+            309.5
+          ],
+          "rgb": [
+            156,
+            214,
+            33
+          ],
+          "registration_error_px": 2.315
+        },
+        {
+          "city_id": 63,
+          "city_name": "南城",
+          "world_xy": [
+            76,
+            152
+          ],
+          "screen_xy": [
+            408.5,
+            302.5
+          ],
+          "rgb": [
+            156,
+            214,
+            33
+          ],
+          "registration_error_px": 1.906
+        },
+        {
+          "city_id": 70,
+          "city_name": "泉州",
+          "world_xy": [
+            84,
+            183
+          ],
+          "screen_xy": [
+            453.5,
+            356.5
+          ],
+          "rgb": [
+            156,
+            214,
+            33
+          ],
+          "registration_error_px": 1.898
+        },
+        {
+          "city_id": 75,
+          "city_name": "福州",
+          "world_xy": [
+            91,
+            163
+          ],
+          "screen_xy": [
+            491.5,
+            323.5
+          ],
+          "rgb": [
+            156,
+            214,
+            33
+          ],
+          "registration_error_px": 4.08
+        }
+      ]
+    },
+    "10": {
+      "name": "周",
+      "rgb": [
+        0,
+        99,
+        165
+      ],
+      "samples": [
+        {
+          "city_id": 16,
+          "city_name": "洛阳",
+          "world_xy": [
+            51,
+            81
+          ],
+          "screen_xy": [
+            280.5,
+            178.5
+          ],
+          "rgb": [
+            0,
+            99,
+            165
+          ],
+          "registration_error_px": 1.213
+        }
+      ]
+    },
+    "11": {
+      "name": "宋",
+      "rgb": [
+        189,
+        74,
+        24
+      ],
+      "samples": [
+        {
+          "city_id": 40,
+          "city_name": "寿春",
+          "world_xy": [
+            73,
+            99
+          ],
+          "screen_xy": [
+            395.5,
+            210.5
+          ],
+          "rgb": [
+            189,
+            74,
+            24
+          ],
+          "registration_error_px": 0.767
+        },
+        {
+          "city_id": 41,
+          "city_name": "庐江",
+          "world_xy": [
+            72,
+            121
+          ],
+          "screen_xy": [
+            389.5,
+            249.5
+          ],
+          "rgb": [
+            189,
+            74,
+            24
+          ],
+          "registration_error_px": 0.868
+        },
+        {
+          "city_id": 13,
+          "city_name": "商丘",
+          "world_xy": [
+            67,
+            87
+          ],
+          "screen_xy": [
+            365.5,
+            190.5
+          ],
+          "rgb": [
+            189,
+            74,
+            24
+          ],
+          "registration_error_px": 1.953
+        }
+      ]
+    },
+    "12": {
+      "name": "鲁",
+      "rgb": [
+        99,
+        99,
+        99
+      ],
+      "samples": [
+        {
+          "city_id": 48,
+          "city_name": "淮阴",
+          "world_xy": [
+            84,
+            85
+          ],
+          "screen_xy": [
+            454.5,
+            187.5
+          ],
+          "rgb": [
+            99,
+            99,
+            99
+          ],
+          "registration_error_px": 2.74
+        },
+        {
+          "city_id": 9,
+          "city_name": "沛县",
+          "world_xy": [
+            71,
+            76
+          ],
+          "screen_xy": [
+            381.5,
+            169.5
+          ],
+          "rgb": [
+            99,
+            99,
+            99
+          ],
+          "registration_error_px": 3.292
+        },
+        {
+          "city_id": 8,
+          "city_name": "下坯",
+          "world_xy": [
+            77,
+            82
+          ],
+          "screen_xy": [
+            415.5,
+            183.5
+          ],
+          "rgb": [
+            99,
+            99,
+            99
+          ],
+          "registration_error_px": 2.064
+        }
+      ]
+    },
+    "13": {
+      "name": "义渠",
+      "rgb": [
+        247,
+        198,
+        198
+      ],
+      "samples": [
+        {
+          "city_id": 84,
+          "city_name": "西河",
+          "world_xy": [
+            35,
+            43
+          ],
+          "screen_xy": [
+            194.5,
+            124.5
+          ],
+          "rgb": [
+            247,
+            198,
+            198
+          ],
+          "registration_error_px": 10.656
+        },
+        {
+          "city_id": 85,
+          "city_name": "灵州",
+          "world_xy": [
+            25,
+            35
+          ],
+          "screen_xy": [
+            146.5,
+            108.5
+          ],
+          "rgb": [
+            247,
+            198,
+            198
+          ],
+          "registration_error_px": 8.12
+        }
+      ]
+    },
+    "14": {
+      "name": "西凉",
+      "rgb": [
+        82,
+        239,
+        247
+      ],
+      "samples": [
+        {
+          "city_id": 19,
+          "city_name": "安定",
+          "world_xy": [
+            25,
+            72
+          ],
+          "screen_xy": [
+            142.5,
+            162.5
+          ],
+          "rgb": [
+            82,
+            239,
+            247
+          ],
+          "registration_error_px": 3.381
+        }
+      ]
+    },
+    "15": {
+      "name": "中山",
+      "rgb": [
+        148,
+        123,
+        74
+      ],
+      "samples": [
+        {
+          "city_id": 46,
+          "city_name": "真定",
+          "world_xy": [
+            58,
+            41
+          ],
+          "screen_xy": [
+            318.5,
+            110.5
+          ],
+          "rgb": [
+            148,
+            123,
+            74
+          ],
+          "registration_error_px": 1.679
+        },
+        {
+          "city_id": 5,
+          "city_name": "平原",
+          "world_xy": [
+            67,
+            52
+          ],
+          "screen_xy": [
+            361.5,
+            130.5
+          ],
+          "rgb": [
+            148,
+            123,
+            74
+          ],
+          "registration_error_px": 2.231
+        },
+        {
+          "city_id": 3,
+          "city_name": "南皮",
+          "world_xy": [
+            70,
+            38
+          ],
+          "screen_xy": [
+            377.5,
+            103.5
+          ],
+          "rgb": [
+            148,
+            123,
+            74
+          ],
+          "registration_error_px": 2.708
+        }
+      ]
+    },
+    "16": {
+      "name": "代",
+      "rgb": [
+        99,
+        123,
+        33
+      ],
+      "samples": [
+        {
+          "city_id": 45,
+          "city_name": "代县",
+          "world_xy": [
+            56,
+            20
+          ],
+          "screen_xy": [
+            309.5,
+            76.5
+          ],
+          "rgb": [
+            99,
+            123,
+            33
+          ],
+          "registration_error_px": 3.584
+        }
+      ]
+    },
+    "17": {
+      "name": "蜀",
+      "rgb": [
+        33,
+        140,
+        57
+      ],
+      "samples": [
+        {
+          "city_id": 58,
+          "city_name": "上庸",
+          "world_xy": [
+            39,
+            108
+          ],
+          "screen_xy": [
+            217.5,
+            225.5
+          ],
+          "rgb": [
+            33,
+            140,
+            57
+          ],
+          "registration_error_px": 0.979
+        },
+        {
+          "city_id": 83,
+          "city_name": "汉昌",
+          "world_xy": [
+            24,
+            107
+          ],
+          "screen_xy": [
+            140.5,
+            229.5
+          ],
+          "rgb": [
+            33,
+            140,
+            57
+          ],
+          "registration_error_px": 4.995
+        },
+        {
+          "city_id": 23,
+          "city_name": "梓潼",
+          "world_xy": [
+            15,
+            113
+          ],
+          "screen_xy": [
+            94.5,
+            236.5
+          ],
+          "rgb": [
+            33,
+            140,
+            57
+          ],
+          "registration_error_px": 1.944
+        },
+        {
+          "city_id": 22,
+          "city_name": "汉中",
+          "world_xy": [
+            25,
+            99
+          ],
+          "screen_xy": [
+            148.5,
+            211.5
+          ],
+          "rgb": [
+            33,
+            140,
+            57
+          ],
+          "registration_error_px": 3.176
+        }
+      ]
+    },
+    "18": {
+      "name": "巴",
+      "rgb": [
+        156,
+        156,
+        156
+      ],
+      "samples": [
+        {
+          "city_id": 26,
+          "city_name": "永安",
+          "world_xy": [
+            37,
+            119
+          ],
+          "screen_xy": [
+            209.5,
+            245.5
+          ],
+          "rgb": [
+            156,
+            156,
+            156
+          ],
+          "registration_error_px": 1.771
+        },
+        {
+          "city_id": 25,
+          "city_name": "江州",
+          "world_xy": [
+            22,
+            133
+          ],
+          "screen_xy": [
+            131.5,
+            269.5
+          ],
+          "rgb": [
+            156,
+            156,
+            156
+          ],
+          "registration_error_px": 1.676
+        },
+        {
+          "city_id": 82,
+          "city_name": "临江",
+          "world_xy": [
+            29,
+            123
+          ],
+          "screen_xy": [
+            167.5,
+            252.5
+          ],
+          "rgb": [
+            156,
+            156,
+            156
+          ],
+          "registration_error_px": 1.368
+        },
+        {
+          "city_id": 57,
+          "city_name": "且兰",
+          "world_xy": [
+            27,
+            166
+          ],
+          "screen_xy": [
+            152.5,
+            327.5
+          ],
+          "rgb": [
+            156,
+            156,
+            156
+          ],
+          "registration_error_px": 3.565
+        }
+      ]
+    },
+    "19": {
+      "name": "南蛮",
+      "rgb": [
+        247,
+        198,
+        0
+      ],
+      "samples": [
+        {
+          "city_id": 74,
+          "city_name": "布山",
+          "world_xy": [
+            37,
+            192
+          ],
+          "screen_xy": [
+            204.5,
+            372.5
+          ],
+          "rgb": [
+            247,
+            198,
+            0
+          ],
+          "registration_error_px": 3.597
+        },
+        {
+          "city_id": 55,
+          "city_name": "江阳",
+          "world_xy": [
+            16,
+            144
+          ],
+          "screen_xy": [
+            95.5,
+            290.5
+          ],
+          "rgb": [
+            247,
+            198,
+            0
+          ],
+          "registration_error_px": 3.875
+        },
+        {
+          "city_id": 56,
+          "city_name": "朱提",
+          "world_xy": [
+            6,
+            157
+          ],
+          "screen_xy": [
+            47.5,
+            310.5
+          ],
+          "rgb": [
+            247,
+            198,
+            0
+          ],
+          "registration_error_px": 0.799
+        },
+        {
+          "city_id": 44,
+          "city_name": "交趾",
+          "world_xy": [
+            22,
+            193
+          ],
+          "screen_xy": [
+            129.5,
+            374.5
+          ],
+          "rgb": [
+            247,
+            198,
+            0
+          ],
+          "registration_error_px": 1.836
+        },
+        {
+          "city_id": 27,
+          "city_name": "建宁",
+          "world_xy": [
+            5,
+            176
+          ],
+          "screen_xy": [
+            40.5,
+            345.5
+          ],
+          "rgb": [
+            247,
+            198,
+            0
+          ],
+          "registration_error_px": 2.334
+        }
+      ]
+    },
+    "20": {
+      "name": "汉",
+      "rgb": [
+        247,
+        24,
+        140
+      ],
+      "samples": [
+        {
+          "city_id": 43,
+          "city_name": "南海",
+          "world_xy": [
+            59,
+            195
+          ],
+          "screen_xy": [
+            324.5,
+            376.5
+          ],
+          "rgb": [
+            247,
+            24,
+            140
+          ],
+          "registration_error_px": 2.485
+        },
+        {
+          "city_id": 71,
+          "city_name": "龙川",
+          "world_xy": [
+            72,
+            192
+          ],
+          "screen_xy": [
+            386.5,
+            371.5
+          ],
+          "rgb": [
+            247,
+            24,
+            140
+          ],
+          "registration_error_px": 3.118
+        },
+        {
+          "city_id": 72,
+          "city_name": "南安",
+          "world_xy": [
+            64,
+            179
+          ],
+          "screen_xy": [
+            349.5,
+            349.5
+          ],
+          "rgb": [
+            247,
+            24,
+            140
+          ],
+          "registration_error_px": 1.751
+        },
+        {
+          "city_id": 73,
+          "city_name": "临贺",
+          "world_xy": [
+            49,
+            190
+          ],
+          "screen_xy": [
+            266.5,
+            368.5
+          ],
+          "rgb": [
+            247,
+            24,
+            140
+          ],
+          "registration_error_px": 3.723
+        },
+        {
+          "city_id": 33,
+          "city_name": "零陵",
+          "world_xy": [
+            49,
+            169
+          ],
+          "screen_xy": [
+            271.5,
+            330.5
+          ],
+          "rgb": [
+            247,
+            24,
+            140
+          ],
+          "registration_error_px": 1.639
+        },
+        {
+          "city_id": 35,
+          "city_name": "桂阳",
+          "world_xy": [
+            57,
+            173
+          ],
+          "screen_xy": [
+            312.5,
+            338.5
+          ],
+          "rgb": [
+            247,
+            24,
+            140
+          ],
+          "registration_error_px": 0.889
+        },
+        {
+          "city_id": 64,
+          "city_name": "高昌",
+          "world_xy": [
+            66,
+            161
+          ],
+          "screen_xy": [
+            359.5,
+            318.5
+          ],
+          "rgb": [
+            247,
+            24,
+            140
+          ],
+          "registration_error_px": 1.446
+        }
+      ]
+    },
+    "21": {
+      "name": "羌",
+      "rgb": [
+        16,
+        99,
+        16
+      ],
+      "samples": [
+        {
+          "city_id": 53,
+          "city_name": "狄道",
+          "world_xy": [
+            10,
+            74
+          ],
+          "screen_xy": [
+            63.5,
+            166.5
+          ],
+          "rgb": [
+            16,
+            99,
+            16
+          ],
+          "registration_error_px": 4.16
+        },
+        {
+          "city_id": 69,
+          "city_name": "榆中",
+          "world_xy": [
+            11,
+            56
+          ],
+          "screen_xy": [
+            69.5,
+            137.5
+          ],
+          "rgb": [
+            16,
+            99,
+            16
+          ],
+          "registration_error_px": 3.307
+        },
+        {
+          "city_id": 20,
+          "city_name": "张掖",
+          "world_xy": [
+            5,
+            46
+          ],
+          "screen_xy": [
+            38.5,
+            119.5
+          ],
+          "rgb": [
+            16,
+            99,
+            16
+          ],
+          "registration_error_px": 3.025
+        }
+      ]
+    }
+  },
+  "boundary_snapshot": {
+    "source": "SanInet.rbm palette indices matched to supplied screenshot offset (12,38); RGB nearest calibrated city color distance<=50, margin>400, agreement>=90%; historical snapshot only",
+    "segments": {
+      "1": {
+        "owner": 5,
+        "matching_pixels": 138,
+        "total_pixels": 138,
+        "agreement": 1.0
+      },
+      "2": {
+        "owner": 5,
+        "matching_pixels": 185,
+        "total_pixels": 185,
+        "agreement": 1.0
+      },
+      "4": {
+        "owner": 16,
+        "matching_pixels": 111,
+        "total_pixels": 111,
+        "agreement": 1.0
+      },
+      "3": {
+        "owner": 5,
+        "matching_pixels": 81,
+        "total_pixels": 81,
+        "agreement": 1.0
+      },
+      "5": {
+        "owner": 16,
+        "matching_pixels": 58,
+        "total_pixels": 58,
+        "agreement": 1.0
+      },
+      "6": {
+        "owner": 5,
+        "matching_pixels": 29,
+        "total_pixels": 29,
+        "agreement": 1.0
+      },
+      "7": {
+        "owner": 5,
+        "matching_pixels": 43,
+        "total_pixels": 43,
+        "agreement": 1.0
+      },
+      "153": {
+        "owner": 5,
+        "matching_pixels": 5,
+        "total_pixels": 5,
+        "agreement": 1.0
+      },
+      "9": {
+        "owner": 16,
+        "matching_pixels": 69,
+        "total_pixels": 69,
+        "agreement": 1.0
+      },
+      "12": {
+        "owner": 15,
+        "matching_pixels": 145,
+        "total_pixels": 145,
+        "agreement": 1.0
+      },
+      "11": {
+        "owner": 15,
+        "matching_pixels": 76,
+        "total_pixels": 76,
+        "agreement": 1.0
+      },
+      "18": {
+        "owner": 3,
+        "matching_pixels": 63,
+        "total_pixels": 63,
+        "agreement": 1.0
+      },
+      "15": {
+        "owner": 3,
+        "matching_pixels": 122,
+        "total_pixels": 122,
+        "agreement": 1.0
+      },
+      "72": {
+        "owner": 21,
+        "matching_pixels": 62,
+        "total_pixels": 62,
+        "agreement": 1.0
+      },
+      "29": {
+        "owner": 7,
+        "matching_pixels": 132,
+        "total_pixels": 132,
+        "agreement": 1.0
+      },
+      "22": {
+        "owner": 15,
+        "matching_pixels": 79,
+        "total_pixels": 79,
+        "agreement": 1.0
+      },
+      "154": {
+        "owner": 15,
+        "matching_pixels": 5,
+        "total_pixels": 5,
+        "agreement": 1.0
+      },
+      "19": {
+        "owner": 3,
+        "matching_pixels": 23,
+        "total_pixels": 23,
+        "agreement": 1.0
+      },
+      "155": {
+        "owner": 3,
+        "matching_pixels": 6,
+        "total_pixels": 6,
+        "agreement": 1.0
+      },
+      "17": {
+        "owner": 3,
+        "matching_pixels": 51,
+        "total_pixels": 51,
+        "agreement": 1.0
+      },
+      "20": {
+        "owner": 3,
+        "matching_pixels": 64,
+        "total_pixels": 64,
+        "agreement": 1.0
+      },
+      "25": {
+        "owner": 1,
+        "matching_pixels": 26,
+        "total_pixels": 26,
+        "agreement": 1.0
+      },
+      "71": {
+        "owner": 21,
+        "matching_pixels": 140,
+        "total_pixels": 140,
+        "agreement": 1.0
+      },
+      "73": {
+        "owner": 21,
+        "matching_pixels": 118,
+        "total_pixels": 118,
+        "agreement": 1.0
+      },
+      "156": {
+        "owner": 3,
+        "matching_pixels": 7,
+        "total_pixels": 7,
+        "agreement": 1.0
+      },
+      "27": {
+        "owner": 1,
+        "matching_pixels": 19,
+        "total_pixels": 19,
+        "agreement": 1.0
+      },
+      "16": {
+        "owner": 3,
+        "matching_pixels": 61,
+        "total_pixels": 61,
+        "agreement": 1.0
+      },
+      "158": {
+        "owner": 1,
+        "matching_pixels": 6,
+        "total_pixels": 6,
+        "agreement": 1.0
+      },
+      "26": {
+        "owner": 1,
+        "matching_pixels": 43,
+        "total_pixels": 43,
+        "agreement": 1.0
+      },
+      "64": {
+        "owner": 6,
+        "matching_pixels": 78,
+        "total_pixels": 78,
+        "agreement": 1.0
+      },
+      "67": {
+        "owner": 14,
+        "matching_pixels": 88,
+        "total_pixels": 88,
+        "agreement": 1.0
+      },
+      "69": {
+        "owner": 14,
+        "matching_pixels": 60,
+        "total_pixels": 60,
+        "agreement": 1.0
+      },
+      "163": {
+        "owner": 10,
+        "matching_pixels": 6,
+        "total_pixels": 6,
+        "agreement": 1.0
+      },
+      "56": {
+        "owner": 10,
+        "matching_pixels": 37,
+        "total_pixels": 37,
+        "agreement": 1.0
+      },
+      "55": {
+        "owner": 10,
+        "matching_pixels": 13,
+        "total_pixels": 13,
+        "agreement": 1.0
+      },
+      "38": {
+        "owner": 12,
+        "matching_pixels": 26,
+        "total_pixels": 26,
+        "agreement": 1.0
+      },
+      "59": {
+        "owner": 6,
+        "matching_pixels": 27,
+        "total_pixels": 27,
+        "agreement": 1.0
+      },
+      "65": {
+        "owner": 6,
+        "matching_pixels": 95,
+        "total_pixels": 95,
+        "agreement": 1.0
+      },
+      "49": {
+        "owner": 0,
+        "matching_pixels": 53,
+        "total_pixels": 53,
+        "agreement": 1.0
+      },
+      "53": {
+        "owner": 10,
+        "matching_pixels": 10,
+        "total_pixels": 10,
+        "agreement": 1.0
+      },
+      "160": {
+        "owner": 12,
+        "matching_pixels": 6,
+        "total_pixels": 6,
+        "agreement": 1.0
+      },
+      "167": {
+        "owner": 14,
+        "matching_pixels": 5,
+        "total_pixels": 5,
+        "agreement": 1.0
+      },
+      "61": {
+        "owner": 6,
+        "matching_pixels": 39,
+        "total_pixels": 39,
+        "agreement": 1.0
+      },
+      "68": {
+        "owner": 14,
+        "matching_pixels": 34,
+        "total_pixels": 34,
+        "agreement": 1.0
+      },
+      "165": {
+        "owner": 6,
+        "matching_pixels": 4,
+        "total_pixels": 4,
+        "agreement": 1.0
+      },
+      "39": {
+        "owner": 12,
+        "matching_pixels": 34,
+        "total_pixels": 34,
+        "agreement": 1.0
+      },
+      "60": {
+        "owner": 6,
+        "matching_pixels": 15,
+        "total_pixels": 15,
+        "agreement": 1.0
+      },
+      "63": {
+        "owner": 6,
+        "matching_pixels": 17,
+        "total_pixels": 17,
+        "agreement": 1.0
+      },
+      "166": {
+        "owner": 6,
+        "matching_pixels": 5,
+        "total_pixels": 5,
+        "agreement": 1.0
+      },
+      "32": {
+        "owner": 12,
+        "matching_pixels": 68,
+        "total_pixels": 68,
+        "agreement": 1.0
+      },
+      "46": {
+        "owner": 11,
+        "matching_pixels": 19,
+        "total_pixels": 19,
+        "agreement": 1.0
+      },
+      "75": {
+        "owner": 17,
+        "matching_pixels": 89,
+        "total_pixels": 89,
+        "agreement": 1.0
+      },
+      "48": {
+        "owner": 0,
+        "matching_pixels": 40,
+        "total_pixels": 40,
+        "agreement": 1.0
+      },
+      "84": {
+        "owner": 2,
+        "matching_pixels": 105,
+        "total_pixels": 105,
+        "agreement": 1.0
+      },
+      "162": {
+        "owner": 11,
+        "matching_pixels": 5,
+        "total_pixels": 5,
+        "agreement": 1.0
+      },
+      "45": {
+        "owner": 11,
+        "matching_pixels": 20,
+        "total_pixels": 20,
+        "agreement": 1.0
+      },
+      "95": {
+        "owner": 11,
+        "matching_pixels": 55,
+        "total_pixels": 55,
+        "agreement": 1.0
+      },
+      "80": {
+        "owner": 17,
+        "matching_pixels": 189,
+        "total_pixels": 189,
+        "agreement": 1.0
+      },
+      "83": {
+        "owner": 2,
+        "matching_pixels": 73,
+        "total_pixels": 73,
+        "agreement": 1.0
+      },
+      "76": {
+        "owner": 17,
+        "matching_pixels": 12,
+        "total_pixels": 12,
+        "agreement": 1.0
+      },
+      "78": {
+        "owner": 17,
+        "matching_pixels": 87,
+        "total_pixels": 87,
+        "agreement": 1.0
+      },
+      "77": {
+        "owner": 17,
+        "matching_pixels": 47,
+        "total_pixels": 47,
+        "agreement": 1.0
+      },
+      "168": {
+        "owner": 17,
+        "matching_pixels": 4,
+        "total_pixels": 4,
+        "agreement": 1.0
+      },
+      "171": {
+        "owner": 11,
+        "matching_pixels": 8,
+        "total_pixels": 8,
+        "agreement": 1.0
+      },
+      "170": {
+        "owner": 2,
+        "matching_pixels": 6,
+        "total_pixels": 6,
+        "agreement": 1.0
+      },
+      "90": {
+        "owner": 8,
+        "matching_pixels": 55,
+        "total_pixels": 55,
+        "agreement": 1.0
+      },
+      "94": {
+        "owner": 11,
+        "matching_pixels": 130,
+        "total_pixels": 130,
+        "agreement": 1.0
+      },
+      "82": {
+        "owner": 2,
+        "matching_pixels": 19,
+        "total_pixels": 19,
+        "agreement": 1.0
+      },
+      "92": {
+        "owner": 8,
+        "matching_pixels": 53,
+        "total_pixels": 53,
+        "agreement": 1.0
+      },
+      "169": {
+        "owner": 17,
+        "matching_pixels": 3,
+        "total_pixels": 3,
+        "agreement": 1.0
+      },
+      "87": {
+        "owner": 8,
+        "matching_pixels": 84,
+        "total_pixels": 84,
+        "agreement": 1.0
+      },
+      "79": {
+        "owner": 17,
+        "matching_pixels": 30,
+        "total_pixels": 30,
+        "agreement": 1.0
+      },
+      "109": {
+        "owner": 17,
+        "matching_pixels": 101,
+        "total_pixels": 101,
+        "agreement": 1.0
+      },
+      "172": {
+        "owner": 8,
+        "matching_pixels": 5,
+        "total_pixels": 5,
+        "agreement": 1.0
+      },
+      "91": {
+        "owner": 8,
+        "matching_pixels": 73,
+        "total_pixels": 73,
+        "agreement": 1.0
+      },
+      "173": {
+        "owner": 8,
+        "matching_pixels": 7,
+        "total_pixels": 7,
+        "agreement": 1.0
+      },
+      "89": {
+        "owner": 8,
+        "matching_pixels": 119,
+        "total_pixels": 119,
+        "agreement": 1.0
+      },
+      "107": {
+        "owner": 18,
+        "matching_pixels": 94,
+        "total_pixels": 94,
+        "agreement": 1.0
+      },
+      "102": {
+        "owner": 4,
+        "matching_pixels": 45,
+        "total_pixels": 45,
+        "agreement": 1.0
+      },
+      "111": {
+        "owner": 18,
+        "matching_pixels": 81,
+        "total_pixels": 81,
+        "agreement": 1.0
+      },
+      "104": {
+        "owner": 4,
+        "matching_pixels": 29,
+        "total_pixels": 29,
+        "agreement": 1.0
+      },
+      "118": {
+        "owner": 9,
+        "matching_pixels": 107,
+        "total_pixels": 107,
+        "agreement": 1.0
+      },
+      "175": {
+        "owner": 4,
+        "matching_pixels": 4,
+        "total_pixels": 4,
+        "agreement": 1.0
+      },
+      "103": {
+        "owner": 4,
+        "matching_pixels": 159,
+        "total_pixels": 159,
+        "agreement": 1.0
+      },
+      "115": {
+        "owner": 18,
+        "matching_pixels": 440,
+        "total_pixels": 440,
+        "agreement": 1.0
+      },
+      "177": {
+        "owner": 9,
+        "matching_pixels": 9,
+        "total_pixels": 9,
+        "agreement": 1.0
+      },
+      "119": {
+        "owner": 9,
+        "matching_pixels": 61,
+        "total_pixels": 61,
+        "agreement": 1.0
+      },
+      "122": {
+        "owner": 9,
+        "matching_pixels": 133,
+        "total_pixels": 133,
+        "agreement": 1.0
+      },
+      "116": {
+        "owner": 19,
+        "matching_pixels": 194,
+        "total_pixels": 194,
+        "agreement": 1.0
+      },
+      "120": {
+        "owner": 9,
+        "matching_pixels": 133,
+        "total_pixels": 133,
+        "agreement": 1.0
+      },
+      "117": {
+        "owner": 19,
+        "matching_pixels": 188,
+        "total_pixels": 188,
+        "agreement": 1.0
+      },
+      "126": {
+        "owner": 9,
+        "matching_pixels": 160,
+        "total_pixels": 160,
+        "agreement": 1.0
+      },
+      "124": {
+        "owner": 9,
+        "matching_pixels": 16,
+        "total_pixels": 16,
+        "agreement": 1.0
+      },
+      "138": {
+        "owner": 20,
+        "matching_pixels": 140,
+        "total_pixels": 140,
+        "agreement": 1.0
+      },
+      "178": {
+        "owner": 9,
+        "matching_pixels": 6,
+        "total_pixels": 6,
+        "agreement": 1.0
+      },
+      "125": {
+        "owner": 9,
+        "matching_pixels": 139,
+        "total_pixels": 139,
+        "agreement": 1.0
+      },
+      "149": {
+        "owner": 19,
+        "matching_pixels": 238,
+        "total_pixels": 238,
+        "agreement": 1.0
+      },
+      "143": {
+        "owner": 20,
+        "matching_pixels": 53,
+        "total_pixels": 53,
+        "agreement": 1.0
+      },
+      "180": {
+        "owner": 20,
+        "matching_pixels": 4,
+        "total_pixels": 4,
+        "agreement": 1.0
+      },
+      "140": {
+        "owner": 20,
+        "matching_pixels": 30,
+        "total_pixels": 30,
+        "agreement": 1.0
+      },
+      "136": {
+        "owner": 20,
+        "matching_pixels": 107,
+        "total_pixels": 107,
+        "agreement": 1.0
+      },
+      "121": {
+        "owner": 9,
+        "matching_pixels": 134,
+        "total_pixels": 134,
+        "agreement": 1.0
+      },
+      "145": {
+        "owner": 20,
+        "matching_pixels": 127,
+        "total_pixels": 127,
+        "agreement": 1.0
+      },
+      "139": {
+        "owner": 20,
+        "matching_pixels": 158,
+        "total_pixels": 158,
+        "agreement": 1.0
+      },
+      "135": {
+        "owner": 20,
+        "matching_pixels": 56,
+        "total_pixels": 56,
+        "agreement": 1.0
+      },
+      "152": {
+        "owner": 19,
+        "matching_pixels": 460,
+        "total_pixels": 460,
+        "agreement": 1.0
+      },
+      "137": {
+        "owner": 20,
+        "matching_pixels": 99,
+        "total_pixels": 99,
+        "agreement": 1.0
+      },
+      "179": {
+        "owner": 20,
+        "matching_pixels": 6,
+        "total_pixels": 6,
+        "agreement": 1.0
+      },
+      "133": {
+        "owner": 20,
+        "matching_pixels": 31,
+        "total_pixels": 31,
+        "agreement": 1.0
+      },
+      "134": {
+        "owner": 20,
+        "matching_pixels": 134,
+        "total_pixels": 134,
+        "agreement": 1.0
+      },
+      "144": {
+        "owner": 20,
+        "matching_pixels": 145,
+        "total_pixels": 145,
+        "agreement": 1.0
+      },
+      "151": {
+        "owner": 19,
+        "matching_pixels": 193,
+        "total_pixels": 193,
+        "agreement": 1.0
+      }
+    }
+  },
+  "color_index_rgb": {
+    "21": [
+      16,
+      16,
+      231
+    ],
+    "4": [
+      255,
+      132,
+      0
+    ],
+    "9": [
+      99,
+      49,
+      189
+    ],
+    "8": [
+      165,
+      132,
+      222
+    ],
+    "3": [
+      222,
+      107,
+      115
+    ],
+    "19": [
+      0,
+      115,
+      231
+    ],
+    "10": [
+      82,
+      0,
+      66
+    ],
+    "16": [
+      247,
+      239,
+      107
+    ],
+    "1": [
+      214,
+      0,
+      8
+    ],
+    "14": [
+      156,
+      214,
+      33
+    ],
+    "20": [
+      0,
+      99,
+      165
+    ],
+    "2": [
+      189,
+      74,
+      24
+    ],
+    "17": [
+      99,
+      99,
+      99
+    ],
+    "5": [
+      247,
+      198,
+      198
+    ],
+    "6": [
+      82,
+      239,
+      247
+    ],
+    "22": [
+      148,
+      123,
+      74
+    ],
+    "18": [
+      99,
+      123,
+      33
+    ],
+    "13": [
+      33,
+      140,
+      57
+    ],
+    "11": [
+      156,
+      156,
+      156
+    ],
+    "15": [
+      247,
+      198,
+      0
+    ],
+    "7": [
+      247,
+      24,
+      140
+    ],
+    "12": [
+      16,
+      99,
+      16
+    ]
+  },
+  "color_index_source": "2026-09-13 live lord+0x0e joined to named screenshot reference; original map flags checked"
+}

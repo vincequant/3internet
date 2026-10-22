@@ -1,0 +1,5 @@
+{"at": "2026-10-21T11:28:07.817952+00:00", "kind": "bound", "bound": {"pid": 636, "created": 134370550779679990, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}}
+{"at": "2026-10-21T11:28:09.515550+00:00", "kind": "modification_label", "bound": {"pid": 636, "created": 134370550779679990, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea"}, "note": "修改标记状态等待确认：无法确认本局我方势力，未执行修改"}
+{"at": "2026-10-21T11:28:09.596152+00:00", "kind": "fatal", "note": "当前尚未进入游戏", "helper_epoch": 1}
+{"at": "2026-10-21T11:28:09.596632+00:00", "kind": "exit", "code": 2, "helper_epoch": 1}
+{"at": "2026-10-21T11:28:13.772230+00:00", "kind": "panel_closed"}

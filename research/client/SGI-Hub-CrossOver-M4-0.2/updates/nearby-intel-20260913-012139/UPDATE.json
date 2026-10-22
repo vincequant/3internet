@@ -1,0 +1,11 @@
+{
+  "updated": [
+    "app/nearby_intel.py",
+    "app/omni_window.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/nearby-intel-20260913-012139",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Nearby objects around player cities and units"
+}

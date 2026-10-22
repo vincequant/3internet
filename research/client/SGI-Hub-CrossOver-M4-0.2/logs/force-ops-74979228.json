@@ -1,0 +1,5738 @@
+{
+  "opening": 125,
+  "frames": 873,
+  "title": "玩家局 3v3 赵/晋/义渠 vs 燕/巴/南蛮",
+  "match_id": "74979228-5073-4ba7-940e-68df74d5508d",
+  "attack": [
+    "赵  总战力 689  6队  均114.8",
+    "燕  总战力 817  7队  均116.7",
+    "晋  总战力 514  5队  均102.8",
+    "义渠  总战力 1028  7队  均146.9",
+    "巴  总战力 532  6队  均106.4",
+    "南蛮  总战力 630  5队  均126",
+    "庄子  总战力 —  0队  均—"
+  ],
+  "cities": {
+    "赵": [
+      "淮阴",
+      "鲁县",
+      "壶关",
+      "寿春",
+      "平原",
+      "河内",
+      "邯郸",
+      "下坯",
+      "许昌",
+      "商丘"
+    ],
+    "晋": [
+      "平阳",
+      "真定",
+      "沛县",
+      "虎牢关",
+      "晋阳",
+      "濮阳",
+      "洛阳",
+      "南阳",
+      "汝南"
+    ],
+    "燕": [
+      "黄县",
+      "昌黎",
+      "即墨",
+      "代县",
+      "渔阳",
+      "蓟",
+      "襄平",
+      "南皮"
+    ],
+    "义渠": [
+      "临晋",
+      "安定",
+      "广武",
+      "北地",
+      "武关",
+      "萧关",
+      "黑风寨",
+      "武都",
+      "陈留",
+      "天水",
+      "西河",
+      "灵州"
+    ],
+    "65535": [
+      "狄道",
+      "始新",
+      "建安",
+      "南城",
+      "南海",
+      "弘农",
+      "榆中",
+      "龙川",
+      "南安",
+      "泉州",
+      "福州",
+      "章安",
+      "桂阳",
+      "函谷关",
+      "西都",
+      "吴县",
+      "会稽",
+      "庐江",
+      "汉中",
+      "建业",
+      "咸阳",
+      "张掖",
+      "高昌",
+      "蓬莱",
+      "瀛洲",
+      "昆仑",
+      "九渊"
+    ],
+    "巴": [
+      "永安",
+      "上庸",
+      "江夏",
+      "江州",
+      "江陵",
+      "新野",
+      "临江",
+      "汉昌",
+      "东狼关",
+      "阳平关",
+      "且兰",
+      "襄阳",
+      "柴桑"
+    ],
+    "南蛮": [
+      "舞阳",
+      "临贺",
+      "布山",
+      "零陵",
+      "武陵",
+      "梓潼",
+      "江阳",
+      "朱提",
+      "交趾",
+      "成都",
+      "建宁",
+      "长沙"
+    ],
+    "庄子": [
+      "临淄"
+    ]
+  },
+  "forces": [
+    {
+      "name": "赵",
+      "owner": 1,
+      "count": 72,
+      "fields": {
+        "主动加入": 12,
+        "出征": 6,
+        "部队移动": 44,
+        "得城": 7,
+        "训练骑兵": 3
+      },
+      "ops": [
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 牛金：交趾",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 曹仁：布山",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 丁原：河内",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 赵胜：即墨",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 田穰苴：零陵",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 项燕：昌黎",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 孙叔敖：临晋",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 陆云讯：阳平关",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 209,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 210,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 210,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 231,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 233,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 236,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 258,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 260,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 261,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 平原",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 261,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 强化骑兵 48/100 → 铁骑兵 5/100",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 鄂焕：邯郸",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 331,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 331,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 345,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 369,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 373,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 384,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 409,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 412,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 许昌",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 412,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 421,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 商丘",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 5/100 → 铁骑兵 47/100",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#22（丁原）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 502,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 502,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 504,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 鲁县",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 516,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 523,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#22（丁原）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 543,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 544,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 556,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#22（丁原）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 557,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 588,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 下坯",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 588,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 589,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 606,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 寿春",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 606,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 47/100 → 铁骑兵 97/100",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 朱侷：商丘",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#26（牛金）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 700,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 701,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 702,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 718,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#22（丁原）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 720,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#26（牛金）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 723,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 738,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 742,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 751,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#22（丁原）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 753,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#26（牛金）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 758,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 761,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 淮阴",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 796,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#11（孙叔敖）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 797,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#8（陆云讯）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 801,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#22（丁原）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 801,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#26（牛金）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 804,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#13（曹仁）",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 养由基：商丘",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#30（田穰苴）",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 关羽：寿春",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        }
+      ]
+    },
+    {
+      "name": "燕",
+      "owner": 5,
+      "count": 71,
+      "fields": {
+        "主动加入": 12,
+        "出征": 7,
+        "部队移动": 43,
+        "得城": 5,
+        "训练骑兵": 3,
+        "失城": 1
+      },
+      "ops": [
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 兀突骨：建安",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 蒋舒：成都",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 留平：高昌",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 羊祜：建宁",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 刘封：泉州",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 庄子：武陵",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 爵刀：始新",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 军神：南阳",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 213,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 214,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 214,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 239,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 239,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 263,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 南皮",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 263,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 265,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 强化骑兵 64/100 → 铁骑兵 15/100",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 孟达：南皮",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 334,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 347,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 348,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 349,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 代县",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 350,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 373,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 374,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 378,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 391,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 414,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 418,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 428,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 434,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 临淄",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 15/100 → 铁骑兵 70/100",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 专诸：南皮",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 506,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 509,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 510,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 542,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 546,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 547,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 548,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 589,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 589,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 590,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 593,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 70/100 → 铁骑兵 100/100",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 董承：渔阳",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#25（羊祜）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 701,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 703,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 708,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 714,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 即墨",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 720,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#25（羊祜）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 739,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 740,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 741,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#3（刘封）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 744,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 753,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#25（羊祜）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 754,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#25（羊祜）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 790,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#15（留平）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 795,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 黄县",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 795,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 796,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#1（兀突骨）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 801,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#25（羊祜）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 要离：蓟",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#31（蒋舒、专诸）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#34（军神）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#37（爵刀）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 873,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "失城",
+          "line": "失城 临淄",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        }
+      ]
+    },
+    {
+      "name": "晋",
+      "owner": 7,
+      "count": 80,
+      "fields": {
+        "主动加入": 11,
+        "出征": 5,
+        "部队移动": 53,
+        "得城": 6,
+        "训练骑兵": 3,
+        "得关隘": 1,
+        "新建牧场": 1
+      },
+      "ops": [
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 甄宓：东狼关",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 李通：新野",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 张燕：襄平",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 傅莶：武都",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 庞德：平阳",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 李冰：昆仑",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 张仪：黑风寨",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 ned：南城",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 213,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 213,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 214,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 238,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 239,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 240,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 262,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 263,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 真定",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 264,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 265,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 洛阳",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 266,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 267,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 强化骑兵 42/100 → 强化骑兵 94/100",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 332,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 332,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 332,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 333,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "得关隘",
+          "line": "得关隘 虎牢关",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 333,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 369,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 372,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 372,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 373,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 410,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 411,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 413,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 414,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 南阳",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 强化骑兵 94/100 → 铁骑兵 48/100",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 李元芳：南阳",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 505,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 505,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 506,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 508,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 509,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 512,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 545,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 545,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 546,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 549,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 587,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 汝南",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 587,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 587,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 588,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 589,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 599,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 600,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 601,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 濮阳",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 48/100 → 铁骑兵 74/100",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 武神：晋阳",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化步兵#29（张燕、李元芳）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 700,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 701,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 702,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 720,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#29（张燕、李元芳）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 741,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 741,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 742,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 沛县",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 742,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 743,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 743,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 754,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#29（张燕、李元芳）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 790,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#23（ned）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 798,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 798,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#7（李冰）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 799,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#4（傅莶）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 799,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#6（庞德）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 802,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化步兵#29（张燕、李元芳）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "civil",
+          "field": "新建牧场",
+          "line": "新建 2 座牧场：晋阳（两座）",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 陈登：汝南",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        }
+      ]
+    },
+    {
+      "name": "义渠",
+      "owner": 13,
+      "count": 90,
+      "fields": {
+        "主动加入": 16,
+        "训练骑兵": 3,
+        "出征": 8,
+        "部队移动": 52,
+        "得城": 7,
+        "训练步兵": 1,
+        "得关隘": 2,
+        "部队消失": 1
+      },
+      "ops": [
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 华雄：即墨",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 韩遂：建宁",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 诸葛亮：黑风寨",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 孟获：襄阳",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 魏无忌：咸阳",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 张良：成都",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 OK哥：即墨",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 心悟：始新",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 0/100 → 铁骑兵 24/100",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 208,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 211,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 214,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 227,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 228,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 230,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 北地",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 238,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 临晋",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 240,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 256,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 257,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 257,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 267,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 晏子：萧关",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 裴擒虎：临晋",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 310,
+          "label": "200年夏 第2回合",
+          "lane": "civil",
+          "field": "训练步兵",
+          "line": "训练步兵 步兵 70/100 → 强化步兵 1/100",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 334,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 335,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 安定",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 336,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 347,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 349,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 373,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 374,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 388,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 389,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 390,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 广武",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 412,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 413,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 417,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "得关隘",
+          "line": "得关隘 武关",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 421,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 425,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 12/100 → 铁骑兵 70/100",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 李信：灵州",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 伍子胥：临晋",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 504,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 505,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 507,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 508,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 武都",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 509,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 510,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 511,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 546,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队消失",
+          "line": "部队消失 重装骑兵#9（心悟）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 546,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 547,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 547,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 551,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 552,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 555,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "得关隘",
+          "line": "得关隘 黑风寨",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 585,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 586,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 602,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 602,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 铁骑兵 57/100 → 铁骑兵 100/100",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 于禁：临晋",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 黄忠：安定",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#27（裴擒虎）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 701,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 702,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 703,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 703,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 719,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#27（裴擒虎）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 739,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 740,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 天水",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 740,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 743,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 743,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 744,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 陈留",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 744,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 752,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#27（裴擒虎）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 795,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#12（魏无忌）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 796,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#21（华雄）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 797,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#17（OK哥）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 798,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#10（韩遂）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 805,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 诸葛瞻：东狼关",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 貂禅：黑风寨",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#35（心悟、诸葛亮、黄忠）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#36（伍子胥）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        }
+      ]
+    },
+    {
+      "name": "巴",
+      "owner": 18,
+      "count": 74,
+      "fields": {
+        "主动加入": 13,
+        "出征": 7,
+        "部队移动": 41,
+        "得城": 7,
+        "训练骑兵": 1,
+        "新建牧场": 2,
+        "得关隘": 2,
+        "部队消失": 1
+      },
+      "ops": [
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 魏延：福州",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 严纲：布山",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 高顺：始新",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 孙桓：襄平",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 李严：萧关",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 老子：九渊",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 苏秦：新野",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 村长：萧关",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 胡班：永安",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 208,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 209,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 209,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 210,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 213,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 232,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 232,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 233,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 238,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 258,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 259,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 259,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 260,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 261,
+          "label": "200年春 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 汉昌",
+          "year": 200,
+          "season": 0,
+          "round": 2
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 强化骑兵 48/100 → 铁骑兵 47/100",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 简雍：永安",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 331,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 340,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 342,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 江陵",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 344,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 372,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 374,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 383,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 襄阳",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 411,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 415,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 416,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 417,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 418,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "civil",
+          "field": "新建牧场",
+          "line": "新建 1 座牧场：江州",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 马谡：临江",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#24（严纲）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 511,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 江夏",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 511,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 512,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 新野",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 522,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#24（严纲）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 523,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#24（严纲）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 544,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "得关隘",
+          "line": "得关隘 阳平关",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 547,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 548,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 555,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#24（严纲）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 586,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 587,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 592,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 593,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 593,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队消失",
+          "line": "部队消失 强化骑兵#5（李严）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 605,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 上庸",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "civil",
+          "field": "新建牧场",
+          "line": "新建 1 座牧场：江州",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 颜良：永安",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#28（村长）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 704,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#0（孙桓）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 706,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 719,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#28（村长）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 720,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#24（严纲）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 745,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 柴桑",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 753,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#24（严纲）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 753,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#28（村长）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 799,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 强化骑兵#2（魏延）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 801,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#28（村长）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 804,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "得关隘",
+          "line": "得关隘 东狼关",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 廉颇：汉昌",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#32（高顺）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 运输兵#33（简雍）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        }
+      ]
+    },
+    {
+      "name": "南蛮",
+      "owner": 19,
+      "count": 164,
+      "fields": {
+        "主动加入": 16,
+        "训练骑兵": 1,
+        "出征": 5,
+        "部队移动": 134,
+        "得城": 6,
+        "新建牧场": 2
+      },
+      "ops": [
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 韩浩：函谷关",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 魏续：吴县",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 徐晃：平原",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 曹洪：泉州",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 马休：武关",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 吕不韦：南城",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 蔺相如：南皮",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 125,
+          "label": "200年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 秋佬：柴桑",
+          "year": 200,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "civil",
+          "field": "训练骑兵",
+          "line": "训练骑兵 强化骑兵 80/100 → 铁骑兵 58/100",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 193,
+          "label": "200年春 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 上官婉儿：江阳",
+          "year": 200,
+          "season": 0,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 303,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 316,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 318,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 321,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 322,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 322,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 322,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 336,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 337,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 338,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 339,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 342,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 343,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 344,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 345,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 346,
+          "label": "200年夏 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 1
+        },
+        {
+          "seq": 355,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 356,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 357,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 357,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 379,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 379,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 380,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 386,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 387,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 388,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 393,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 394,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 396,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 397,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 397,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 397,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 419,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 419,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 420,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 421,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 422,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 423,
+          "label": "200年夏 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 1,
+          "round": 2
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 赵奢：布山",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 480,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "出征",
+          "line": "出征 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 490,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 491,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 493,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 495,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 496,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 496,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 496,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 496,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 513,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 514,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 515,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 516,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 武陵",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 516,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 517,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 518,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 519,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 520,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 成都",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 521,
+          "label": "200年秋 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 1
+        },
+        {
+          "seq": 532,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 537,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 539,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 541,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 542,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 542,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 542,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 542,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 548,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 549,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 550,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 551,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 552,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 553,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 553,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 554,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 562,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 563,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 564,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 566,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 567,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 568,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 568,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 568,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 568,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 568,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 593,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 594,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 595,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 596,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 596,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 597,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 598,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 599,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 601,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 602,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 603,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 604,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 605,
+          "label": "200年秋 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 2,
+          "round": 2
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 孙乾：武陵",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 杜预：寿春",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 孔丘：寿春",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 672,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 专注坑爹：寿春",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 685,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 686,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 687,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 690,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 691,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 691,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 691,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 715,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 716,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 717,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 718,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 长沙",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 719,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 梓潼",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 721,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 零陵",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 721,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 722,
+          "label": "200年冬 第2回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 3,
+          "round": 1
+        },
+        {
+          "seq": 727,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 728,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 729,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 731,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 734,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 734,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 734,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 734,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 745,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 745,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 746,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 747,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 751,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 752,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 758,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "得城",
+          "line": "得城 临贺",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 763,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 764,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 765,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 766,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 767,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 769,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 769,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 769,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 769,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 769,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 800,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#14（秋佬）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 800,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#16（徐晃）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 800,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 801,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#18（上官婉儿）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 802,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#20（曹洪）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 803,
+          "label": "200年冬 第3回合",
+          "lane": "military",
+          "field": "部队移动",
+          "line": "部队移动 重装骑兵#19（吕不韦）",
+          "year": 200,
+          "season": 3,
+          "round": 2
+        },
+        {
+          "seq": 805,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 赵括：许昌",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "civil",
+          "field": "新建牧场",
+          "line": "新建 1 座牧场：成都",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 868,
+          "label": "201年春 · 内政",
+          "lane": "military",
+          "field": "主动加入",
+          "line": "加入 姜维：临贺",
+          "year": 201,
+          "season": 0,
+          "round": 0
+        },
+        {
+          "seq": 869,
+          "label": "201年春 第2回合",
+          "lane": "civil",
+          "field": "新建牧场",
+          "line": "新建 2 座牧场：成都（两座）",
+          "year": 201,
+          "season": 0,
+          "round": 1
+        }
+      ]
+    },
+    {
+      "name": "庄子",
+      "owner": 0,
+      "count": 0,
+      "fields": {},
+      "ops": []
+    }
+  ]
+}

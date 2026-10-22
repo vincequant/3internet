@@ -74,10 +74,17 @@ class CommandService:
         self.dyld = str(Path.home() / 'Library/Application Support/SGI-Wine/dependency-lib')
         self.z = 'Z:\\Users\\vk\\sgi-fengye-lab\\shadow'
         self.jobs = []
+        self.pre_seat = None
+        # 2026-10-21 使用者定案：改為「開局綁定某個玩家」，不再開局自動切回無勢力。
+        self.auto_restore_after_start = False
+        self.auto_restore_delay = 8.0
+        self._restored_games = set()
+        self._game_seen_at = {}
         self.queue = []
         self.flush_state = {'running': False, 'phase': 'idle', 'note': ''}
         self.lock = threading.RLock()
         self.history_path = Path(history_path) if history_path else None
+        self.pre_seat = self._load_pre_seat()
         self._worker_running = False
         self._worker_generation = 0
         self._verify_running = False
@@ -111,7 +118,8 @@ class CommandService:
         env.update({'WINEPREFIX': str(Path.home() / 'Library/Application Support/SGI-Wine' / prefix),
                     'WINEDEBUG': '-all', 'PYTHONIOENCODING': 'utf-8',
                     'DYLD_FALLBACK_LIBRARY_PATH': self.dyld,
-                    'SGI_GAME_EXE': r'C:\sgi\run-3.5\3I\SANPK.exe'})
+                    'SGI_GAME_EXE': r'C:\sgi\run-3.5\3I\SANPK.exe',
+                    'SGI_BRIDGE_Z': self.z + '\\bridge'})
         return env
 
     def _run(self, prefix, args, timeout=30):
@@ -166,6 +174,61 @@ class CommandService:
                 'season': season if isinstance(season, int) else None,
                 'year': year if isinstance(year, int) else None,
                 'roster': tuple(roster) if isinstance(roster, list) else None}
+
+    def wire_health(self):
+        """風夜自己連線的收包指標（不需要任何其他機器，陌生人局也能用）。"""
+        base = Path.home() / 'sgi-fengye-lab' / 'fengye-hub-session'
+        best = None
+        try:
+            paths = sorted(base.glob('run-*/state.json'), key=lambda p: p.stat().st_mtime)[-3:]
+        except OSError:
+            return {'ok': False}
+        for path in paths:
+            try:
+                data = json.loads(path.read_text(encoding='utf-8'))
+                age = time.time() - path.stat().st_mtime
+            except Exception:  # noqa: BLE001
+                continue
+            observed = data.get('observed_at')
+            fresh = isinstance(observed, (int, float)) and 0 <= time.time() - observed <= 60
+            entry = {'ok': True, 'age': age, 'run': path.parent.name,
+                     'fresh': fresh,
+                     # 2026-10-21：狀態檔很舊就不算連線，否則沒在跑也會被判「掉線」。
+                     'connected': bool(data.get('connected')) and fresh,
+                     'phase': data.get('phase'),
+                     'received': data.get('received') if isinstance(data.get('received'), int) else None,
+                     'tx_seq': data.get('native_tx_seq')}
+            if best is None or age < best['age']:
+                best = entry
+        return best or {'ok': False}
+
+    def shadow_state(self):
+        """風夜自己的回合座標（含年份/季節/phase）。"""
+        try:
+            phase, data = self.phase('prefix-fengye-shadow')
+        except Exception:  # noqa: BLE001
+            return None
+        return self._round_state(phase, data)
+
+    def sync_check(self):
+        """風夜 vs 本機真實玩家的回合落後偵測（只讀）。
+
+        回傳 {'ok', 'lag_seasons', 'shadow', 'reference', 'note'}；
+        roster 不同（不同局）時不比，避免誤判。
+        """
+        shadow = self.shadow_state()
+        reference = self.reference_state(prefix='prefix-fengye-shadow')
+        if not shadow or not reference:
+            return {'ok': None, 'note': '讀不到回合資料', 'shadow': shadow, 'reference': reference}
+        if shadow.get('roster') and reference.get('roster') and \
+                shadow['roster'] != reference['roster']:
+            return {'ok': None, 'note': '不同局，不比對', 'shadow': shadow, 'reference': reference}
+        a, b = shadow.get('season'), reference.get('season')
+        if not isinstance(a, int) or not isinstance(b, int):
+            return {'ok': None, 'note': '季節值不完整', 'shadow': shadow, 'reference': reference}
+        lag = b - a
+        return {'ok': lag <= 0, 'lag_seasons': lag, 'shadow': shadow,
+                'reference': reference, 'note': '' if lag <= 0 else '落後 %d 季' % lag}
 
     def reference_state(self, prefix=None):
         """Read a local real player's round tuple as a staleness reference.
@@ -360,8 +423,320 @@ class CommandService:
             # 風夜自己的 force：藏身/旁聽時為 None；入座後才有，且只有這個
             # 勢力的指令是「用自己的席位」送出（主機才會認 sender id）。
             out['local'] = slots.get('local') if isinstance(slots.get('local'), dict) else None
+        # 看到「這一局」而風夜已經坐在有勢力的席位上 → 認定為這局的開局前上身。
+        # 2026-10-21 00:2x：大廳階段（phase 0）還沒有 game_key，舊條件寫成 phase==0
+        # 反而永遠記不到（使用者按了套用、進局後卻被閘門擋）。改成只要有 key 且
+        # 風夜正坐在有勢力的席位就記一次；真正的驗收仍看主機收集陣列。
+        if out.get('game_key'):
+            self._game_seen_at.setdefault(out['game_key'], time.time())
+        local = out.get('local') or {}
+        if (out.get('game_key') and isinstance(local.get('force_id'), int)
+                and local.get('force_id') >= 0):
+            have = self.pre_seat or {}
+            if have.get('game_key') != out.get('game_key'):
+                self.record_pre_seat(local.get('slot'), out.get('game_key'))
+        seat = self.pre_seat or {}
+        out['pre_seat'] = {'ok': bool(seat and out.get('game_key')
+                                      and seat.get('game_key') == out.get('game_key')),
+                           'slot': seat.get('slot')}
+        try:
+            self._expire_stale_jobs(out.get('season'))
+        except Exception:  # noqa: BLE001
+            pass
+        try:
+            self._maybe_auto_restore(out)
+        except Exception:  # noqa: BLE001
+            pass
         self._cache, self._cache_at = out, now
         return out
+
+    def room_players(self, prefix='prefix-fengye-shadow'):
+        """讀房間玩家名單（給「開局綁定」下拉用名字而不是編號）。"""
+        try:
+            pid = self.pid(prefix)
+            if not pid:
+                return {'ok': False, 'players': []}
+            data = self._py(prefix, self.z + '\\tools\\p32_app_rows_read.py', [str(pid)])
+            rows = []
+            for table in data.get('tables') or []:
+                rows.extend(table.get('rows') or [])
+            if not rows:
+                rows = data.get('rows') or []
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'players': [], 'error': str(error)}
+        players = []
+        for row in rows:
+            name = (row.get('name') or '').strip()
+            slot = row.get('i', row.get('index'))
+            if name and isinstance(slot, int) and row.get('id'):
+                players.append({'slot': slot, 'name': name})
+        return {'ok': bool(players), 'players': players}
+
+    def write_start_faction(self, slot):
+        """把「開局綁定」寫成 start-faction.json——進房腳本的 7.5 步會讀它決定占哪個席位。"""
+        path = self.lab / 'start-faction.json'
+        try:
+            path.write_text(json.dumps({'slot': int(slot)}, ensure_ascii=False) + '\n', encoding='utf-8')
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'error': str(error)}
+        return {'ok': True, 'slot': int(slot)}
+
+    def read_credentials(self):
+        """讀登入帳號（fengye-credentials.json）。"""
+        try:
+            data = json.loads((self.lab / 'fengye-credentials.json').read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            return {'ok': False, 'username': '', 'password': ''}
+        return {'ok': True, 'username': data.get('username') or '',
+                'password': data.get('password') or ''}
+
+    def write_credentials(self, username, password):
+        """改登入帳號；寫回實驗室的 fengye-credentials.json（只在本機）。"""
+        username = (username or '').strip()
+        if not username:
+            return {'ok': False, 'error': '帳號不能空白'}
+        path = self.lab / 'fengye-credentials.json'
+        try:
+            path.write_text(json.dumps({'username': username, 'password': password or ''},
+                                       ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'error': str(error)}
+        return {'ok': True, 'username': username}
+
+    # --- 偽名庫 / 帳號庫（本機，不進發行包） -------------------------------
+    def read_names(self):
+        """讀偽名庫：preferred / reserve / observed / taken；壞檔回預設池。"""
+        path = self.lab / 'fengye-names.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            data = {}
+        pool = []
+        for key in ('preferred', 'reserve', 'observed'):
+            for name in data.get(key) or []:
+                if isinstance(name, str) and name.strip() and name not in pool:
+                    pool.append(name.strip())
+        if not pool:
+            pool = ['待秋至', '风夜', '小白', '夜航船', '秋风渡', '望江月', '半盏灯']
+        return {'ok': True, 'names': pool, 'raw': data, 'path': str(path)}
+
+    def live_rooms(self, url='https://www.vkquant.ai/api/public/sgi-tk/latest', timeout=4.0):
+        """取線路即時房間表（8791 的監控頁資料）：多线2 / 多线3 的房間、房主、虛擬 IP、人數。
+
+        房間 id 就是房主虛擬 IP 的大端，所以這裡直接算好 virtual_ip 給 UI 用。
+        來源是既有的 tk 監控服務；取不到就回 ok=False，不補造房間。
+        """
+        try:
+            import urllib.request
+            req = urllib.request.Request(
+                url, headers={'User-Agent': 'Mozilla/5.0 (Macintosh) fengye-hub',
+                              'Accept': 'application/json'})
+            with urllib.request.urlopen(req, timeout=timeout) as fh:
+                data = json.load(fh)
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'error': str(error), 'rows': []}
+        rows = []
+        for block in data.get('lines') or []:
+            line = block.get('line')
+            display = (block.get('display') or {})
+            for room in display.get('rooms') or []:
+                rid = str(room.get('id') or '')
+                ip = None
+                try:
+                    import ipaddress as _ipa
+                    ip = str(_ipa.IPv4Address(int(rid)))
+                except Exception:  # noqa: BLE001
+                    ip = None
+                rows.append({
+                    'line': line,
+                    'room_id': rid,
+                    'virtual_ip': ip,
+                    'name': room.get('name') or '',
+                    'host': room.get('host') or '',
+                    'current': room.get('current'),
+                    'maximum': room.get('maximum'),
+                    'freshness': block.get('freshness'),
+                    'age_s': block.get('received_age_seconds'),
+                })
+        return {'ok': True, 'rows': rows, 'generated_at': data.get('generated_at')}
+
+    def active_name(self):
+        """目前要用的偽名（庫裡的 active；沒有就取第一個）。"""
+        path = self.lab / 'fengye-names.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            data = {}
+        name = (data.get('active') or '').strip()
+        if name and name not in (data.get('taken') or []):
+            return name
+        pool = self.read_names().get('names') or []
+        return pool[0] if pool else ''
+
+    def set_active_name(self, name):
+        name = (name or '').strip()
+        if not name:
+            return {'ok': False, 'error': '名字不能空白'}
+        path = self.lab / 'fengye-names.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            data = {'preferred': [], 'reserve': [], 'observed': [], 'taken': []}
+        for key in ('preferred', 'reserve', 'observed', 'taken'):
+            data.setdefault(key, [])
+        if name not in data['preferred'] + data['reserve'] + data['observed']:
+            data['reserve'].append(name)
+        data['active'] = name
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=1) + chr(10), encoding='utf-8')
+        return {'ok': True, 'name': name}
+
+    def remember_name(self, name, bucket='reserve'):
+        """把一個偽名記進庫（預設 reserve）；已存在就只回報。"""
+        name = (name or '').strip()
+        if not name:
+            return {'ok': False, 'error': '名字不能空白'}
+        path = self.lab / 'fengye-names.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            # 第一次寫入時要從預設名池開始，不然「記住此名」會把原本的池洗掉。
+            data = {'preferred': ['待秋至'],
+                    'reserve': ['风夜', '小白', '夜航船', '秋风渡', '望江月', '半盏灯'],
+                    'observed': [], 'taken': []}
+        for key in ('preferred', 'reserve', 'observed', 'taken'):
+            data.setdefault(key, [])
+        if name in data['taken']:
+            return {'ok': False, 'error': '這個名字在 taken（已知被占用）'}
+        if name not in data[bucket]:
+            data[bucket].append(name)
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=1) + chr(10), encoding='utf-8')
+        return {'ok': True, 'name': name, 'bucket': bucket}
+
+    def forget_name(self, name):
+        """從偽名庫移除一個名字（任何 bucket）。"""
+        name = (name or '').strip()
+        path = self.lab / 'fengye-names.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            return {'ok': False, 'error': '偽名庫還不存在'}
+        removed = False
+        for key in ('preferred', 'reserve', 'observed'):
+            if name in (data.get(key) or []):
+                data[key] = [n for n in data[key] if n != name]
+                removed = True
+        if not removed:
+            return {'ok': False, 'error': '庫裡沒有這個名字'}
+        path.write_text(json.dumps(data, ensure_ascii=False, indent=1) + chr(10), encoding='utf-8')
+        return {'ok': True, 'name': name}
+
+    def delete_account(self, username):
+        """從帳號庫刪掉一個帳號；若刪的是 active，active 清空。"""
+        username = (username or '').strip()
+        path = self.lab / 'fengye-accounts.json'
+        try:
+            raw = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            return {'ok': False, 'error': '帳號庫還不存在'}
+        accounts = [a for a in (raw.get('accounts') or []) if a.get('username') != username]
+        if len(accounts) == len(raw.get('accounts') or []):
+            return {'ok': False, 'error': '庫裡沒有這個帳號'}
+        raw['accounts'] = accounts
+        if raw.get('active') == username:
+            raw['active'] = ''
+        path.write_text(json.dumps(raw, ensure_ascii=False, indent=1) + chr(10), encoding='utf-8')
+        return {'ok': True, 'username': username}
+
+    def read_accounts(self):
+        """帳號庫：本機 fengye-accounts.json；active 指向目前要用的帳號。"""
+        path = self.lab / 'fengye-accounts.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            data = {'active': '', 'accounts': []}
+        accounts = [a for a in (data.get('accounts') or [])
+                    if isinstance(a, dict) and a.get('username')]
+        return {'ok': True, 'active': data.get('active') or '', 'accounts': accounts}
+
+    def remember_account(self, username, password, label=''):
+        """存一個帳號並設為 active；同時寫 fengye-credentials.json 供登入使用。"""
+        username = (username or '').strip()
+        if not username:
+            return {'ok': False, 'error': '帳號不能空白'}
+        path = self.lab / 'fengye-accounts.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            data = {'active': '', 'accounts': []}
+        accounts = [a for a in (data.get('accounts') or []) if isinstance(a, dict)]
+        row = None
+        for acc in accounts:
+            if acc.get('username') == username:
+                row = acc
+                break
+        stamp = time.strftime('%Y-%m-%dT%H:%M:%S')
+        if row is None:
+            row = {'username': username, 'password': '', 'label': label or '', 'saved_at': stamp}
+            accounts.append(row)
+        row['password'] = password or ''
+        if label:
+            row['label'] = label
+        row['saved_at'] = stamp
+        data['accounts'] = accounts
+        data['active'] = username
+        try:
+            path.write_text(json.dumps(data, ensure_ascii=False, indent=1) + chr(10), encoding='utf-8')
+            path.chmod(0o600)
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'error': str(error)}
+        self.write_credentials(username, password or '')
+        return {'ok': True, 'username': username}
+
+    def use_account(self, username):
+        """切換 active 帳號：更新庫與 fengye-credentials.json。"""
+        username = (username or '').strip()
+        data = self.read_accounts()
+        row = next((a for a in data['accounts'] if a.get('username') == username), None)
+        if row is None:
+            return {'ok': False, 'error': '帳號庫裡沒有這個帳號'}
+        try:
+            path = self.lab / 'fengye-accounts.json'
+            raw = json.loads(path.read_text(encoding='utf-8'))
+            raw['active'] = username
+            path.write_text(json.dumps(raw, ensure_ascii=False, indent=1) + chr(10), encoding='utf-8')
+        except Exception as error:  # noqa: BLE001
+            return {'ok': False, 'error': str(error)}
+        self.write_credentials(username, row.get('password') or '')
+        return {'ok': True, 'username': username}
+
+    def applied_slot(self, max_age=2.0):
+        """slotkeep 寫下的席位。不開 Wine。檔案太舊代表 keeper 沒在跑。"""
+        path = self.lab / 'setforce-applied.json'
+        try:
+            data = json.loads(path.read_text(encoding='utf-8'))
+            slot = int(data['slot'])
+            wall = float(data.get('wall') or 0)
+        except (OSError, ValueError, KeyError, TypeError):
+            return None
+        if isinstance(slot, bool) or not 0 <= slot <= 7:
+            return None
+        if max_age is not None and time.time() - wall > max_age:
+            return None
+        return slot
+
+    def current_slot(self):
+        """讀風夜目前席位。熱路徑只看 slotkeep 的結果檔。"""
+        return self.applied_slot()
+
+    def reconcile_seat(self, slot):
+        """開局前把風夜拉回指定席位（不論之前用哪條路徑進房）。"""
+        now = self.applied_slot()
+        if now == slot:
+            return {'ok': True, 'changed': False, 'slot': now}
+        result = self.switch_ghost_seat(slot)
+        return {'ok': bool(result.get('ok')), 'changed': True, 'slot': slot,
+                'actual': result.get('slot_now'),
+                'note': result.get('note'), 'error': result.get('error')}
 
     def battlefield(self, refresh=False):
         """One shared, read-only shadow snapshot; never fall back to players."""
@@ -551,6 +926,41 @@ class CommandService:
         text = ((res.stdout or '') + (res.stderr or '')).strip().splitlines()
         return res.returncode == 0, (text[-1] if text else '')
 
+    def switch_ghost_seat(self, slot, timeout=60):
+        """開局前把風夜的席位切到 slot（只動席位，不武裝、不送任何指令）。
+
+        2026-10-20 使用者要求：把「開局前上身」做成 Hub 按鈕。順序很重要——
+        主機在按「開始」那一刻就決定了各席位的勢力，開局後才切只有本機視角改變。
+        回傳值附上切換後讀到的 slot→force 對照，讓面板能顯示「上了哪一家」。
+        """
+        if isinstance(slot, bool) or not isinstance(slot, int) or not 0 <= slot <= 7:
+            return {'ok': False, 'error': '席位必須是 0–7'}
+        ok, note = self._switch_slot(slot, timeout=8)
+        seen = None
+        deadline = time.time() + 0.45
+        while time.time() < deadline:
+            seen = self.applied_slot()
+            if seen == slot:
+                break
+            time.sleep(0.05)
+        seat = {'slot_now': seen if seen is not None else slot}
+        if note and note.startswith('http'):
+            note = '席位已寫入'
+        if ok:
+            # 記住「這一局有在開局前上身」——之後才允許下單；開局後才切的
+            # 不算（主機不會收）。game_key 取不到時先讀一次再記。
+            key = self.current_game_key
+            if not key:
+                try:
+                    key = (self.targets(refresh=True) or {}).get('game_key')
+                except Exception:  # noqa: BLE001
+                    key = None
+            self.record_pre_seat(slot, key)
+        return {'ok': bool(ok), 'note': note,
+                'slot_now': seat.get('slot_now'),
+                'slot_forces': seat.get('slot_forces') or {},
+                'error': None if ok else (note or '切席位失敗')}
+
     def drop_client(self, prefix, timeout=45):
         """Make one local player client exit in-process (natural disconnect).
 
@@ -583,6 +993,10 @@ class CommandService:
                 '--agent-bin', self.z + '\\tools\\agent_generic.bin',
                 '--koeinm', r'C:\sgi\run-3.5\3I\Koeinm.dll',
                 '--flag', flag, '--receipt', receipt, '--state', state,
+                # 2026-10-20 P64：走遊戲按鈕自己的送出函式 0x446482，actor 由「風夜
+                # 現在佔的席位」決定（引擎內 0x44B83B）；agent 只在席位勢力 == 目標
+                # 勢力時才發射，避免借席失敗時把指令記到別人的勢力上。
+                '--ui-path', '--expect-actor', str(int(job.get('actor', 0))),
                 '--require-phase', '1']
         if preset == 'train':
             args += ['--troop', str(int(job.get('troop', 0))),
@@ -605,6 +1019,106 @@ class CommandService:
                      '--target', str(int(job.get('target_id', -1)))]
         return args, flag, receipt
 
+    def _pre_seat_path(self):
+        base = Path(self.history_path).parent if self.history_path else Path(__file__).parent / 'data'
+        return base / 'pre_seat.json'
+
+    def _load_pre_seat(self):
+        """把「開局前上身」紀錄帶過 Hub 重啟（同一局的有效性不該因重啟消失）。"""
+        try:
+            data = json.loads(self._pre_seat_path().read_text(encoding='utf-8'))
+        except Exception:  # noqa: BLE001
+            return None
+        if not isinstance(data, dict) or not data.get('game_key'):
+            return None
+        if time.time() - float(data.get('at') or 0) > 12 * 3600:
+            return None
+        return data
+
+    def _save_pre_seat(self, seat):
+        try:
+            path = self._pre_seat_path()
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(seat, ensure_ascii=False), encoding='utf-8')
+        except Exception:  # noqa: BLE001
+            pass
+
+    def record_pre_seat(self, slot, game_key):
+        """記下「這一局在開局前已坐在 slot」——之後的下單會以此放行。"""
+        if not game_key:
+            return None
+        seat = {'slot': slot, 'game_key': game_key, 'at': time.time()}
+        self.pre_seat = seat
+        self._save_pre_seat(seat)
+        return seat
+
+    ACTIVE_STATES = ('pending', 'validating', 'switching_slot', 'seated',
+                     'waiting_phase', 'waiting_phase_exit', 'arming', 'fired',
+                     'verifying', 'restoring')
+
+    def _expire_stale_jobs(self, season):
+        """跨過約定的那一季還沒發出去 → 自動作廢，避免卡住隊列。"""
+        if not isinstance(season, int):
+            return
+        for job in list(self.jobs):
+            if job.get('status') not in self.ACTIVE_STATES:
+                continue
+            due = job.get('due_season')
+            if isinstance(due, int) and season > due:
+                self._advance(job, 'error',
+                              '跨季未完成（應在第 %s 季內政發送，現在第 %s 季）；'
+                              '已自動作廢，可重新下單' % (due, season))
+
+    def has_active_jobs(self):
+        return any(j.get('status') in self.ACTIVE_STATES for j in self.jobs)
+
+    def should_auto_restore(self, info, enabled=None, restored=None, busy=False):
+        """開局後是否該把風夜切回無勢力。純判斷，方便測試。"""
+        enabled = self.auto_restore_after_start if enabled is None else enabled
+        restored = self._restored_games if restored is None else restored
+        seat = self.pre_seat or {}
+        key = (info or {}).get('game_key')
+        local = (info or {}).get('local') or {}
+        if not enabled or not seat or not key or seat.get('game_key') != key:
+            return False
+        # 有指令在排隊/已武裝時不能切回 5：agent 以「本席勢力」填 actor，
+        # 切回無勢力會讓它永遠等不到符合的席位（00:46 那筆就是這樣卡住）。
+        if busy:
+            return False
+        if key in restored:
+            return False
+        if local.get('force_id') in (None, -1, 0xFFFFFFFF):
+            return False
+        # 2026-10-21：只在內政期（phase 1）切回，且開局後先等幾秒，避免
+        # 12 秒的切席跨過回合邊界把客戶端卡在舊季節。
+        if (info or {}).get('phase') != 1:
+            return False
+        seen = self._game_seen_at.get(key)
+        if seen is not None and time.time() - seen < self.auto_restore_delay:
+            return False
+        return True
+
+    def _maybe_auto_restore(self, info):
+        if not self.should_auto_restore(info, busy=self.has_active_jobs()):
+            return
+        key = info.get('game_key')
+        self._restored_games.add(key)
+        threading.Thread(target=self._auto_restore_worker, args=(key,),
+                         daemon=True, name='auto-restore').start()
+
+    def _auto_restore_worker(self, key):
+        ok, note = self._switch_slot(5)
+        try:
+            with self.lock:
+                self.auto_restore_result = {'game_key': key, 'ok': bool(ok), 'note': note}
+        except Exception:  # noqa: BLE001
+            pass
+
+    def _seated_this_game(self, info):
+        seat = self.pre_seat or {}
+        key = (info or {}).get('game_key')
+        return bool(seat and key and seat.get('game_key') == key)
+
     def validate(self, payload, info, occupied=None, exclude_id=None):
         """Refuse commands that are known to be invalid (and have crashed clients).
 
@@ -623,6 +1137,14 @@ class CommandService:
             return '勢力未選擇'
         if actor not in forces:
             return '勢力不在本局（force=%s）' % actor
+        # 2026-10-20 23:5x：主機只收「開局那一刻就在該席位」的客戶端指令。
+        # 這一局沒有先用「開局前上身」，或風夜現在不在目標勢力上，就不要送
+        # （送了也會被主機靜默丟掉，只會留下假成功）。
+        if payload.get('prefix') == 'prefix-fengye-shadow':
+            local = info.get('local') or {}
+            if not self._seated_this_game(info) and local.get('force_id') != actor:
+                return ('這一局沒有在開局前上身（或風夜現在不在這家勢力上）；'
+                        '請先按「開局前上身（風夜席位）」再下單，否則主機會丟棄')
         if preset == 'build':
             if payload.get('build_type') not in BUILD_TYPES:
                 return '只支援兵營、馬房、弓房和陷阱'
@@ -994,6 +1516,10 @@ class CommandService:
         if not job.get('game_key') or job['game_key'] != info.get('game_key'):
             self._advance(job, 'error', '當局身分已變更；舊局指令未發送')
             return None
+        # 2026-10-21：跨季未完成就自動作廢（使用者：下一季還沒下到就是有問題）。
+        season = info.get('season')
+        if isinstance(season, int):
+            job['due_season'] = season + (0 if info.get('phase') == 1 else 1)
         occupied = self.occupied_cells(prefix, refresh=True) if payload['preset'] == 'build' else {}
         reason = self.validate(payload, info, occupied=occupied, exclude_id=job['id'])
         if reason:
@@ -1135,6 +1661,15 @@ class CommandService:
         self._start_verifier()
 
     def _run_batch(self, batch):
+        """One seat-borrowed batch: prepare -> (wait phase) -> switch seat -> arm
+        -> wait receipt -> restore.
+
+        2026-10-20 22:5x: this function had survived three partial edits and
+        contained three copies of the seat block plus a reference to an undefined
+        `preborrowed` -> every batch raised NameError right after the switch and
+        left the ghost parked on the borrowed seat.  Rewritten as one pass; the
+        observable behaviour (one switch, one arm, one restore) is unchanged.
+        """
         prepared = []
         borrowed = False
         home = None
@@ -1151,9 +1686,6 @@ class CommandService:
             prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
             if not prepared:
                 return
-            # 2026-10-20 P40 D5 路徑：風夜 probe 以自己 member id 上傳
-            # control5，主機批次收集不驗 sender（P40 靜態結論）。這條路
-            # 不需要借席、不需要 p60 agent，也不受 standalone sender 檢查。
             if any((p or {}).get('sender') == 'probe' for p, _, _ in prepared):
                 return self._run_probe_batch(prepared)
             first_payload, marker, plan = prepared[0]
@@ -1170,7 +1702,7 @@ class CommandService:
             if phase is None or not prepared:
                 return
             # A phase wait can cross a restart/new-room boundary. Recheck the
-            # actual source again before the first seat-changing operation.
+            # real source before the first seat-changing operation.
             fresh = self.targets(refresh=True)
             retained = []
             for payload, job, plan in prepared:
@@ -1188,132 +1720,76 @@ class CommandService:
                 slot = next((r.get('slot') for r in plan['info'].get('player_slots', [])
                              if r.get('force_id') == first_payload['actor'] and
                              isinstance(r.get('slot'), int)), None)
-                home = self._ghost_home_slot(default=None)
-                if slot is None or home is None:
-                    for _, job, _ in prepared:
-                        self._advance(job, 'error', '無法確認借用及旁聽席位；未切席、未發送')
-                    return
-                with self.lock:
-                    prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
-                    if not prepared:
+                # 2026-10-20 23:3x：「開局前上身」後風夜本來就坐在目標席位。
+                # 這時再切席（甚至送完還席 5）會把它的玩家身份弄掉——23:02/23:11
+                # 兩發就是這樣被主機丟的。已在目標席位＝直接送，不切、不還。
+                local = plan['info'].get('local') or {}
+                if (slot is not None and local.get('force_id') == first_payload.get('actor')
+                        and local.get('slot') == slot):
+                    marker['already_seated'] = slot
+                    self._advance(marker, 'seated', '風夜已上身 slot %s（勢力 %s）；直接送，不切席'
+                                  % (slot, first_payload.get('actor')))
+                    home = None
+                    auto = False
+                    borrowed = False
+                else:
+                    home = self._ghost_home_slot(default=None)
+                    if slot is None or home is None:
+                        for _, job, _ in prepared:
+                            self._advance(job, 'error', '無法確認借用及旁聽席位；未切席、未發送')
                         return
-                    first_payload, marker, plan = prepared[0]
-                    marker['slot_home'] = home
-                    marker['slot_pending_restore'] = True
-                    if not self._advance(marker, 'switching_slot', '準備由風夜代送本批指令'):
-                        marker['slot_pending_restore'] = False
-                        return
-                borrowed = True  # Even a failed call may already have changed it.
-                ok, note = self._switch_slot(slot)
+                    with self.lock:
+                        prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
+                        if not prepared:
+                            return
+                        first_payload, marker, plan = prepared[0]
+                        marker['slot_home'] = home
+                        marker['slot_pending_restore'] = True
+                        if not self._advance(marker, 'switching_slot', '準備由風夜代送本批指令'):
+                            marker['slot_pending_restore'] = False
+                            return
+                    borrowed = True  # Even a failed call may already have changed it.
+                ok, note = self._switch_slot(slot) if borrowed else (True, 'already seated')
                 if not ok:
                     self._update(marker, 'restore_failed', '借席未確認；後續暫停，不再切席', note)
                     return
-                phase_now, _ = self.phase(prefix)
-                if phase_now != 1:
+                # The switch takes ~10s. If the domestic phase ended meanwhile,
+                # keep the seat and wait for the NEXT domestic phase instead of
+                # aborting: 2026-10-21 00:20 的使用者那筆就是切完席剛好過回合，
+                # 被舊邏輯直接判失敗。身份不會因為這一下切換而失效。
+                if not borrowed:
+                    phase_now = 1
+                else:
+                    phase_now, _ = self.phase(prefix)
+                    if phase_now != 1:
+                        self._advance(marker, 'waiting_phase', '切席後已離開內政；保留席位等下一輪內政')
+                        deadline = time.monotonic() + self.phase_wait_timeout
+                        while phase_now != 1 and time.monotonic() < deadline:
+                            if all(job.get('status') in ('cancelled', 'error')
+                                   for _, job, _ in prepared):
+                                break
+                            time.sleep(max(0.5, self.poll_interval * 4))
+                            phase_now, data_now = self.phase(prefix)
+                            # 2026-10-21 00:27：切席若剛好跨過回合邊界，客戶端可能
+                            # 停在上一季（season 少 1）而永遠等不到內政。這種情況
+                            # 直接報清楚，不要讓使用者看它掛在那裡。
+                            shadow_now = self._round_state(phase_now, data_now)
+                            stale_now = self._staleness_error(
+                                shadow_now, self.reference_state(prefix))
+                            if stale_now:
+                                restored, restore_note = self._switch_slot(home)
+                                for _, job, _ in prepared:
+                                    if job.get('status') != 'cancelled':
+                                        self._advance(job, 'error', stale_now + '；未發送、' +
+                                                      ('已還席' if restored else
+                                                       '還席未確認：' + str(restore_note)))
+                                borrowed = not restored
+                                if not restored:
+                                    self._pause_prefix(prefix)
+                                return
+                if borrowed and phase_now != 1:
                     restored, restore_note = self._switch_slot(home)
-                    reason = ('切席後已離開內政階段' if isinstance(phase_now, int)
-                              else '切席後無法確認內政階段')
-                    for _, job, _ in prepared:
-                        if job.get('status') != 'cancelled':
-                            self._advance(job, 'error', reason + '；未發送、' +
-                                          ('已還席' if restored else
-                                           '還席未確認：' + str(restore_note)))
-                    borrowed = not restored
-                    if not restored:
-                        self._pause_prefix(prefix)
-                    return
-            for payload, job, plan in prepared:
-                if (not fresh.get('ok', True) or not job.get('game_key') or
-                        job['game_key'] != fresh.get('game_key')):
-                    self._advance(job, 'error', '等待期間當局身分改變或無法確認；此筆未發送')
-                    continue
-                plan['info'] = fresh
-                retained.append((payload, job, plan))
-            prepared = retained
-            if not prepared:
-                if preborrowed:
-                    restored, _ = self._switch_slot(home)
-                    marker['slot_pending_restore'] = not restored
-                    borrowed = not restored
-                return
-            if auto and not preborrowed:
-                # Legacy path: seat was not pre-set; keep it for safety.
-                first_payload, marker, plan = prepared[0]
-                slot = next((r.get('slot') for r in plan['info'].get('player_slots', [])
-                             if r.get('force_id') == first_payload['actor'] and
-                             isinstance(r.get('slot'), int)), None)
-                home = self._ghost_home_slot(default=None)
-                if slot is None or home is None:
-                    for _, job, _ in prepared:
-                        self._advance(job, 'error', '無法確認借用及旁聽席位；未切席、未發送')
-                    return
-                with self.lock:
-                    marker['slot_home'] = home
-                    marker['slot_pending_restore'] = True
-                    if not self._advance(marker, 'switching_slot', '準備由風夜代送本批指令'):
-                        marker['slot_pending_restore'] = False
-                        return
-                borrowed = True
-                ok, note = self._switch_slot(slot)
-                if not ok:
-                    self._update(marker, 'restore_failed', '借席未確認；後續暫停，不再切席', note)
-                    return
-                phase_now, _ = self.phase(prefix)
-                if phase_now != 1:
-                    restored, restore_note = self._switch_slot(home)
-                    reason = ('切席後已離開內政階段' if isinstance(phase_now, int)
-                              else '切席後無法確認內政階段')
-                    for _, job, _ in prepared:
-                        if job.get('status') != 'cancelled':
-                            self._advance(job, 'error', reason + '；未發送、' +
-                                          ('已還席' if restored else
-                                           '還席未確認：' + str(restore_note)))
-                    borrowed = not restored
-                    if not restored:
-                        self._pause_prefix(prefix)
-                    return
-            for payload, job, plan in prepared:
-                if (not fresh.get('ok', True) or not job.get('game_key') or
-                        job['game_key'] != fresh.get('game_key')):
-                    self._advance(job, 'error', '等待期間當局身分改變或無法確認；此筆未發送')
-                    continue
-                plan['info'] = fresh
-                retained.append((payload, job, plan))
-            prepared = retained
-            if not prepared:
-                return
-            if auto:
-                first_payload, marker, plan = prepared[0]
-                slot = next((r.get('slot') for r in plan['info'].get('player_slots', [])
-                             if r.get('force_id') == first_payload['actor'] and
-                             isinstance(r.get('slot'), int)), None)
-                home = self._ghost_home_slot(default=None)
-                if slot is None or home is None:
-                    for _, job, _ in prepared:
-                        self._advance(job, 'error', '無法確認借用及旁聽席位；未切席、未發送')
-                    return
-                with self.lock:
-                    prepared = [row for row in prepared if row[1].get('status') != 'cancelled']
-                    if not prepared:
-                        return
-                    first_payload, marker, plan = prepared[0]
-                    marker['slot_home'] = home
-                    marker['slot_pending_restore'] = True
-                    if not self._advance(marker, 'switching_slot', '準備由風夜代送本批指令'):
-                        marker['slot_pending_restore'] = False
-                        return
-                borrowed = True  # Even a failed call may already have changed it.
-                ok, note = self._switch_slot(slot)
-                if not ok:
-                    self._update(marker, 'restore_failed', '借席未確認；後續暫停，不再切席', note)
-                    return
-                # The switch takes a few seconds. If the domestic phase ended
-                # meanwhile, restore the home seat and fail without arming;
-                # never hold a borrowed player seat across a round boundary.
-                phase_now, _ = self.phase(prefix)
-                if phase_now != 1:
-                    restored, restore_note = self._switch_slot(home)
-                    reason = ('切席後已離開內政階段' if isinstance(phase_now, int)
+                    reason = ('切席後一直沒等到內政階段' if isinstance(phase_now, int)
                               else '切席後無法確認內政階段')
                     for _, job, _ in prepared:
                         if job.get('status') != 'cancelled':

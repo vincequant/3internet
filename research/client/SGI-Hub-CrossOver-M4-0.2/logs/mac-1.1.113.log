@@ -1,0 +1,65 @@
+采集桥：reused
+2026-09-14 16:36:24.528 Python[28363:12178591] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 885, in callit
+    func(*args, **kw)
+    ~~~~^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 435, in tick
+    if sig!=self.last_sig:self.last_sig=sig;self.render()
+                                            ~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 524, in render
+    self.render_detail()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 759, in render_detail
+    self.preparation.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_panel.py", line 70, in refresh
+    self.result = recommend(state, self.include_field.get(), target=self.target.get()); self.signature = signature
+                  ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 345, in recommend
+    out['rows'].extend(pick_training(rows, raw_now, parsed))
+                       ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 175, in pick_training
+    scored.sort()
+    ~~~~~~~~~~~^^
+TypeError: '<' not supported between instances of 'dict' and 'dict'
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 456, in choose
+    if selection:self.sel=int(selection[0]);self.refresh_force_art();self.render_detail()
+                                                                     ~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 759, in render_detail
+    self.preparation.refresh()
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_panel.py", line 70, in refresh
+    self.result = recommend(state, self.include_field.get(), target=self.target.get()); self.signature = signature
+                  ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 345, in recommend
+    out['rows'].extend(pick_training(rows, raw_now, parsed))
+                       ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 175, in pick_training
+    scored.sort()
+    ~~~~~~~~~~~^^
+TypeError: '<' not supported between instances of 'dict' and 'dict'
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2114, in __call__
+    return self.func(*args)
+           ~~~~~~~~~^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_panel.py", line 70, in refresh
+    self.result = recommend(state, self.include_field.get(), target=self.target.get()); self.signature = signature
+                  ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 345, in recommend
+    out['rows'].extend(pick_training(rows, raw_now, parsed))
+                       ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 175, in pick_training
+    scored.sort()
+    ~~~~~~~~~~~^^
+TypeError: '<' not supported between instances of 'dict' and 'dict'

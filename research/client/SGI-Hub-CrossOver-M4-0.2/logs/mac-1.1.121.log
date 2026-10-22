@@ -1,0 +1,19 @@
+采集桥：reused
+Traceback (most recent call last):
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/mac_main.py", line 33, in <module>
+    app=OmniWindow(root)
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/omni_window.py", line 214, in __init__
+    self.military=MilitarySummary(card,self);self.military.pack(fill='both',expand=True,padx=6)
+                  ~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/military_summary.py", line 45, in __init__
+    name=tk.Label(card,bg=card_bg,fg=INK,font=(face,22,'bold'),anchor='w',padx=14,pady=(14,2))
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 3420, in __init__
+    Widget.__init__(self, master, 'label', cnf, kw)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/tkinter/__init__.py", line 2826, in __init__
+    self.tk.call(
+    ~~~~~~~~~~~~^
+        (widgetName, self._w) + extra + self._options(cnf))
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_tkinter.TclError: expected screen distance but got "14 2"
+采集桥：reused

@@ -61,6 +61,8 @@ def processes():
              'p28_receive_probe.py': 'ghost', 'p34_d8_probe.py': 'ghost',
              'p42_prestart_d8_probe.py': 'ghost', 'p43_prestart_d8_probe.py': 'ghost',
              'fengye_hub_room_probe.py': 'session',
+             # 2026-10-21 sticky：大廳不動，只有狀態讀取（大廳階段）與每局採集器。
+             'shadow_status.py': 'driver', 'shadow_session_rec.py': 'driver',
              'p4_host_watch.py': 'watch', 'p33_host_watch.py': 'watch'}
     for line in raw.splitlines():
         parts = line.strip().split(None, 2)

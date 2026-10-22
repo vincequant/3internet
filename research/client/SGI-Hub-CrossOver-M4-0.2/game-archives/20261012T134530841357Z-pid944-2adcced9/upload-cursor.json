@@ -1,0 +1,9 @@
+{
+  "match_id": "2adcced9-94a1-466a-8024-e89676d4e197",
+  "acked_seq": 0,
+  "gaps": [],
+  "lost_gaps": [],
+  "queue_full_waits": 0,
+  "last_error": "The read operation timed out",
+  "last_flush_utc": null
+}

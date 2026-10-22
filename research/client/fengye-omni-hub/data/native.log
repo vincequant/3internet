@@ -12,3 +12,14 @@ The process has forked and you cannot use this CoreFoundation functionality safe
 Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.
 The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
 Break on __THE_PROCESS_HAS_FORKED_AND_YOU_CANNOT_USE_THIS_COREFOUNDATION_FUNCTIONALITY___YOU_MUST_EXEC__() to debug.
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+2026-10-21 01:56:24.169 FengyeHub[44313:47943483] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-21 02:17:36.132 FengyeHub[81068:48071598] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+2026-10-21 10:01:32.555 FengyeHub[92743:50076963] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-21 10:33:35.107 Python[33847:50220671] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+2026-10-21 12:26:49.206 FengyeHub[48076:50694116] error messaging the mach port for IMKCFRunLoopWakeUpReliable
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().
+The process has forked and you cannot use this CoreFoundation functionality safely. You MUST exec().

@@ -1,0 +1,9 @@
+{
+  "updated": [
+    "app/mac_main.py",
+    "app/mac_light_theme.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/mac-light-theme-20260912-192119",
+  "scope": "Tk light colors only; no collector/player identity/map edits",
+  "restart": "Hub only, not game or collector"
+}

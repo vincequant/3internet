@@ -29,6 +29,66 @@ _ZOOM_KEYS = {
     '-': -1, '=': 1,
 }
 
+# 2026-10-20: WASD only worked while the canvas itself held the keyboard focus.
+# Clicking the queue table, a toolbar button or the force dropdown moved focus
+# away and WASD went dead until the pointer re-entered the canvas. Keep one
+# <Key> binding per toplevel and route it to the map that was used last; text
+# widgets keep every keystroke for themselves.
+_KEY_TARGETS = {}
+_KEY_TEXT_CLASSES = ('Entry', 'TEntry', 'Text', 'Spinbox', 'TSpinbox',
+                     'Combobox', 'TCombobox', 'Treeview', 'TTreeview', 'Listbox')
+
+
+def _key_state(widget):
+    top = widget.winfo_toplevel()
+    # Keyed by object identity: a recreated window is still '.' by name, and a
+    # stale entry would leave the new window without any <Key> binding.
+    state = _KEY_TARGETS.get(id(top))
+    if state is None or state.get('top') is not top:
+        state = {'top': top, 'widget': None, 'move': None, 'zoom': None, 'installed': False}
+        _KEY_TARGETS[id(top)] = state
+    if not state['installed']:
+        state['installed'] = True
+        top.bind('<Key>', _dispatch_key, add='+')
+    return state
+
+
+def _dispatch_key(event):
+    try:
+        top = event.widget.winfo_toplevel()
+    except Exception:
+        return None
+    state = _KEY_TARGETS.get(id(top))
+    if not state or state.get('top') is not top:
+        return None
+    # Typing in a field must never pan the map.
+    try:
+        if event.widget.winfo_class() in _KEY_TEXT_CLASSES:
+            return None
+    except Exception:
+        pass
+    step = _MOVE_KEYS.get(event.keysym) or _MOVE_KEYS.get(event.char)
+    if step and state.get('move'):
+        state['move'](*step)
+        return 'break'
+    direction = _ZOOM_KEYS.get(event.keysym) or _ZOOM_KEYS.get(event.char)
+    if direction and state.get('zoom'):
+        state['zoom'](direction)
+        return 'break'
+    return None
+
+
+def _claim_keys(widget, move=None, zoom=None):
+    state = _key_state(widget)
+    state['widget'] = widget
+    if move is not None:
+        state['move'] = move
+    if zoom is not None:
+        state['zoom'] = zoom
+    for sequence in ('<Enter>', '<Button-1>', '<FocusIn>', '<Map>'):
+        widget.bind(sequence, lambda _e=None, st=state, w=widget: st.update(widget=w), add='+')
+    return state
+
 
 def move_center(center, dx, dy, step=1, world=(101, 202), offset=0):
     return tuple(max(offset, min(world[i] - 1 + offset, center[i] + d * step))
@@ -303,6 +363,9 @@ def bind_arrows(canvas, move):
     for key in ('Up', 'Down', 'Left', 'Right', 'w', 'a', 's', 'd', 'W', 'A', 'S', 'D'):
         canvas.bind('<' + key + '>', on_key, add='+')
     canvas.bind('<Button-1>', lambda event: canvas.focus_set(), add='+')
+    # Robust path: the toplevel-level binding still pans when focus sits on a
+    # button, the notebook or the queue table.
+    _claim_keys(canvas, move=move)
 
 
 def bind_zoom_keys(widget, zoom):
@@ -313,6 +376,8 @@ def bind_zoom_keys(widget, zoom):
             return
         zoom(direction)
         return 'break'
+
+    _claim_keys(widget, zoom=zoom)
 
     def _bind(seq):
         try:

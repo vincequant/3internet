@@ -1,0 +1,10 @@
+{
+  "updated": [
+    "app/omni_window.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/wild-map-popup-20260913-010256",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Wild officer selection opens city map"
+}

@@ -1,0 +1,11 @@
+{
+  "updated": [
+    "app/city_talent.py",
+    "app/omni_window.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/city-talent-20260913-011659",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "City talent threshold counts and proportions"
+}

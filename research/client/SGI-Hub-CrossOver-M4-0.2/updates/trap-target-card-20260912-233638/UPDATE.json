@@ -1,0 +1,16 @@
+{
+  "updated": [
+    "app/omni_window.py",
+    "app/native_city_map.py",
+    "bridge/collector.py",
+    "app/rules_panel.py",
+    "app/trap_state.py",
+    "bridge/trap_state.py",
+    "app/attack_reference.py"
+  ],
+  "backup": "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/updates/trap-target-card-20260912-233638",
+  "restart_required": [
+    "Hub"
+  ],
+  "scope": "Seven tutorial rule integration; local display only, no game commands"
+}

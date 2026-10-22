@@ -57,7 +57,7 @@
     ],
     "receipt_at": 1792419444.9933703,
     "cancellable": false,
-    "waited": 79656.0
+    "waited": 95825.1
   },
   {
     "id": "legacy-8a48d759",
@@ -117,7 +117,7 @@
     ],
     "receipt_at": 1792419610.3849998,
     "cancellable": false,
-    "waited": 79492.9
+    "waited": 95661.9
   },
   {
     "id": "legacy-e145785e",
@@ -174,7 +174,7 @@
     ],
     "receipt_at": 1792419802.5719533,
     "cancellable": false,
-    "waited": 79298.4
+    "waited": 95467.5
   },
   {
     "id": "legacy-522e6047",
@@ -234,7 +234,7 @@
     ],
     "receipt_at": 1792419975.3482497,
     "cancellable": false,
-    "waited": 79185.1
+    "waited": 95354.2
   },
   {
     "id": "legacy-a231c639",
@@ -291,7 +291,7 @@
     ],
     "receipt_at": 1792420233.6026535,
     "cancellable": false,
-    "waited": 78867.4
+    "waited": 95036.5
   },
   {
     "id": "legacy-f26767d7",
@@ -351,7 +351,7 @@
     ],
     "receipt_at": 1792420545.5990121,
     "cancellable": false,
-    "waited": 78638.8
+    "waited": 94807.9
   },
   {
     "id": "legacy-20610c14",
@@ -411,7 +411,7 @@
     ],
     "receipt_at": 1792420733.225874,
     "cancellable": false,
-    "waited": 78416.8
+    "waited": 94585.8
   },
   {
     "id": "legacy-8a89be58",
@@ -468,7 +468,7 @@
     ],
     "receipt_at": 1792421835.5168977,
     "cancellable": false,
-    "waited": 77280.4
+    "waited": 93449.5
   },
   {
     "id": "legacy-883784c2",
@@ -525,7 +525,7 @@
     ],
     "receipt_at": 1792422964.3109608,
     "cancellable": false,
-    "waited": 76164.2
+    "waited": 92333.3
   },
   {
     "id": "legacy-4845ab22",
@@ -582,7 +582,7 @@
     ],
     "receipt_at": 1792423061.7674558,
     "cancellable": false,
-    "waited": 76039.2
+    "waited": 92208.3
   },
   {
     "id": "legacy-9fa555df",
@@ -639,7 +639,7 @@
     ],
     "receipt_at": 1792423180.6149802,
     "cancellable": false,
-    "waited": 75920.4
+    "waited": 92089.4
   },
   {
     "id": "legacy-bdc33724",
@@ -696,7 +696,7 @@
     ],
     "receipt_at": 1792423335.608729,
     "cancellable": false,
-    "waited": 75803.6
+    "waited": 91972.6
   },
   {
     "id": "legacy-bf590d42",
@@ -753,7 +753,7 @@
     ],
     "receipt_at": 1792423359.5061433,
     "cancellable": false,
-    "waited": 75741.5
+    "waited": 91910.6
   },
   {
     "id": "legacy-1915bf47",
@@ -810,7 +810,7 @@
     ],
     "receipt_at": 1792423714.916379,
     "cancellable": false,
-    "waited": 75428.5
+    "waited": 91597.6
   },
   {
     "id": "legacy-5b1378e4",
@@ -867,7 +867,7 @@
     ],
     "receipt_at": 1792424076.5377483,
     "cancellable": false,
-    "waited": 75055.3
+    "waited": 91224.4
   },
   {
     "id": "legacy-8d546c21",
@@ -924,7 +924,7 @@
     ],
     "receipt_at": 1792424076.6336193,
     "cancellable": false,
-    "waited": 75054.2
+    "waited": 91223.3
   },
   {
     "id": "legacy-d062d15f",
@@ -981,7 +981,7 @@
     ],
     "receipt_at": 1792424657.5070744,
     "cancellable": false,
-    "waited": 74515.9
+    "waited": 90685.0
   },
   {
     "id": "legacy-113c89e9",
@@ -1038,7 +1038,7 @@
     ],
     "receipt_at": 1792424657.6142542,
     "cancellable": false,
-    "waited": 74514.7
+    "waited": 90683.8
   },
   {
     "id": "legacy-f39e4d2f",
@@ -1085,7 +1085,7 @@
       }
     ],
     "cancellable": false,
-    "waited": 41998.5
+    "waited": 58167.5
   },
   {
     "id": "legacy-68bbb0e3",
@@ -1145,7 +1145,7 @@
     ],
     "receipt_at": 1792457203.0882301,
     "cancellable": false,
-    "waited": 41972.2
+    "waited": 58141.3
   },
   {
     "id": "legacy-ff53dd34",
@@ -1205,7 +1205,7 @@
     ],
     "receipt_at": 1792457203.1121287,
     "cancellable": false,
-    "waited": 41959.8
+    "waited": 58128.9
   },
   {
     "id": "legacy-278a566d",
@@ -1262,7 +1262,7 @@
     ],
     "receipt_at": 1792464984.358299,
     "cancellable": false,
-    "waited": 34206.9
+    "waited": 50376.0
   },
   {
     "id": "legacy-74021f19",
@@ -1319,7 +1319,7 @@
     ],
     "receipt_at": 1792464984.3416936,
     "cancellable": false,
-    "waited": 34159.6
+    "waited": 50328.6
   },
   {
     "id": "eae259f5b7",
@@ -1406,7 +1406,7 @@
     "note": "等候回合結束逾時；未切席、未發送",
     "phase_at_submit": 1,
     "cancellable": false,
-    "waited": 20814.4
+    "waited": 36983.5
   },
   {
     "id": "d9598dd857",
@@ -1510,7 +1510,7 @@
     "slot_home": 5,
     "slot_pending_restore": true,
     "cancellable": false,
-    "waited": 18098.9
+    "waited": 34267.9
   },
   {
     "id": "3c1fbc9043",
@@ -2150,7 +2150,7 @@
     },
     "verification_exhausted": true,
     "cancellable": false,
-    "waited": 15572.9
+    "waited": 31742.0
   },
   {
     "id": "8f385fb86a",
@@ -2380,7 +2380,7 @@
     },
     "verification_exhausted": true,
     "cancellable": false,
-    "waited": 15567.6
+    "waited": 31736.7
   },
   {
     "id": "756f6a85ab",
@@ -2588,7 +2588,7 @@
     },
     "verification_exhausted": true,
     "cancellable": false,
-    "waited": 15563.7
+    "waited": 31732.7
   },
   {
     "id": "54bd19e88a",
@@ -2796,7 +2796,7 @@
     },
     "verification_exhausted": true,
     "cancellable": false,
-    "waited": 15559.2
+    "waited": 31728.2
   },
   {
     "id": "9d7a5d07de",
@@ -2887,7 +2887,7 @@
     "slot_home": 5,
     "slot_pending_restore": true,
     "cancellable": false,
-    "waited": 1227.7
+    "waited": 17396.8
   },
   {
     "id": "920baeafb0",
@@ -3556,7 +3556,7 @@
       ]
     },
     "preset": "build",
-    "status": "held",
+    "status": "cancelled",
     "params": {
       "actor": 3,
       "extra": 2000,
@@ -3580,8 +3580,2560 @@
         "note": "前筆結果未確認；已記錄，代送暫停"
       }
     ],
-    "note": "前筆結果未確認；已記錄，代送暫停",
-    "cancellable": true,
-    "waited": 0.0
+    "note": "面板已重新啟動；此筆未發送，不會自動重播",
+    "cancellable": false,
+    "waited": 8632.4,
+    "finished": 1792507733.1724648
+  },
+  {
+    "id": "cd869b1e7e",
+    "tag": "eb2161c52fc6",
+    "created": 1792507928.7108018,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "error",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 49,
+      "y": 168,
+      "city": 33
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "零陵",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": "NameError: name 'preborrowed' is not defined",
+    "events": [
+      {
+        "at": 1792507928.710814,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792507928.713234,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792507937.957333,
+        "status": "switching_slot",
+        "note": "準備由風夜代送本批指令"
+      },
+      {
+        "at": 1792507943.6352918,
+        "status": "restore_failed",
+        "note": "借席後執行中斷；後續暫停，不重送、不自動還席"
+      },
+      {
+        "at": 1792508044.7370439,
+        "status": "error",
+        "note": "以檔案錯誤與 lab 無任何 flag/receipt/state 證實未武裝；解除阻擋"
+      }
+    ],
+    "note": "Hub 在切席後、武裝前崩潰（NameError）；無 flag/receipt/state，確定未送；已人工確認",
+    "phase_at_submit": 1,
+    "slot_home": 5,
+    "slot_pending_restore": false,
+    "cancellable": false,
+    "waited": 116.0,
+    "finished": 1792508044.737043
+  },
+  {
+    "id": "4d579f7666",
+    "tag": "79aebf0dd612",
+    "created": 1792507928.722773,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "cancelled",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 50,
+      "y": 169,
+      "city": 33
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "零陵",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792507928.722784,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792507943.637217,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      },
+      {
+        "at": 1792507943.6456141,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      }
+    ],
+    "note": "面板已重新啟動；此筆未發送，不會自動重播",
+    "cancellable": false,
+    "waited": 120.9,
+    "finished": 1792508049.625768
+  },
+  {
+    "id": "42612f1629",
+    "tag": "2b1ec0dc7111",
+    "created": 1792507928.725947,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "cancelled",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 50,
+      "y": 170,
+      "city": 33
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "零陵",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792507928.725954,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792507943.6391392,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      },
+      {
+        "at": 1792507943.647061,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      }
+    ],
+    "note": "面板已重新啟動；此筆未發送，不會自動重播",
+    "cancellable": false,
+    "waited": 120.9,
+    "finished": 1792508049.62577
+  },
+  {
+    "id": "094169eefd",
+    "tag": "e68c5958bf33",
+    "created": 1792507928.728082,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "cancelled",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 50,
+      "y": 168,
+      "city": 33
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "零陵",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792507928.728087,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792507943.640959,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      },
+      {
+        "at": 1792507943.648426,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      }
+    ],
+    "note": "面板已重新啟動；此筆未發送，不會自動重播",
+    "cancellable": false,
+    "waited": 120.9,
+    "finished": 1792508049.625772
+  },
+  {
+    "id": "5baca844f5",
+    "tag": "3229ebf944bd",
+    "created": 1792507928.730195,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "cancelled",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 49,
+      "y": 170,
+      "city": 33
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "零陵",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792507928.730201,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792507943.642826,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      },
+      {
+        "at": 1792507943.649819,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      }
+    ],
+    "note": "面板已重新啟動；此筆未發送，不會自動重播",
+    "cancellable": false,
+    "waited": 120.9,
+    "finished": 1792508049.625773
+  },
+  {
+    "id": "36d713afbe",
+    "tag": "3fbde5a630c6",
+    "created": 1792507928.7327611,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "cancelled",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 49,
+      "y": 171,
+      "city": 33
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "零陵",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792507928.732768,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792507943.644295,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      },
+      {
+        "at": 1792507943.651156,
+        "status": "held",
+        "note": "前筆結果未確認，後續代送已暫停"
+      }
+    ],
+    "note": "面板已重新啟動；此筆未發送，不會自動重播",
+    "cancellable": false,
+    "waited": 120.9,
+    "finished": 1792508049.6257741
+  },
+  {
+    "id": "2c79db1c9a",
+    "tag": "9b86d556bc23",
+    "created": 1792508116.596191,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "error",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 59,
+      "y": 194,
+      "city": 43
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "南海",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": "agent_never_fired_settle_eax_clobber",
+    "events": [
+      {
+        "at": 1792508116.5962071,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792508116.5984159,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792508124.519192,
+        "status": "switching_slot",
+        "note": "準備由風夜代送本批指令"
+      },
+      {
+        "at": 1792508131.881036,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792508133.1016278,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792508425.034354,
+        "status": "error",
+        "note": "回執檔不存在＋blob sent=1 已 disarm → 確定未送"
+      }
+    ],
+    "note": "agent 舊版 settle 閘門 bug（Sleep 清掉 eax）→ 從未發射；無回執檔；已將 blob sent=1 使其不可能再發；不重送",
+    "phase_at_submit": 1,
+    "slot_home": 5,
+    "slot_pending_restore": false,
+    "cancellable": false,
+    "waited": 308.4,
+    "finished": 1792508425.034352
+  },
+  {
+    "id": "f9b0b8b347",
+    "tag": "1eae5573e331",
+    "created": 1792508514.319361,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "verifying",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 59,
+      "y": 194,
+      "city": 43
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "南海",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": {
+      "magic2": 1396068931,
+      "rc": 1,
+      "own": 174970056,
+      "gate_before": 1,
+      "gate_after": 1,
+      "phase": 1,
+      "tick": 544171916,
+      "vtable": 5257720,
+      "kind": 18,
+      "subtype": 4,
+      "operand": 12714043,
+      "f14": 20,
+      "f18": 6,
+      "f1c": 43,
+      "f20": 2000
+    },
+    "error": null,
+    "events": [
+      {
+        "at": 1792508514.319375,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792508514.32095,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792508531.073847,
+        "status": "switching_slot",
+        "note": "準備由風夜代送本批指令"
+      },
+      {
+        "at": 1792508538.519857,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792508539.472074,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792508542.996861,
+        "status": "fired",
+        "note": "本機回報已發送；尚未驗證遊戲效果"
+      },
+      {
+        "at": 1792508542.998674,
+        "status": "verifying",
+        "note": "本機已回報發送；正在核對實際數值或建設物件"
+      },
+      {
+        "at": 1792508543.0000288,
+        "status": "restoring",
+        "note": "本批已收到本機回執，正在返回旁聽"
+      },
+      {
+        "at": 1792508550.0598102,
+        "status": "verifying",
+        "note": "已返回旁聽；遊戲效果仍以實際觀測確認"
+      },
+      {
+        "at": 1792508663.419581,
+        "status": "verifying",
+        "note": "遊戲效果仍未確認；保留記錄，不重送"
+      }
+    ],
+    "note": "本機曾回報發送；重啟後遊戲效果尚未確認，不會重送",
+    "phase_at_submit": 1,
+    "slot_home": 5,
+    "slot_pending_restore": false,
+    "receipt_at": 1792508542.996856,
+    "slot_restore": {
+      "to": 5,
+      "ok": true,
+      "note": "http://www.freetype.org"
+    },
+    "effect": {
+      "confirmed": false,
+      "summary": "尚未觀測到同格、同勢力、同種類的新陷阱",
+      "before": {
+        "actor": 20,
+        "city": 43,
+        "xy": [
+          59,
+          194
+        ],
+        "gold": 33582,
+        "objects": []
+      },
+      "after": {
+        "actor": 20,
+        "city": 43,
+        "xy": [
+          59,
+          194
+        ],
+        "gold": 33582,
+        "objects": []
+      },
+      "evidence": {
+        "kind": "observed_state_change",
+        "native_command_proof": false,
+        "causal_attribution": "not_proven",
+        "limitation": "只確認同來源前後觀測；不是原始指令或因果證明。Collector 無獨立局ID時不補造；同進程／核心重用仍有識別限制。",
+        "binding": {
+          "identity": {
+            "pid": 860,
+            "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+            "creation_filetime": 134369812532339000
+          },
+          "core_address": "0x3412b0a",
+          "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+          "schema": "astra-sgi-core-2",
+          "source_pid": 860,
+          "source_prefix": "prefix-fengye-shadow",
+          "scenario_map": {
+            "id": "china",
+            "name": "大地图",
+            "width": 101,
+            "height": 202,
+            "mbm": "SanInet.mbm",
+            "overview": "SanInet.lbm",
+            "pixel": [
+              9744,
+              4872
+            ],
+            "source": "core+0x5fc",
+            "known": true
+          },
+          "roster": [
+            [
+              20,
+              652,
+              "汉"
+            ],
+            [
+              7,
+              567,
+              "晋"
+            ]
+          ]
+        },
+        "before_sample": {
+          "snapshot_id": "20261020T150218337275Z",
+          "capture_start": "2026-10-20T15:02:17.889129+00:00",
+          "capture_end": "2026-10-20T15:02:18.397662+00:00",
+          "start": 1792508537.889129,
+          "end": 1792508538.397662
+        },
+        "after_sample": {
+          "snapshot_id": "20261020T150423281500Z",
+          "capture_start": "2026-10-20T15:04:22.992411+00:00",
+          "capture_end": "2026-10-20T15:04:23.330900+00:00",
+          "start": 1792508662.992411,
+          "end": 1792508663.3309
+        },
+        "gold_change": {
+          "before": 33582,
+          "after": 33582,
+          "sufficient_alone": false
+        }
+      }
+    },
+    "verification_exhausted": true,
+    "cancellable": false,
+    "waited": 6755.5
+  },
+  {
+    "id": "40d60220c1",
+    "tag": "5cc269f75617",
+    "created": 1792509095.500412,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_token": "observed-8da96e0b4150aec7185a",
+    "game_identity_key": "8da96e0b4150aec7185a6356e17217b9e7614a35cf3e87e9a2f24273cc779b5c",
+    "game_identity": {
+      "identity": {
+        "pid": 860,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369812532339000
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          20,
+          652,
+          "汉"
+        ],
+        [
+          7,
+          567,
+          "晋"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "verifying",
+    "params": {
+      "actor": 20,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 49,
+      "y": 168,
+      "city": 33
+    },
+    "actor_label": "丁满・汉",
+    "city_name": "零陵",
+    "target_pid": 860,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年夏內政階段（現在）",
+    "receipt": {
+      "magic2": 1396068931,
+      "rc": 1,
+      "own": 174970056,
+      "gate_before": 1,
+      "gate_after": 1,
+      "phase": 1,
+      "tick": 544746677,
+      "vtable": 5257720,
+      "kind": 18,
+      "subtype": 4,
+      "operand": 11010097,
+      "f14": 20,
+      "f18": 6,
+      "f1c": 33,
+      "f20": 2000
+    },
+    "error": null,
+    "events": [
+      {
+        "at": 1792509095.500421,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792509095.501902,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792509107.545959,
+        "status": "switching_slot",
+        "note": "準備由風夜代送本批指令"
+      },
+      {
+        "at": 1792509113.602498,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792509114.256278,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792509117.7821498,
+        "status": "fired",
+        "note": "本機回報已發送；尚未驗證遊戲效果"
+      },
+      {
+        "at": 1792509117.783468,
+        "status": "verifying",
+        "note": "本機已回報發送；正在核對實際數值或建設物件"
+      },
+      {
+        "at": 1792509117.7843552,
+        "status": "restoring",
+        "note": "本批已收到本機回執，正在返回旁聽"
+      },
+      {
+        "at": 1792509123.028021,
+        "status": "verifying",
+        "note": "已返回旁聽；遊戲效果仍以實際觀測確認"
+      },
+      {
+        "at": 1792509239.919017,
+        "status": "verifying",
+        "note": "遊戲效果仍未確認；保留記錄，不重送"
+      }
+    ],
+    "note": "本機曾回報發送；重啟後遊戲效果尚未確認，不會重送",
+    "phase_at_submit": 1,
+    "slot_home": 5,
+    "slot_pending_restore": false,
+    "receipt_at": 1792509117.782146,
+    "slot_restore": {
+      "to": 5,
+      "ok": true,
+      "note": "http://www.freetype.org"
+    },
+    "effect": {
+      "confirmed": false,
+      "summary": "尚未觀測到同格、同勢力、同種類的新陷阱",
+      "before": {
+        "actor": 20,
+        "city": 33,
+        "xy": [
+          49,
+          168
+        ],
+        "gold": 33582,
+        "objects": []
+      },
+      "after": {
+        "actor": 20,
+        "city": 33,
+        "xy": [
+          49,
+          168
+        ],
+        "gold": 33582,
+        "objects": []
+      },
+      "evidence": {
+        "kind": "observed_state_change",
+        "native_command_proof": false,
+        "causal_attribution": "not_proven",
+        "limitation": "只確認同來源前後觀測；不是原始指令或因果證明。Collector 無獨立局ID時不補造；同進程／核心重用仍有識別限制。",
+        "binding": {
+          "identity": {
+            "pid": 860,
+            "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+            "creation_filetime": 134369812532339000
+          },
+          "core_address": "0x3412b0a",
+          "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+          "schema": "astra-sgi-core-2",
+          "source_pid": 860,
+          "source_prefix": "prefix-fengye-shadow",
+          "scenario_map": {
+            "id": "china",
+            "name": "大地图",
+            "width": 101,
+            "height": 202,
+            "mbm": "SanInet.mbm",
+            "overview": "SanInet.lbm",
+            "pixel": [
+              9744,
+              4872
+            ],
+            "source": "core+0x5fc",
+            "known": true
+          },
+          "roster": [
+            [
+              20,
+              652,
+              "汉"
+            ],
+            [
+              7,
+              567,
+              "晋"
+            ]
+          ]
+        },
+        "before_sample": {
+          "snapshot_id": "20261020T151153417222Z",
+          "capture_start": "2026-10-20T15:11:53.174626+00:00",
+          "capture_end": "2026-10-20T15:11:53.506038+00:00",
+          "start": 1792509113.174626,
+          "end": 1792509113.506038
+        },
+        "after_sample": {
+          "snapshot_id": "20261020T151359835878Z",
+          "capture_start": "2026-10-20T15:13:59.643683+00:00",
+          "capture_end": "2026-10-20T15:13:59.865496+00:00",
+          "start": 1792509239.643683,
+          "end": 1792509239.865496
+        },
+        "gold_change": {
+          "before": 33582,
+          "after": 33582,
+          "sufficient_alone": false
+        }
+      }
+    },
+    "verification_exhausted": true,
+    "cancellable": false,
+    "waited": 6174.3
+  },
+  {
+    "id": "eacca8b1cd",
+    "tag": "8d9cb5e66bf8",
+    "created": 1792510558.779209,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_token": "observed-1894e4f52be233f306e0",
+    "game_identity_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_identity": {
+      "identity": {
+        "pid": 1200,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369838499812420
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          15,
+          11,
+          "中山"
+        ],
+        [
+          21,
+          600,
+          "羌"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "verifying",
+    "params": {
+      "actor": 15,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 69,
+      "y": 39,
+      "city": 3
+    },
+    "actor_label": "丁满・中山",
+    "city_name": "南皮",
+    "target_pid": 1200,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": {
+      "magic2": 1396068931,
+      "rc": 1,
+      "own": 179123277,
+      "gate_before": 1,
+      "gate_after": 1,
+      "phase": 1,
+      "tick": 546478981,
+      "vtable": 5257720,
+      "kind": 18,
+      "subtype": 4,
+      "operand": 2555973,
+      "f14": 15,
+      "f18": 6,
+      "f1c": 3,
+      "f20": 2000
+    },
+    "error": null,
+    "events": [
+      {
+        "at": 1792510558.7792199,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792510558.781437,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792510569.318789,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792510570.137345,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792510849.9357388,
+        "status": "fired",
+        "note": "本機回報已發送；尚未驗證遊戲效果"
+      },
+      {
+        "at": 1792510849.938515,
+        "status": "verifying",
+        "note": "本機已回報發送；正在核對實際數值或建設物件"
+      },
+      {
+        "at": 1792510970.4273012,
+        "status": "verifying",
+        "note": "遊戲效果仍未確認；保留記錄，不重送"
+      }
+    ],
+    "note": "本機曾回報發送；重啟後遊戲效果尚未確認，不會重送",
+    "receipt_at": 1792510849.9357271,
+    "effect": {
+      "confirmed": false,
+      "summary": "尚未觀測到同格、同勢力、同種類的新陷阱",
+      "before": {
+        "actor": 15,
+        "city": 3,
+        "xy": [
+          69,
+          39
+        ],
+        "gold": 19059,
+        "objects": []
+      },
+      "after": {
+        "actor": 15,
+        "city": 3,
+        "xy": [
+          69,
+          39
+        ],
+        "gold": 17009,
+        "objects": []
+      },
+      "evidence": {
+        "kind": "observed_state_change",
+        "native_command_proof": false,
+        "causal_attribution": "not_proven",
+        "limitation": "只確認同來源前後觀測；不是原始指令或因果證明。Collector 無獨立局ID時不補造；同進程／核心重用仍有識別限制。",
+        "binding": {
+          "identity": {
+            "pid": 1200,
+            "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+            "creation_filetime": 134369838499812420
+          },
+          "core_address": "0x3412b0a",
+          "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+          "schema": "astra-sgi-core-2",
+          "source_pid": 1200,
+          "source_prefix": "prefix-fengye-shadow",
+          "scenario_map": {
+            "id": "china",
+            "name": "大地图",
+            "width": 101,
+            "height": 202,
+            "mbm": "SanInet.mbm",
+            "overview": "SanInet.lbm",
+            "pixel": [
+              9744,
+              4872
+            ],
+            "source": "core+0x5fc",
+            "known": true
+          },
+          "roster": [
+            [
+              15,
+              11,
+              "中山"
+            ],
+            [
+              21,
+              600,
+              "羌"
+            ]
+          ]
+        },
+        "before_sample": {
+          "snapshot_id": "20261020T153609158350Z",
+          "capture_start": "2026-10-20T15:36:08.912041+00:00",
+          "capture_end": "2026-10-20T15:36:09.229151+00:00",
+          "start": 1792510568.912041,
+          "end": 1792510569.229151
+        },
+        "after_sample": {
+          "snapshot_id": "20261020T154250353542Z",
+          "capture_start": "2026-10-20T15:42:50.210004+00:00",
+          "capture_end": "2026-10-20T15:42:50.377774+00:00",
+          "start": 1792510970.210004,
+          "end": 1792510970.377774
+        },
+        "gold_change": {
+          "before": 19059,
+          "after": 17009,
+          "sufficient_alone": false
+        }
+      }
+    },
+    "verification_exhausted": true,
+    "cancellable": false,
+    "waited": 4711.0
+  },
+  {
+    "id": "db24da3715",
+    "tag": "c51750550f76",
+    "created": 1792511153.4754329,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_token": "observed-1894e4f52be233f306e0",
+    "game_identity_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_identity": {
+      "identity": {
+        "pid": 1200,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369838499812420
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          15,
+          11,
+          "中山"
+        ],
+        [
+          21,
+          600,
+          "羌"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "verifying",
+    "params": {
+      "actor": 15,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 66,
+      "y": 51,
+      "city": 5
+    },
+    "actor_label": "丁满・中山",
+    "city_name": "平原",
+    "target_pid": 1200,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年秋內政階段（現在）",
+    "receipt": {
+      "magic2": 1396068931,
+      "rc": 1,
+      "own": 179123277,
+      "gate_before": 1,
+      "gate_after": 1,
+      "phase": 1,
+      "tick": 546798806,
+      "vtable": 5257720,
+      "kind": 18,
+      "subtype": 4,
+      "operand": 3342402,
+      "f14": 15,
+      "f18": 6,
+      "f1c": 5,
+      "f20": 2000
+    },
+    "error": null,
+    "events": [
+      {
+        "at": 1792511153.47544,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792511153.476944,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792511165.801408,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792511166.39801,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792511169.920349,
+        "status": "fired",
+        "note": "本機回報已發送；尚未驗證遊戲效果"
+      },
+      {
+        "at": 1792511169.922912,
+        "status": "verifying",
+        "note": "本機已回報發送；正在核對實際數值或建設物件"
+      },
+      {
+        "at": 1792511291.411384,
+        "status": "verifying",
+        "note": "遊戲效果仍未確認；保留記錄，不重送"
+      }
+    ],
+    "note": "本機曾回報發送；重啟後遊戲效果尚未確認，不會重送",
+    "receipt_at": 1792511169.920341,
+    "effect": {
+      "confirmed": false,
+      "summary": "尚未觀測到同格、同勢力、同種類的新陷阱",
+      "before": {
+        "actor": 15,
+        "city": 5,
+        "xy": [
+          66,
+          51
+        ],
+        "gold": 15009,
+        "objects": []
+      },
+      "after": {
+        "actor": 15,
+        "city": 5,
+        "xy": [
+          66,
+          51
+        ],
+        "gold": 15009,
+        "objects": []
+      },
+      "evidence": {
+        "kind": "observed_state_change",
+        "native_command_proof": false,
+        "causal_attribution": "not_proven",
+        "limitation": "只確認同來源前後觀測；不是原始指令或因果證明。Collector 無獨立局ID時不補造；同進程／核心重用仍有識別限制。",
+        "binding": {
+          "identity": {
+            "pid": 1200,
+            "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+            "creation_filetime": 134369838499812420
+          },
+          "core_address": "0x3412b0a",
+          "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+          "schema": "astra-sgi-core-2",
+          "source_pid": 1200,
+          "source_prefix": "prefix-fengye-shadow",
+          "scenario_map": {
+            "id": "china",
+            "name": "大地图",
+            "width": 101,
+            "height": 202,
+            "mbm": "SanInet.mbm",
+            "overview": "SanInet.lbm",
+            "pixel": [
+              9744,
+              4872
+            ],
+            "source": "core+0x5fc",
+            "known": true
+          },
+          "roster": [
+            [
+              15,
+              11,
+              "中山"
+            ],
+            [
+              21,
+              600,
+              "羌"
+            ]
+          ]
+        },
+        "before_sample": {
+          "snapshot_id": "20261020T154605690506Z",
+          "capture_start": "2026-10-20T15:46:05.471274+00:00",
+          "capture_end": "2026-10-20T15:46:05.732309+00:00",
+          "start": 1792511165.471274,
+          "end": 1792511165.732309
+        },
+        "after_sample": {
+          "snapshot_id": "20261020T154811231314Z",
+          "capture_start": "2026-10-20T15:48:10.917225+00:00",
+          "capture_end": "2026-10-20T15:48:11.309030+00:00",
+          "start": 1792511290.917225,
+          "end": 1792511291.30903
+        },
+        "gold_change": {
+          "before": 15009,
+          "after": 15009,
+          "sufficient_alone": false
+        }
+      }
+    },
+    "verification_exhausted": true,
+    "cancellable": false,
+    "waited": 4116.3
+  },
+  {
+    "id": "acbc17e7c2",
+    "tag": "75bfc51de1fa",
+    "created": 1792512023.758326,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_token": "observed-1894e4f52be233f306e0",
+    "game_identity_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_identity": {
+      "identity": {
+        "pid": 1200,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369838499812420
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          15,
+          11,
+          "中山"
+        ],
+        [
+          21,
+          600,
+          "羌"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "verifying",
+    "params": {
+      "actor": 21,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 10,
+      "y": 75,
+      "city": 53
+    },
+    "actor_label": "风云・羌",
+    "city_name": "狄道",
+    "target_pid": 1200,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年冬內政階段（現在）",
+    "receipt": {
+      "magic2": 1396068931,
+      "rc": 1,
+      "own": 179123277,
+      "gate_before": 1,
+      "gate_after": 1,
+      "phase": 1,
+      "tick": 547668778,
+      "vtable": 5257720,
+      "kind": 18,
+      "subtype": 4,
+      "operand": 4915210,
+      "f14": 21,
+      "f18": 6,
+      "f1c": 53,
+      "f20": 2000
+    },
+    "error": null,
+    "events": [
+      {
+        "at": 1792512023.758341,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792512023.760749,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792512035.6518211,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792512036.4010031,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792512039.9250188,
+        "status": "fired",
+        "note": "本機回報已發送；尚未驗證遊戲效果"
+      },
+      {
+        "at": 1792512039.926494,
+        "status": "verifying",
+        "note": "本機已回報發送；正在核對實際數值或建設物件"
+      },
+      {
+        "at": 1792512162.456267,
+        "status": "verifying",
+        "note": "遊戲效果仍未確認；保留記錄，不重送"
+      }
+    ],
+    "note": "本機曾回報發送；重啟後遊戲效果尚未確認，不會重送",
+    "receipt_at": 1792512039.9250119,
+    "effect": {
+      "confirmed": false,
+      "summary": "尚未觀測到同格、同勢力、同種類的新陷阱",
+      "before": {
+        "actor": 21,
+        "city": 53,
+        "xy": [
+          10,
+          75
+        ],
+        "gold": 50160,
+        "objects": []
+      },
+      "after": {
+        "actor": 21,
+        "city": 53,
+        "xy": [
+          10,
+          75
+        ],
+        "gold": 50160,
+        "objects": []
+      },
+      "evidence": {
+        "kind": "observed_state_change",
+        "native_command_proof": false,
+        "causal_attribution": "not_proven",
+        "limitation": "只確認同來源前後觀測；不是原始指令或因果證明。Collector 無獨立局ID時不補造；同進程／核心重用仍有識別限制。",
+        "binding": {
+          "identity": {
+            "pid": 1200,
+            "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+            "creation_filetime": 134369838499812420
+          },
+          "core_address": "0x3412b0a",
+          "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+          "schema": "astra-sgi-core-2",
+          "source_pid": 1200,
+          "source_prefix": "prefix-fengye-shadow",
+          "scenario_map": {
+            "id": "china",
+            "name": "大地图",
+            "width": 101,
+            "height": 202,
+            "mbm": "SanInet.mbm",
+            "overview": "SanInet.lbm",
+            "pixel": [
+              9744,
+              4872
+            ],
+            "source": "core+0x5fc",
+            "known": true
+          },
+          "roster": [
+            [
+              15,
+              11,
+              "中山"
+            ],
+            [
+              21,
+              600,
+              "羌"
+            ]
+          ]
+        },
+        "before_sample": {
+          "snapshot_id": "20261020T160035511048Z",
+          "capture_start": "2026-10-20T16:00:35.287228+00:00",
+          "capture_end": "2026-10-20T16:00:35.547140+00:00",
+          "start": 1792512035.287228,
+          "end": 1792512035.54714
+        },
+        "after_sample": {
+          "snapshot_id": "20261020T160242376351Z",
+          "capture_start": "2026-10-20T16:02:42.228812+00:00",
+          "capture_end": "2026-10-20T16:02:42.402049+00:00",
+          "start": 1792512162.228812,
+          "end": 1792512162.402049
+        },
+        "gold_change": {
+          "before": 50160,
+          "after": 50160,
+          "sufficient_alone": false
+        }
+      }
+    },
+    "verification_exhausted": true,
+    "cancellable": false,
+    "waited": 3246.0
+  },
+  {
+    "id": "24a0556d7b",
+    "tag": "e9ac0077f516",
+    "created": 1792512047.682457,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_token": "observed-1894e4f52be233f306e0",
+    "game_identity_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_identity": {
+      "identity": {
+        "pid": 1200,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369838499812420
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          15,
+          11,
+          "中山"
+        ],
+        [
+          21,
+          600,
+          "羌"
+        ]
+      ]
+    },
+    "preset": "train",
+    "status": "verifying",
+    "params": {
+      "actor": 21,
+      "troop": 2,
+      "value": 75,
+      "extra": 0
+    },
+    "actor_label": "风云・羌",
+    "city_name": null,
+    "target_pid": 1200,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年冬內政階段（現在）",
+    "receipt": {
+      "magic2": 1396068931,
+      "rc": 1,
+      "own": 179123277,
+      "gate_before": 1,
+      "gate_after": 1,
+      "phase": 1,
+      "tick": 547689990,
+      "vtable": 5257720,
+      "kind": 18,
+      "subtype": 0,
+      "operand": 0,
+      "f14": 21,
+      "f18": 2,
+      "f1c": 75,
+      "f20": 0
+    },
+    "error": null,
+    "events": [
+      {
+        "at": 1792512047.6824691,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792512047.6848772,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792512057.041996,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792512057.600287,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792512061.1278038,
+        "status": "fired",
+        "note": "本機回報已發送；尚未驗證遊戲效果"
+      },
+      {
+        "at": 1792512061.129876,
+        "status": "verifying",
+        "note": "本機已回報發送；正在核對實際數值或建設物件"
+      },
+      {
+        "at": 1792512183.804134,
+        "status": "verifying",
+        "note": "遊戲效果仍未確認；保留記錄，不重送"
+      }
+    ],
+    "note": "本機曾回報發送；重啟後遊戲效果尚未確認，不會重送",
+    "receipt_at": 1792512061.127795,
+    "effect": {
+      "confirmed": false,
+      "summary": "等待弓兵訓練變化：0 → 15；單靠金幣變化不確認",
+      "before": {
+        "actor": 21,
+        "troop": "bow",
+        "training_raw": 0,
+        "gold": 50160
+      },
+      "after": {
+        "actor": 21,
+        "troop": "bow",
+        "training_raw": 15,
+        "gold": 44220
+      },
+      "evidence": {
+        "kind": "observed_state_change",
+        "native_command_proof": false,
+        "causal_attribution": "not_proven",
+        "limitation": "只確認同來源前後觀測；不是原始指令或因果證明。Collector 無獨立局ID時不補造；同進程／核心重用仍有識別限制。",
+        "binding": {
+          "identity": {
+            "pid": 1200,
+            "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+            "creation_filetime": 134369838499812420
+          },
+          "core_address": "0x3412b0a",
+          "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+          "schema": "astra-sgi-core-2",
+          "source_pid": 1200,
+          "source_prefix": "prefix-fengye-shadow",
+          "scenario_map": {
+            "id": "china",
+            "name": "大地图",
+            "width": 101,
+            "height": 202,
+            "mbm": "SanInet.mbm",
+            "overview": "SanInet.lbm",
+            "pixel": [
+              9744,
+              4872
+            ],
+            "source": "core+0x5fc",
+            "known": true
+          },
+          "roster": [
+            [
+              15,
+              11,
+              "中山"
+            ],
+            [
+              21,
+              600,
+              "羌"
+            ]
+          ]
+        },
+        "before_sample": {
+          "snapshot_id": "20261020T160056918533Z",
+          "capture_start": "2026-10-20T16:00:56.699452+00:00",
+          "capture_end": "2026-10-20T16:00:56.953732+00:00",
+          "start": 1792512056.699452,
+          "end": 1792512056.953732
+        },
+        "after_sample": {
+          "snapshot_id": "20261020T160303655117Z",
+          "capture_start": "2026-10-20T16:03:03.385424+00:00",
+          "capture_end": "2026-10-20T16:03:03.717409+00:00",
+          "start": 1792512183.385424,
+          "end": 1792512183.717409
+        },
+        "field": "entities.lords.armament_raw.bow",
+        "observed_delta": 15,
+        "rule": "fixed value75; +30 capped at300",
+        "required_after": 30,
+        "gold_change": {
+          "before": 50160,
+          "after": 44220,
+          "sufficient_alone": false
+        }
+      }
+    },
+    "verification_exhausted": true,
+    "cancellable": false,
+    "waited": 3222.1
+  },
+  {
+    "id": "faae578316",
+    "tag": "f3849915c6e2",
+    "created": 1792512048.3670862,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_token": "observed-1894e4f52be233f306e0",
+    "game_identity_key": "1894e4f52be233f306e010a4823261acbd3e1c20a2476863e1bd450cb69fcc2e",
+    "game_identity": {
+      "identity": {
+        "pid": 1200,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369838499812420
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          15,
+          11,
+          "中山"
+        ],
+        [
+          21,
+          600,
+          "羌"
+        ]
+      ]
+    },
+    "preset": "train",
+    "status": "cancelled",
+    "params": {
+      "actor": 21,
+      "troop": 2,
+      "value": 75,
+      "extra": 0
+    },
+    "actor_label": "风云・羌",
+    "city_name": null,
+    "target_pid": 1200,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年冬內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792512048.367096,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792512061.131506,
+        "status": "waiting_effect",
+        "note": "等前一筆同兵種的實際訓練變化；此筆尚未發送，可取消"
+      }
+    ],
+    "note": "面板已重新啟動；此筆未發送，不會自動重播",
+    "cancellable": false,
+    "waited": 422.7,
+    "finished": 1792512471.0541272
+  },
+  {
+    "id": "adf3894d58",
+    "tag": "86b2d03694ad",
+    "created": 1792512886.603709,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "18a7cdae6e47c28c57d78b3a8b001bf0bf411801e54e0d653e39663872cc5674",
+    "game_token": "observed-18a7cdae6e47c28c57d7",
+    "game_identity_key": "18a7cdae6e47c28c57d78b3a8b001bf0bf411801e54e0d653e39663872cc5674",
+    "game_identity": {
+      "identity": {
+        "pid": 404,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369863635274900
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          13,
+          591,
+          "义渠"
+        ],
+        [
+          6,
+          661,
+          "秦"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "error",
+    "params": {
+      "actor": 13,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 36,
+      "y": 45,
+      "city": 84
+    },
+    "actor_label": "丁满・义渠",
+    "city_name": "西河",
+    "target_pid": 404,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792512886.603722,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792512886.607651,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792512891.3289201,
+        "status": "error",
+        "note": "檢查未通過；未發送：這一局沒有在開局前上身（或風夜現在不在這家勢力上）；請先按「開局前上身（風夜席位）」再下單，否則主機會丟棄"
+      }
+    ],
+    "note": "檢查未通過；未發送：這一局沒有在開局前上身（或風夜現在不在這家勢力上）；請先按「開局前上身（風夜席位）」再下單，否則主機會丟棄",
+    "cancellable": false,
+    "waited": 2383.2
+  },
+  {
+    "id": "f3037ccce3",
+    "tag": "68bc47ad8866",
+    "created": 1792513188.333358,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "18a7cdae6e47c28c57d78b3a8b001bf0bf411801e54e0d653e39663872cc5674",
+    "game_token": "observed-18a7cdae6e47c28c57d7",
+    "game_identity_key": "18a7cdae6e47c28c57d78b3a8b001bf0bf411801e54e0d653e39663872cc5674",
+    "game_identity": {
+      "identity": {
+        "pid": 404,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369863635274900
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          13,
+          591,
+          "义渠"
+        ],
+        [
+          6,
+          661,
+          "秦"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "unknown",
+    "params": {
+      "actor": 13,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 36,
+      "y": 44,
+      "city": 84
+    },
+    "actor_label": "丁满・义渠",
+    "city_name": "西河",
+    "target_pid": 404,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年秋內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792513188.333369,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792513188.335427,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792513199.552325,
+        "status": "switching_slot",
+        "note": "準備由風夜代送本批指令"
+      },
+      {
+        "at": 1792513211.373811,
+        "status": "error",
+        "note": "切席後已離開內政階段；未發送、已還席"
+      }
+    ],
+    "note": "重啟前借席尚未確認還原；不重送，後續代送暫停",
+    "phase_at_submit": 1,
+    "slot_home": 5,
+    "slot_pending_restore": true,
+    "cancellable": false,
+    "waited": 2081.5
+  },
+  {
+    "id": "84ae6925cc",
+    "tag": "e91b5630e9f9",
+    "created": 1792513513.470419,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "f4f8e43d284b414ca422c0346440e0197eeba550a3febca0313e9914fdafd78a",
+    "game_token": "observed-f4f8e43d284b414ca422",
+    "game_identity_key": "f4f8e43d284b414ca422c0346440e0197eeba550a3febca0313e9914fdafd78a",
+    "game_identity": {
+      "identity": {
+        "pid": 692,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369869327238280
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          17,
+          448,
+          "蜀"
+        ],
+        [
+          19,
+          596,
+          "南蛮"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "unknown",
+    "params": {
+      "actor": 17,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 40,
+      "y": 110,
+      "city": 58
+    },
+    "actor_label": "风云・蜀",
+    "city_name": "上庸",
+    "target_pid": 692,
+    "auto_slot": true,
+    "sender_label": "風夜（借目標席位 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792513513.47043,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792513513.472619,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792513525.258608,
+        "status": "switching_slot",
+        "note": "準備由風夜代送本批指令"
+      },
+      {
+        "at": 1792513531.4519858,
+        "status": "waiting_phase",
+        "note": "切席後已離開內政；保留席位等下一輪內政"
+      }
+    ],
+    "note": "重啟前借席尚未確認還原；不重送，後續代送暫停",
+    "phase_at_submit": 1,
+    "slot_home": 5,
+    "slot_pending_restore": true,
+    "cancellable": false,
+    "waited": 1756.3
+  },
+  {
+    "id": "55bbc1c79e",
+    "tag": "b78f3f255835",
+    "created": 1792514783.879978,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "d8d8f4f13ee0df3cbe1d912eed9889fd23924590fa3121f2321004a64c811282",
+    "game_token": "observed-d8d8f4f13ee0df3cbe1d",
+    "game_identity_key": "d8d8f4f13ee0df3cbe1d912eed9889fd23924590fa3121f2321004a64c811282",
+    "game_identity": {
+      "identity": {
+        "pid": 688,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369880847833250
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          13,
+          591,
+          "义渠"
+        ],
+        [
+          17,
+          448,
+          "蜀"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "cancelled",
+    "params": {
+      "actor": 17,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 39,
+      "y": 109,
+      "city": 58
+    },
+    "actor_label": "丁满・蜀",
+    "city_name": "上庸",
+    "target_pid": 688,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年春內政階段（現在）",
+    "receipt": null,
+    "error": null,
+    "events": [
+      {
+        "at": 1792514783.87999,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792514783.8825622,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792514799.5443552,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792514800.326199,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792515114.825686,
+        "status": "cancelled",
+        "note": "使用者要求清空：跨季未發送，已作廢（agent 已停）"
+      }
+    ],
+    "note": "已準備，等內政階段發送及本機回執",
+    "cancellable": false,
+    "waited": 485.9
+  },
+  {
+    "id": "4e8d6b561c",
+    "tag": "31a792ffbf2b",
+    "created": 1792515131.367405,
+    "prefix": "prefix-fengye-shadow",
+    "game_key": "d8d8f4f13ee0df3cbe1d912eed9889fd23924590fa3121f2321004a64c811282",
+    "game_token": "observed-d8d8f4f13ee0df3cbe1d",
+    "game_identity_key": "d8d8f4f13ee0df3cbe1d912eed9889fd23924590fa3121f2321004a64c811282",
+    "game_identity": {
+      "identity": {
+        "pid": 688,
+        "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+        "creation_filetime": 134369880847833250
+      },
+      "core_address": "0x3412b0a",
+      "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+      "schema": "astra-sgi-core-2",
+      "scenario_map": {
+        "id": "china",
+        "name": "大地图",
+        "width": 101,
+        "height": 202,
+        "mbm": "SanInet.mbm",
+        "overview": "SanInet.lbm",
+        "pixel": [
+          9744,
+          4872
+        ],
+        "source": "core+0x5fc",
+        "known": true
+      },
+      "roster": [
+        [
+          13,
+          591,
+          "义渠"
+        ],
+        [
+          17,
+          448,
+          "蜀"
+        ]
+      ]
+    },
+    "preset": "build",
+    "status": "verifying",
+    "params": {
+      "actor": 17,
+      "extra": 2000,
+      "build_type": 6,
+      "x": 39,
+      "y": 109,
+      "city": 58
+    },
+    "actor_label": "丁满・蜀",
+    "city_name": "上庸",
+    "target_pid": 688,
+    "auto_slot": false,
+    "sender_label": "風夜（已上身 → 遊戲按鈕函式）",
+    "eta_text": "200年冬內政階段（現在）",
+    "receipt": {
+      "magic2": 1396068931,
+      "rc": 1,
+      "own": 171950200,
+      "gate_before": 1,
+      "gate_after": 1,
+      "phase": 1,
+      "tick": 550774633,
+      "vtable": 5257720,
+      "kind": 18,
+      "subtype": 4,
+      "operand": 7143463,
+      "f14": 17,
+      "f18": 6,
+      "f1c": 58,
+      "f20": 2000
+    },
+    "error": null,
+    "events": [
+      {
+        "at": 1792515131.3674188,
+        "status": "pending",
+        "note": "已加入，等候依序執行"
+      },
+      {
+        "at": 1792515131.369817,
+        "status": "validating",
+        "note": "核對客戶端、勢力與建設位置"
+      },
+      {
+        "at": 1792515141.416543,
+        "status": "arming",
+        "note": "正在準備此筆指令（只送一次，已不能安全撤回）"
+      },
+      {
+        "at": 1792515142.222189,
+        "status": "waiting_phase",
+        "note": "已準備，等內政階段發送及本機回執"
+      },
+      {
+        "at": 1792515145.744828,
+        "status": "fired",
+        "note": "本機回報已發送；尚未驗證遊戲效果"
+      },
+      {
+        "at": 1792515145.746828,
+        "status": "verifying",
+        "note": "本機已回報發送；正在核對實際數值或建設物件"
+      },
+      {
+        "at": 1792515269.787882,
+        "status": "verifying",
+        "note": "遊戲效果仍未確認；保留記錄，不重送"
+      }
+    ],
+    "note": "遊戲效果仍未確認；保留記錄，不重送",
+    "due_season": 3,
+    "receipt_at": 1792515145.744822,
+    "effect": {
+      "confirmed": false,
+      "summary": "尚未觀測到同格、同勢力、同種類的新陷阱",
+      "before": {
+        "actor": 17,
+        "city": 58,
+        "xy": [
+          39,
+          109
+        ],
+        "gold": 26330,
+        "objects": []
+      },
+      "after": {
+        "actor": 17,
+        "city": 58,
+        "xy": [
+          39,
+          109
+        ],
+        "gold": 40321,
+        "objects": []
+      },
+      "evidence": {
+        "kind": "observed_state_change",
+        "native_command_proof": false,
+        "causal_attribution": "not_proven",
+        "limitation": "只確認同來源前後觀測；不是原始指令或因果證明。Collector 無獨立局ID時不補造；同進程／核心重用仍有識別限制。",
+        "binding": {
+          "identity": {
+            "pid": 688,
+            "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+            "creation_filetime": 134369880847833250
+          },
+          "core_address": "0x3412b0a",
+          "build_sha256": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+          "schema": "astra-sgi-core-2",
+          "source_pid": 688,
+          "source_prefix": "prefix-fengye-shadow",
+          "scenario_map": {
+            "id": "china",
+            "name": "大地图",
+            "width": 101,
+            "height": 202,
+            "mbm": "SanInet.mbm",
+            "overview": "SanInet.lbm",
+            "pixel": [
+              9744,
+              4872
+            ],
+            "source": "core+0x5fc",
+            "known": true
+          },
+          "roster": [
+            [
+              13,
+              591,
+              "义渠"
+            ],
+            [
+              17,
+              448,
+              "蜀"
+            ]
+          ]
+        },
+        "before_sample": {
+          "snapshot_id": "20261020T165221292295Z",
+          "capture_start": "2026-10-20T16:52:21.056696+00:00",
+          "capture_end": "2026-10-20T16:52:21.335737+00:00",
+          "start": 1792515141.056696,
+          "end": 1792515141.335737
+        },
+        "after_sample": {
+          "snapshot_id": "20261020T165429620593Z",
+          "capture_start": "2026-10-20T16:54:29.273209+00:00",
+          "capture_end": "2026-10-20T16:54:29.689543+00:00",
+          "start": 1792515269.273209,
+          "end": 1792515269.689543
+        },
+        "gold_change": {
+          "before": 26330,
+          "after": 40321,
+          "sufficient_alone": false
+        }
+      }
+    },
+    "verification_exhausted": true,
+    "cancellable": false,
+    "waited": 138.4
   }
 ]

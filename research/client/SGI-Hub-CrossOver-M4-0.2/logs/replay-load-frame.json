@@ -1,0 +1,8 @@
+{
+  "frames": 240,
+  "write_seconds": 0.0446,
+  "bytes": 458520,
+  "random_seek_seconds": 0.0037,
+  "cached_seek_seconds": 0.00155,
+  "note": "ArchiveReader.load_frame only; ReplayCursor.view is in RepairTests.test_rc06"
+}

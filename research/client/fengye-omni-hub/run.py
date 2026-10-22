@@ -44,7 +44,7 @@ def main():
         configure(root)
         apply(root)
         app = FengyeWindow(root, source)
-        # 2026-10-20: 驗收用；指定初始分頁（例如 FENGYE_START_TAB=外部指令）。
+        # 2026-10-20: 驗收用；指定初始分頁（例如 FENGYE_START_TAB=指令）。
         start_tab = os.environ.get('FENGYE_START_TAB')
         if start_tab:
             names = [app.control_book.tab(tid, 'text') for tid in app.control_book.tabs()]
@@ -56,8 +56,8 @@ def main():
                     break
         def close():
             app.stop.set()
-            if hasattr(app, 'battle_panel'):
-                app.battle_panel.dispose()
+            if hasattr(app, 'dispose_quick_panel'):
+                app.dispose_quick_panel()
             CONNECTION.close()
             root.destroy()
         root.protocol('WM_DELETE_WINDOW', close)

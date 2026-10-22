@@ -1,0 +1,57 @@
+{
+  "format_version": 2,
+  "open": true,
+  "match_id": "50ae5b1a-6584-4989-bdd3-3b5d5a35218d",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 228,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134367848243899920
+  },
+  "player_session_id_at_open": "353f93c5048244358035a0a0325a6771",
+  "started_utc": "2026-10-18T08:14:55.562923+00:00",
+  "ended_utc": null,
+  "end_reason": null,
+  "completeness": "mid_start",
+  "started_mid_match": true,
+  "first_frame_note": "从此处开始记录",
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [],
+  "simulated": false,
+  "frame_count": 240,
+  "last_seq": 240,
+  "last_snapshot_id": "20261018T082006385781Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-18T08:20:06.407133+00:00",
+  "title": "玩家局 1v1 燕 vs 宋",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

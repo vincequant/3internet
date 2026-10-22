@@ -1,0 +1,9 @@
+{
+  "audio_original": 1,
+  "audio_muted": false,
+  "quiet_launch": false,
+  "audio_restore_written": true,
+  "audio_restore_heard": false,
+  "threshold": 4,
+  "minutes": 1.0
+}

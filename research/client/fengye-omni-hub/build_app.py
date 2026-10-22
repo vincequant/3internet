@@ -52,8 +52,8 @@ int main(int argc, char **argv) {
                         '-L' + str(library), '-lpython' + sysconfig.get_python_version(),
                         '-Wl,-rpath,' + str(library), '-o', str(staged)], check=True)
         os.replace(staged, binary)
-    info = {'CFBundleIdentifier': 'com.vk.sgi.fengye-omni-hub', 'CFBundleName': '風夜情報台',
-            'CFBundleDisplayName': '風夜情報台', 'CFBundleExecutable': 'FengyeHub',
+    info = {'CFBundleIdentifier': 'com.vk.sgi.fengye-omni-hub', 'CFBundleName': '化神指揮部',
+            'CFBundleDisplayName': '化神指揮部', 'CFBundleExecutable': 'FengyeHub',
             'CFBundlePackageType': 'APPL', 'CFBundleShortVersionString': json.loads((ROOT / 'RELEASE.json').read_text())['version'],
             'NSHighResolutionCapable': True, 'LSMinimumSystemVersion': '14.0',
             'NSAppSleepDisabled': True}

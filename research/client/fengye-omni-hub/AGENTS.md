@@ -297,3 +297,293 @@
   ④交付狀態：Hub 0.2.42 已建置重啟；`test_probe_sender` 6/6、panel hidden/seated 2/2。
   **端到端未驗**：本局（SANPK 風夜）的 D5 批次已到 host（rc=1 len=70）但停在 200 秋
   phase 3；probe 版需新局。未宣稱合成指令已實局生效。
+
+- **0.2.43（2026-10-20，合成指令改走「遊戲按鈕自己的送出函式」／D5 判死）**：
+  ①**靜態定案（P64，`research/ai/p64-ui-send-chain-20261020.md`）**：所有 UI 指令按鈕
+  （練兵 `0x4A3BA8`、建設、人事…）最後都走 **`0x446482(world, &cmd)`** → `0x42A7D4`
+  （序列化）→ `_NetMsg_SendCmd@8`。成員端 `_NetMsg_SendCmd` 送的是 **control 4**
+  （單筆、sender 由連線決定），不是 control 5。Koeinm 的型別分派（`0x10003CD0`）：
+  type4 只給 **host** 收（append 進 0x84BC 批次）、type5 只給 **member** 收（主機廣播批次）。
+  ⇒ **成員上傳 control5（D5）永遠進不了主機**，與「收集窗口」無關；P40 的
+  「不驗 sender」只適用 control4（sender 由連線決定，無法偽造）。
+  ②**agent 新 ui 模式**（`p60_generic_cmd_build.py` blob 0x1D0=1）：`0x34`=0x446482、
+  `0x38`=0x44B83B；送出前以 **本席勢力**（`0x44B83B(core)`）填 `cmd+0x14`，並與
+  `expect_actor`（blob 0x1D4）比對，**席位不符就不射**（避免借席失敗時記到別人勢力）。
+  `p60_generic_cmd_inject.py --ui-path [--expect-actor N]`；agent bin 682B、
+  sha256 `e32c8934…`（repo＋lab tools 同）。
+  ③**Hub**：`build_args` 固定帶 `--ui-path --expect-actor <目標>`；面板 `_enqueue`
+  回到 `auto_slot=True`、`sender='agent'`、label「風夜（借目標席位 → 遊戲按鈕函式）」，
+  不再用 probe D5（probe 分支保留為死路，不再被面板選到）。
+  ④**驗證**：`test_p60_generic` **25/25**（+5 條 ui 模式：blob 佈局／只呼叫 0x446482 一次／
+  this=core-0x912／actor 跟席位／席位不符拒發）；`tests.test_probe_sender` 6/6；
+  面板 hidden/seated 3/3。`tests.test_command_queue` 仍有 3 條 **本輪之前就失敗** ＋1 條卡住
+  （已用「移除本輪改動」對照確認），整份 `_run_batch` 有重複區塊待整理。
+  ⑤**未實機點火**：本輪沒有新局、沒有注入任何 client；「ui 模式實局生效」未驗，
+  驗收仍看主機 production_buildings/traps/金。未改遊戲 EXE/存檔；Windows GUI 未測。
+
+- **0.2.44（2026-10-20 23:0x，實局首發成功／WASD 全域按鍵）**：
+  ①**實局第一發**（200 年春內政、風夜借 slot 0＝漢）：`arc` 回執 `rc=1`、`kind=18/subtype=4`、
+  `operand=0xC2003B`（x=59,y=194）、`f14=20`（actor 由席位取得）、`f18=6`、`f1c=43`、`f20=2000`；
+  時序 pending→validating→switching_slot→**arming→3 秒 settle→fired（22:02:22）**→restoring（還席 5 成功）。
+  主機端 traps/gold 需**內政階段結束**後才看得到，尚未驗收。
+  ②**修 `_run_batch`**：前幾輪留下三段重複區塊＋未定義的 `preborrowed`，任何批次都在切席後
+  NameError（22:52 六筆陷阱全卡）。重寫成單一路徑；`tests.test_command_queue` 由 3 失敗＋1 卡死 → **33/33**。
+  ③**修 agent 相位閘門**：`Sleep(settle)` 之後用被清掉的 EAX 跟 phase 比 → 永遠不相等、永不發射
+  （22:55 那筆只能等 300 秒回執逾時）。改為 `mov eax,[esi+0x148]` 重讀；新增 settle 回歸測試，
+  `test_p60_generic` **26/26**。agent bin 688B、sha256 `48dca4…`。
+  ④**WASD 修好**：按鍵只綁在 canvas，焦點跑到按鈕／隊列表／下拉就失效。改成 **每個 toplevel 一組
+  `<Key>` 派送**（`_claim_keys`／`_dispatch_key`），路由到最後使用的地圖；文字輸入框（Entry/Text/
+  Combobox/Treeview/Listbox）不攔。註冊表用 `id(toplevel)`（同名 `.` 的新視窗不會吃到舊綁定）。
+  `tests.test_map_events` **9/9**（新增「焦點在按鈕仍可 WASD」「Entry 裡打字不移動地圖」）。
+  ⑤整份套件：`python3.14 -m unittest discover -s tests` **307/307**（修掉一條仍期待 probe/auto_slot=False 的面板測試）。
+  ⑥**「開局前上身」按鈕（0.2.44 追加）**：進房與準備頁新增「開局前上身（風夜席位）」＝
+  slot 下拉（0–7）＋「套用（要在按『開始』之前）」；後端 `CommandService.switch_ghost_seat(slot)`
+  只呼叫 `shadow_force.sh switch N` 並回讀 slot→force 對照（不武裝、不送指令）。實測限制：
+  **主機在按「開始」那一刻就決定席位→勢力**，開局後才切只改本機視角（今天的 23:02/23:11
+  兩發就是這樣：送出成功但主機收集陣列 `collect_84c0` 一直 0）。`tests.test_command_queue` 34/34。
+  ⑦**23:3x 實測突破：「開局前上身」是關鍵**（同一局 200 年春、主機 pid 32、風夜 slot 0＝force 15）：
+  - 開局前用 Hub 新按鈕把席位釘在 slot 0，按「開始」後**不切席、不還席**；
+  - agent 送一筆 alms（`--ui-path --expect-actor 15`）→ 回執 rc=1 → **主機 `collect_84c0` 0→1**；
+  - 對照：23:02/23:11 的「開局後才切席＋送完還 5」兩發，主機 `collect_84c0` 一直是 0；
+    風雲用同一支 agent 送則立即 0→1（證明 agent 本身無誤）。
+  ⇒ 主機收不收，取決於**風夜在開局那一刻是否已坐在該席位**，不是指令格式、也不是名冊人數
+  （主機名冊始終 2）。因此 `_run_batch` 新增：`local.force_id == actor` 且 `local.slot == slot` 時
+  **跳過切席與還席**（`already_seated` 事件）；面板在已上身時 `auto_slot=False`、label
+  「風夜（已上身 → 遊戲按鈕函式）」。`tests.test_command_panel + test_command_queue` 53/53。
+  ⑧**23:5x 兩個定論**：
+  - **換走再換回沒問題**：先確認 `collect_84c0=0` → `shadow_force.sh switch 5` → 10 秒 → `switch 0` → 送 alms →
+    主機收集陣列第 4 筆就是它（`field0=179123277`、kind 18 subtype 2、actor 15）。
+    所以身份是**開局那一刻**建立、之後可自由離開/回到席位（重啟 slotkeep 約 10 秒）。
+    差別只在「開局後才第一次上身」無效（23:02/23:11）。
+  - **下單硬閘門**：`CommandService.pre_seat`（由「開局前上身」按鈕寫入 `{slot, game_key}`）；
+    `validate()` 對 shadow 指令要求「本局有 pre_seat 或 local.force_id == actor」，否則拒絕：
+    「這一局沒有在開局前上身…請先按『開局前上身』再下單，否則主機會丟棄」。
+    `tests.test_command_queue` **35/35**（新增無 pre-seat 拒絕）。
+  ⑨**00:0x 跨勢力完整落地（決定性）**：風夜開局前上身 slot 0（中山 15）→ 局中 `switch 1`（羌 21，風雲那席）
+  → Hub 下「陷阱＋練弓」→ 主機收集陣列 8 筆中含 rec6（subtype 4、operand (10,75)、actor=21、
+  parameter=6、value=53、extra=2000）與 rec7（subtype 0、actor=21、parameter=2、value=75），
+  另 rec5 是客戶端自己出兵的 `CSanInetUnitNetCmdCreate`。結算後主機：
+  - **trap (10,75) owner=21**（Hub 的陷阱真的蓋出來）；
+  - **羌 弓訓練 0 → 15**（Hub 練弓生效）；
+  - 羌 弓兵 0 → 1000（客戶端出兵）；
+  - 羌金 50160 → 47220。
+  ⇒ **身份不綁勢力**：開局拿到任一有勢力的席位後，可自由切到別的席位替那家下單，主機照做。
+  只有「開局後才第一次上身」無效。`local.force_id` 與 `pre_seat` 兩條閘門都按此設計。
+  ⑩**0.2.48 開局後自動回無勢力**：使用者要求「開局前上身 → 開局後自動切回無勢力(5)」。
+  `CommandService.should_auto_restore()`（純判斷）＋`_read_targets` 讀到 `local.force_id` 有值、
+  且該局有 `pre_seat` 紀錄時，背景執行緒呼叫 `_switch_slot(5)`，**每局只做一次**
+  （`_restored_games`）。進房頁該列新增勾選框「開局後自動切回無勢力(5)」（預設開）。
+  之後下單走原本的借席流程（切到目標→送→回 5）；身份已實測不受切換影響。
+  測試：`test_command_queue` **36/36**（新增 should_auto_restore 六種情形）、面板 19/19。
+  待實測：掛在 slot 5 時風夜的世界是否仍隨主機推進（agent 相位閘門吃風夜自己的 phase）。
+  ⑪**0.2.49 外部指令頁實時身份狀態**：外部指令頁在「勢力／立即讀取」下方新增一行
+  「**風夜目前：無勢力（旁聽）**／**風夜目前：羌（force 21，slot 1）**」，每次自動讀取
+  （3 秒）更新；無勢力灰色、有勢力用強調色。搭配 0.2.48 的自動回 5：預設常駐無勢力，
+  下單時服務自動借目標席位→送→回 5。`test_command_panel + test_command_queue` 55/55。
+  ⑫**0.2.50 pre-seat 紀錄持久化＋自動認定**：使用者回報「沒有加入：這一局沒有在開局前上身」。
+  根因＝`switch_ghost_seat` 當下 `current_game_key` 可能是 None（還沒讀過），記成
+  `{game_key: None}` → 永遠比對不到。修：①按鈕切席時若 key 空，先 `targets(refresh=True)` 取；
+  ②寫 `data/pre_seat.json`、Hub 重啟後 12 小時內仍沿用；③`_read_targets` 看到「phase 0（開局前）
+  且風夜已在有勢力席位」就自動記為該局的 pre-seat（等於按了按鈕）。測試 55/55。
+  ⑬**0.2.51 切席錯過內政不再直接失敗**：00:19:48 那筆（義渠陷阱）在 00:19:59 切席、00:20:11 完成時
+  內政已結束 → 舊邏輯「切席後已離開內政階段」直接判 error＋還席。改為：**保留席位、等下一輪內政**
+  （最多 `phase_wait_timeout`）再發；等不到才還席並報錯。測試 36/36。
+  同時確認：該局風夜**沒有身份**（00:19 的 alms 探針 actor=13 本機 rc=1，但主機 `collect_84c0`=0）
+  ——因為它是開局後才上身的；要驗指令必須「按開始之前」先按套用。
+  ⑭**0.2.52 自動認定改成「有 key 且風夜在座就記」**：0.2.50 的自動認定條件寫成 `phase == 0`，
+  但大廳階段根本還沒有 game_key（席位表顯示「勢力 -1」），所以永遠記不到 → 使用者按了套用、
+  進局後下單仍被閘門擋。改為：只要有 `game_key` 且 `local.force_id` 有效就記一次（同一局只記一次，
+  真正驗收仍看主機 collect）。測試 36/36。
+  ⑮**0.2.53 切席跨回合導致客戶端卡住 → 明確報錯**：00:25 那筆（風雲·蜀陷阱）在 00:25:25 切席
+  （12 秒），剛好跨過春→夏邊界；之後風夜客戶端**停在 season 0（春結算）**、主機已 season 1（夏），
+  它的內政永遠不來 → agent 一直等。跟隨取樣：`host ph3 seas1 ｜ ghost ph3 seas0`。
+  修：切席後的等待圈每輪比對 reference，發現風夜落後就**還席＋明確報錯**（不再掛到逾時）。
+  教訓：**切席不要跨回合邊界**；要下單就在內政前段（或趁結算時先把席位切好），
+  結算中切席（23:40 那次）是安全的，內政尾聲切席（本次）會把客戶端卡住。
+  ⑯**0.2.54 「進房後自動上身」成為默認補丁（使用者要求）**：進房頁該列新增勾選框
+  「**進房後自動上身**」（預設開）；一鍵完成、風夜已藏身（`ghost_withdrawn`）後，
+  `_maybe_auto_seat()` 自動 `switch_ghost_seat(下拉的 slot)`（預設 0），每間房只做一次
+  （以房名為 key）。使用者此後只要「一鍵 → 按開始」，不用再手動按套用。
+  同輪把「開局後自動切回無勢力(5)」**預設關閉**：開局那一刻再花 12 秒切席最容易把客戶端
+  卡在舊季節（見 ⑮）。外部指令頁的勢力下拉也改成「沒明確選過就默認風夜現在坐的那家」，
+  這樣下單不需要切席。測試 native+panel+queue 全綠（62 項）。
+  ⑰**0.2.55 全部改默認、不再有勾選框（使用者要求）**：進房頁刪掉兩個勾選框，改一行說明
+  「默認：進房後自動上身 → 開局 8 秒後自動回無勢力」。自動上身每次一鍵開始都重設守衛
+  （修正 00:31 那局被一鍵最後一步 slot 5 覆蓋的問題）。自動回 5 加兩個條件：
+  **只在 phase 1（內政）切**、且**開局後至少 8 秒**（`auto_restore_delay`）——避免 12 秒的
+  切席跨過回合邊界。測試 queue+panel+native 全綠。
+  ⑱**0.2.56 無勢力狀態分兩種顯示**：外部指令頁那行現在會分辨「有沒有身份」：
+  - `風夜目前：無勢力（旁聽）· ✓ 本局已取得身份（可下單）`（綠）
+  - `風夜目前：無勢力（旁聽）· ✗ 這一局沒有身份（下單會被主機丟棄）`（紅）
+  - `風夜目前：蜀（force 5，slot 0）· ✓ 已上身`（強調色）
+  資料來源＝`_read_targets` 新增的 `out['pre_seat']={'ok','slot'}`（比對本局 game_key 是否
+  有 pre-seat 紀錄）。這樣「上身後切回無勢力」與「一開始就無勢力」在畫面上不會再混在一起。
+  ⑲**0.2.57 自動上身改在「一鍵完成」當下觸發**：00:37 那局一鍵完成後風夜仍在 slot 5 →
+  因為舊的 watcher 靠房間狀態輪詢（fresh/connected/ghost_withdrawn）才動作，狀態還沒 fresh
+  或 room_busy 仍為真時就錯過了。改成：`retry_next()` 走到 `if not steps`（一鍵成功收尾）
+  時直接呼叫 `_auto_seat_now()`（背景 thread → `switch_ghost_seat(下拉 slot)`），
+  watcher 保留為備援。測試 native 通過。
+  ⑳**0.2.58 手動「套用」整個移除**：進房頁只剩一行說明「默認：一鍵完成後自動上身 slot 0
+  → 開局 8 秒後自動回無勢力」；slot 下拉與「套用」按鈕、`apply_pre_seat` 全部刪除。
+  自動上身固定 slot 0，仍由一鍵完成時觸發（0.2.57）。測試 native+panel 通過。
+  ㉑**0.2.59 「↻ 重新來過」搬到可見列**：該按鈕原本放在 0.2.22 預設收起的探針層裡，
+  進房頁看不到。移到「讓風夜進房／風夜下線／查看風夜狀態／卡住了？強制結束」那一列。
+  測試 native 通過。
+  ㉒**0.2.60 有指令在排隊/武裝時不得切回無勢力**：00:46 那筆（丁滿·蜀 陷阱 39,109）在 00:46:39
+  武裝，接著「開局 8 秒自動回 5」把風夜拉回無勢力 → agent 以本席勢力填 actor，席位變成 -1
+  就永遠等不到符合的席位 → 卡在 waiting_phase、主機 collect=0。
+  修：`should_auto_restore(..., busy=)`，`busy = has_active_jobs()`；有 pending/arming/fired/
+  verifying 等狀態時不切回 5，等指令全部結束才回。測試 36/36。
+  ㉓**0.2.61 跨季未完成自動作廢（使用者要求「下一季還沒下到就是有問題，直接清空」）**：
+  ①`_prepare_job` 記 `due_season = season + (0 if phase==1 else 1)`；`_read_targets` 每輪呼叫
+  `_expire_stale_jobs(season)`：狀態仍在 ACTIVE_STATES 且 `season > due_season` → `error`
+  「跨季未完成…已自動作廢，可重新下單」。②手動「撤回」對 `結果待確認`/`已武裝` 是刻意停用的
+  （不能安全撤回），所以卡住的單目前只能等自動作廢；00:46 那筆已人工作廢（agent blob 的
+  sent 旗標寫 1、ledger 標 cancelled）。測試 36/36。
+  ㉔**0.2.62 轉向：不再從 Hub 下單（使用者定案 2026-10-21 02:0x）**：
+  ①**下架「外部指令」「戰場」兩個分頁**（`control_book.hide`；元件與服務保留，因為
+  `switch_ghost_seat`、pre-seat 仍用得到）。②進房頁新增「**開局綁定**」下拉：
+  `無勢力（不綁定）` 或 `玩家 1..8（slot 0..7）`，**預設玩家 1（slot 0）**；一鍵完成後
+  依此綁定（`bind_slot()` → `_auto_seat_now`）。③**取消「開局 8 秒自動回無勢力」**——
+  `auto_restore_after_start` 預設 False（服務與 UI 都關）。④指令改在遊戲客戶端直接下，
+  跟隨回合的問題用「快速軍令」面板處理（另一支程式）。
+  測試 native+queue 通過。
+  ㉕**0.2.63 綁定用玩家真名＋切換速鍵**：①`CommandService.room_players()` 讀影子客戶端的
+  app rows（`p32_app_rows_read.py`，輸出是 `tables[*].rows`，欄位 `i`＝slot、`name`＝暱稱），
+  `_env` 補 `SGI_BRIDGE_Z` 否則 `probe` 模組匯入失敗。②進房頁「開局綁定」下拉改成
+  「丁满（slot 0）／风云（slot 1）…」，每 15 秒刷新、排除風夜自己、同 slot 去重。
+  ③新增「切換速鍵」列：`無勢力` ＋ 每個玩家一顆，按了立刻 `switch_ghost_seat(slot)`。
+  測試 native 通過。
+  ㉖**0.2.64 外部指令頁改「快速軍令」精簡頁＋席位自動校正**：
+  ①`_reconcile_seat`：開局前每 20 秒比對風夜實際席位與「開局綁定」，不在就自動切過去
+  （`CommandService.current_slot()`／`reconcile_seat()`）——修正「一鍵走實驗室腳本、
+  Hub 完成回呼不會被觸發，所以一直沒綁定」的問題；`phase == 'match'` 後不再校正，
+  讓使用者用切換速鍵自由換。
+  ②外部指令頁不再顯示 CommandPanel（仍建立、讀取照跑），改成精簡頁：勢力下拉＋切換、
+  身份狀態行、「開啟快速軍令（獨立視窗）」按鈕（先開外部程式，內嵌做大之後再換）。
+  ③「戰場」分頁維持隱藏，「外部指令」恢復可見。測試 native 22/22。
+  ㉗**0.2.65/0.2.66 改名「煉虛指揮部」＋登入帳號可改**：
+  ①視窗標題改 **煉虛指揮部**（.app bundle 名稱暫不動）。②進房頁新增「登入帳號／密碼／儲存帳號」
+  （讀寫 `~/sgi-fengye-lab/shadow/fengye-credentials.json`，就是一鍵登入用的那份）；
+  **預設載入現有帳號（风夜）**——`_load_account()` 要在 `CommandService` 建立之後呼叫
+  （0.2.66 修：原本建在 service 之前，例外被吃掉所以欄位空白）。測試 native 通過。
+  ㉘**0.2.80 快捷軍令不再自動開（使用者定案 2026-10-21 03:1x）**：進房/開局時不再自動拉起
+  快速軍令視窗（`_autostart_quick_panel` 停用，手動按鈕保留）。WASD 視角屬它的「啟用輔助」，
+  該開關本來就預設 True；之後若要在沒有該面板的情況下也有 WASD，需另做「把按鍵送進風夜
+  視窗」的常駐小工具（未做）。測試 native 通過。
+  ㉙**0.2.81 回合同步偵測（風夜 vs 本機真實玩家）**：`CommandService.shadow_state()`／
+  `sync_check()` 比對 season（roster 不同＝不同局，不比）；`patch_start_nulls` 也提供同一組
+  座標。UI 在狀態面板底部新增一行「回合同步：✓ 同步（200年春）／⚠️ 落後 N 季（風夜 … ｜
+  玩家 …）」每 20 秒更新。用途：風夜一旦脫節就不該再當主機用，這行讓它在畫面上立刻現形。
+  測試 native 通過。
+  ㉚**0.2.82/0.2.83 網線心跳（陌生人局唯一的「有沒有在動」依據）**：`CommandService.wire_health()`
+  讀 `~/sgi-fengye-lab/fengye-hub-session/run-*/state.json` 的 `received`／`tx_seq`／`phase`／
+  `connected`（全部是風夜自己連線的統計，不需要玩家或主機權限）。UI 在狀態面板加一行
+  「網線：最近 20 秒收到 N 筆／已靜默 N 秒／⚠️ 已 N 秒沒收到回合資料」。門檻
+  `WIRE_SILENCE=120`（使用者：每回合 2 分鐘、六個玩家必有新批次 → 靜默超過 2 分鐘＝掉線）。
+  測試 native 通過。
+  ㉛**0.2.89 線路選擇＋解除卡住（2026-10-21）**：
+  ①**根因**：`win32_startserver.py` 的 `_prep_game_search` 每 80 ms 就點一次「刷新列表」，
+  遊戲對每次被接受的刷新都會開一個**模態**「按【确认】搜寻服务器」框，而且會**疊起來**
+  （實測 13:28 那輪疊了 6～7 個）。只要有一個沒被「确定／取消」回應，「游戏选择」視窗就是
+  `IsWindowEnabled=False` → 客戶端整個卡死（使用者截圖）。現已改成：刷新列表只點一次
+  （3 秒節流、最多 4 次、而且回應過搜尋框之後就不再點），收尾時把整疊框清乾淨，
+  沒有殘留框時把「游戏选择」視窗重新 enable。
+  ②`game_browser.py`（搜索房間／進入所選房間用）同樣改為「只刷一次＋清整疊」，
+  並回報 `blocked`／`left_dialogs`。
+  ③新增 `tools/fy_unblock_search.py`：只讀列視窗，逐層關掉堆疊的搜尋框（取消→確定→WM_CLOSE），
+  最後確認遊戲選擇視窗可點；面板的「解除卡住」按鈕就是呼叫它。
+  ④**進房頁新增「線路」下拉**（多线2（主线）／多线3（备用））：線路是在協議登入那一刻決定的，
+  所以下拉的值會先寫進 `sticky/line.txt`，再 `sticky.sh protocol-up` 進那條線；
+  已在線的會話若與選擇不同線，會先問過使用者（要重新登入一次，對面會看到離線／上線），
+  再 `protocol-down`＋`protocol-up` 換線。面板會顯示「風夜現在在哪條線」，
+  線路不符時「搜索房間」「進入所選房間」會擋下來並說明要先換線。
+  ⑤`sticky.sh` 新增 `line [set 線路]` 與 `unblock` 兩個子命令；
+  `launch_shadow_sticky.py` 新增 `--line` 並把本次登入的線路寫進 `sticky-line.json`。
+  測試：`tests/test_room_line.py` 7/7（線路判斷、換線腳本、搜索擋線路不符）。
+
+- **0.2.93（2026-10-21 19:3x，使用者指示：把快速軍令搬進「外部指令」頁，不必再開獨立視窗）**：
+  ①**頁面**：外部指令頁＝「風夜席位」下拉＋切換＋狀態，下面直接是**內嵌的快速軍令面板**；
+  「開啟快速軍令（獨立視窗）」按鈕整個移除（`_open_quick_panel` 保留為相容入口，改成切到本頁
+  並確保面板存在）。面板置中、最寬 1040（太寬會把按鈕拉成長條），窄視窗時自動縮到 680。
+  ②**面板本體仍只有一份**：`research/client/SGI-Hub-CrossOver-M4-0.2/app/quick_control.py`（1.8.8）。
+  Hub 的 `app/` 底下另有一份 1.8.7 舊副本，所以新增 `app/quick_command_embed.py` 用**檔案路徑**
+  importlib 載入正本（模組名 `sgi_quick_control_panel`），並把它自己的 app／bridge 目錄補進
+  `sys.path`（追加在後）；面板自己的 `quick_control.py` 會把它的 bridge 插到 `sys.path[0]`，
+  載入後再把它移到最後，避免蓋掉 Hub 同名的 `bridge/*`（實測只有 `bridge_bind`／
+  `quick_auto_timer`／`quick_automation`／`quick_control_native` 四檔不同，後三者面板不會在
+  Hub 進程內 import）。同一支程式仍可用 `啟動快捷修改面板.command`
+  當獨立視窗開。
+  ③**`Panel` 改為可內嵌**：`Panel(master, smoke=False, embedded=False, autoconnect=True)`。
+  `embedded=True` 時：不設標題／尺寸／置頂、不 `root.protocol`、`fit_height` 停用、視窗關閉時
+  不 destroy 別人的 root；`root` 改成父容器的頂層視窗（排程仍用 `after`）。
+  ttk 樣式改走 `Quick.*` 命名空間（`Quick.TButton`、`Quick.Muted.TLabel`…），**不動** Hub 共用的
+  `TLabel`／`TButton` 全域設定（Hub 本身已是 clam 主題，所以外觀與獨立視窗一致）。
+  快捷鍵改由 `bind_key()` 綁在頂層視窗，但**只在外部指令頁顯示時才作用**（切走後 F6…F11 靜音）。
+  ④**容器**：`QuickPanelHost`＝Canvas＋右側捲軸，內容比頁面高才出現捲軸（實測收合 594px、
+  展開「修改功能」770px → 出現捲軸），支援滾輪／觸控板事件。
+  ⑤**生命週期**：面板第一次切到外部指令頁才建立（建立即自動連上本機對局，和獨立視窗一樣）；
+  切走只靜音不銷毀；Hub 關閉（含「更新資料」重啟）走 `dispose_quick_panel()` →
+  `panel.close()`（送 quit 給 Wine 輔助程式、關 log、釋放鎖）。內嵌面板與獨立視窗**共用**
+  `~/.sgi-quick-control/panel.lock`：拿不到鎖顯示「等待另一個快速軍令視窗關閉」並每 5 秒重試，
+  避免兩份面板同時對同一局下加時／訓練。
+  ⑥**驗收**：新測 `tests/test_quick_embed.py` **16/16**（載入正本、樣式命名空間、無新 Toplevel、
+  分頁可見性、快捷鍵只在可見時觸發、關閉不毀 Hub 視窗、捲軸高度、鎖行為）。實機（replay、
+  `SGI_QUICK_EMBED_AUTOCONNECT=0`）走 `native_window.FengyeWindow`：面板建立、`toplevels=0`、
+  `panel_visible` 隨分頁切換、F6 只在可見時命中；截圖 `docs/quick-embed-0.2.93.png`、
+  `docs/quick-embed-0.2.93-expanded.png`。
+  ⑦`app/quick_control_model.py` 同步 1.8.8 的加時規則（任意非零 delta；只影響回合倒數滑桿那條路）。
+  ⑧全套件 341 項有 24 項失敗（`test_command_session`／`test_command_dedupe`／`test_native` 的
+  backend 指紋／`test_room_line`／`test_rooms`），來源是本輪之前其他窗口改到一半的
+  `command_service.py`／`backend/*`／`room_remote.py`，與本輪無關。未改遊戲 EXE／存檔／實驗室鏈，
+  未送出任何遊戲指令；Windows 原生 GUI 未實測。
+
+- **0.2.94（2026-10-21 20:0x，使用者：三個手動鈕沒用→改成即時狀態＋回合跟隨；掉線搬到指令頁；分頁改名；配色統一）**：
+  ①**分頁改名** `外部指令`→**`指令`**（notebook 標題、`_open_quick_panel` 查找、run.py 的
+  `FENGYE_START_TAB` 說明、`docs/verify_native_0_2_33.py` 全部同步）。
+  ②**拿掉面板內嵌時的三個手動鈕**（重新连接／刷新状态／回合 +10 秒）與其 `Ctrl+Alt+F6` 熱鍵；
+  改成頁面上兩行**每秒刷新**的自動狀態：即時狀態（倒計時／階段／指令 x/3／年份季節／面板狀態）
+  與**回合跟隨**。
+  ③**回合跟隨**：新 `app/turn_follow.py`（純邏輯，10 項測試）。看 `wire_health().received`
+  有沒有增加＝玩家資訊有沒有回來；**120 秒內**✓、**120–240 秒**⚠、**滿 240 秒**✗ 判定掉隊（終結），
+  收到新資料自動恢復並標「先前中斷過，已恢復」；累計 0 筆維持「還沒收到任何資料」；換 run 重新計時。
+  Hub 端以 1 秒 ticker＋3 秒背景執行緒讀 `wire_health()`（`_tick_command_status`／
+  `_render_command_status`／`_poll_command_wire`），不阻塞 UI。
+  ④**「讓對手掉線」搬到指令頁最下方**（`_build_drop_box`，紅框、維持 askokcancel 二次確認、
+  失敗不重試、風夜不在清單）；`_build_lab_page` 只留指標說明。破壞性行為未變。
+  ④補（同輪使用者追加「把實驗室標籤也刪掉」）：`實驗室`分頁整個移除——`_build_console` 不再
+  `add(lab_page)`、`_build_lab_page` 刪除；唯一內容「讓對手掉線」已在指令頁最下方。
+⑤**配色統一**：`Panel` 新增 `palette`（未給就 embedded 用 HUB、獨立視窗用 CLASSIC，
+  可用部分覆寫）；`native_window._panel_palette()` 傳 Hub 的 `#f3f6fa`／`#203440`／`#286a72`／
+  `#e6eef2`，米黃／金色只留給獨立視窗。ttk 仍走 `Quick.*` 命名空間。
+  ⑥**驗收**：`tests/test_turn_follow.py` 10/10、`tests/test_quick_embed.py` 18/18（2 項 skip：
+  實機 Hub 正持有 `panel.lock`）。實機唯讀 harness：分頁清單含「指令」、三個手動鈕
+  `mapped=[false,false,false]`、`Quick.TLabel` 背景 `#f3f6fa`、F7 只在指令頁命中、掉線盒在底部；
+  截圖 `docs/command-page-0.2.94.png`／`-expanded.png`。
+  ⑦注意：`test_native` 的 backend 指紋、`test_command_session`／`test_command_dedupe`／
+  `test_room_line`／`test_rooms` 仍是**本輪之前**其他窗口未完成的改動造成的失敗，與本輪無關。
+  未實局按掉線鈕、未送任何遊戲指令；未改遊戲 EXE／存檔／實驗室鏈；Windows 原生 GUI 未實測。
+  **補（同輪，使用者問「再顯示最近一次收包時的年份季節 vs 現在」→ 是）**：回合跟隨那行再接三段——
+  `收包 <上一次真的收到玩家的回合> （現在相同／→ 現在 X）`（`turn_follow.round_shift`）、
+  `與玩家端同步／玩家端已到 X（風夜落後 N 季）`（重用 `sync_check()`，`_sync_done` 存 `sync_data`）、
+  累計筆數；判詞不再重複年份（`describe(now, '' if shift else when)`）。`tests/test_turn_follow.py` **13/13**。
+  **補（同輪，使用者：把隱藏兩頁徹底移除、聊天歷史加遊戲時間）**：①「戰場」「玩家與遊戲」
+  兩頁連程式一起刪——`battle_page`／`BattlePanel` 實例、`_battle_draw_map/_battle_paint_map/
+  _battle_geometry/_battle_view/_battle_set_zoom/_battle_pan/_battle_drag_*/_battle_wheel/
+  _battle_reset_view/_battle_key/_battle_redraw/_canvas_size/_on_tab_changed`、
+  `_build_local_controls` 與 `local_login/exit/kill/status/state_refresh/slots_*/fengye_slot_*/
+  _local_async/_local_slot_async/_fengye_slot_async` 全刪；`fengyun_local` 匯入與 10 秒本機狀態
+  輪詢一併移除；`run.py` 的 `battle_panel.dispose()` 拿掉。`fengye_battle_panel.py` 保留
+  （`build_picker`／`fengye_force_views`／`fengye_capture_status`／測試仍在用）。
+  ②**聊天歷史加遊戲時間**：`10-21 20:00:00 · 200年春　丁滿`。聊天封包沒有年份季節，取
+  「Hub 第一次看到該訊息時」的 `cmd_targets_data` year/season，存 `data/chat-times.json`
+  （最多 600 條、重啟沿用）；讀不到寫「回合未記錄」不補造；頁首註明「每 3 秒更新、可能差幾秒」。
+  `tests/test_chat_times.py` **6/6**；驗收截圖 `docs/chat-history-0.2.94.png`。
+  **補（同輪，使用者：聊天名稱要帶勢力、文字配勢力顏色）**：新模組 `app/chat_force_colors.py`
+  ——`force_rgb()` 讀 `app/game_palette.json`（22 家原作色）、`readable()` 把白底太亮的顏色
+  （晋／南蛮／西凉…，亮度 > 0.42）按比例壓暗、`sender_factions(p34)` 從
+  `p34.snapshots.start.rows[*].faction` 按 sender id 對回勢力、`chat_parts()` 產出
+  `(時間戳, 名字（勢力）, 內文, 顏色)`。`native_window._render_chat_text()` 用 Text tag 上色：
+  時間行灰色、名字粗體＋內文都用勢力色；console_chat 與 chat_history 共用。
+  `tests/test_chat_times.py` 擴到 **9/9**（顏色查表、壓暗、名單對照、無勢力/無時間分支）；
+  截圖 `docs/chat-history-0.2.94.png`（示範資料：宋／吴／晋三家）。

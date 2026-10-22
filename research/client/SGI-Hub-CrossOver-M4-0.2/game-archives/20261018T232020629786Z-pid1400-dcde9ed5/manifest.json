@@ -1,0 +1,59 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "dcde9ed5-b153-4577-80f5-9eb1340e35d2",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 1400,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134368386578974450
+  },
+  "player_session_id_at_open": "6c7232af183c4d8ab30a9e5b3f06e765",
+  "started_utc": "2026-10-18T23:20:20.629874+00:00",
+  "ended_utc": "2026-10-19T00:07:01.755549+00:00",
+  "end_reason": "process_gone",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [
+    "b00ede17-3459-4825-ab98-3a8adc898a53"
+  ],
+  "simulated": false,
+  "frame_count": 2072,
+  "last_seq": 2072,
+  "last_snapshot_id": "20261019T000700335376Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-19T00:07:00.357318+00:00",
+  "title": "玩家局 1v1 魏 vs 宋",
+  "match_kind": "player",
+  "format": "1v1",
+  "opening_locked": true,
+  "opening_force_count": 2,
+  "opening_alliances": []
+}

@@ -1,0 +1,68 @@
+{
+  "format_version": 2,
+  "open": true,
+  "match_id": "f312777a-9890-4fff-b898-94eaa042ac0c",
+  "collector_version": "1.1.336",
+  "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
+  "schema": "astra-sgi-core-2",
+  "source_id": "VKQUANT",
+  "runtime_id": "wine-sikarugir10",
+  "process": {
+    "pid": 828,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 134363421354186290
+  },
+  "player_session_id_at_open": "6332c4eac254466d87811a1e6d7e7928",
+  "started_utc": "2026-10-13T05:17:31.464685+00:00",
+  "ended_utc": null,
+  "end_reason": null,
+  "completeness": "recording",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [],
+  "simulated": false,
+  "frame_count": 750,
+  "last_seq": 750,
+  "last_snapshot_id": "20261013T053539420046Z",
+  "dropped_frames": 0,
+  "write_error": null,
+  "training_capture_contract": {
+    "schema_version": 1,
+    "observation_mode": "omniscient",
+    "original_instruction_stream_captured": false,
+    "state_difference_is_action_label": false,
+    "formal_evaluation_eligible": false
+  },
+  "last_capture_end": "2026-10-13T05:35:39.441367+00:00",
+  "title": "玩家局 3v3 赵/西凉/南蛮 vs 齐/楚/秦",
+  "match_kind": "player",
+  "format": "3v3",
+  "opening_locked": true,
+  "opening_force_count": 6,
+  "opening_alliances": [
+    [
+      "赵",
+      "西凉",
+      "南蛮"
+    ],
+    [
+      "齐",
+      "楚",
+      "秦"
+    ]
+  ]
+}

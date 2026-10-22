@@ -1,6 +1,6 @@
 {
   "format_version": 2,
-  "open": true,
+  "open": false,
   "match_id": "53469e2b-2bc2-4c1d-bac7-96e82a4c84d0",
   "collector_version": "1.1.336",
   "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
@@ -14,9 +14,9 @@
   },
   "player_session_id_at_open": "bc07e7c9f9884a41a31f82206c0ce1bb",
   "started_utc": "2026-10-22T00:30:57.869294+00:00",
-  "ended_utc": null,
-  "end_reason": null,
-  "completeness": "recording",
+  "ended_utc": "2026-10-22T00:40:23.499694+00:00",
+  "end_reason": "idle_timeout",
+  "completeness": "complete",
   "started_mid_match": false,
   "first_frame_note": null,
   "map_resources": [
@@ -37,9 +37,9 @@
     "0e356079-12c1-4985-820a-0a1213e808a1"
   ],
   "simulated": false,
-  "frame_count": 210,
-  "last_seq": 210,
-  "last_snapshot_id": "20261022T003548995655Z",
+  "frame_count": 389,
+  "last_seq": 389,
+  "last_snapshot_id": "20261022T004021578621Z",
   "dropped_frames": 0,
   "write_error": null,
   "training_context": {
@@ -57,7 +57,7 @@
     "state_difference_is_action_label": false,
     "formal_evaluation_eligible": false
   },
-  "last_capture_end": "2026-10-22T00:35:49.018780+00:00",
+  "last_capture_end": "2026-10-22T00:40:21.608441+00:00",
   "title": "玩家局 1v1 义渠 vs 汉",
   "match_kind": "player",
   "format": "1v1",

@@ -32,11 +32,25 @@ def write(path, data):
     temp.replace(path)
 
 
-def process_alive(pid, marker):
+COLLECTOR_MARKERS = ('p1_directed_probe.py', 'shadow_session_rec.py', 'shadow_status.py')
+
+
+def process_alive(pid, marker=None):
+    """pid 還活著且是我們的採集器。
+
+    2026-10-21：風夜改成「官方大廳不動、每局只接採集器」後，掛在會話上的
+    可能是 shadow_status.py（大廳階段）而不是 p1_directed_probe.py；
+    只要命令列帶任何一個採集器名字就當作活著。
+    """
     if not isinstance(pid, int):
         return False
     p = subprocess.run(['ps', '-p', str(pid), '-o', 'command='], capture_output=True, text=True)
-    return p.returncode == 0 and marker in p.stdout
+    if p.returncode != 0:
+        return False
+    text = p.stdout
+    if marker:
+        return marker in text
+    return any(name in text for name in COLLECTOR_MARKERS)
 
 
 def active_run():
@@ -104,7 +118,7 @@ def existing_lobby(search=False):
 def status(heartbeat=True):
     run, pointer = active_run()
     state = read(run / 'state.json')
-    alive = process_alive(pointer.get('pid'), str(LAB / 'p1_directed_probe.py'))
+    alive = process_alive(pointer.get('pid'))
     if not alive:
         existing = existing_lobby()
         if existing:
@@ -126,7 +140,27 @@ def status(heartbeat=True):
     return state
 
 
+def hall_running():
+    """風夜的大廳（SANGUO.exe）是否已在線。
+
+    2026-10-21：官方大廳登入後，任何「再開一條探針會話」的動作都等於同一支
+    風夜帳號重複登入，對面會看到上線／離線抖動。大廳在線時一律不開。
+    """
+    try:
+        out = subprocess.run(['pgrep', '-fl', 'SANGUO\\.exe'],
+                             capture_output=True, text=True, timeout=5)
+    except (OSError, subprocess.TimeoutExpired):
+        return False
+    for line in (out.stdout or '').splitlines():
+        if 'SANGUO.exe' in line and '/prefix-' in line:
+            return True
+    return False
+
+
 def start(payload):
+    if hall_running():
+        return {'status': 'error',
+                'error': '風夜的大廳已在線：不再開同帳號探針會話（會重複登入）。請在大廳按「啟動遊戲」。'}
     old = status(False)
     if old.get('alive'):
         return {'status': 'error', 'error': '已有風夜大廳會話，請先停止再切換線路', 'session': old}

@@ -1,0 +1,44 @@
+{
+  "format_version": 2,
+  "open": false,
+  "match_id": "a10c65aa-46b1-49ad-ab4b-318cd661ce3a",
+  "collector_version": "1.1.138",
+  "game_build": "demo-build-not-a-real-sha",
+  "schema": "astra-sgi-core-2",
+  "source_id": "demo",
+  "runtime_id": "default",
+  "process": {
+    "pid": 4242,
+    "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
+    "creation_filetime": 9001
+  },
+  "started_utc": "2026-09-16T00:00:00+00:00",
+  "ended_utc": "2026-09-16T01:00:13+00:00",
+  "end_reason": "process_gone",
+  "completeness": "complete",
+  "started_mid_match": false,
+  "first_frame_note": null,
+  "map_resources": [
+    {
+      "path": "assets/SanInet.lbm",
+      "present": true,
+      "bytes": 185880,
+      "sha256": "8b0cd29885236c1238130e5571d5c07ed217bb9b39c165ea381f012b7f38026e"
+    },
+    {
+      "path": "assets/SanInet.mbm",
+      "present": true,
+      "bytes": 47473846,
+      "sha256": "db4ba0ab79a50cb89f4184bb707afae5916aaaa735497939ac2f185dd75b2073"
+    }
+  ],
+  "related_match_ids": [],
+  "simulated": true,
+  "frame_count": 14,
+  "last_seq": 14,
+  "last_snapshot_id": "DEMO20010013",
+  "dropped_frames": 0,
+  "write_error": null,
+  "demo_label": "模拟演示档案，不是真实对局",
+  "last_capture_end": "2026-09-16T01:00:13+00:00"
+}

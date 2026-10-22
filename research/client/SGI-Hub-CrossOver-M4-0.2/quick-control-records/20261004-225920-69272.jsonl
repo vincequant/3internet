@@ -1,0 +1,13 @@
+{"at": "2026-10-04T14:59:21.272209+00:00", "kind": "bound", "bound": {"pid": 820, "created": 134355995234107350, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "1cc8bb686f63d32eb1f2a4107374a0a60927d1ea7f9a7b0652245ef7e7bd35a2"}}
+{"at": "2026-10-04T14:59:22.726502+00:00", "kind": "fatal", "note": "该游戏已有快捷面板／验证程序连接，请先关闭它"}
+{"at": "2026-10-04T14:59:22.808091+00:00", "kind": "exit", "code": 2}
+{"at": "2026-10-04T14:59:29.040781+00:00", "kind": "bound", "bound": {"pid": 820, "created": 134355995234107350, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "1cc8bb686f63d32eb1f2a4107374a0a60927d1ea7f9a7b0652245ef7e7bd35a2"}}
+{"at": "2026-10-04T14:59:30.337906+00:00", "kind": "fatal", "note": "该游戏已有快捷面板／验证程序连接，请先关闭它"}
+{"at": "2026-10-04T14:59:30.338289+00:00", "kind": "exit", "code": 2}
+{"at": "2026-10-04T14:59:36.323785+00:00", "kind": "bound", "bound": {"pid": 820, "created": 134355995234107350, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "1cc8bb686f63d32eb1f2a4107374a0a60927d1ea7f9a7b0652245ef7e7bd35a2"}}
+{"at": "2026-10-04T14:59:37.132991+00:00", "kind": "fatal", "note": "该游戏已有快捷面板／验证程序连接，请先关闭它"}
+{"at": "2026-10-04T14:59:37.133320+00:00", "kind": "exit", "code": 2}
+{"at": "2026-10-04T14:59:43.040462+00:00", "kind": "bound", "bound": {"pid": 820, "created": 134355995234107350, "image": "C:\\sgi\\run-3.5\\3I\\SANPK.exe", "core": 70134538, "source_id": "VKQUANT", "build": "1cc8bb686f63d32eb1f2a4107374a0a60927d1ea7f9a7b0652245ef7e7bd35a2"}}
+{"at": "2026-10-04T14:59:43.931867+00:00", "kind": "fatal", "note": "该游戏已有快捷面板／验证程序连接，请先关闭它"}
+{"at": "2026-10-04T14:59:43.932216+00:00", "kind": "exit", "code": 2}
+{"at": "2026-10-04T14:59:46.988906+00:00", "kind": "panel_closed"}

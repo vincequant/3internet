@@ -1,0 +1,13 @@
+#!/bin/sh
+HUB="__HUB__"
+cd "$HUB" || exit 1
+if [ -x "$HUB/.venv/bin/python" ]; then
+  PY="$HUB/.venv/bin/python"
+elif command -v python3 >/dev/null; then
+  PY=python3
+else
+  echo '{"ok":false,"error":"no_python"}'
+  exit 1
+fi
+export PYTHONPATH="$HUB/bridge${PYTHONPATH:+:$PYTHONPATH}"
+exec "$PY" -B "$HUB/bridge/sgi_war_cli.py" "$@"

@@ -1,0 +1,15 @@
+{
+  "archive": "20260916T043925331497Z-pid728-495b9d0b",
+  "frames": 2897,
+  "opening": 43,
+  "refresh_index_s": 0.0046,
+  "rebuild_index_s": 0.6659,
+  "open_reader_s": 0.0039,
+  "seq50_clone_false_s": 0.0315,
+  "seq50_clone_true_s": 0.2665,
+  "play50_frame_only_s": 0.0501,
+  "play50_units_from_200_s": 0.0382,
+  "ensure_92_s": 0.718,
+  "generals": 923,
+  "note": "1.1.147 play path is frame_state(clone=False); view() still clones for API callers. Open uses refresh_index, not full rebuild."
+}
