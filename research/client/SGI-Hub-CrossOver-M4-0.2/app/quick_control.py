@@ -139,7 +139,7 @@ class Panel:
         self.round_percent = tk.IntVar(value=100)
         self.round_seconds = tk.StringVar(value='= 120 秒')
         self._snapping_round = False
-        self.round_scale = ttk.Scale(scale_row, from_=25, to=100, orient='horizontal',
+        self.round_scale = ttk.Scale(scale_row, from_=5, to=100, orient='horizontal',
                                      variable=self.round_percent, command=self.on_round_scale,
                                      style=self.st('Horizontal.TScale'))
         self.round_scale.pack(side='left', fill='x', expand=True, padx=8)
@@ -553,7 +553,8 @@ class Panel:
     def on_round_scale(self, value):
         if self._snapping_round:
             return
-        snapped = max(25, min(100, int(round(float(value) / 25.0) * 25)))
+        # 2026-10-22：下限 25%→5%，步進 25→5，讓本機倒數可以調到 6 秒（幽靈不影響主機）
+        snapped = max(5, min(100, int(round(float(value) / 5.0) * 5)))
         label = '= %d 秒' % (120 * snapped // 100)
         changed = int(self.round_percent.get()) != snapped or self.round_seconds.get() != label
         self._snapping_round = True

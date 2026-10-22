@@ -1,6 +1,6 @@
 {
   "format_version": 2,
-  "open": true,
+  "open": false,
   "match_id": "191639da-afaf-4c7c-ad2c-dfa12a7c9641",
   "collector_version": "1.1.336",
   "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
@@ -14,9 +14,9 @@
   },
   "player_session_id_at_open": "b570e5ae74864c319ddc00d39fc5b8a5",
   "started_utc": "2026-10-22T01:38:32.179551+00:00",
-  "ended_utc": null,
-  "end_reason": null,
-  "completeness": "recording",
+  "ended_utc": "2026-10-22T01:51:06.737498+00:00",
+  "end_reason": "idle_timeout",
+  "completeness": "complete",
   "started_mid_match": false,
   "first_frame_note": null,
   "map_resources": [
@@ -37,9 +37,9 @@
     "ee7fecbc-d1c0-4400-ad69-d3a775084e7f"
   ],
   "simulated": false,
-  "frame_count": 90,
-  "last_seq": 90,
-  "last_snapshot_id": "20261022T014047302814Z",
+  "frame_count": 465,
+  "last_seq": 465,
+  "last_snapshot_id": "20261022T015105620654Z",
   "dropped_frames": 0,
   "write_error": null,
   "training_context": {
@@ -57,7 +57,7 @@
     "state_difference_is_action_label": false,
     "formal_evaluation_eligible": false
   },
-  "last_capture_end": "2026-10-22T01:40:47.341345+00:00",
+  "last_capture_end": "2026-10-22T01:51:05.671237+00:00",
   "title": "玩家局 1v1 蜀 vs 羌",
   "match_kind": "player",
   "format": "1v1",

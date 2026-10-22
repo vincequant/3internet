@@ -1,21 +1,20 @@
 {
-  "queried_at": 1792633258.812715,
+  "queried_at": 1792634406.5893602,
   "source_kind": "local_lab",
   "host_watch": null,
   "activity": {},
   "member_names": {
     "174929713": "丁满",
-    "169433828": "彭彭",
-    "177420223": "xiaolight"
+    "169433828": "彭彭"
   },
   "chain": [
     {
-      "pid": 68219,
+      "pid": 22504,
       "parent_pid": 16818,
       "role": "driver"
     },
     {
-      "pid": 68229,
+      "pid": 22513,
       "parent_pid": 16818,
       "role": "driver",
       "line": "多线3"
@@ -24,11 +23,11 @@
   "ghost_log": {
     "mode": "hub_room_session",
     "registration": "unknown",
-    "last_log_at": 1792633258.648748,
-    "packet_count": 18,
+    "last_log_at": 1792634405.826771,
+    "packet_count": 77,
     "release_calls": 0,
     "receiver_errors": 0,
-    "last_packet_at": 1792633191.407676,
+    "last_packet_at": 1792634403.610423,
     "last_cmd": 26,
     "watchdog_started_at": null,
     "cmd23_attempts": null,
@@ -42,72 +41,62 @@
   "events": [
     {
       "ev": "received_packet",
-      "wall": 1792633161.84693,
-      "cmd": 26
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792633163.96898,
-      "cmd": 26
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792633164.0699992,
-      "cmd": 20
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792633164.0699992,
+      "wall": 1792634376.53705,
       "cmd": 18
     },
     {
       "ev": "received_packet",
-      "wall": 1792633164.0699992,
-      "cmd": 16
-    },
-    {
-      "ev": "received_packet",
-      "wall": 1792633164.0699992,
+      "wall": 1792634376.53705,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792633164.0699992,
+      "wall": 1792634376.53705,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792633164.0699992,
+      "wall": 1792634376.53705,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792633167.1974988,
+      "wall": 1792634379.566737,
       "cmd": 26
     },
     {
       "ev": "received_packet",
-      "wall": 1792633168.109458,
+      "wall": 1792634380.173476,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792634380.274389,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792633168.109458,
+      "wall": 1792634380.274389,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792633168.109458,
+      "wall": 1792634380.274389,
       "cmd": 21
     },
     {
       "ev": "received_packet",
-      "wall": 1792633191.407676,
+      "wall": 1792634403.306844,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792634403.610423,
       "cmd": 26
     }
   ],
   "p34": {
-    "run_name": "run-20261022-093142-game",
+    "run_name": "run-20261022-095226-game",
     "pointer_state": null,
     "pointer_source": "hub_session",
     "registration_verified": false,
@@ -137,18 +126,19 @@
     },
     "longrun": {},
     "counters": {
-      "received": 18,
+      "received": 77,
       "released": 0,
       "errors": 0,
-      "rounds": 3,
+      "rounds": 18,
       "received_after_d8": null,
-      "last_packet_wall": 1792633191.407676,
+      "last_packet_wall": 1792634403.610423,
       "last_packet_cmd": 26
     },
     "snapshots": {
-      "initial": {
-        "observed_at": 1792632856.7938728,
-        "cmd": 3,
+      "initial": null,
+      "start": {
+        "observed_at": 1792634047.1833138,
+        "cmd": 7,
         "rows": [
           {
             "i": 0,
@@ -156,8 +146,8 @@
             "w4": 2,
             "name": "丁满",
             "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "binding46": 11,
+            "faction": "宋"
           },
           {
             "i": 1,
@@ -165,118 +155,69 @@
             "w4": 2,
             "name": "彭彭",
             "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "binding46": 10,
+            "faction": "周"
           },
           {
             "i": 2,
-            "id": 177420223,
-            "w4": 2,
-            "name": "xiaolight",
-            "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 14,
+            "faction": "西凉"
           },
           {
             "i": 3,
             "id": 0,
             "w4": 0,
             "name": "",
-            "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "state42": 2,
+            "binding46": 17,
+            "faction": "蜀"
           },
           {
             "i": 4,
             "id": 0,
             "w4": 0,
             "name": "",
-            "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "state42": 2,
+            "binding46": 8,
+            "faction": "吴"
           },
           {
             "i": 5,
             "id": 0,
             "w4": 0,
             "name": "",
-            "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "state42": 2,
+            "binding46": 20,
+            "faction": "汉"
           },
           {
             "i": 6,
             "id": 0,
             "w4": 0,
             "name": "",
-            "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "state42": 2,
+            "binding46": 5,
+            "faction": "燕"
           },
           {
             "i": 7,
             "id": 0,
             "w4": 0,
             "name": "",
-            "state42": 0,
-            "binding46": -1,
-            "faction": ""
+            "state42": 2,
+            "binding46": 1,
+            "faction": "赵"
           }
         ]
-      },
-      "start": null
+      }
     },
     "frames": [
       {
-        "wall": 1792632856.7938728,
-        "type": 4,
-        "cmd": 3,
-        "cls": "CSanInetInitGameData",
-        "len": 721,
-        "sha8": "d1cb94a9ae73"
-      },
-      {
-        "wall": 1792632856.910126,
-        "type": 4,
-        "cmd": null,
-        "cls": "CSanInetPlayerNotifyData",
-        "len": 127,
-        "sha8": "a7e52a01bf27"
-      },
-      {
-        "wall": 1792633027.721108,
-        "type": 4,
-        "cmd": 1,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "8618229d922b"
-      },
-      {
-        "wall": 1792633111.16705,
-        "type": 4,
-        "cmd": 6,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "3152dcc4dbd8"
-      },
-      {
-        "wall": 1792633115.7101471,
-        "type": 4,
-        "cmd": 12,
-        "cls": "CSanInetGameEnvSettingNotifyData",
-        "len": 109,
-        "sha8": "39448023aee6"
-      },
-      {
-        "wall": 1792633117.424397,
-        "type": 4,
-        "cmd": 14,
-        "cls": "CSanInetRandomLordSettingNotifyData",
-        "len": 144,
-        "sha8": "58111082cc20"
-      },
-      {
-        "wall": 1792633120.139955,
+        "wall": 1792634106.0445209,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -284,7 +225,7 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792633120.2412732,
+        "wall": 1792634127.568403,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -292,71 +233,47 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792633161.84693,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792633163.96898,
-        "type": 4,
-        "cmd": 26,
-        "cls": "CSanInetCmdObject",
-        "len": 36,
-        "sha8": "52aa023c2674"
-      },
-      {
-        "wall": 1792633164.0699992,
+        "wall": 1792634127.669303,
         "type": 4,
         "cmd": 20,
         "cls": "CSanInetPersonnelCmd",
         "len": 47,
-        "sha8": "72307462db36"
+        "sha8": "c775b6e2d0e1"
       },
       {
-        "wall": 1792633164.0699992,
+        "wall": 1792634127.669303,
         "type": 4,
-        "cmd": 18,
-        "cls": "CSanInetDomesticCmd",
-        "len": 54,
-        "sha8": "b42efb1d7a6f"
+        "cmd": 20,
+        "cls": "CSanInetPersonnelCmd",
+        "len": 47,
+        "sha8": "0a90e6100d16"
       },
       {
-        "wall": 1792633164.0699992,
+        "wall": 1792634127.669303,
         "type": 4,
-        "cmd": 16,
-        "cls": "CSanInetUnitNetCmdCreate",
-        "len": 71,
-        "sha8": "f051ccabfb30"
+        "cmd": 19,
+        "cls": "CSanInetDiplomacyCmd",
+        "len": 70,
+        "sha8": "6f2d87fad940"
       },
       {
-        "wall": 1792633164.0699992,
-        "type": 4,
-        "cmd": 21,
-        "cls": "CSanInetPhaseEndCmd",
-        "len": 38,
-        "sha8": "851e7e27a080"
-      },
-      {
-        "wall": 1792633164.0699992,
+        "wall": 1792634127.669303,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "af61444b05b8"
+        "sha8": "5e9de2f1509a"
       },
       {
-        "wall": 1792633164.0699992,
+        "wall": 1792634127.669303,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "d97a0af56116"
+        "sha8": "c3725f88fe02"
       },
       {
-        "wall": 1792633167.1974988,
+        "wall": 1792634129.8952231,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -364,31 +281,575 @@
         "sha8": "52aa023c2674"
       },
       {
-        "wall": 1792633168.109458,
+        "wall": 1792634142.110413,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634142.212394,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "503e236f68c8"
+        "sha8": "d716e24beb9c"
       },
       {
-        "wall": 1792633168.109458,
+        "wall": 1792634142.212394,
+        "type": 4,
+        "cmd": 19,
+        "cls": "CSanInetDiplomacyCmd",
+        "len": 70,
+        "sha8": "29f4b1a569d5"
+      },
+      {
+        "wall": 1792634142.212394,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "5d5cec1b1f29"
+        "sha8": "08d8d41775ce"
       },
       {
-        "wall": 1792633168.109458,
+        "wall": 1792634142.212394,
+        "type": 4,
+        "cmd": 19,
+        "cls": "CSanInetDiplomacyCmd",
+        "len": 70,
+        "sha8": "e8db3295095d"
+      },
+      {
+        "wall": 1792634142.212394,
         "type": 4,
         "cmd": 21,
         "cls": "CSanInetPhaseEndCmd",
         "len": 38,
-        "sha8": "e543c861e243"
+        "sha8": "432164956610"
       },
       {
-        "wall": 1792633191.407676,
+        "wall": 1792634163.663414,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634164.6733818,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634164.775105,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "99452a713a27"
+      },
+      {
+        "wall": 1792634164.775105,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "3c9f92f8078a"
+      },
+      {
+        "wall": 1792634164.775105,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "3bf027e8b691"
+      },
+      {
+        "wall": 1792634182.542714,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634183.9867141,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634184.087968,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "623e731d0bdb"
+      },
+      {
+        "wall": 1792634184.087968,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "215cf2c2cf6c"
+      },
+      {
+        "wall": 1792634184.087968,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "b304f716a39e"
+      },
+      {
+        "wall": 1792634196.82291,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634197.936054,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634198.03682,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "98a60bd77263"
+      },
+      {
+        "wall": 1792634198.03682,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "e766e9c5660b"
+      },
+      {
+        "wall": 1792634198.03682,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "4d661d5b6d77"
+      },
+      {
+        "wall": 1792634198.340024,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634198.440801,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634200.8609831,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634266.414651,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634268.569986,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634268.872336,
+        "type": 4,
+        "cmd": 16,
+        "cls": "CSanInetUnitNetCmdCreate",
+        "len": 71,
+        "sha8": "8a7be0af6e67"
+      },
+      {
+        "wall": 1792634268.872336,
+        "type": 4,
+        "cmd": 18,
+        "cls": "CSanInetDomesticCmd",
+        "len": 54,
+        "sha8": "96863f7e455c"
+      },
+      {
+        "wall": 1792634268.872336,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "9cc233884215"
+      },
+      {
+        "wall": 1792634268.872336,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "7097de57fbcd"
+      },
+      {
+        "wall": 1792634268.872336,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "fa3f25edb479"
+      },
+      {
+        "wall": 1792634272.001719,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634272.2040389,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "18282bac40f4"
+      },
+      {
+        "wall": 1792634272.2040389,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "aef687d2d882"
+      },
+      {
+        "wall": 1792634272.2040389,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "0c135c41b405"
+      },
+      {
+        "wall": 1792634280.0799072,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634287.549998,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634287.752007,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "16f59da23066"
+      },
+      {
+        "wall": 1792634287.752007,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "882c02add507"
+      },
+      {
+        "wall": 1792634287.752007,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "a5aada1c1a6a"
+      },
+      {
+        "wall": 1792634287.752007,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "82595328ef74"
+      },
+      {
+        "wall": 1792634287.752007,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "b36ca565b134"
+      },
+      {
+        "wall": 1792634304.211713,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634309.4552162,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634309.557227,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "16f59da23066"
+      },
+      {
+        "wall": 1792634309.557227,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "58707e934531"
+      },
+      {
+        "wall": 1792634309.557227,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "fad885d5ad3e"
+      },
+      {
+        "wall": 1792634309.557227,
+        "type": 4,
+        "cmd": 17,
+        "cls": "CSanInetUnitNetCmdMove",
+        "len": 63,
+        "sha8": "47d3a43961e9"
+      },
+      {
+        "wall": 1792634309.557227,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "f9c059d52664"
+      },
+      {
+        "wall": 1792634318.693724,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634320.007133,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634320.208919,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "210f5ebcf13e"
+      },
+      {
+        "wall": 1792634320.208919,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "5145bbed312b"
+      },
+      {
+        "wall": 1792634320.8130481,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634323.235072,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634323.33588,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634373.908155,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634376.335814,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634376.53705,
+        "type": 4,
+        "cmd": 20,
+        "cls": "CSanInetPersonnelCmd",
+        "len": 47,
+        "sha8": "1bb1abf0254d"
+      },
+      {
+        "wall": 1792634376.53705,
+        "type": 4,
+        "cmd": 20,
+        "cls": "CSanInetPersonnelCmd",
+        "len": 47,
+        "sha8": "9ac04a681e26"
+      },
+      {
+        "wall": 1792634376.53705,
+        "type": 4,
+        "cmd": 18,
+        "cls": "CSanInetDomesticCmd",
+        "len": 54,
+        "sha8": "3c7ba6162355"
+      },
+      {
+        "wall": 1792634376.53705,
+        "type": 4,
+        "cmd": 18,
+        "cls": "CSanInetDomesticCmd",
+        "len": 54,
+        "sha8": "2c9db30c35a4"
+      },
+      {
+        "wall": 1792634376.53705,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "b9c9c429f9b3"
+      },
+      {
+        "wall": 1792634376.53705,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "be7573b72207"
+      },
+      {
+        "wall": 1792634376.53705,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "5cd9a1fb87d8"
+      },
+      {
+        "wall": 1792634379.566737,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634380.173476,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634380.274389,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "aef687d2d882"
+      },
+      {
+        "wall": 1792634380.274389,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "70814febcb80"
+      },
+      {
+        "wall": 1792634380.274389,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "1c3950cd49e0"
+      },
+      {
+        "wall": 1792634403.306844,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792634403.610423,
         "type": 4,
         "cmd": 26,
         "cls": "CSanInetCmdObject",
@@ -397,71 +858,371 @@
       }
     ],
     "sync": {
-      "rounds": 3,
+      "rounds": 18,
       "nonempty": [
         {
-          "wall": 1792633164.0699992,
+          "wall": 1792634127.669303,
           "round": 17,
           "records": [
             {
+              "sender": 174929713,
+              "len": 47,
+              "sha8": "c775b6e2d0e1",
+              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000000b000000e9010000"
+            },
+            {
               "sender": 169433828,
               "len": 47,
-              "sha8": "72307462db36",
-              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d6414000000010000000000000000110000008e000000"
+              "sha8": "0a90e6100d16",
+              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000000a00000030030000"
             },
             {
-              "sender": 177420223,
-              "len": 54,
-              "sha8": "b42efb1d7a6f",
-              "raw": "ffff010013004353616e496e6574446f6d6573746963436d6412000000040000000b00360000150000000600000045000000d0070000"
+              "sender": 174929713,
+              "len": 70,
+              "sha8": "6f2d87fad940",
+              "raw": "ffff010014004353616e496e65744469706c6f6d616379436d641300000000000000000000000001000000000b0000000a000000910200000000000002000d00010018000000"
             },
             {
-              "sender": 177420223,
-              "len": 71,
-              "sha8": "f051ccabfb30",
-              "raw": "ffff010018004353616e496e6574556e69744e6574436d6443726561746510000000000000000000000000010015005802ffffffffe02e0000e02e000045000000ffffffffffff"
-            },
-            {
-              "sender": 177420223,
+              "sender": 169433828,
               "len": 38,
-              "sha8": "851e7e27a080",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000009661010000"
+              "sha8": "5e9de2f1509a",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000cd14010000"
             },
             {
               "sender": 174929713,
               "len": 38,
-              "sha8": "af61444b05b8",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000f157010000"
-            },
-            {
-              "sender": 169433828,
-              "len": 38,
-              "sha8": "d97a0af56116",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000005044010000"
+              "sha8": "c3725f88fe02",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000f2bc000000"
             }
           ]
         },
         {
-          "wall": 1792633168.109458,
+          "wall": 1792634142.212394,
           "round": 21,
           "records": [
             {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "d716e24beb9c",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000000e4000000"
+            },
+            {
+              "sender": 177420223,
+              "len": 70,
+              "sha8": "29f4b1a569d5",
+              "raw": "ffff010014004353616e496e65744469706c6f6d616379436d64130000000100000000000000001e000000000a0000000b000000ffffffff0000000000000000000000000000"
+            },
+            {
               "sender": 177420223,
               "len": 38,
-              "sha8": "503e236f68c8",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000099e8000000"
+              "sha8": "08d8d41775ce",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000002bd2000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 70,
+              "sha8": "e8db3295095d",
+              "raw": "ffff010014004353616e496e65744469706c6f6d616379436d6413000000010000000000000000090c0d12000a0000000b000000310200000000000001000000000000000000"
             },
             {
               "sender": 169433828,
               "len": 38,
-              "sha8": "5d5cec1b1f29",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000009ae8000000"
+              "sha8": "432164956610",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000100000074bc000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634164.775105,
+          "round": 25,
+          "records": [
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "99452a713a27",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000582c000000"
             },
             {
               "sender": 174929713,
               "len": 38,
-              "sha8": "e543c861e243",
-              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000000000098e8000000"
+              "sha8": "3c9f92f8078a",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000007a2c000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "3bf027e8b691",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000752b000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634184.087968,
+          "round": 29,
+          "records": [
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "623e731d0bdb",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000001d1f000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "215cf2c2cf6c",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000e311000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "b304f716a39e",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000a60b000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634198.03682,
+          "round": 33,
+          "records": [
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "98a60bd77263",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000004330000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "e766e9c5660b",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000b625000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "4d661d5b6d77",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000001d22000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634268.872336,
+          "round": 45,
+          "records": [
+            {
+              "sender": 177420223,
+              "len": 71,
+              "sha8": "8a7be0af6e67",
+              "raw": "ffff010018004353616e496e6574556e69744e6574436d644372656174651000000000000000000000000001000a003a03ffffffff28230000282300004d000000ffffffffffff"
+            },
+            {
+              "sender": 177420223,
+              "len": 54,
+              "sha8": "96863f7e455c",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d64120000000400000035005200000a0000000600000010000000d0070000"
+            },
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "9cc233884215",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000262b010000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "7097de57fbcd",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000e51e010000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "fa3f25edb479",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000001915010000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634272.2040389,
+          "round": 49,
+          "records": [
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "18282bac40f4",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000100000098e8000000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "aef687d2d882",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000009be8000000"
+            },
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "0c135c41b405",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000009be8000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634287.752007,
+          "round": 53,
+          "records": [
+            {
+              "sender": 177420223,
+              "len": 63,
+              "sha8": "16f59da23066",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f766511000000000000000000000000000039000000580000000300010000000c00ffff0000"
+            },
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "882c02add507",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000002453010000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "a5aada1c1a6a",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000009932000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 63,
+              "sha8": "82595328ef74",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003600000051000000000000000000ffffffff0000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "b36ca565b134",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000004e2f010000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634309.557227,
+          "round": 57,
+          "records": [
+            {
+              "sender": 177420223,
+              "len": 63,
+              "sha8": "16f59da23066",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f766511000000000000000000000000000039000000580000000300010000000c00ffff0000"
+            },
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "58707e934531",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000003833010000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "fad885d5ad3e",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000008f17000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 63,
+              "sha8": "47d3a43961e9",
+              "raw": "ffff010016004353616e496e6574556e69744e6574436d644d6f76651100000000000000000000000000003600000052000000020000000000ffffffff0000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "f9c059d52664",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000360f010000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634320.208919,
+          "round": 61,
+          "records": [
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "210f5ebcf13e",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000000235000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "5145bbed312b",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000003d2b000000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634376.53705,
+          "round": 73,
+          "records": [
+            {
+              "sender": 174929713,
+              "len": 47,
+              "sha8": "1bb1abf0254d",
+              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000000b00000009030000"
+            },
+            {
+              "sender": 169433828,
+              "len": 47,
+              "sha8": "9ac04a681e26",
+              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000000a0000008e000000"
+            },
+            {
+              "sender": 177420223,
+              "len": 54,
+              "sha8": "3c7ba6162355",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d64120000000400000033005300000a00000009000000100000005f000000"
+            },
+            {
+              "sender": 177420223,
+              "len": 54,
+              "sha8": "2c9db30c35a4",
+              "raw": "ffff010013004353616e496e6574446f6d6573746963436d64120000000400000033005400000a0000000600000010000000d0070000"
+            },
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "b9c9c429f9b3",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000001000000d646010000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "be7573b72207",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000008c33010000"
+            },
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "5cd9a1fb87d8",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000c120010000"
+            }
+          ]
+        },
+        {
+          "wall": 1792634380.274389,
+          "round": 77,
+          "records": [
+            {
+              "sender": 174929713,
+              "len": 38,
+              "sha8": "aef687d2d882",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000009be8000000"
+            },
+            {
+              "sender": 177420223,
+              "len": 38,
+              "sha8": "70814febcb80",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000100000070e8000000"
+            },
+            {
+              "sender": 169433828,
+              "len": 38,
+              "sha8": "1c3950cd49e0",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000010000008ee8000000"
             }
           ]
         }
@@ -497,32 +1258,32 @@
     "ghost_withdrawn": false,
     "host_init_wait": false,
     "exit_seen_wall": null,
-    "observed_at": 1792633258.648748,
-    "started_at": 1792632702.549815,
-    "driver_pid": 68219,
+    "observed_at": 1792634405.826771,
+    "started_at": 1792633946.3225229,
+    "driver_pid": 22504,
     "line": "多线3",
     "error": null
   },
   "status": {
     "schema": "fengye-status-1",
-    "wall": 1792633256.367,
-    "pid": 860,
+    "wall": 1792634405.824,
+    "pid": 1272,
     "present": true,
     "link": {
       "connected": true,
       "sync": 1,
-      "tx": 12,
+      "tx": 40,
       "rx_backlog": 0
     },
     "scene": {
       "in_map": false,
-      "mode": 2,
-      "phase": 3
+      "mode": 0,
+      "phase": 4
     },
     "fog_original": true,
     "seat": {
-      "slot": 0,
-      "force": 21
+      "slot": 1,
+      "force": 10
     },
     "patches": {
       "opening": {
@@ -548,13 +1309,13 @@
       "pid": null
     },
     "rx": {
-      "received": 18,
-      "last_wall": 1792633191.407676,
-      "last_age": 65.5
+      "received": 77,
+      "last_wall": 1792634404.217244,
+      "last_age": 2.0
     },
     "hide": {
       "verified": true,
-      "at": 1792633028.8831491,
+      "at": 1792633969.780533,
       "by": "local_app_table+d8_receipt",
       "note": "D8 送出一發；應用層名冊已無 xiaolight，DLL 成員保留（廣播仍可達）"
     },
@@ -567,29 +1328,29 @@
       "last_event": 0,
       "last_tick": 67104920,
       "faults": 0,
-      "age": 599.1,
+      "age": 1748.4,
       "hooks": false,
       "started": false
     },
     "world": {
-      "units": 1,
+      "units": 0,
       "cities": 92,
       "generals": 923,
       "lords": 2,
-      "at": 1792633249.218896
+      "at": 1792634385.953303
     },
-    "disk_free_gb": 753.85,
-    "uptime_s": 553.7,
-    "age": 2.4
+    "disk_free_gb": 750.88,
+    "uptime_s": 459.2,
+    "age": 0.8
   },
   "host": {
     "virtual_ip": "",
     "session": "",
     "source": "hub_session",
-    "observed_at": 1792633258.648748
+    "observed_at": 1792634405.826771
   },
   "line": "多线3",
-  "run_name": "run-20261022-093142-game",
+  "run_name": "run-20261022-095226-game",
   "source_sha256": {},
   "room_query": null
 }

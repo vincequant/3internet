@@ -1,0 +1,821 @@
+#!/bin/bash
+# 風夜「大廳不動」常駐流程（2026-10-21）
+#
+# 目標：大廳（SANGUO.exe，官方登入）從頭到尾只登入一次；每一局只動遊戲進程（SANPK.exe）。
+#       大廳不重啟、不重登、不換帳號 → 對面看不到「上線／離線」抖動。
+#
+# 用法：
+#   sticky.sh status            看瓶子／大廳／遊戲／採集器現況
+#   sticky.sh adopt [瓶子目錄]  把風夜目前所在的瓶子固定下來（寫 ghost-bottle.json）
+#   sticky.sh watch             常駐：大廳階段只有狀態讀取；一開遊戲自動接採集器，結束自動收
+#   sticky.sh unwatch           停掉常駐 watcher
+#   sticky.sh lobby             現在就接上「大廳」會話（不碰遊戲、不重啟）
+#   sticky.sh join 房間名       用客戶端自己的房間列表進房（不登入、不重啟）
+#   sticky.sh arm               對目前的 SANPK 打補丁＋D8 藏身（開局前；不重啟大廳）
+#   sticky.sh start-game        按大廳「啟動遊戲」（等於人工點那顆按鈕）
+#   sticky.sh stop              收掉採集器（遊戲與大廳都不動）
+#   sticky.sh line [set 線路]   看／切換線路（多线2／多线3；切換要重新登入一次）
+#   sticky.sh unblock           清掉堆疊的「搜尋伺服器」彈窗，恢復遊戲選擇視窗
+#
+# 紅線：不重啟／不結束大廳進程；不改遊戲 EXE；不覆蓋存檔。
+set -u
+# 這個工具放在 <lab>/sticky/ 底下；_env.sh 在上一層。
+SHADOW="${SHADOW:-$(cd "$(dirname "$0")/.." && pwd)}"
+# shellcheck disable=SC1091
+source "$SHADOW/_env.sh"
+PFX="$WINEPREFIX"
+BOTTLE="$(basename "$PFX")"
+HUB="$HOME/sgi-fengye-lab/fengye-hub-session"
+LOGS="$SHADOW/logs"
+LOCK="$SHADOW/sticky-watch.lock"
+MARK="$SHADOW/sticky-session.json"
+# 線路：line.txt 是「下次登入要進的線路」；sticky-line.json 是「目前這次登入的線路」。
+LINE_FILE="$SHADOW/line.txt"
+LINE_STATE="$SHADOW/sticky-line.json"
+mkdir -p "$LOGS" "$HUB"
+
+say() { echo "[$(date +%H:%M:%S)] $*"; }
+zpath() { printf 'Z:%s' "$(printf '%s' "$1" | tr '/' '\\')"; }
+
+sanpk_pids() {
+  local p
+  for p in $(pgrep -f 'SANPK\.exe' 2>/dev/null); do
+    lsof -p "$p" 2>/dev/null | grep -q "SGI-Wine/${BOTTLE}/drive_c/sgi" && echo "$p"
+  done
+}
+sanguo_pids() {
+  local p
+  for p in $(pgrep -f 'SANGUO\.exe' 2>/dev/null); do
+    lsof -p "$p" 2>/dev/null | grep -q "SGI-Wine/${BOTTLE}/drive_c/sgi" && echo "$p"
+  done
+}
+run_in() {
+  local out rc
+  out=$(mktemp "${TMPDIR:-/tmp}/sticky-XXXXXX")
+  PYTHONIOENCODING=utf-8 "$WINE" "$P32" "$@" >"$out" 2>&1 </dev/null
+  rc=$?
+  grep -viE 'freetype|greater than|http|enable TrueType|TISFile|Keyboard Layouts|duplicate keyboard' "$out" || true
+  rm -f "$out"
+  return $rc
+}
+
+# ---- 會話（lobby 與 game 各一個目錄；情報台永遠指著「現在這個」）----
+mark_read() {
+  python3 - "$MARK" <<'PY' 2>/dev/null
+import json, sys
+try:
+    d = json.load(open(sys.argv[1]))
+except Exception:
+    d = {}
+print(d.get('lobby') or '')
+print(d.get('game') or '')
+PY
+}
+mark_write() {
+  python3 - "$MARK" "${1:-}" "${2:-}" <<'PY'
+import json, sys, time
+path, lobby, game = sys.argv[1], sys.argv[2], sys.argv[3]
+open(path, 'w', encoding='utf-8').write(
+    json.dumps({'lobby': lobby, 'game': game, 'wall': time.time()}, ensure_ascii=False))
+PY
+}
+active_point() { # active_point <run dir>
+  python3 - "$HUB" "$1" <<'PY' 2>/dev/null
+import json, shutil, sys, time, pathlib
+hub, run = pathlib.Path(sys.argv[1]), pathlib.Path(sys.argv[2])
+old = hub / 'active.json'
+if old.exists():
+    shutil.copy(old, hub / ('active.bak-%d.json' % int(time.time())))
+pid = 0
+for name in ('status.pid', 'recorder.pid'):
+    try:
+        pid = int((run / name).read_text().strip())
+        break
+    except Exception:
+        continue
+(hub / 'active.json').write_text(json.dumps(
+    {"id": run.name, "directory": str(run), "pid": pid, "line": "多线3",
+     "started_at": time.time(), "kind": "shadow_observer"}, ensure_ascii=False), encoding='utf-8')
+PY
+}
+
+new_run() { # new_run <lobby|game> -> 印出目錄
+  local tag="$1" run
+  run="$HUB/run-$(date +%Y%m%d-%H%M%S)-$tag"
+  mkdir -p "$run"
+  python3 - "$run" "$tag" <<'PY'
+import json, sys
+run, tag = sys.argv[1], sys.argv[2]
+meta = {"mode": "shadow_observer", "nickname": "待秋至", "phase": ("lobby" if tag == "lobby" else "room"),
+        "channel": {"own_id": 0, "host_id": 0, "transport": "NetHookCore/Koeinm",
+                    "local_game_port": 7777, "app_id": 78731},
+        "selected_room": {"op": "shadow", "nickname": "待秋至", "session_name": "",
+                          "host": "", "room_id": "", "virtual_ip": ""},
+        "ghost_registered": False, "ghost_withdrawn": False,
+        "note": "sticky lobby: 官方大廳登入不動；%s 階段的唯讀採集" % tag}
+open(run + "/meta.json", "w", encoding="utf-8").write(json.dumps(meta, ensure_ascii=False, indent=1))
+open(run + "/state.json", "w", encoding="utf-8").write(json.dumps(meta, ensure_ascii=False))
+PY
+  printf '%s\n' "$run"
+}
+
+status_writer_alive() { pgrep -f 'shadow_status.py' >/dev/null 2>&1; }
+# 舊局留下的狀態讀取器會一直寫舊目錄，面板就會顯示上一個小時的殘影。
+status_writer_for() { # status_writer_for <run dir>
+  pgrep -fl 'shadow_status.py' 2>/dev/null | grep -q "$(basename "$1")"
+}
+
+start_status() { # start_status <run dir>
+  local run="$1" rw
+  rw=$(zpath "$run")
+  nohup "$WINE" "$P32" "$SHADOW/tools/shadow_status.py" --session "$rw" --shadow "$(zpath "$SHADOW")" \
+    --samples "$(zpath "$SHADOW/samples")" --bridge "$(zpath "$SHADOW/bridge")" --interval 2 \
+    >"$LOGS/sticky-status-$(basename "$run").log" 2>&1 &
+  echo $! >"$run/status.pid"
+}
+
+start_recorder() { # start_recorder <run dir>
+  local run="$1" rw
+  rw=$(zpath "$run")
+  nohup "$WINE" "$P32" "$SHADOW/tools/shadow_session_rec.py" --session-dir "$rw" --meta "$rw\\meta.json" \
+    --p33-dir "$(zpath "$SHADOW/tools")" --interval 0.1 --chain-alias p1_directed_probe.py --line "多线3" \
+    >"$run/recorder.log" 2>&1 &
+  echo $! >"$run/recorder.pid"
+}
+
+ensure_lobby() {
+  local lobby game
+  { read -r lobby; read -r game; } < <(mark_read)
+  if [ -z "$lobby" ] || [ ! -d "$lobby" ]; then
+    lobby=$(new_run lobby)
+    mark_write "$lobby" "$game"
+  fi
+  if ! status_writer_for "$lobby"; then
+    status_writer_alive && pkill -f 'shadow_status.py' 2>/dev/null
+    sleep 0.3
+    start_status "$lobby"
+    sleep 1
+  fi
+  printf '%s\n' "$lobby"
+}
+
+stop_game_run() {
+  local lobby game
+  { read -r lobby; read -r game; } < <(mark_read)
+  [ -n "$game" ] || return 0
+  pkill -f 'shadow_session_rec.py' 2>/dev/null
+  status_writer_alive && pkill -f 'shadow_status.py' 2>/dev/null
+  python3 - "$game" <<'PY' 2>/dev/null
+import json, sys, time, pathlib
+run = pathlib.Path(sys.argv[1])
+try:
+    st = json.loads((run / 'state.json').read_text(encoding='utf-8'))
+except Exception:
+    st = {}
+st.update(phase='stopped', connected=False, alive=False, stopped_at=time.time())
+(run / 'state.json').write_text(json.dumps(st, ensure_ascii=False), encoding='utf-8')
+PY
+  mark_write "$lobby" ""
+}
+
+status() {
+  local sp gp rec sw act
+  sp=$(sanguo_pids | tr '\n' ' ')
+  gp=$(sanpk_pids | tr '\n' ' ')
+  rec=$(pgrep -f 'shadow_session_rec.py' | tr '\n' ' ')
+  sw=$(pgrep -f 'shadow_status.py' | tr '\n' ' ')
+  echo "瓶子        : $BOTTLE"
+  echo "大廳 SANGUO : ${sp:-（沒開）}"
+  echo "遊戲 SANPK  : ${gp:-（沒開）}"
+  echo "採集器      : ${rec:-（停）}"
+  echo "狀態讀取    : ${sw:-（停）}"
+  act=$(python3 - "$HUB" <<'PY' 2>/dev/null
+import json, sys, time, pathlib
+hub = pathlib.Path(sys.argv[1])
+try:
+    p = json.loads((hub / 'active.json').read_text(encoding='utf-8'))
+except Exception:
+    raise SystemExit(0)
+pres = age = hall = None
+try:
+    st = json.loads((pathlib.Path(p['directory']) / 'status.json').read_text(encoding='utf-8'))
+    age = int(time.time() - (st.get('wall') or 0))
+    pres = st.get('present')
+    hall = (st.get('hall') or {}).get('present')
+except Exception:
+    pass
+print('%s | present=%s hall=%s | status %s 秒前' % (p.get('id'), pres, hall, age))
+PY
+)
+  echo "情報台會話  : ${act:-（無）}"
+  echo "watcher     : $(pgrep -f 'sticky.sh watch' | tr '\n' ' ')"
+}
+
+adopt() {
+  local want="${1:-}"
+  [ -n "$want" ] && PFX="$want"
+  python3 - "$SHADOW" "$PFX" <<'PY'
+import json, sys, time, pathlib
+pathlib.Path(sys.argv[1], 'ghost-bottle.json').write_text(
+    json.dumps({"prefix": sys.argv[2], "wall": time.time(), "note": "sticky.sh adopt"},
+               ensure_ascii=False), encoding='utf-8')
+PY
+  say "已固定風夜瓶子：$PFX"
+  status
+}
+
+join_room() {
+  local room="${1:?用法: sticky.sh join 房間名}" out lobby game
+  say "用客戶端自己的房間列表進房：${room}（不登入、不重啟）"
+  out=$(run_in "$(zpath "$SHADOW/tools/game_browser.py")" join "$room" --fallback '[丁满]' --fallback '[流浪者]')
+  printf '%s\n' "${out}" | tail -1
+  case "$out" in
+    *'"ok": true'*) ;;
+    *) say "  !! 沒進房（見上）"; return 1 ;;
+  esac
+  # 進房成功就把房間名寫進本局會話，面板才不會一直說「還在大廳」。
+  record_room "$room"
+  # recorder 啟動時才讀 meta；重啟一次讓它記住房間名（不影響遊戲）。
+  pkill -f 'shadow_session_rec.py' 2>/dev/null
+  sleep 0.5
+  start_recorder "$game"
+  ensure_watcher
+  say "本局會話已更新為「在房間 ${room}」"
+}
+
+record_room() { # record_room <房間名> —— 房間名寫進本局會話（面板要看到）
+  local room="${1:?用法: record_room 房間名}" lobby game
+  { read -r lobby; read -r game; } < <(mark_read)
+  [ -n "$game" ] && [ -d "$game" ] || return 0
+  OUT_ROOM="$room" python3 - "$game" <<'PY2'
+import json, os, sys, pathlib
+run = pathlib.Path(sys.argv[1])
+room = os.environ['OUT_ROOM']
+for name in ('meta.json', 'state.json'):
+    path = run / name
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except Exception:
+        data = {}
+    data['room_name'] = room
+    data['ghost_registered'] = True
+    data['registered_by'] = 'client_join'
+    sel = data.get('selected_room') or {}
+    sel['session_name'] = room
+    data['selected_room'] = sel
+    path.write_text(json.dumps(data, ensure_ascii=False), encoding='utf-8')
+print('已記錄房間：%s' % room)
+PY2
+}
+
+jget() { # jget <json 字串> <鍵> —— 取一行 JSON 的一個欄位
+  printf '%s' "$1" | python3 -c '
+import json, sys
+raw = sys.stdin.read().strip().splitlines()
+try:
+    data = json.loads(raw[-1]) if raw else {}
+except Exception:
+    data = {}
+if not isinstance(data, dict):
+    data = {}
+value = data.get(sys.argv[1])
+if value is None:
+    print("")
+elif isinstance(value, str):
+    print(value)
+else:
+    print(json.dumps(value, ensure_ascii=False))
+' "$2" 2>/dev/null
+}
+
+index_lookup() { # index_lookup <ip> <欄位>
+  python3 - "$SHADOW/sticky/room-index.json" "$1" "$2" <<'PY3' 2>/dev/null
+import json, sys
+try:
+    data = json.load(open(sys.argv[1], encoding='utf-8'))
+except Exception:
+    data = {}
+rec = data.get(sys.argv[2]) or {}
+value = rec.get(sys.argv[3])
+print('' if value is None else value)
+PY3
+}
+
+join_ip() { # join_ip <IP> [房主名] —— 直接用房主虛擬 IP 找房並進房（同線免登入）
+  local ip="${1:?用法: sticky.sh join-ip <IP> [房主名]}" host="${2:-}" out port rec_line cur_line reason picked room
+  local pid
+  pid=$(sanpk_pids | head -1)
+  if [ -z "$pid" ]; then
+    say "沒有遊戲客戶端：先 protocol-up（登入一次）或在大廳按「啟動遊戲」"
+    return 1
+  fi
+  # 房間索引：這台 IP 在哪條線、哪個房間、用哪個埠。
+  rec_line=$(index_lookup "$ip" line)
+  cur_line=$(python3 -c "import json;print(json.load(open('$SHADOW/sticky-line.json',encoding='utf-8')).get('line',''))" 2>/dev/null)
+  port="${SGI_JOIN_PORT:-$(index_lookup "$ip" port)}"
+  # 2026-10-21 19:07 實測：加入遊戲用的位址要帶「線路中繼埠」（本線 29100），
+  # 帶遊戲埠 7777 會連兩次失敗（房主端名單完全不動），29100 一次就進房。
+  [ -n "$port" ] || port="${SGI_JOIN_PORT:-29100}"
+  if [ -n "$rec_line" ] && [ -n "$cur_line" ] && [ "$rec_line" != "$cur_line" ]; then
+    say "  !! 索引顯示這個房間在「${rec_line}」，目前會話在「${cur_line}」"
+    say "     跨線要重登一次才看得見（sticky.sh line set ... && sticky.sh protocol-up）"
+  fi
+  say "用虛擬 IP 直接找房：${ip}:${port}${host:+（房主 ${host}）}（不登入、不重啟大廳）"
+  if [ -n "$host" ]; then
+    out=$(run_in "$(zpath "$SHADOW/tools/search_by_ip.py")" "$ip" --port "$port" --host "$host" --join)
+  else
+    out=$(run_in "$(zpath "$SHADOW/tools/search_by_ip.py")" "$ip" --port "$port" --join)
+  fi
+  printf '%s\n' "$out" | grep '^{' | tail -1
+  if ! printf '%s\n' "$out" | grep -q '"ok": true'; then
+    reason=$(jget "$out" reason)
+    [ -n "$reason" ] || reason=$(jget "$out" error)
+    [ -n "$reason" ] || reason="搜尋或進房失敗（看上面的 JSON）"
+    say "  !! 沒進房：${reason}"
+    return 1
+  fi
+  picked=$(jget "$out" picked)
+  room="${picked}"
+  # 清單項目是「房間名[房主]」；房間名拿來記會話。
+  room="${room%%[*}"
+  [ -n "$room" ] || room="$ip"
+  say "進房成功：${picked}"
+  record_room "$room"
+  # 索引：把這次觀測到的房間寫回去（IP -> 線路／房間／房主）。
+  python3 "$SHADOW/tools/room_index.py" add "$ip" \
+    ${rec_line:+--line "$rec_line"} ${cur_line:+--line "$cur_line"} \
+    --room "$room" ${host:+--host "$host"} --port "$port" \
+    --source "join-ip $(date +%Y-%m-%dT%H:%M:%S)" >/dev/null 2>&1 || true
+  # 進房後照舊補丁＋D8 藏身（開局前）。
+  [ "${JOIN_IP_SKIP_ARM:-0}" = "1" ] || arm
+}
+
+line_title() { # 正規化線路名：多线2 -> 多线2（主线）；多线3 -> 多线3（备用）
+  local want="${1:-}"
+  case "$want" in
+    多线2|多線2) printf '%s' '多线2（主线）' ;;
+    多线3|多線3) printf '%s' '多线3（备用）' ;;
+    *) printf '%s' "$want" ;;
+  esac
+}
+
+line_show() {
+  python3 - "$LINE_FILE" "$LINE_STATE" <<'PY'
+import json, sys
+file_path, state_path = sys.argv[1], sys.argv[2]
+def read(path):
+    try:
+        with open(path, encoding='utf-8') as fh:
+            return fh.read().strip().splitlines()[0].strip()
+    except (OSError, IndexError):
+        return ''
+configured = read(file_path)
+session = ''
+try:
+    with open(state_path, encoding='utf-8') as fh:
+        session = (json.load(fh) or {}).get('line') or ''
+except (OSError, ValueError):
+    session = ''
+print(json.dumps({'configured': configured, 'session': session,
+                  'same': bool(session) and session == configured},
+                 ensure_ascii=False))
+PY
+}
+
+line_set() { # line_set <多线2|多线3>
+  local title
+  title="$(line_title "${1:-}")"
+  if [ -z "$title" ]; then say "  !! 沒讀到線路名稱"; return 1; fi
+  printf '%s\n' "$title" > "$LINE_FILE"
+  say "已設定線路：${title}（已經在線的會話不會自動換線，要重新登入一次）"
+  line_show
+}
+
+unblock() {
+  say "清掉堆疊的「搜尋伺服器」彈窗，恢復遊戲選擇視窗"
+  run_in "$(zpath "$SHADOW/tools/fy_unblock_search.py")"
+}
+
+ensure_watcher() {
+  local old
+  if pgrep -f 'sticky.sh watch' >/dev/null 2>&1; then
+    return 0
+  fi
+  if [ -f "$LOCK" ]; then
+    old=$(cat "$LOCK" 2>/dev/null || true)
+    [ -n "$old" ] && kill -0 "$old" 2>/dev/null && return 0
+  fi
+  say "啟動 watcher（自動接每局採集器）"
+  ( cd "$SHADOW" && nohup bash sticky/sticky.sh watch >> logs/sticky-watch.out 2>&1 </dev/null & )
+  sleep 2
+}
+
+
+wait_game_select() { # wait_game_select [秒] —— 等「游戏选择」出現且可操作（不點任何東西）
+  local limit="${1:-240}" i state
+  for i in $(seq 1 $((limit / 5))); do
+    # 重開 SANPK 時會先跳「现在的环境下可以开始游戏，但沒有音效。」的模態框，
+    # 不按掉永遠到不了「游戏选择」——每輪先清一次框。
+    PYTHONIOENCODING=utf-8 "$WINE" "$P32" "$(zpath "$SHADOW/tools/_dismiss.py")" >/dev/null 2>&1 || true
+    PYTHONIOENCODING=utf-8 "$WINE" "$P32" "$(zpath "$SHADOW/tools/_ui_quick.py")" wait >/dev/null 2>&1
+    state=$(python3 - "$SHADOW/sticky/ui-quick.json" <<'PY3' 2>/dev/null
+import json, sys
+try:
+    d = json.load(open(sys.argv[1], encoding='utf-8'))
+except Exception:
+    print('nojson'); raise SystemExit
+gs = [w for w in d.get('windows', []) if w.get('title') == '游戏选择']
+modal = [w for w in d.get('windows', [])
+         if w.get('visible') and any(t in ('确定', '取消', 'OK') for t in (w.get('texts') or []))]
+print('ready' if gs and all(w.get('enabled') for w in gs) and not modal else 'waiting')
+PY3
+)
+    [ "$state" = ready ] && return 0
+    sleep 5
+  done
+  return 1
+}
+
+oneclick() { # oneclick <房間號|IP> [--line L] [--port P] [--host H] [--setforce N] [--no-arm]
+  local target="" line="" host="" sf="" port="${SGI_JOIN_PORT:-}" arm_mode=1 hide_mode=1 ip rc
+  while [ $# -gt 0 ]; do
+    case "$1" in
+      --line) line="${2:-}"; shift 2 ;;
+      --port) port="${2:-}"; shift 2 ;;
+      --host) host="${2:-}"; shift 2 ;;
+      --setforce) sf="${2:-}"; shift 2 ;;
+      --no-arm) arm_mode=0; shift ;;
+      --no-hide) hide_mode=0; shift ;;
+      *) target="${1:-}"; shift ;;
+    esac
+  done
+  [ -n "$target" ] || { say '用法: sticky.sh oneclick <房間號|IP> [--line 線路] [--port 埠] [--host 房主] [--setforce 席次] [--no-arm] [--no-hide]'; return 2; }
+  # 房間號 == 房主虛擬 IP 的大端；兩種輸入都吃，內部一律轉成 IP。
+  if printf '%s' "$target" | grep -Eq '^[0-9]+$' && [ "$target" -gt 255 ] 2>/dev/null; then
+    ip=$(python3 -c 'import ipaddress,sys;print(ipaddress.IPv4Address(int(sys.argv[1])))' "$target") || {
+      say "!! 房間號 ${target} 轉不出 IPv4"; return 1; }
+    say "房間號 ${target} → 虛擬 IP ${ip}"
+  else
+    ip="$target"
+  fi
+  [ -n "$line" ] && { line_set "$line"; say "線路設為 ${line}"; }
+  if pgrep -f 'launch_shadow_sticky.py' >/dev/null 2>&1; then
+    say "協議會話已在跑（不重複登入）"
+  else
+    say "協議登入一次（線路 $(line_title "$(head -1 "$LINE_FILE" 2>/dev/null | tr -d '\r')")）"
+    protocol_up || return 1
+  fi
+  say "等「游戏选择」…"
+  if ! wait_game_select 25; then
+    # 已經在房間裡（沒有「游戏选择」）→ 只退遊戲、不動大廳與協議會話；
+    # sticky 的 sanpk_relaunch_on_exit 會把客戶端重新拉回「游戏选择」。
+    if pgrep -f 'SANPK\.exe' >/dev/null 2>&1; then
+      say "判定在房內 → 只退遊戲（大廳／會話不動），等客戶端回到「游戏选择」"
+      pkill -f 'SANPK\.exe' 2>/dev/null || true
+      sleep 3
+    fi
+    if ! wait_game_select 180; then
+      say "!! 沒等到可操作的「游戏选择」（要換線或重新登入請看 sticky.sh protocol-up）"
+      return 1
+    fi
+  fi
+  local join_rc=0
+  if [ -n "$host" ]; then
+    # 2026-10-21 20:06 實測：用「搜尋框填位址」進房會被客戶端送回一句
+    # 「线路正在繁忙／无法取得主控玩家的回应」，同一間房改用「刷新列表→選列→加入游戏」
+    # 立刻成功（房主端名單出現第四行）。所以一鍵預設走清單進房，位址只留給 fallback。
+    say "從房間清單進房（房主 ${host}）——不填位址"
+    out=$(run_in "$(zpath "$SHADOW/tools/game_browser.py")" join "$host" --fallback SGZWLB)
+    printf '%s\n' "$out" | grep '^{' | tail -1
+    printf '%s\n' "$out" | grep -q '"ok": true' || join_rc=1
+  else
+    say "按 IP 進房：${ip}"
+    JOIN_IP_SKIP_ARM=1 SGI_JOIN_PORT="$port" join_ip "$ip" || join_rc=$?
+  fi
+  if [ "$join_rc" -ne 0 ]; then
+    # 被拒時客戶端會留一個模態框，不關掉後面所有操作都會被無聲吃掉。
+    run_in "$(zpath "$SHADOW/tools/_dismiss.py")" >/dev/null 2>&1 || true
+    say "!! 進房失敗（rc=${join_rc}）；已清掉客戶端訊息框"
+    return "$join_rc"
+  fi
+  if [ -n "$sf" ]; then
+    say "綁勢力：席次 ${sf}"
+    bash "$SHADOW/setforce.sh" --slot "$sf" 2>&1 | tail -1
+  fi
+  if [ "$arm_mode" = 1 ]; then
+    if [ "$hide_mode" = 1 ]; then
+      say "藏好：補丁＋D8（開局前一次）"
+      arm
+    else
+      say "上補丁但不藏身（要勢力就走這條）"
+      SKIP_D8=1 arm
+    fi
+  fi
+  say "oneclick 完成：${ip}"
+  return 0
+}
+
+PROTO_LOCK="$SHADOW/protocol-up.lock"
+
+protocol_up() { # protocol_up [房名] —— 協議登入一次；之後每局只重開 SANPK
+  local nick="${JOIN_NICKNAME:-待秋至}" join="${1:-}" i pid line old
+  # 連按會同時跑好幾條 protocol-up（每條都可能登入一次）→ 只准一條。
+  if [ -f "$PROTO_LOCK" ]; then
+    old=$(cat "$PROTO_LOCK" 2>/dev/null || true)
+    if [ -n "$old" ] && kill -0 "$old" 2>/dev/null; then
+      say "已有 protocol-up 在跑（pid ${old}）；等它就好，不會再登入"
+      return 0
+    fi
+  fi
+  echo $$ > "$PROTO_LOCK"
+  trap 'rm -f "$PROTO_LOCK"' EXIT INT TERM
+  line="$(line_title "$(head -1 "$LINE_FILE" 2>/dev/null | tr -d '\r')")"
+  # 2026-10-22：防重複 SANPK——同一 prefix 已經有一台在跑就不再起新的（重複會讓主機不認指令）
+  local _dup=0 _p
+  for _p in $(pgrep -f 'SANPK\.exe' 2>/dev/null); do
+    lsof -p "$_p" 2>/dev/null | grep -q 'prefix-fengye-shadow' && _dup=$((_dup+1))
+  done
+  if [ "$_dup" -ge 1 ]; then
+    say "本 prefix 已有 ${_dup} 台 SANPK；不再起新的（重複會讓主機不認指令）"
+    rm -f "$PROTO_LOCK"
+    return 0
+  fi
+  if pgrep -f 'launch_shadow_sticky.py' >/dev/null 2>&1; then
+    say "協議會話已在跑（登入仍是一次）"
+  else
+    say "協議登入一次（顯示名 ${nick}／線路 ${line}）→ StartServer → SANPK；之後每局只重開 SANPK"
+    # 必須由 GUI session 啟動，否則 wine 建不出視窗（nodrv_CreateWindow）。
+    open -n "$SHADOW/VKStickyLauncher.app" --args \
+      --nickname "$nick" --line "$line" ${join:+--join-name "$join"} --hold-seconds 28800
+  fi
+  for i in $(seq 1 60); do
+    pid=$(sanpk_pids | head -1)
+    if [ -n "$pid" ]; then
+      say "SANPK 已起來 pid=${pid}（沒有再登入一次）"
+      ensure_watcher
+      return 0
+    fi
+    sleep 2
+  done
+  say "!! 等不到 SANPK；看 logs/protocol-sticky.out"
+  return 1
+}
+
+hall_down() { # 關掉大廳（SANGUO）；協議路線要和它二選一
+  local pid
+  pid=$(sanguo_pids | head -1)
+  if [ -z "$pid" ]; then
+    say "大廳沒在跑"
+    return 0
+  fi
+  say "關閉大廳 SANGUO pid=${pid}（之後走協議登入）"
+  run_in "$(zpath "$SHADOW/sticky/hall_click.py")" --window 对战平台 --click 退出 >/dev/null 2>&1 || true
+  sleep 3
+  pid=$(sanguo_pids | head -1)
+  [ -n "$pid" ] && kill "$pid" 2>/dev/null
+  sleep 2
+  say "大廳已關"
+}
+
+protocol_down() {
+  pkill -f 'launch_shadow_sticky.py' 2>/dev/null
+  pkill -f 'win32_startserver.py' 2>/dev/null
+  say "協議會話已收（大廳未動）"
+}
+
+rooms() { # 列出房間：有 SANPK 就讀客戶端自己的清單（零登入）
+  local pid
+  pid=$(sanpk_pids | head -1)
+  if [ -z "$pid" ]; then
+    say "沒有遊戲客戶端：先按「讓風夜進房」（協議登入一次）"
+    return 1
+  fi
+  run_in "$(zpath "$SHADOW/tools/game_browser.py")" list
+}
+
+AUTOJOIN_HOSTS="${AUTOJOIN_HOSTS:-丁满,风云,流浪者}"
+
+autojoin() { # autojoin [主機名,逗號分隔] —— 一顆按鈕：從零登入→選房→進房→補丁→摘席
+  local hosts="${1:-$AUTOJOIN_HOSTS}" pid out room pick
+  ensure_watcher
+  pid=$(sanpk_pids | head -1)
+  if [ -z "$pid" ]; then
+    protocol_up || return 1
+    pid=$(sanpk_pids | head -1)
+  fi
+  say "自動選房：先讀清單（不登入）；清單空才按刷新重搜"
+  out=$(run_in "$(zpath "$SHADOW/tools/game_browser.py")" peek)
+  printf '%s\n' "${out}" | grep '^{' | tail -1 | cut -c1-160
+  if ! printf '%s\n' "${out}" | grep -q '\[.*\]'; then
+    out=$(run_in "$(zpath "$SHADOW/tools/fy_unblock_search.py")")
+    out=$(run_in "$(zpath "$SHADOW/tools/game_browser.py")" list)
+    printf '%s\n' "${out}" | grep '^{' | tail -1 | cut -c1-160
+  fi
+  if ! printf '%s\n' "${out}" | grep -q '\[.*\]'; then
+    out=$(run_in "$(zpath "$SHADOW/tools/game_browser.py")" peek)
+    printf '%s\n' "${out}" | grep '^{' | tail -1 | cut -c1-160
+  fi
+  room=$(printf '%s\n' "${out}" | grep '^{' | tail -1 | HOSTS="$hosts" python3 -c '
+import json, os, sys
+try:
+    items = json.load(sys.stdin).get("items") or []
+except Exception:
+    items = []
+hosts = [h.strip() for h in os.environ.get("HOSTS", "").split(",") if h.strip()]
+for name in items:
+    for host in hosts:
+        if host and host in name:
+            print(name)
+            raise SystemExit
+if len(items) == 1:
+    print(items[0])
+' 2>/dev/null)
+  if [ -z "$room" ]; then
+    say "目前沒有可自動進的房間（清單：$(printf '%s' "$out" | tail -1)）"
+    return 1
+  fi
+  say "選中房間：${room}"
+  pick=$(printf '%s' "$room" | sed 's/\[.*$//')
+  join_room "$pick" || return 1
+  arm
+}
+
+start_game() {
+  say "按大廳「啟動遊戲」"
+  run_in "$(zpath "$SHADOW/sticky/hall_click.py")" --click 启动游戏
+}
+
+arm() {
+  local pid nick="${JOIN_NICKNAME:-待秋至}" out wp i
+  pid=$(sanpk_pids | head -1)
+  if [ -n "$pid" ]; then
+    say "對遊戲進程 pid=$pid 打補丁（大廳不動）"
+    out=$(bash "$SHADOW/nullguard.sh" 2>&1 | tail -1)
+    say "  nullguard: $(printf '%s' "$out" | cut -c1-150)"
+    out=$(bash "$SHADOW/suppress.sh" 2>&1 | tail -1)
+    say "  suppress : $(printf '%s' "$out" | cut -c1-150)"
+    wp=$(run_in "$(zpath "$SHADOW/tools/find_sanpk_pid.py")" | tr -d '\r' | grep -E '^[0-9]+$' | tail -1)
+    if [ -n "$wp" ]; then
+      out=$(run_in "$(zpath "$SHADOW/tools/patch_start_nulls.py")" "$wp" --clear-lock --skip myforce-a,myforce-b 2>&1 | grep '^{' | tail -1)
+      say "  開局守衛 : $(printf '%s' "$out" | cut -c1-110)"
+      out=$(run_in "$(zpath "$SHADOW/tools/patch_element_fallback.py")" "$wp" 2>&1 | grep '^{' | tail -1)
+      say "  元素回退 : $(printf '%s' "$out" | cut -c1-110)"
+      out=$(run_in "$(zpath "$SHADOW/tools/patch_panel_row_skip.py")" "$wp" 2>&1 | grep '^{' | tail -1)
+      say "  面板跳過 : $(printf '%s' "$out" | cut -c1-110)"
+    fi
+    if [ "${SKIP_D8:-0}" = "1" ]; then
+      say "SKIP_D8=1 → 補丁已上；這次不發 D8（保留名單那一行，開局才會有勢力）"
+      return 0
+    fi
+    say "D8 藏身（開局前只送一次）"
+    rm -f "$SHADOW/shadow_d8_receipt.bin"
+    bash "$SHADOW/inject.sh" --force 2>&1 | tail -1
+    bash "$SHADOW/fire.sh" >/dev/null
+    for i in 1 2 3 4 5 6 7 8 9 10; do
+      [ -s "$SHADOW/shadow_d8_receipt.bin" ] && break
+      sleep 0.5
+    done
+    if [ -s "$SHADOW/shadow_d8_receipt.bin" ]; then
+      say "  D8 回執：$(xxd -l 8 "$SHADOW/shadow_d8_receipt.bin" | awk '{print $2, $3}')"
+      # 一步到位：自己複核。D8 之後應用層名冊不該再有風夜，DLL 成員表會保留。
+      if [ -n "$wp" ]; then
+        rows=$(PYTHONIOENCODING=utf-8 SGI_BRIDGE_Z="$Z\\bridge" "$WINE" "$P32" -X utf8 \
+               "$SHADOW/tools/p32_app_rows_read.py" "$wp" 2>/dev/null | grep '^{' | tail -1)
+        printf '%s' "$rows" > "$SHADOW/p32-rows.tmp.json"
+        python3 - "$SHADOW" "$SHADOW/p32-rows.tmp.json" <<'PY2'
+import json, os, sys, time, pathlib
+shadow = pathlib.Path(sys.argv[1])
+try:
+    data = json.loads(pathlib.Path(sys.argv[2]).read_text(encoding='utf-8'))
+except Exception:
+    raise SystemExit(0)
+tables = [t.get('rows') or [] for t in data.get('tables', [])]
+names = [set(r.get('name') for r in rows if r.get('id') and r.get('name')) for rows in tables]
+if len(names) < 2:
+    print('  複核：只讀到 %d 張表，跳過' % len(names))
+    raise SystemExit(0)
+# 應用層那張表會少掉風夜；DLL 成員表還留著。差集就是被摘掉的名字。
+gone = set().union(*[names[i] - set().union(*[names[j] for j in range(len(names)) if j != i])
+                     for i in range(len(names))])
+if not gone:
+    print('  複核：兩張表一致（%s），沒有摘席痕跡' % [sorted(x) for x in names])
+    raise SystemExit(0)
+name = sorted(gone)[0]
+(shadow / 'shadow_hidden.json').write_text(json.dumps({
+    'verified': True, 'at': time.time(), 'by': 'local_app_table+d8_receipt',
+    'note': 'D8 送出一發；應用層名冊已無 %s，DLL 成員保留（廣播仍可達）' % name},
+    ensure_ascii=False), encoding='utf-8')
+print('  複核：應用層名冊已無 %s，DLL 成員保留 -> 已藏身' % name)
+PY2
+      fi
+    else
+      say "  !! 沒有 D8 回執（可能已經藏過，或注入失敗）"
+    fi
+  else
+    say "沒有 SANPK：先在大廳按「啟動遊戲」，再 arm（大廳不能重啟）"
+  fi
+}
+
+watch() {
+  local pid="" last="" miss=0 lobby game game_run old
+  if [ -f "$LOCK" ]; then
+    old=$(cat "$LOCK" 2>/dev/null || true)
+    if [ -n "$old" ] && kill -0 "$old" 2>/dev/null; then
+      echo "已有 watcher 在跑（pid ${old}）"
+      return 0
+    fi
+  fi
+  echo $$ >"$LOCK"
+  # TERM 必須真的結束（只刪鎖檔會被當成「處理完繼續跑」，實測留下三隻 watcher）。
+  trap 'rm -f "$LOCK"; exit 0' EXIT INT TERM
+  lobby=$(ensure_lobby)
+  say "watcher 啟動：瓶子=$BOTTLE 大廳會話=$(basename "$lobby")（只讀，不碰大廳）"
+  active_point "$lobby"
+  while :; do
+    # 大廳→協議、或客戶端換瓶子時，watcher 要自己跟上（否則會一直看著舊瓶子）。
+    if [ -z "$(sanpk_pids | head -1)" ]; then
+      newpfx=$(bash "$SHADOW/sticky/ghost_prefix.sh" 2>/dev/null || true)
+      if [ -n "$newpfx" ] && [ "$(basename "$newpfx")" != "$BOTTLE" ] && [ -d "$newpfx" ]; then
+        BOTTLE=$(basename "$newpfx")
+        PFX="$newpfx"
+        export WINEPREFIX="$newpfx"
+        say "瓶子換了 → ${BOTTLE}"
+      fi
+    fi
+    pid=$(sanpk_pids | head -1)
+    if [ -n "$pid" ] && [ "$pid" != "$last" ]; then
+      { read -r lobby; read -r game; } < <(mark_read)
+      say "偵測到遊戲進程 pid=$pid → 開本局採集器"
+      game_run=$(new_run game)
+      # 上一局的藏身／上帝視角是記在檔案上的；新的一局還沒做，先清掉，
+      # 面板才不會拿上一局說「已藏身」。
+      rm -f "$SHADOW/shadow_hidden.json" "$SHADOW/shadow_godview.json"
+      mark_write "$lobby" "$game_run"
+      status_writer_alive && pkill -f 'shadow_status.py' 2>/dev/null
+      start_status "$game_run"
+      start_recorder "$game_run"
+      active_point "$game_run"
+      last="$pid"
+      miss=0
+    elif [ -z "$pid" ] && [ -n "$last" ]; then
+      miss=$((miss + 1))
+      if [ "$miss" -ge 2 ]; then
+        say "遊戲結束（pid=$last 不在了）→ 收本局採集器，回大廳會話"
+        stop_game_run
+        lobby=$(ensure_lobby)
+        active_point "$lobby"
+        last=""
+        miss=0
+      fi
+    else
+      miss=0
+    fi
+    sleep 2
+  done
+}
+
+unwatch() {
+  local old
+  old=$(cat "$LOCK" 2>/dev/null || true)
+  if [ -n "$old" ] && kill -0 "$old" 2>/dev/null; then
+    kill "$old" 2>/dev/null
+    say "watcher 已停（pid ${old}）"
+  else
+    say "watcher 沒在跑"
+  fi
+  rm -f "$LOCK"
+}
+
+case "${1:-status}" in
+  status) status ;;
+  adopt) shift; adopt "${1:-}" ;;
+  watch) watch ;;
+  unwatch) unwatch ;;
+  lobby)
+    lobby=$(ensure_lobby)
+    active_point "$lobby"
+    say "大廳會話：$(basename "$lobby")"
+    ;;
+  join) shift; join_room "${1:-}" ;;
+  join-ip) shift; join_ip "${1:-}" "${2:-}" ;;
+  oneclick) shift; oneclick "$@" ;;
+  room-index)
+    shift
+    if [ "${1:-}" = "get" ]; then shift; python3 "$SHADOW/tools/room_index.py" get "${1:-}"; else python3 "$SHADOW/tools/room_index.py" list; fi ;;
+  protocol-up) shift; protocol_up "${1:-}" ;;
+  autojoin) shift; autojoin "${1:-}" ;;
+  protocol-down) protocol_down ;;
+  hall-down) hall_down ;;
+  rooms) rooms ;;
+  start-game) start_game ;;
+  arm) arm ;;
+  line)
+    shift
+    if [ "${1:-}" = "set" ]; then shift; line_set "${1:-}"; else line_show; fi ;;
+  unblock) unblock ;;
+  stop)
+    stop_game_run
+    status_writer_alive && pkill -f 'shadow_status.py' 2>/dev/null
+    say "採集器已收（遊戲／大廳未動）" ;;
+  *) echo "用法: sticky.sh status|adopt [瓶子]|watch|unwatch|lobby|join 房名|oneclick 房間號或IP|rooms|protocol-up [房名]|autojoin [房主名]|protocol-down|hall-down|start-game|arm|stop|line [set 線路]|unblock"; exit 2 ;;
+esac

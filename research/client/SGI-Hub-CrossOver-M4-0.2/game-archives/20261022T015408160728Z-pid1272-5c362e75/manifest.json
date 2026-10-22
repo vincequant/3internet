@@ -1,19 +1,19 @@
 {
   "format_version": 2,
   "open": true,
-  "match_id": "1512b0cc-188f-4992-96d0-f8301f89371c",
+  "match_id": "5c362e75-bd26-47e1-8e7a-ffa7f888e2e5",
   "collector_version": "1.1.336",
   "game_build": "df9b52251ff1d7bbbcae04defb31f489c77d4fca9d9059c1841df93a20da8eea",
   "schema": "astra-sgi-core-2",
   "source_id": "VKQUANT",
   "runtime_id": "wine-sikarugir10",
   "process": {
-    "pid": 860,
+    "pid": 1272,
     "path": "C:\\sgi\\run-3.5\\3I\\SANPK.exe",
-    "creation_filetime": 134371063003967200
+    "creation_filetime": 134371075450788470
   },
-  "player_session_id_at_open": "4cfa84670b46491f9d9693df90365a22",
-  "started_utc": "2026-10-22T01:38:39.005715+00:00",
+  "player_session_id_at_open": "72b182826cf144ddaa57c882a01f6f99",
+  "started_utc": "2026-10-22T01:54:08.160803+00:00",
   "ended_utc": null,
   "end_reason": null,
   "completeness": "recording",
@@ -34,12 +34,12 @@
     }
   ],
   "related_match_ids": [
-    "f4dc87a5-2342-415a-a1ba-4e0988f04fed"
+    "1512b0cc-188f-4992-96d0-f8301f89371c"
   ],
   "simulated": false,
-  "frame_count": 90,
-  "last_seq": 90,
-  "last_snapshot_id": "20261022T014055152351Z",
+  "frame_count": 210,
+  "last_seq": 210,
+  "last_snapshot_id": "20261022T015945978849Z",
   "dropped_frames": 0,
   "write_error": null,
   "training_capture_contract": {
@@ -49,8 +49,8 @@
     "state_difference_is_action_label": false,
     "formal_evaluation_eligible": false
   },
-  "last_capture_end": "2026-10-22T01:40:55.203842+00:00",
-  "title": "玩家局 1v1 蜀 vs 羌",
+  "last_capture_end": "2026-10-22T01:59:46.018884+00:00",
+  "title": "玩家局 1v1 周 vs 宋",
   "match_kind": "player",
   "format": "1v1",
   "opening_locked": true,

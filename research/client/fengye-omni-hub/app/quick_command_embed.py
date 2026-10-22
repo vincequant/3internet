@@ -39,6 +39,25 @@ def panel_app_dir(path=None):
 
 
 def panel_script(path=None):
+    # 2026-10-22：預設關閉「啟用輔助」（自動加時／指令×3），避免面板替我們提早送出輸入、
+    # 影響主機（另一台同勢力玩家的倒數）。要開請在面板上手動勾選。
+    # 2026-10-22（使用者需求）：要的是「提早結束回合」不要「加時」。
+    #   test=True        → 啟用輔助（指令×3、完成即結束）＝不會落後別人的回合進度
+    #   allow_write=False → 不寫回合倒數欄位＝不會替全桌多等（不加時）
+    # 2026-10-22（使用者定案）：藏身幽靈不在主機的等待名單，本機倒數不會讓別人多等；
+    # 所以允許寫入，並把回合倒數預設拉到最小（25% = 30 秒）→ 提早結束、不會落後別人的回合進度。
+    # 2026-10-22 實測翻盤：把本機倒數調短後，**全桌都變成 20 秒**（本機寫入會傳到主機）。
+    # 所以預設**禁止寫入倒數**，維持主機原本的 2 分鐘；要改倒數請在面板上手動開並自負影響。
+    try:
+        panel.test.set(True)                 # 啟用輔助（指令×3／完成即結束）仍保留
+        panel.allow_write.set(False)         # 不寫回合倒數
+        if getattr(panel, 'round_percent', None) is not None:
+            panel.round_percent.set(100)     # 顯示回到 100%（= 120 秒）
+            panel.round_seconds.set('= 120 秒')
+        if hasattr(panel, 'settings'):
+            panel.settings()
+    except Exception:  # noqa: BLE001
+        pass
     return panel_app_dir(path) / PANEL_SCRIPT
 
 

@@ -1060,3 +1060,4 @@ Traceback (most recent call last):
   File "/Users/vk/Documents/Coding/三国志internet/research/client/SGI-Hub-CrossOver-M4-0.2/app/preparation_model.py", line 14, in <module>
     from state_history import kind_label
 ModuleNotFoundError: No module named 'state_history'
+采集桥：reused
