@@ -627,7 +627,8 @@ class FengyeWindow(OmniWindow):
             frame.configure(width=max(680, min(1040, int(event.width))))
 
         holder.bind('<Configure>', fit_column, add='+')
-        self._build_drop_box(column)
+        # 2026-10-22 使用者定案：刪除「讓對手掉線」（遠端沒有執行能力，功能無效）
+        # self._build_drop_box(column)
         head = tk.Frame(column, bg=DAMASK)
         head.pack(fill='x')
         tk.Label(head, text='風夜席位', bg=DAMASK, fg=GOLD,
@@ -1031,6 +1032,9 @@ class FengyeWindow(OmniWindow):
         # 2026-10-22：替代 Launcher 的「結束遊戲」（那個 App 沒原始碼、按了沒反應）
         tk.Button(lab, text='結束客戶端（選帳號）', bg='#f7e5e5', fg=WARN,
                   command=self.open_end_client_dialog).pack(side='left', padx=8)
+        # 2026-10-22：只關遊戲、保留大廳與協議會話 → 下次一鍵登入可直接再進
+        tk.Button(lab, text='只關遊戲（大廳保留）', bg='#f7e5e5', fg=WARN,
+                  command=self.game_off_local).pack(side='left', padx=8)
         # 2026-10-22：一鍵武裝（補丁→綁定 slot→D8），已在大廳/房間時也能用
         tk.Button(lab, text='一鍵武裝（補丁＋綁定＋摘席）', bg='#dff0d8', fg='#22551f',
                   command=self.arm_now_local,
@@ -1038,6 +1042,22 @@ class FengyeWindow(OmniWindow):
         # 2026-10-22：去霧（全視野）手動開關；一鍵預設「不裝」，保持開局迷霧
         tk.Button(lab, text='去霧（全視野）', bg='#fff4d6', fg='#6b4b00',
                   command=self.godview_on_local).pack(side='left', padx=8)
+        # 2026-10-22 使用者定案：唯一保留的時間功能＝「本機 N 秒後自動結束回合」
+        # 2026-10-22：自動結束放「獨立一列」，避免和上面那排按鈕擠在一起看不到
+        auto_row = tk.Frame(box, bg=DAMASK)
+        auto_row.pack(fill='x', padx=12, pady=(0, 10))
+        tk.Label(auto_row, text='本機自動結束回合：每階段', bg=DAMASK, fg=INK).pack(side='left')
+        self.auto_end_secs = tk.StringVar(value='45')
+        tk.Entry(auto_row, textvariable=self.auto_end_secs, width=5).pack(side='left', padx=4)
+        tk.Label(auto_row, text='秒後送出「階段結束」', bg=DAMASK, fg=INK).pack(side='left')
+        tk.Button(auto_row, text='啟動', bg='#dff0d8', fg='#22551f',
+                  command=self.auto_end_start).pack(side='left', padx=8)
+        tk.Button(auto_row, text='停止', bg='#f7e5e5', fg=WARN,
+                  command=self.auto_end_stop).pack(side='left')
+        tk.Label(auto_row, text='（只作用本機風夜，不改任何人的倒數）', bg=DAMASK, fg=MUTED).pack(side='left', padx=8)
+        self.auto_end_state = tk.Label(auto_row, text='狀態：未啟動', bg=DAMASK, fg=MUTED, anchor='w')
+        self.auto_end_state.pack(side='left', padx=10)
+        self.root.after(1200, self._refresh_auto_end)
         self.room_retry = tk.Button(lab, text='↻ 重新整理／再進房', bg=BG, command=self.one_click_retry)
         self.probe_toggle = tk.Button(lab, text='手動進房設定', bg=BG, command=self._toggle_probe_layer)
         self.probe_toggle.pack(side='right')
@@ -1695,6 +1715,36 @@ class FengyeWindow(OmniWindow):
             out['seat'] = _json.loads(line) if line else None
         except Exception:  # noqa: BLE001
             out['seat'] = None
+        # 2026-10-22：接上「全知情報」資料源——讀當前 active 會話的 status.json 與封包數
+        try:
+            home = _os.path.expanduser('~/sgi-fengye-lab/fengye-hub-session')
+            active = _json.load(open(_os.path.join(home, 'active.json'), encoding='utf-8'))
+            sess = active.get('directory') or ''
+            st = _json.load(open(_os.path.join(sess, 'status.json'), encoding='utf-8'))
+            link = st.get('link') or {}
+            scene = st.get('scene') or {}
+            seat2 = st.get('seat') or {}
+            patches2 = st.get('patches') or {}
+            opening = patches2.get('opening') or {}
+            guard = patches2.get('guard') or {}
+            out['collector'] = {
+                'session': _os.path.basename(sess),
+                'connected': link.get('connected'),
+                'sync': link.get('sync'),
+                'tx': link.get('tx'),
+                'in_map': scene.get('in_map'),
+                'phase': scene.get('phase'),
+                'slot': seat2.get('slot'),
+                'force': seat2.get('force'),
+                'fog_original': st.get('fog_original'),
+                'patch_ok': (opening.get('ok') or 0) + (guard.get('ok') or 0),
+                'patch_total': (opening.get('total') or 0) + (guard.get('total') or 0),
+            }
+            pk = _os.path.join(sess, 'packets.jsonl')
+            out['packets'] = sum(1 for _ in open(pk, 'rb')) if _os.path.exists(pk) else 0
+        except Exception:  # noqa: BLE001
+            out['collector'] = None
+            out['packets'] = None
         return out
 
     def _refresh_live_state(self):
@@ -1719,6 +1769,17 @@ class FengyeWindow(OmniWindow):
                 bits.append('席位 slot %s（勢力 %s）' % (seat_now, mine_force if mine_force not in (None, -1) else '未分配'))
             if snap.get('d8_wall'):
                 bits.append('D8 回執 %s' % snap['d8_wall'])
+            col = snap.get('collector') or {}
+            if col:
+                bits.append('全知情報 %s：連線 %s ｜ 場 %s／phase %s ｜ 席位 %s→勢力 %s ｜ 補丁 %s/%s ｜ 迷霧%s ｜ 封包 %s' % (
+                    col.get('session') or '—',
+                    '✓' if col.get('connected') else '✗',
+                    '地圖' if col.get('in_map') else '非地圖',
+                    col.get('phase'),
+                    col.get('slot'), col.get('force'),
+                    col.get('patch_ok'), col.get('patch_total'),
+                    '原版' if col.get('fog_original') else '已去霧',
+                    snap.get('packets') if snap.get('packets') is not None else '—'))
             text = '本機實況：' + ' ｜ '.join(bits)
             colour = '#164d51' if snap.get('online') else MUTED
 
@@ -2466,6 +2527,77 @@ class FengyeWindow(OmniWindow):
                   command=lambda: kill_selected(True)).pack(side='left')
         tk.Button(bar, text='關閉', bg=BG, command=win.destroy).pack(side='right')
         refresh()
+
+    def _refresh_auto_end(self):
+        """每秒刷新「自動結束」狀態：有沒有在跑＋日誌最後一行。"""
+        import subprocess as _sp
+
+        def work():
+            try:
+                running = _sp.run(['pgrep', '-f', 'auto_end.sh'], capture_output=True, text=True).stdout.strip()
+            except Exception:  # noqa: BLE001
+                running = ''
+            tail = ''
+            try:
+                log = os.path.expanduser('~/sgi-fengye-lab/shadow/logs/auto-end.log')
+                lines = open(log, encoding='utf-8', errors='replace').read().strip().splitlines()
+                tail = lines[-1] if lines else ''
+            except Exception:  # noqa: BLE001
+                tail = ''
+            if running:
+                text = '狀態：已啟動（pid %s）｜%s' % (running.split()[0], tail[-90:])
+                colour = '#22551f'
+            else:
+                text = '狀態：已停止'
+                colour = MUTED
+            self.root.after(0, lambda: self.auto_end_state.configure(text=text, fg=colour))
+
+        threading.Thread(target=work, daemon=True).start()
+        self.root.after(2000, self._refresh_auto_end)
+
+    def auto_end_start(self):
+        """本機自動結束回合：每階段等 N 秒後用遊戲自己的管線送 PhaseEnd（不改倒數）。"""
+        secs = (self.auto_end_secs.get() or '45').strip()
+        if not secs.isdigit():
+            messagebox.showwarning('自動結束', '秒數要填數字（例如 45）', parent=self.root)
+            return
+        self.auto_end_stop(quiet=True)
+        cmd = 'pkill -f auto_end.sh 2>/dev/null; cd ~/sgi-fengye-lab/shadow && ' \
+              'nohup bash auto_end.sh %s > logs/auto-end.log 2>&1 &' % secs
+        try:
+            subprocess.Popen(['/bin/bash', '-lc', cmd])
+            self.room_receipt.configure(text='自動結束已啟動：每階段 %s 秒後送出「階段結束」（只作用本機）' % secs)
+        except Exception as exc:  # noqa: BLE001
+            self.room_receipt.configure(text='自動結束啟動失敗：%s' % exc)
+
+    def auto_end_stop(self, quiet=False):
+        try:
+            subprocess.Popen(['/bin/bash', '-lc', 'pkill -f auto_end.sh 2>/dev/null; true'])
+        except Exception:  # noqa: BLE001
+            pass
+        if not quiet:
+            self.room_receipt.configure(text='自動結束已停止')
+
+    def game_off_local(self):
+        """只關風夜的遊戲（SANPK），保留大廳與協議會話；下次「一鍵登入」可直接再進。"""
+        if not messagebox.askokcancel('只關遊戲？',
+                                      '會關掉風夜的遊戲客戶端（SANPK），\n'
+                                      '**保留大廳與協議會話** → 下次「一鍵登入」可以直接再進，不用重新登入。\n\n確定？',
+                                      parent=self.root):
+            return
+        import threading
+
+        def work():
+            try:
+                proc = subprocess.run(['/bin/bash', '-lc', 'bash ~/sgi-fengye-lab/shadow/game_off.sh'],
+                                      capture_output=True, text=True, timeout=120)
+                out = [l for l in proc.stdout.splitlines() if l.strip()][-4:]
+                msg = '只關遊戲：' + ' ｜ '.join(out)
+                self.root.after(0, lambda: self.room_receipt.configure(text=msg[:260]))
+            except Exception as exc:  # noqa: BLE001
+                self.root.after(0, lambda: self.room_receipt.configure(text='關閉失敗：%s' % exc))
+
+        threading.Thread(target=work, daemon=True).start()
 
     def godview_on_local(self):
         """手動開全視野（15 個 p52 UI 元素 + 5 個 p53 開關）。執行期補丁，重開客戶端即消失。"""
@@ -3527,11 +3659,11 @@ class FengyeWindow(OmniWindow):
             phase = cmd.get('phase')
             if live and isinstance(phase, int) and phase >= 0:
                 headline = '✅ 風夜已在局中（監聽中；%s）' % (cmd.get('phase_text') or ('phase=%s' % phase))
-            elif getattr(self, '_live_online', False):
-                # 2026-10-22：Hub 的 collector 可能是舊的；本機實況說在線就以本機為準
                 headline = '✅ ' + getattr(self, '_live_text', '風夜在線（本機實況）')
             else:
-                headline = '風夜尚未進房 · 先請房主建房，再讓風夜進房。'
+                headline = (('✅ ' + getattr(self, '_live_text', '風夜在線（本機實況）'))
+                             if getattr(self, '_live_online', False)
+                             else '風夜尚未進房 · 先請房主建房，再讓風夜進房。')
         self.console_state.configure(text=headline)
         try:
             validate_control({'op': 'chat', 'text': self.chat_input.get('1.0', 'end-1c')})

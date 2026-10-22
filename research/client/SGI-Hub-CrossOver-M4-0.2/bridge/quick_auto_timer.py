@@ -98,8 +98,13 @@ class AutoTimer:
             self.status('自动加时保持开启：'+str(error));return
         basis=extension_basis(state)
         if basis!=self.prepared_basis:self.prepared=None;self.prepared_basis=None
-        if remaining>5000:
-            self.status('先走正常倒数，剩最后1秒才把回合倒数调成 %d 秒。' % (self.target_ms() // 1000));return
+        # 2026-10-22（使用者需求）：目標比剩餘小＝「縮短」→ 立即套用，不等最後 1 秒。
+        #   目標比剩餘大＝「加時」→ 仍照原設計等最後 1 秒（避免全桌被拉長）。
+        target = self.target_ms()
+        if remaining > target:
+            pass  # 縮短：立刻往下走
+        elif remaining>5000:
+            self.status('先走正常倒数，剩最后1秒才把回合倒数调成 %d 秒。' % (target // 1000));return
         if self.prepare and self.prepared is None:
             try:
                 prepared=self.prepare(state)
@@ -112,9 +117,13 @@ class AutoTimer:
                 state=fresh;self.prepared=prepared;self.prepared_basis=basis
             except (ValueError,OSError,KeyError,TypeError) as error:
                 self.status('自动加时保持开启，等待来源核对：'+str(error));return
-        if remaining>1000:
-            self.status('先走正常倒数，剩最后1秒才把回合倒数调成 %d 秒。' % (self.target_ms() // 1000));return
+        if remaining>1000 and remaining <= target:
+            self.status('先走正常倒数，剩最后1秒才把回合倒数调成 %d 秒。' % (target // 1000));return
         delta = self.target_ms() - remaining
+        # 2026-10-22 安全閘：一次最多改 30 秒。避免「120 秒 → 45 秒」這種大幅寫入
+        # （實測會外洩到主機、全桌一起變，且可能被重複套用出現 20 秒這種怪值）。
+        if abs(delta) > 30000:
+            self.status('本次需要改 %d 秒，超過單次上限 30 秒；不寫入（避免影響全桌）。' % (abs(delta)//1000)); return
         if delta == 0:
             self.attempted.add(stage)
             self.status('倒数已是 %d 秒，不改写。' % (self.target_ms() // 1000));return

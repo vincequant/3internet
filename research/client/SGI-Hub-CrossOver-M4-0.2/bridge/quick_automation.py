@@ -20,29 +20,14 @@ class QuickAutomation:
         self.emit(dict(kind='automation_status', enabled=False, note=note))
 
     def set_enabled(self, wanted, allowed):
+        # 2026-10-22 使用者定案：只保留 WASD 視角（回合倒數／指令×3 全部移除）。
         if wanted is not True or allowed is not True:
             self.stop(); return
-        try:
-            self.effects.set_enabled(True, True)
-            self.timer.set_enabled(True, True)
-            if not self.timer.enabled or not self.effects.enabled:
-                raise ValueError('辅助未能全部启用，请查看状态')
-        except Exception as error:
-            self.stop('三项辅助未开启：' + str(error)); return
         self.enabled = True
         self.emit(dict(kind='automation_status', enabled=True,
-                       note='三项辅助已开启：剩1秒把回合倒数调成所选秒数、游戏内指令×3、WASD移动视角。'))
+                       note='辅助已开启：只启用 WASD 视角（回合倒数／指令×3 已移除）。'))
 
     def poll(self):
         if not self.enabled:
             self.pan.update(False); return
-        try:
-            self.timer.poll()
-            if not self.timer.enabled:
-                raise ValueError('自动加时已停止')
-            self.effects.poll()
-            if not self.effects.enabled:
-                raise ValueError('自动×3已停止')
-            self.pan.update(True)
-        except Exception as error:
-            self.stop('三项辅助已停止：' + str(error))
+        self.pan.update(True)

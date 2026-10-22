@@ -130,11 +130,13 @@ class Panel:
             ttk.Label(box,textvariable=self.extension_hint,wraplength=wrap+40,
                       style=self.st('Muted.TLabel')).pack(anchor='w',pady=(5,0))
         self.automation = tk.BooleanVar(value=True)
-        self.automation_switch = ttk.Checkbutton(box,text='启用辅助：回合倒数／指令×3／WASD视角',
+        self.automation_switch = ttk.Checkbutton(box,text='启用辅助：WASD视角（倒数／指令×3 已移除）',
                                                 variable=self.automation,command=self.settings,
                                                 style=self.st('TCheckbutton'))
         self.automation_switch.pack(anchor='w',pady=(6,2))
-        scale_row = ttk.Frame(box, style=self.st('TFrame')); scale_row.pack(fill='x', pady=(0,2))
+        # 2026-10-22 使用者定案：移除「回合倒數」功能（寫入會外洩到主機、全桌一起變）。
+        # 需要「本機 N 秒自動結束」改用 Hub 的 auto_end.sh。
+        scale_row = ttk.Frame(box, style=self.st('TFrame'))  # 不 pack＝不顯示
         ttk.Label(scale_row, text='回合倒数', style=self.st('TLabel')).pack(side='left')
         self.round_percent = tk.IntVar(value=100)
         self.round_seconds = tk.StringVar(value='= 120 秒')
@@ -572,7 +574,7 @@ class Panel:
             self.allow_target.set(False)
         event = dict(action='settings', test_enabled=self.test.get(), allow_timer_write=self.allow_write.get(),allow_target_recruit=False,
                      automation_enabled=self.automation.get() if getattr(self,'automation',None) is not None else False,
-                     round_percent=int(self.round_percent.get()) if getattr(self, 'round_percent', None) is not None else 100)
+                     round_percent=float(self.round_percent.get()) if getattr(self, 'round_percent', None) is not None else 100)
         self.record(dict(kind='user_settings', **event))
         if self.ready:
             try: self.write(event)

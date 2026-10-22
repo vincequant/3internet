@@ -49,11 +49,11 @@ def panel_script(path=None):
     # 2026-10-22 實測翻盤：把本機倒數調短後，**全桌都變成 20 秒**（本機寫入會傳到主機）。
     # 所以預設**禁止寫入倒數**，維持主機原本的 2 分鐘；要改倒數請在面板上手動開並自負影響。
     try:
-        panel.test.set(True)                 # 啟用輔助（指令×3／完成即結束）仍保留
-        panel.allow_write.set(False)         # 不寫回合倒數
+        panel.test.set(True)                 # 啟用輔助（指令×3／完成即結束）
+        panel.allow_write.set(True)          # 允許改倒數：**縮短時立即套用**（加時才等最後 1 秒）
         if getattr(panel, 'round_percent', None) is not None:
-            panel.round_percent.set(100)     # 顯示回到 100%（= 120 秒）
-            panel.round_seconds.set('= 120 秒')
+            panel.round_percent.set(37.5)    # 預設 45 秒（120 × 37.5%）；要更短往左拉（下限 6 秒）
+            panel.round_seconds.set('= 45 秒')
         if hasattr(panel, 'settings'):
             panel.settings()
     except Exception:  # noqa: BLE001
@@ -187,4 +187,18 @@ def mount_quick_panel(parent, bg='#f3f6fa', autoconnect=None, module=None, smoke
     panel = module.Panel(host.inner, embedded=True, smoke=smoke, autoconnect=autoconnect,
                          palette=palette)
     panel.scroll_host = host
+    # 2026-10-22（使用者定案）：預設啟用輔助、允許改倒數，並把回合倒數預設成 45 秒。
+    #   縮短時立即套用（quick_auto_timer 已改）；加時仍等最後 1 秒。
+    try:
+        panel.test.set(True)
+        # 2026-10-22 第二次實測確認：本機寫入倒數會傳到主機，**全桌一起變**（20 秒事件重演）。
+        # 因此預設不寫；45 秒只是顯示值。要縮短只能靠「指令用完自動結束」。
+        panel.allow_write.set(False)
+        if getattr(panel, 'round_percent', None) is not None:
+            panel.round_percent.set(37.5)          # 顯示 45 秒（不寫入）
+            panel.round_seconds.set('= 45 秒')
+        if hasattr(panel, 'settings'):
+            panel.settings()
+    except Exception:  # noqa: BLE001
+        pass
     return panel
