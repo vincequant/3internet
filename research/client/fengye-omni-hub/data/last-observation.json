@@ -1,50 +1,30 @@
 {
-  "queried_at": 1792504683.447247,
+  "queried_at": 1792628683.932728,
   "source_kind": "local_lab",
   "host_watch": null,
   "activity": {},
-  "member_names": {},
+  "member_names": {
+    "174136642": "丁满",
+    "179263568": "风云",
+    "181778666": "小白"
+  },
   "chain": [
     {
-      "pid": 48136,
-      "parent_pid": 1,
-      "role": "orchestrator"
-    },
-    {
-      "pid": 48445,
-      "parent_pid": 48136,
-      "role": "watch"
-    },
-    {
-      "pid": 48446,
-      "parent_pid": 48136,
+      "pid": 93432,
+      "parent_pid": 16818,
       "role": "driver",
-      "line": "多线3",
-      "target": "10.214.65.97",
-      "session": "SGZWLB"
-    },
-    {
-      "pid": 48621,
-      "parent_pid": 48446,
-      "role": "relay"
-    },
-    {
-      "pid": 48818,
-      "parent_pid": 1,
-      "role": "ghost",
-      "target": "10.214.65.97",
-      "session": "SGZWLB"
+      "line": "多线3"
     }
   ],
   "ghost_log": {
     "mode": "hub_room_session",
-    "registration": "verified",
-    "last_log_at": 1792502544.471044,
-    "packet_count": 0,
+    "registration": "unknown",
+    "last_log_at": 1792628683.322376,
+    "packet_count": 18,
     "release_calls": 0,
     "receiver_errors": 0,
-    "last_packet_at": null,
-    "last_cmd": null,
+    "last_packet_at": 1792628670.398773,
+    "last_cmd": 26,
     "watchdog_started_at": null,
     "cmd23_attempts": null,
     "cmd23_returns": null,
@@ -54,12 +34,68 @@
     "start_snapshot": {},
     "automatic_ready": false
   },
-  "events": [],
+  "events": [
+    {
+      "ev": "received_packet",
+      "wall": 1792628641.433101,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628643.853003,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628643.954242,
+      "cmd": 20
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628643.954242,
+      "cmd": 16
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628643.954242,
+      "cmd": 21
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628643.954242,
+      "cmd": 16
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628643.954242,
+      "cmd": 21
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628643.954242,
+      "cmd": 21
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628646.475869,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628647.083879,
+      "cmd": 26
+    },
+    {
+      "ev": "received_packet",
+      "wall": 1792628670.398773,
+      "cmd": 26
+    }
+  ],
   "p34": {
-    "run_name": "run-20261020-212101-shadow",
+    "run_name": "run-20261022-081721-game",
     "pointer_state": null,
     "pointer_source": "hub_session",
-    "registration_verified": true,
+    "registration_verified": false,
     "registered": {
       "own_id": 0,
       "machine_name": null,
@@ -86,22 +122,372 @@
     },
     "longrun": {},
     "counters": {
-      "received": 0,
+      "received": 18,
       "released": 0,
       "errors": 0,
-      "rounds": 0,
+      "rounds": 3,
       "received_after_d8": null,
-      "last_packet_wall": null,
-      "last_packet_cmd": null
+      "last_packet_wall": 1792628670.398773,
+      "last_packet_cmd": 26
     },
     "snapshots": {
-      "initial": null,
-      "start": null
+      "initial": {
+        "observed_at": 1792628293.008899,
+        "cmd": 3,
+        "rows": [
+          {
+            "i": 0,
+            "id": 174136642,
+            "w4": 2,
+            "name": "丁满",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          },
+          {
+            "i": 1,
+            "id": 179263568,
+            "w4": 2,
+            "name": "风云",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          },
+          {
+            "i": 2,
+            "id": 181778666,
+            "w4": 2,
+            "name": "小白",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          },
+          {
+            "i": 3,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          },
+          {
+            "i": 4,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          },
+          {
+            "i": 5,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          },
+          {
+            "i": 6,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          },
+          {
+            "i": 7,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 0,
+            "binding46": -1,
+            "faction": ""
+          }
+        ]
+      },
+      "start": {
+        "observed_at": 1792628603.7947462,
+        "cmd": 7,
+        "rows": [
+          {
+            "i": 0,
+            "id": 174136642,
+            "w4": 2,
+            "name": "丁满",
+            "state42": 0,
+            "binding46": 14,
+            "faction": "西凉"
+          },
+          {
+            "i": 1,
+            "id": 179263568,
+            "w4": 2,
+            "name": "风云",
+            "state42": 0,
+            "binding46": 0,
+            "faction": "魏"
+          },
+          {
+            "i": 2,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 7,
+            "faction": "晋"
+          },
+          {
+            "i": 3,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 1,
+            "faction": "赵"
+          },
+          {
+            "i": 4,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 9,
+            "faction": "越"
+          },
+          {
+            "i": 5,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 3,
+            "faction": "齐"
+          },
+          {
+            "i": 6,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 4,
+            "faction": "楚"
+          },
+          {
+            "i": 7,
+            "id": 0,
+            "w4": 0,
+            "name": "",
+            "state42": 2,
+            "binding46": 16,
+            "faction": "代"
+          }
+        ]
+      }
     },
-    "frames": [],
+    "frames": [
+      {
+        "wall": 1792628293.008899,
+        "type": 4,
+        "cmd": 3,
+        "cls": "CSanInetInitGameData",
+        "len": 708,
+        "sha8": "cd32dcdb31f2"
+      },
+      {
+        "wall": 1792628293.1180081,
+        "type": 4,
+        "cmd": null,
+        "cls": "CSanInetPlayerNotifyData",
+        "len": 122,
+        "sha8": "db7446acfacf"
+      },
+      {
+        "wall": 1792628310.979841,
+        "type": 4,
+        "cmd": 1,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "423e9242b138"
+      },
+      {
+        "wall": 1792628530.0221398,
+        "type": 4,
+        "cmd": 6,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "3152dcc4dbd8"
+      },
+      {
+        "wall": 1792628603.7947462,
+        "type": 4,
+        "cmd": 7,
+        "cls": "CSanInetInitGameData",
+        "len": 715,
+        "sha8": "b50524aa23a9"
+      },
+      {
+        "wall": 1792628603.8997052,
+        "type": 4,
+        "cmd": 10,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "1d205205b616"
+      },
+      {
+        "wall": 1792628604.909757,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792628606.3204072,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792628641.433101,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792628643.853003,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792628643.954242,
+        "type": 4,
+        "cmd": 20,
+        "cls": "CSanInetPersonnelCmd",
+        "len": 47,
+        "sha8": "8a86a131e37d"
+      },
+      {
+        "wall": 1792628643.954242,
+        "type": 4,
+        "cmd": 16,
+        "cls": "CSanInetUnitNetCmdCreate",
+        "len": 71,
+        "sha8": "d538bef0f218"
+      },
+      {
+        "wall": 1792628643.954242,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "89ca33909d8a"
+      },
+      {
+        "wall": 1792628643.954242,
+        "type": 4,
+        "cmd": 16,
+        "cls": "CSanInetUnitNetCmdCreate",
+        "len": 71,
+        "sha8": "c6494134c050"
+      },
+      {
+        "wall": 1792628643.954242,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "cdaa8ed945e6"
+      },
+      {
+        "wall": 1792628643.954242,
+        "type": 4,
+        "cmd": 21,
+        "cls": "CSanInetPhaseEndCmd",
+        "len": 38,
+        "sha8": "6d313c70213c"
+      },
+      {
+        "wall": 1792628646.475869,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792628647.083879,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      },
+      {
+        "wall": 1792628670.398773,
+        "type": 4,
+        "cmd": 26,
+        "cls": "CSanInetCmdObject",
+        "len": 36,
+        "sha8": "52aa023c2674"
+      }
+    ],
     "sync": {
-      "rounds": 0,
-      "nonempty": []
+      "rounds": 3,
+      "nonempty": [
+        {
+          "wall": 1792628643.954242,
+          "round": 16,
+          "records": [
+            {
+              "sender": 179263568,
+              "len": 47,
+              "sha8": "8a86a131e37d",
+              "raw": "ffff010014004353616e496e6574506572736f6e6e656c436d64140000000100000000000000000000000047000000"
+            },
+            {
+              "sender": 181778666,
+              "len": 71,
+              "sha8": "d538bef0f218",
+              "raw": "ffff010018004353616e496e6574556e69744e6574436d644372656174651000000000000000000000000001000e004e02ffffffffe02e0000e02e000015000000ffffffff0700"
+            },
+            {
+              "sender": 181778666,
+              "len": 38,
+              "sha8": "89ca33909d8a",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d6415000000000000004d2d010000"
+            },
+            {
+              "sender": 174136642,
+              "len": 71,
+              "sha8": "c6494134c050",
+              "raw": "ffff010018004353616e496e6574556e69744e6574436d644372656174651000000000000000000000000001000e004e02ffffffffe02e0000e02e000015000300ffffffff0700"
+            },
+            {
+              "sender": 174136642,
+              "len": 38,
+              "sha8": "cdaa8ed945e6",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d641500000000000000e0fe000000"
+            },
+            {
+              "sender": 179263568,
+              "len": 38,
+              "sha8": "6d313c70213c",
+              "raw": "ffff010013004353616e496e65745068617365456e64436d64150000000100000093ea000000"
+            }
+          ]
+        }
+      ]
     },
     "notifications": {
       "wm_event": 0,
@@ -123,47 +509,49 @@
   "session": {
     "alive": false,
     "fresh": false,
-    "phase": "match",
+    "phase": "room",
     "connected": true,
     "nickname": "待秋至",
-    "room_name": "SGZWLB",
+    "room_name": "",
     "virtual_ip": "",
     "room_id": "",
-    "ghost_registered": true,
-    "ghost_withdrawn": true,
+    "ghost_registered": false,
+    "ghost_withdrawn": false,
     "host_init_wait": false,
     "exit_seen_wall": null,
-    "observed_at": 1792502544.471044,
-    "started_at": 1792502461.536441,
-    "driver_pid": 2400,
+    "observed_at": 1792628683.322376,
+    "started_at": 1792628241.956817,
+    "driver_pid": 93423,
     "line": "多线3",
     "error": null
   },
   "status": {
     "schema": "fengye-status-1",
-    "wall": 1792502542.087,
-    "pid": 624,
+    "wall": 1792628682.034,
+    "pid": 620,
     "present": true,
     "link": {
       "connected": true,
-      "sync": 1,
-      "tx": 4,
+      "sync": 4,
+      "tx": 10,
       "rx_backlog": 0
     },
     "scene": {
-      "in_map": null,
-      "error": "ValueError"
+      "in_map": false,
+      "mode": 2,
+      "phase": 3
     },
     "fog_original": true,
     "seat": {
-      "slot": 5,
-      "force": 4294967295
+      "slot": 0,
+      "force": 14
     },
     "patches": {
       "opening": {
         "ok": 18,
         "total": 18,
-        "missing": []
+        "missing": [],
+        "skipped": []
       },
       "guard": {
         "ok": 21,
@@ -177,27 +565,23 @@
       },
       "ready": true
     },
+    "hall": {
+      "present": false,
+      "pid": null
+    },
     "rx": {
-      "received": 0,
-      "last_wall": null,
-      "last_age": null
+      "received": 18,
+      "last_wall": 1792628670.398773,
+      "last_age": 12.1
     },
     "hide": {
       "verified": true,
-      "at": 1792502443.587083,
-      "by": "host_L_table",
-      "note": "application row gone on the host; DLL member row intentionally kept"
+      "at": 1792628312.3758268,
+      "by": "local_app_table+d8_receipt",
+      "note": "D8 送出一發；應用層名冊已無 小白，DLL 成員保留（廣播仍可達）"
     },
     "godview": {
-      "installed": false,
-      "at": 1792483367.1179981,
-      "elements": 7,
-      "parts": [
-        "迷霧移除",
-        "部隊與城池圖示",
-        "詳細資訊圖層"
-      ],
-      "by": "p52 ui install (manual, 0.2.35)"
+      "installed": false
     },
     "driver": {
       "rows": 0,
@@ -210,18 +594,18 @@
       "started": false
     },
     "world": null,
-    "disk_free_gb": 694.69,
-    "uptime_s": 80.5,
-    "age": 2141.4
+    "disk_free_gb": 767.2,
+    "uptime_s": 439.1,
+    "age": 1.9
   },
   "host": {
     "virtual_ip": "",
-    "session": "SGZWLB",
+    "session": "",
     "source": "hub_session",
-    "observed_at": 1792502544.471044
+    "observed_at": 1792628683.322376
   },
   "line": "多线3",
-  "run_name": "run-20261020-212101-shadow",
+  "run_name": "run-20261022-081721-game",
   "source_sha256": {},
   "room_query": null
 }
